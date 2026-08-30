@@ -1,10 +1,14 @@
 # Channel Assessment Framework
 
+## Status
+
+Established. This document is the canonical framework for assessing channels during the channel research phase.
+
 ## Purpose
 
-This framework defines the criteria used to assess and compare candidate sales channels during the first stage of SideGig market research.
+This framework defines the criteria used to assess and compare candidate sales channels consistently.
 
-The objective is to estimate the opportunity available to a new independent seller in each channel and determine which channels merit deeper investigation.
+The objective is to estimate the opportunity available to a new independent seller in each channel and support consistent comparison between channels.
 
 ## Assessment criteria
 
@@ -31,7 +35,7 @@ These describe the context and reliability of the assessment rather than the int
 
 Each of the seven core metrics is scored from **1 to 5** using the evidence collected for that channel.
 
-The score is used to compare channels consistently and prioritise deeper research. Raw evidence must be retained alongside every score so that the assessment remains auditable and can be revised as better information becomes available.
+Raw evidence must be retained alongside every score so that the assessment remains auditable and can be revised as better information becomes available.
 
 ## Core principle
 

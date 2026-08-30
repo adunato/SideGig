@@ -2,28 +2,51 @@
 
 ## Status
 
-Draft. This document defines the research process incrementally as each stage is agreed.
+Draft. This document defines the research process incrementally as each step is agreed.
 
-## Step 1 — Establish the Channel Assessment Framework
+## Step 1 — Define the Channel Assessment Framework
 
-Before searching for candidate channels, define the criteria that will be used to assess them consistently.
+Establish the criteria used to assess and compare channels consistently before channel discovery begins.
 
-The framework is defined in [channel-assessment-framework.md](channel-assessment-framework.md).
+The canonical framework is defined in [channel-assessment-framework.md](channel-assessment-framework.md).
 
-Every candidate channel identified during the research will be assessed against the same seven criteria:
+## Step 2 — Define Channel Classes
 
-1. Paying demand
-2. Opportunity density
-3. New-entrant attainability
-4. Revenue potential
-5. Competitive pressure
-6. Production leverage
-7. Operating burden
+Identify the broad classes of channels that should be investigated.
 
-Trend and evidence confidence are recorded alongside those assessments.
+For each channel class, record:
 
-Each core metric is scored from 1 to 5 and supported by retained evidence. The framework is used to distinguish channel scale from actual seller opportunity and to determine which channels should receive deeper research.
+- Channel class name
+- Description
 
-## Next steps
+Channel classes are maintained in [channel-classes.md](channel-classes.md).
 
-Further methodology steps will be added once agreed.
+## Step 3 — Identify Research Sources by Channel Class
+
+For each channel class, run a distinct research activity to identify the sources that can be used to discover channels within that class.
+
+Record the research sources directly under the relevant class in [channel-classes.md](channel-classes.md).
+
+This step establishes where channel discovery will be performed before the discovery pass begins.
+
+## Step 4 — Discover Channels
+
+For each channel class, work through its identified research sources and identify candidate channels.
+
+For every channel discovered:
+
+1. Add the channel to the master index in [channels.md](channels.md).
+2. Create an individual channel document in [`channels/`](channels/) using [templates/channel-template.md](templates/channel-template.md).
+3. Record the channel class and a descriptive paragraph explaining what the channel is, what it enables sellers to offer, and the market it provides access to.
+
+This is a discovery pass only. The channel assessment is not populated during this step. Each channel document is created as a skeleton that can be expanded incrementally by later research steps.
+
+## Step 5 — Assess Channels
+
+For every discovered channel, research and populate the Channel Assessment section of its individual channel document.
+
+The assessment must use the criteria and scoring defined in [channel-assessment-framework.md](channel-assessment-framework.md), with supporting evidence retained in the channel document.
+
+Update [channels.md](channels.md) to reflect the channel's assessment status.
+
+Discovery and assessment are separate passes so that the landscape is mapped before channels are evaluated.

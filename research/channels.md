@@ -2,7 +2,7 @@
 
 ## Status
 
-Step 4 discovery has identified **84 candidate channels** and instantiated individual channel documents. **6 channels have now been assessed**: RapidAPI as the original Step 5 pilot plus five API and microservice channels in the validation batch.
+Step 4 discovery has identified **84 candidate channels** and instantiated individual channel documents. **6 channels have now been assessed, completing the API and Microservice Marketplaces class (6/6 assessed).**
 
 This document is the master index of channels identified during the research methodology. Discovery does not imply that a channel is commercially attractive; assessment is performed separately in Step 5.
 
@@ -29,7 +29,7 @@ This document is the master index of channels identified during the research met
 | JetBrains Marketplace | Platform App, Plugin and Extension Marketplaces | Discovered | [Open](channels/jetbrains-marketplace.md) |
 | Freshworks Marketplace | Platform App, Plugin and Extension Marketplaces | Discovered | [Open](channels/freshworks-marketplace.md) |
 | Zoho Marketplace | Platform App, Plugin and Extension Marketplaces | Discovered | [Open](channels/zoho-marketplace.md) |
-| RapidAPI | API and Microservice Marketplaces | Pilot assessed | [Open](channels/rapidapi.md) |
+| RapidAPI | API and Microservice Marketplaces | Assessed | [Open](channels/rapidapi.md) |
 | Zyla API Hub | API and Microservice Marketplaces | Assessed | [Open](channels/zyla-api-hub.md) |
 | APILayer Marketplace | API and Microservice Marketplaces | Assessed | [Open](channels/apilayer-marketplace.md) |
 | Apify Store | API and Microservice Marketplaces | Assessed | [Open](channels/apify-store.md) |

@@ -2,13 +2,13 @@
 
 ## Status
 
-Draft. This document defines the research process from broad channel discovery through opportunity-area assessment.
+Draft. This document defines the research process from broad channel discovery through opportunity-area assessment and capability requirements.
 
 The methodology is deliberately structured from general to specific:
 
 **Channel classes → Channels → Opportunity areas**
 
-A later methodology layer will define how assessed opportunity areas are translated into specific product opportunities.
+Capability analysis complements the market analysis. It describes what is required to compete at the relevant taxonomy level; it does not replace or alter the market-attractiveness assessment.
 
 ---
 
@@ -333,23 +333,95 @@ The result of Phase 2 is a consistently assessed and comparable set of opportuni
 
 ---
 
+# Phase 3 — Opportunity Deep Dive and Capability Requirements
+
+Phase 3 adds a capability analysis that runs in parallel with and complements the market analysis. It is intended to establish **what is required to compete**, independently of whether those requirements match any particular person's current capabilities.
+
+Capability requirements are described using five dimensions:
+
+1. **Technical complexity** — the engineering and technical sophistication required to build and operate a credible offering.
+2. **Domain expertise** — the subject-matter understanding required to understand the buyer, product requirements and useful differentiation.
+3. **Data / resource access** — the datasets, APIs, accounts, infrastructure, third-party services or other resources required to compete.
+4. **Operating complexity** — the ongoing operational capability required after launch, including maintenance, monitoring, reliability and support.
+5. **Cost intensity** — the material build and ongoing cost requirements, including the principal drivers of variable or recurring cost.
+
+Capability requirements are recorded separately from market-attractiveness scores.
+
+## Step 9 — Define Channel-Level Capability Prerequisites
+
+Establish the baseline capability and resource requirements that apply to operating in the channel regardless of the particular opportunity area.
+
+Assess the channel baseline using the five capability dimensions. These requirements form the common foundation inherited by deeper opportunity-area analysis.
+
+---
+
+## Step 10 — Select Representative Case Studies
+
+For each opportunity area being developed further, select representative real products or providers for deeper case-study analysis.
+
+The purpose is to ground subsequent conclusions in how actual opportunities work rather than inferring capability requirements solely from the opportunity-area label.
+
+The detailed case-study selection methodology is defined separately.
+
+---
+
+## Step 11 — Execute Case Studies
+
+Research the selected cases as complete opportunities rather than capability examples alone.
+
+Case studies should build practical understanding of the opportunity, including its specific demand, customers, proposition, competition, economics, implementation, operating model, resources and capability requirements.
+
+The detailed case-study methodology and template are defined separately.
+
+---
+
+## Step 12 — Extrapolate Case-Study Findings to Opportunity-Area Capability Requirements
+
+Synthesize the representative case studies to describe the capability requirements of the opportunity area as a whole.
+
+Assess the area using the same five capability dimensions:
+
+1. Technical complexity
+2. Domain expertise
+3. Data / resource access
+4. Operating complexity
+5. Cost intensity
+
+The synthesis should distinguish requirements that appear broadly necessary across the area from those that are specific to individual cases or business models.
+
+For each conclusion, retain the evidence or case-study basis and the confidence of the inference. Evidence, inference and confidence are research-quality requirements rather than separate methodology steps.
+
+The result is an objective capability profile for the opportunity area that complements its market-attractiveness assessment.
+
+---
+
+# Document Structure
+
+Channel documents may remain as individual files while they contain only channel-level research. When deeper research creates additional artifacts, the channel is promoted to a folder:
+
+```text
+channels/
+  <channel>/
+    overview.md
+    capability.md
+    case-studies/
+      <case-study>.md
+```
+
+- **`overview.md`** contains the channel and opportunity-area market analysis.
+- **`capability.md`** contains channel-level and opportunity-area capability requirements.
+- **`case-studies/`** contains the representative opportunity case studies used for deeper analysis.
+
+This hierarchy mirrors the research without requiring every discovery-only channel to become a folder prematurely.
+
+---
+
 # Current Methodology Boundary
 
 The methodology currently covers:
 
-**Channel classes → Channels → Opportunity areas**
+**Channel classes → Channels → Opportunity areas → Capability requirements**
 
-It does not yet define the next layer:
+It establishes the high-level role of representative case studies but does not yet define the detailed case-study selection and execution methodology or the next specific-opportunity selection process.
 
-**Opportunity area → Specific product opportunities**
-
-That later methodology will need to determine how to:
-
-- investigate attractive opportunity areas in greater detail;
-- identify specific unmet needs or product propositions;
-- assess specific opportunities;
-- consider relevant personal capabilities and the ability to acquire missing capabilities;
-- evaluate product-level effort, risk and operating requirements;
-- define appropriate validation activities.
-
-That layer should be developed separately once the Opportunity Area Assessment methodology has been validated.
+Personal capability fit is outside the current methodology boundary.

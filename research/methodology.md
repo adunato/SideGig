@@ -47,6 +47,30 @@ For every discovered channel, research and populate the Channel Assessment secti
 
 The assessment must use the criteria and scoring defined in [channel-assessment-framework.md](channel-assessment-framework.md), with supporting evidence retained in the channel document.
 
+### Evidence and inference rules
+
+Channel-level commercial data will often be incomplete or private. The assessment must therefore make the strongest defensible judgement from the available evidence rather than defaulting to an unscored result.
+
+For each metric:
+
+1. Seek direct, current evidence first, prioritising first-party sources where available.
+2. Where direct evidence is unavailable, triangulate from relevant proxies such as review counts and velocity, rankings, catalogue size, product age, seller activity, pricing, subscriber or usage indicators, public seller revenue reports, search visibility, community reports and other observable market signals.
+3. Assign a 1–5 score whenever the combined evidence supports a defensible directional conclusion, even when that conclusion relies partly or wholly on inference.
+4. Record the evidence used, the inference drawn from it, the important assumptions or limitations, and a confidence level for the metric.
+5. Use **Insufficient evidence** only when the available signals are genuinely too weak or contradictory to support even a directional judgement.
+
+Low confidence does not prevent a score from being assigned. A low-confidence score represents the current best estimate and distinguishes uncertainty in the evidence from the substantive assessment of the channel.
+
+### Evidence quality
+
+Evidence should be weighted according to relevance, recency and reliability. First-party marketplace or platform data should normally carry the greatest weight, followed by credible independent analysis and observable marketplace data. Individual seller reports and community discussions are useful supporting evidence, particularly for new-entrant attainability and operating experience, but should be triangulated where possible.
+
+Where a score depends on proxy evidence, the channel document must identify the proxy explicitly and explain why it is informative for the metric being assessed.
+
+### Scoring consistency
+
+Scores must use a consistent direction: **5 represents the more attractive condition for this research objective and 1 the less attractive condition**. Metrics whose natural wording is negative must therefore be interpreted accordingly; for example, a high score for competitive pressure means relatively low competitive pressure, and a high score for operating burden means relatively low ongoing burden.
+
 Update [channels.md](channels.md) to reflect the channel's assessment status.
 
 Discovery and assessment are separate passes so that the landscape is mapped before channels are evaluated.

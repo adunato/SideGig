@@ -41,11 +41,22 @@ For every channel discovered:
 
 This is a discovery pass only. The channel assessment is not populated during this step. Each channel document is created as a skeleton that can be expanded incrementally by later research steps.
 
+If a material channel is discovered incidentally during a later research step, add it to [channels.md](channels.md) and create its channel document rather than ignoring it. This does not reopen Step 4 as a separate discovery exercise.
+
 ## Step 5 — Assess Channels
 
 For every discovered channel, research and populate the Channel Assessment section of its individual channel document.
 
 The assessment must use the criteria and scoring defined in [channel-assessment-framework.md](channel-assessment-framework.md), with supporting evidence retained in the channel document.
+
+Each metric must be recorded using four fields:
+
+- **Metric**
+- **Score (1–5)**
+- **Confidence** — High, Medium or Low
+- **Evidence and rationale**
+
+Confidence is recorded per metric because evidence quality can vary substantially within the same channel. The existing overall evidence-confidence assessment may still be retained as a channel-level summary.
 
 ### Evidence and inference rules
 
@@ -56,7 +67,7 @@ For each metric:
 1. Seek direct, current evidence first, prioritising first-party sources where available.
 2. Where direct evidence is unavailable, triangulate from relevant proxies such as review counts and velocity, rankings, catalogue size, product age, seller activity, pricing, subscriber or usage indicators, public seller revenue reports, search visibility, community reports and other observable market signals.
 3. Assign a 1–5 score whenever the combined evidence supports a defensible directional conclusion, even when that conclusion relies partly or wholly on inference.
-4. Record the evidence used, the inference drawn from it, the important assumptions or limitations, and a confidence level for the metric.
+4. Record the evidence used, the inference drawn from it, the important assumptions or limitations, and a High, Medium or Low confidence level for the metric.
 5. Use **Insufficient evidence** only when the available signals are genuinely too weak or contradictory to support even a directional judgement.
 
 Low confidence does not prevent a score from being assigned. A low-confidence score represents the current best estimate and distinguishes uncertainty in the evidence from the substantive assessment of the channel.

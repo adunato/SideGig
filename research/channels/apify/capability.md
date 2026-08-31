@@ -1,7 +1,7 @@
 # Apify Store Capability Assessment
 
 - **Channel overview:** [overview.md](overview.md)
-- **Assessment status:** Not started
+- **Assessment status:** In progress
 - **Assessment date:** 2026-08-31
 
 This document records the objective capability requirements associated with Apify Store and its opportunity areas. It does not assess personal capability fit.
@@ -31,6 +31,11 @@ Capability requirements at this level will be extrapolated from representative c
 ### Search & SEO intelligence
 
 ### Recruitment & jobs intelligence
+
+**Representative case studies:**
+- [Curious Coder LinkedIn Jobs Scraper](case-studies/linkedin-jobs-scraper-curious-coder.md) — established LinkedIn jobs benchmark; first pilot case study.
+
+Area-level capability extrapolation will be completed after additional representative cases are available.
 
 ### Real-estate & property intelligence
 

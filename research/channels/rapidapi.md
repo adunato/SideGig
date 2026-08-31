@@ -2,7 +2,8 @@
 
 - **Channel class:** API and Microservice Marketplaces
 - **Channel URL:** https://rapidapi.com/hub
-- **Assessment status:** Pilot assessed
+- **Assessment status:** Assessed
+- **Assessment date:** 2026-08-31
 
 ## Description
 
@@ -53,4 +54,4 @@ The decline assessment reflects the post-2024 transition rather than an assertio
 
 ## Pilot note
 
-This is the first completed channel assessment. The separate [RapidAPI Assessment Pilot Review](../rapidapi-assessment-pilot-review.md) documents evidence gaps and framework changes identified while performing this assessment. The canonical framework has not been modified as part of the pilot.
+RapidAPI was the first completed channel assessment and was used to validate the Step 5 process. The separate [RapidAPI Assessment Pilot Review](../rapidapi-assessment-pilot-review.md) documents the evidence gaps and methodology refinements identified during that pilot.

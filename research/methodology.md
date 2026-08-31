@@ -104,14 +104,16 @@ For each channel class, work through the identified discovery sources and identi
 For every discovered channel:
 
 1. Add it to the master channel index in [channels.md](channels.md).
-2. Create an individual channel document under [`channels/`](channels/).
-3. Record:
+2. Create a dedicated channel folder under [`channels/`](channels/) and create its `overview.md` using [templates/channel-template.md](templates/channel-template.md).
+3. Record in `overview.md`:
    - channel name;
    - channel class;
    - URL;
    - description of what the channel is;
    - what sellers can offer through it;
    - what market or buyer base it provides access to.
+
+The channel folder is created at discovery time even if it initially contains only `overview.md`. This provides a consistent location for later capability and case-study artifacts.
 
 This is a **discovery pass only**.
 
@@ -397,7 +399,15 @@ The result is an objective capability profile for the opportunity area that comp
 
 # Document Structure
 
-Channel documents may remain as individual files while they contain only channel-level research. When deeper research creates additional artifacts, the channel is promoted to a folder:
+Every channel is represented by a dedicated folder from the point of discovery:
+
+```text
+channels/
+  <channel>/
+    overview.md
+```
+
+As deeper research is added, the same folder is extended rather than restructuring the channel later:
 
 ```text
 channels/
@@ -412,7 +422,7 @@ channels/
 - **`capability.md`** contains channel-level and opportunity-area capability requirements.
 - **`case-studies/`** contains the representative opportunity case studies used for deeper analysis.
 
-This hierarchy mirrors the research without requiring every discovery-only channel to become a folder prematurely.
+This hierarchy mirrors the research taxonomy consistently across all channels.
 
 ---
 

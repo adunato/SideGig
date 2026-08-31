@@ -2,9 +2,9 @@
 
 ## Status
 
-Step 4 discovery pass complete. **83 candidate channels** have been identified and instantiated as individual channel documents. **1 channel (RapidAPI) has been pilot-assessed** to validate the Step 5 assessment process.
+Step 4 discovery has identified **84 candidate channels** and instantiated individual channel documents. **6 channels have now been assessed**: RapidAPI as the original Step 5 pilot plus five API and microservice channels in the validation batch.
 
-This document is the master index of channels identified during Step 4 of the research methodology. Discovery does not imply that a channel is commercially attractive; assessment is performed separately in Step 5.
+This document is the master index of channels identified during the research methodology. Discovery does not imply that a channel is commercially attractive; assessment is performed separately in Step 5.
 
 | Channel | Channel Class | Assessment Status | Channel Document |
 |---|---|---|---|
@@ -30,10 +30,11 @@ This document is the master index of channels identified during Step 4 of the re
 | Freshworks Marketplace | Platform App, Plugin and Extension Marketplaces | Discovered | [Open](channels/freshworks-marketplace.md) |
 | Zoho Marketplace | Platform App, Plugin and Extension Marketplaces | Discovered | [Open](channels/zoho-marketplace.md) |
 | RapidAPI | API and Microservice Marketplaces | Pilot assessed | [Open](channels/rapidapi.md) |
-| Zyla API Hub | API and Microservice Marketplaces | Discovered | [Open](channels/zyla-api-hub.md) |
-| APILayer Marketplace | API and Microservice Marketplaces | Discovered | [Open](channels/apilayer-marketplace.md) |
-| Apify Store | API and Microservice Marketplaces | Discovered | [Open](channels/apify-store.md) |
-| Ozma | API and Microservice Marketplaces | Discovered | [Open](channels/ozma.md) |
+| Zyla API Hub | API and Microservice Marketplaces | Assessed | [Open](channels/zyla-api-hub.md) |
+| APILayer Marketplace | API and Microservice Marketplaces | Assessed | [Open](channels/apilayer-marketplace.md) |
+| Apify Store | API and Microservice Marketplaces | Assessed | [Open](channels/apify-store.md) |
+| Ozma | API and Microservice Marketplaces | Assessed | [Open](channels/ozma.md) |
+| API.market | API and Microservice Marketplaces | Assessed | [Open](channels/api-market.md) |
 | AWS Marketplace | Cloud Software Marketplaces | Discovered | [Open](channels/aws-marketplace.md) |
 | Microsoft Marketplace | Cloud Software Marketplaces | Discovered | [Open](channels/microsoft-marketplace.md) |
 | Google Cloud Marketplace | Cloud Software Marketplaces | Discovered | [Open](channels/google-cloud-marketplace.md) |

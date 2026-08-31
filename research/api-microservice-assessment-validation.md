@@ -80,7 +80,7 @@ The proxy method produces useful directional differentiation, but opportunity-de
 
 The batch confirms the value of recording confidence beside each score. For example, Ozma's paying-demand score is high-confidence because GMV is public, while API.market's opportunity-density score is low-confidence because only aggregate request and catalogue metrics are available.
 
-The current channel template should therefore be updated to include a `Confidence` column so future Step 5 assessments follow the methodology automatically.
+The standard channel template and Step 5 methodology now require a `Confidence` column for each metric.
 
 ### 5. Operating burden is highly discriminating
 
@@ -93,21 +93,16 @@ The framework successfully separates superficially similar channels:
 
 This metric is particularly important for the project's intermittent-work constraint.
 
-### 6. Discovery needs a saturation check
+### 6. Later research can discover omitted channels
 
-API.market is a meaningful API marketplace but was absent from the 83-channel Step 4 inventory. Finding it while assessing the class indicates that source-driven discovery should not be treated as permanently closed.
+API.market is a meaningful API marketplace but was absent from the original Step 4 inventory. Its discovery during Step 5 does not mean Step 4 needs to be reopened or repeated.
 
-The current five-step structure does not need redesigning, but Step 4 should eventually gain a completion/saturation rule: after source-by-source discovery, run a lateral cross-check for material omitted channels before treating the class inventory as complete.
+The appropriate rule is simpler: if later research identifies a material channel that was missed during discovery, add it to [channels.md](channels.md), create its channel document, and continue. This preserves the completed Step 4 discovery pass while allowing the inventory to improve incrementally as research proceeds.
 
 ## Conclusion
 
-The Step 5 methodology is now working as intended. It encourages evidence-based inference without pretending that private marketplace economics are directly observable, and the resulting scores discriminate meaningfully between channels.
+The Step 5 methodology is working as intended. It encourages evidence-based inference without pretending that private marketplace economics are directly observable, and the resulting scores discriminate meaningfully between channels.
 
 No structural change to the five-step methodology is required before further assessments.
 
-Two small implementation improvements are justified before scaling Step 5:
-
-1. Update the channel template to include per-metric confidence.
-2. Add a Step 4 saturation/cross-check rule to catch material omitted channels.
-
-These are execution refinements, not changes to the overall research structure.
+The per-metric confidence refinement has now been incorporated into the methodology and channel template. Material channels discovered incidentally during later assessment should simply be added to the inventory when found.

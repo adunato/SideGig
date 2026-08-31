@@ -174,169 +174,87 @@ This is therefore a **low-touch commercial delivery model but a high-maintenance
 
 ## 3. Capability Assessment
 
+The table below provides the high-level capability profile. The subsections that follow explain what each dimension means in practice for this case.
+
 | Dimension | Assessment | Evidence / basis | Confidence |
 |---|---|---|---|
-| Technical complexity | **Medium-High** | A basic scraper is straightforward for an experienced developer, but mature parity requires search/detail extraction, pagination, deduplication, retries, proxy handling, location splitting, schema enrichment, filter translation, concurrency and resilient state management. | High |
-| Domain expertise | **Medium** | Requires detailed knowledge of LinkedIn job-search semantics, location/geo IDs, search/filter behaviour, useful job/recruiter/company fields and downstream recruitment/lead-generation workflows. Deep HR expertise is not required. | Medium-High |
-| Data / resource access | **Medium** | Core data is available through public LinkedIn jobs surfaces and this Actor does not require a user's LinkedIn login. No proprietary dataset is evident. Reliable production requires Apify runtime/storage/API services and proxy/network capacity. | High |
-| Operating complexity | **High** | Changelog and issue evidence show repeated source changes, rate limits, incomplete-result problems and search-semantics changes requiring active fixes. | High |
-| Cost intensity | **Low-Medium** | Fixed infrastructure requirements are low because Apify supplies execution and delivery infrastructure. Variable compute, proxy, traffic and storage costs scale with paid usage and are borne by the developer under the current included-usage PPE model. | Medium-High |
+| Technical complexity | **Medium-High** | The underlying extraction task is conceptually straightforward, but a mature product must preserve useful search semantics, completeness, enrichment and reliability as LinkedIn changes. | High |
+| Domain expertise | **Medium** | Requires strong source-specific understanding of LinkedIn jobs search and enough recruitment/data-product knowledge to expose useful fields and workflows; deep HR expertise is not evident as a prerequisite. | Medium-High |
+| Data / resource access | **Medium** | No proprietary dataset is evident and the Actor works from public LinkedIn jobs surfaces. Apify supplies the managed execution, storage, API, scheduling and billing infrastructure, while reliable collection still depends on compute/network/proxy resources and continued source access. | High |
+| Operating complexity | **High** | Apify removes much of the generic service-operation burden, but the LinkedIn dependency creates recurring maintenance, completeness and blocking issues that require active intervention. | High |
+| Cost intensity | **Low-Medium** | There is little evidence of material fixed infrastructure or data-licensing cost. Cash costs are primarily usage-driven Apify platform costs that are deducted from paid-event revenue when platform usage is included in the Actor price. | Medium-High |
 
-### Capability architecture and required assets
+### Technical complexity
 
-The public evidence is sufficient to reconstruct the product at a useful architectural level.
+The core technical capability is to turn LinkedIn's public jobs search into a stable data product. At a high level this requires accepting a search request, retrieving the relevant job listings and details, normalising them into a consistent schema, and returning them through Apify's dataset/API interfaces. Public run logs identify the implementation as a Node.js/Crawlee Actor, but the particular runtime versions are not important to the capability assessment; Apify supports standard containerised Actor development and manages the execution environment.
 
-#### 1. Apify application and delivery layer
+The complexity lies less in the existence of the scraper than in the behaviour expected from a mature commercial product. The Actor must support both direct LinkedIn search URLs and structured search inputs, preserve useful location and filter semantics, paginate through results, avoid duplicates, retrieve additional job/company/poster details, and continue to return complete and usable datasets when LinkedIn changes what its public search surfaces return.
 
-A March 2026 user-shared run log directly reports:
+The public changelog provides direct evidence of this production complexity. Changes during 2026 addressed incomplete result sets, missing application URLs, pagination loops, irrelevant-result drift and LinkedIn serving reduced search pages. In August 2026 LinkedIn changed its jobs search to an AI-powered model with fewer explicit URL filters; the Actor subsequently added compatibility logic that converts some discontinued filters into natural-language search terms. The important capability is therefore **source-specific extraction and adaptation**, rather than an unusually sophisticated general software stack.
 
-- **Node.js 18.20.8**;
-- **Apify SDK 3.6.0**;
-- **Apify Client 2.22.2**;
-- **Crawlee 3.16.0**;
-- **Linux** execution inside an Apify Actor container.
+There is also a material difference between initial development and mature-product complexity. A functional LinkedIn jobs extractor does not appear to require unusual technology or proprietary algorithms. The higher complexity rating reflects the accumulated logic needed to make the product sufficiently complete, predictable and backward-compatible for thousands of recurring users.
 
-This means the core stack is not merely speculative: the product is demonstrably a Node.js/Crawlee Actor running on Apify's container infrastructure. Apify provides the Docker execution environment, API endpoint, datasets, scheduling/tasks, storage, usage metering, billing and marketplace distribution.
+### Domain expertise
 
-A competing implementation therefore **does not require a separate production server stack**. The minimum platform asset is an Apify Actor project containing the application code, Actor configuration/input schema, Docker build configuration and product metadata. Apify's normal Actor onboarding is relatively lightweight: create from a template or existing containerised code, define input/output, build, test and publish.
+The required domain knowledge is primarily **LinkedIn-jobs and recruitment-data knowledge**, rather than deep professional HR expertise.
 
-#### 2. Search-input and query-translation layer
+At source level, the developer needs to understand how LinkedIn represents job searches, locations and geo IDs, which filters remain externally usable, how result limits and pagination behave, and which job/company/poster fields can be retrieved reliably. The August 2026 search change illustrates why this knowledge matters: older experience-level, job-type and workplace filters could no longer simply be passed through as before, so the product had to reinterpret them within the new search behaviour.
 
-The product must translate buyer intent into valid LinkedIn searches. Current inputs support either:
+At product level, the developer also needs enough understanding of recruitment, lead-generation and labour-market workflows to know which fields and controls are commercially useful. The Actor exposes more than a title and URL: it includes company information, salary fields where available, applicant counts, seniority, employment type, industries, workplace type, application method and job-poster information. That schema reflects a view of how buyers actually use jobs data downstream.
 
-- direct LinkedIn job-search URLs; or
-- structured inputs such as keywords, location, geo ID, distance, date posted, company IDs and applicant-count filters.
+Geography is part of this capability. LinkedIn searches depend on locations and geo IDs, and the Actor uses location-based splitting to work around the approximate 1,000-result ceiling of an individual search. This does not imply specialised local-market expertise, but it does require maintaining source-specific geographic/search knowledge rather than treating all searches as globally interchangeable.
 
-LinkedIn's August 2026 AI-search change removed several legacy URL-filter behaviours. Curious Coder added a compatibility layer that converts discontinued experience-level, job-type and workplace filters into natural-language search terms. This layer is a genuine piece of product capability rather than simple scraping.
+Overall, the evidence supports **medium domain expertise**: the product does not appear to rely on scarce recruitment IP, but it does require accumulated understanding of LinkedIn's jobs domain and of the data requirements of recruiters, lead-generation users and automated job-data workflows.
 
-Required assets include:
+### Data / resource access
 
-- knowledge of LinkedIn search parameters and current behaviour;
-- mappings for locations/geo IDs and search geography;
-- filter-to-query conversion logic;
-- backward-compatibility handling for old URLs and inputs;
-- input validation and user-facing schema/documentation.
+The case is notable because the core commercial product does **not** appear to depend on proprietary data ownership. The Actor's documentation directs users to public/incognito LinkedIn jobs search and does not require the customer's LinkedIn login. No paid external dataset or proprietary data licence is visible in the product or documentation.
 
-#### 3. Job-search extraction engine
+The essential external data dependency is therefore LinkedIn itself. That lowers the entry barrier compared with an opportunity requiring exclusive data, but it creates a different risk: the seller does not control the source. LinkedIn can change search behaviour, accessible fields, rate limits or blocking behaviour, and the changelog shows that such changes materially affect the product.
 
-Recent run logs expose request labels including `JOB_SEARCH` and `JOB_DETAILS2`, with HTTP 403/429 and proxy 595 errors. Combined with Crawlee system information and the absence of browser-start traces, this strongly indicates an **HTTP-first Crawlee request pipeline** rather than a browser-heavy architecture for the main path.
+On infrastructure, Apify removes most of the need for separate server assets. Actors run as containerised cloud programs on Apify. The platform provides the execution environment and allocates CPU, memory and disk resources to each run; it also provides datasets/storage, API access, tasks and schedules, usage metering, billing and marketplace distribution. The seller therefore does **not** need to operate a separate production web server, API gateway, scheduler, customer billing system or general storage platform for this product.
 
-The engine needs to:
+The remaining operating resources are principally those needed to make the source collection reliable: Apify compute capacity, network/data transfer, storage/API operations and proxy capacity where required. Public issue logs show HTTP 403/429 responses and proxy/network failures, confirming that network/proxy access is a real operational resource rather than merely theoretical infrastructure.
 
-- fetch public LinkedIn search pages/endpoints;
-- parse job identifiers and summary records;
-- enqueue job-detail requests;
-- parse full detail pages into a stable output schema;
-- control concurrency and request pacing;
-- retry transient source/proxy failures;
-- preserve state when runs fail or are resurrected.
+The resulting resource profile is therefore relatively favourable in fixed-asset terms: **public source data + managed Apify infrastructure**, with the main dependency risk concentrated in continued reliable access to LinkedIn.
 
-Historical logs show Crawlee dynamically operating at approximately five or six concurrent requests in example runs, although current production concurrency may vary.
+### Operating complexity
 
-#### 4. Pagination, completeness and scale layer
+Commercial delivery is comparatively simple. Apify handles user accounts, execution, API access, datasets, schedules, billing and payouts. Customers can run the Actor without the developer manually delivering data or operating a separate SaaS application. This makes the transactional operating model substantially lighter than a conventional self-hosted scraping service.
 
-This is one of the harder parts of the capability.
+The technical operating burden is very different. The LinkedIn source requires ongoing attention because failures are not limited to obvious page breakage. Public issues and changelog entries show problems with incomplete results, repeated pagination, altered search semantics, missing fields, 403/429 responses and source responses that technically succeed while returning materially fewer or less relevant jobs.
 
-LinkedIn limits an individual search to roughly 1,000 accessible results. The Actor works around this by splitting searches geographically into multiple city/location searches and deduplicating the resulting jobs. The changelog also shows several cases where LinkedIn pagination behaviour changed, returned repeated pages, exposed only ~60 jobs or drifted into irrelevant results.
+That means maintenance requires more than keeping the service online. The provider needs to detect when result quality or completeness changes, investigate customer runs and logs, distinguish transient network/proxy failures from source changes, release fixes, and preserve compatibility with existing customer inputs where practical. The August 2026 search transition is a good example: LinkedIn did not simply go offline; the meaning and availability of filters changed, requiring product-level adaptation.
 
-A mature implementation therefore needs:
+This is where the distinction between **development and maintenance** is most important. Initial product development is a bounded software task on top of managed infrastructure. Maintenance is an open-ended dependency on a third-party source whose behaviour changes outside the seller's control. The evidence therefore supports a high operating-complexity assessment even though the commercial delivery model itself is low-touch.
 
-- pagination/offset logic;
-- duplicate detection based on job identity;
-- detection of repeated pages and false continuation;
-- detection/retry of reduced-result LinkedIn page variants;
-- geographic search segmentation to exceed the 1,000-result ceiling;
-- limits per source/query and global limits;
-- completeness diagnostics and logging.
+### Cost intensity
 
-This layer is a significant differentiator between a scraper that technically works and one that buyers can depend on.
+The product has a relatively light fixed-cost structure but a meaningful variable cost model.
 
-#### 5. Enrichment and normalisation layer
+Under Apify's current pay-per-event model, paid users generate event revenue and the creator's profit is calculated as:
 
-The product returns considerably more than search-card data. The output can include company details, job-poster information, salary insights, applicant counts, employment type, seniority, functions, industries, application method, standardised title, country and workplace type.
+`creator profit = (80% × paid-user event revenue) - platform usage costs`
 
-This requires:
+For this Actor, paid-plan users are charged **$1 per 1,000 results**, so the creator's gross share is **$0.80 per 1,000 paid results before platform costs**. Because the Actor's advertised event price includes platform usage, those platform costs are borne by the creator rather than added separately to the customer's bill.
 
-- additional detail requests;
-- parsers for multiple LinkedIn page/data structures;
-- normalisation into a consistent schema;
-- handling of optional/missing fields;
-- schema evolution when LinkedIn adds or removes fields.
+Apify calculates platform cost from the resources consumed by the paid customer's runs. Official documentation identifies the relevant categories as including:
 
-The relevant domain capability is therefore partly **data-product design**: deciding which fields are commercially useful and keeping their semantics consistent.
+- **compute units**, driven by the CPU/memory allocation and duration of Actor runs;
+- **data traffic**;
+- **proxy usage**, where proxies are used;
+- **storage and API operations**;
+- any other platform services consumed during execution.
 
-#### 6. Blocking, proxy and reliability layer
+The precise unit prices can vary with the customer's Apify pricing/discount tier. The economic unit for the seller is therefore not simply “cost per server per month”; it is the **platform resource cost required to generate a given number of billable results**.
 
-Public issue logs show HTTP 403, HTTP 429, proxy 595/ECONNRESET and historical proxy-payment failures. The Actor retries these conditions and stores state.
+For example, at the current paid-user selling price, the contribution before platform costs is $0.80 per 1,000 results. The actual margin on those 1,000 results depends on how many source requests, detail lookups, retries, proxy requests, compute time and storage operations are needed to produce them. Source instability directly affects economics: rate limits, blocked requests, retries or inefficient pagination can increase platform consumption without creating a proportional increase in billable output.
 
-Required operational assets include:
+Free-plan usage is treated differently. Apify's PPE documentation states that free-tier users are excluded from both creator revenue and the platform costs used in the creator-profit calculation; Apify covers that platform usage. This is why high free-user activity can increase visible runs without directly increasing either the seller's payout or seller-borne platform costs.
 
-- Apify Proxy configuration and appropriate proxy groups;
-- retry/backoff rules by error type;
-- concurrency limits;
-- session/request rotation where required;
-- run-state persistence and resurrection;
-- observability around request failures and incomplete outputs.
+There is no evidence in this case of substantial fixed cash requirements such as proprietary-data licences, dedicated external servers or paid third-party datasets. The principal cash cost is therefore **variable platform consumption associated with paid usage**. Developer maintenance effort is economically important but is better captured under operating complexity rather than mixed into this cash-cost dimension.
 
-This is an ongoing capability because the correct strategy is determined by LinkedIn's current behaviour rather than by a one-time implementation choice.
-
-#### 7. Output, API and automation layer
-
-Apify supplies most generic infrastructure, but the product still needs a coherent interface:
-
-- stable default-dataset schema;
-- CSV/JSON/XLS exports through Apify;
-- synchronous/asynchronous Actor API access;
-- OpenAPI/API examples;
-- tasks and schedules for recurring collection;
-- examples for external integrations and agent workflows.
-
-The developer's task is therefore mainly packaging and schema design rather than building an API gateway or storage platform from scratch.
-
-#### 8. Monetisation layer
-
-The Actor is configured with PPE events tied primarily to output results plus an Actor-start event. Platform usage is included in the event price, so the implementation must both trigger charging correctly and remain resource-efficient enough to retain margin.
-
-No separate billing system is required; Apify handles customer billing and creator payouts.
-
-#### 9. QA, maintenance and support assets
-
-A market-leading implementation needs a persistent maintenance capability, not only source code. The evidence suggests the following assets are required:
-
-- representative regression searches across countries, query types and result volumes;
-- checks for result completeness, duplicate rates and missing fields;
-- regression tests for legacy and new search-filter semantics;
-- monitoring for sudden drops in results or spikes in HTTP/proxy errors;
-- fast source-change investigation capability;
-- changelog/release discipline;
-- issue triage using shared customer runs and logs.
-
-The public changelog is effectively evidence of an accumulated source-specific knowledge base built over multiple years.
-
-### Development stages and indicative effort
-
-For an experienced web-scraping developer already familiar with Node.js/TypeScript, Crawlee and Apify, the capability can be thought of in stages:
-
-| Stage | Main work | Indicative difficulty / effort |
-|---|---|---|
-| 1. Actor onboarding | Create Actor, input/output schema, Docker/build configuration, dataset/API wiring. | **Low** — hours to ~1 day. |
-| 2. Functional LinkedIn prototype | Public search request, job IDs, detail extraction, basic dataset output. | **Low-Medium** — roughly 1-3 days. |
-| 3. Productised scraper | Filters, pagination, dedupe, field normalisation, concurrency, retries, documentation. | **Medium** — roughly 1-2 weeks. |
-| 4. Reliable scalable product | Proxy strategy, completeness logic, search segmentation, state/resurrection, failure diagnostics, API compatibility. | **Medium-High** — additional 1-3 weeks. |
-| 5. Mature incumbent-grade feature set | Broad enrichment, legacy compatibility, geography handling, edge cases, regression coverage and accumulated fixes. | **High cumulative effort** — several additional weeks/months of iteration. |
-| 6. Ongoing maintenance | React to LinkedIn changes, blocking, field/search changes and customer failures. | **Persistent** — unpredictable hours/days per incident. |
-
-**Effort-estimate confidence: Low-Medium.** These are engineering estimates based on the observed architecture and feature set, not reported development times. They are intended to distinguish the ease of creating a basic Actor from the much larger cumulative capability represented by a mature market leader.
-
-### Development versus maintenance
-
-The case makes this distinction particularly important:
-
-- **Development complexity:** moderate. An experienced scraper developer could build a useful first version quickly using Apify, Node.js and Crawlee with no proprietary data and no separate server infrastructure.
-- **Market-leader development complexity:** materially higher. Search segmentation, enrichment, result completeness, compatibility logic and productisation require significant hardening.
-- **Maintenance complexity:** high. LinkedIn is the dominant external dependency and repeatedly changes page behaviour, pagination and search semantics. A product serving thousands of active customers must detect and repair those changes quickly.
-
-Thus the scarce capability is not primarily "ability to write a scraper." It is **ability to operate and continuously adapt a reliable source-specific data product at scale**.
+The overall assessment remains **Low-Medium cost intensity**: the model avoids major fixed infrastructure investment, but margin depends materially on efficient execution because the seller absorbs platform costs from its 80% event-revenue share.
 
 ## 4. Case Findings
 
@@ -383,8 +301,8 @@ These findings should be tested against additional representative cases before b
 - Actual Actor revenue, creator payout and platform costs are private.
 - Results per run and paid-plan share of result volume are inferred; they dominate the revenue-estimate uncertainty.
 - Monthly active users do not identify paying customers or spend per customer.
-- The current source repository is private. The stack is evidenced through run logs, but some internal design details remain inferred.
-- Exact proxy configuration, memory allocation and resource cost per result are private.
+- The current source repository is private, so detailed internal implementation choices remain partly unobservable.
+- Exact proxy configuration, resource consumption and platform cost per result are private.
 - Developer time spent on support and maintenance is unknown.
 - The observed maintenance burden is LinkedIn-specific and may overstate the burden for products built on stable job-board APIs, ATS endpoints or feeds.
 - Some usage may benefit from Curious Coder's wider marketplace reputation and cannot be attributed solely to the product proposition.
@@ -404,24 +322,22 @@ Directly observed product, seller and platform evidence is prioritised. Third-pa
 7. Curious Coder Apify profile — https://apify.com/curious_coder
 8. Apify pay-per-event pricing documentation — https://docs.apify.com/actors/publishing/monetize/pay-per-event
 9. Apify Actor pricing and costs — https://docs.apify.com/actors/publishing/monetize/pricing-and-costs
-10. Apify monetisation documentation — https://docs.apify.com/actors/publishing/monetize
-11. Apify platform pricing — https://apify.com/pricing
-12. Apify Actor development documentation — https://docs.apify.com/actors/development
-13. Apify Actor deployment workflow — https://docs.apify.com/academy/deploying-your-code
-14. Apify Store publishing terms — https://docs.apify.com/legal/store-publishing-terms-and-conditions
-15. ActorConsole Curious Coder profile — https://actorconsole.com/builders/curious_coder?window=30
-16. High-volume lead-generation pricing issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/rentalmonthly-pricin-GJbM7nnS9zIlcbvvf
-17. March 2026 incomplete-results / system-log issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/seeing-errors-and-a-SYOwVmf2icOzPoMxc
-18. Historical rate-limit/system-log issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/too-many-requests-er-bPibmu3Rlj3otW2Qy
-19. Result-limit issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/result-count-limit-s-pQ3QdEPEMOvkUiuTV
-20. Concurrent-runs issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/do-you-not-allow-con-cTiiO63PP6fS3LCrm
-21. SolidCode LinkedIn Jobs Scraper competitor — https://apify.com/solidcode/linkedin-jobs-scraper
-22. Coregent LinkedIn Jobs Scraper competitor — https://apify.com/coregent/linkedin-jobs-scraper
+10. Apify Actor usage and resources — https://docs.apify.com/actors/running/usage-and-resources
+11. Apify Actor runs and builds — https://docs.apify.com/actors/running/runs-and-builds
+12. Apify Actors overview — https://docs.apify.com/actors
+13. Apify Store publishing terms — https://docs.apify.com/legal/store-publishing-terms-and-conditions
+14. ActorConsole Curious Coder profile — https://actorconsole.com/builders/curious_coder?window=30
+15. High-volume lead-generation pricing issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/rentalmonthly-pricin-GJbM7nnS9zIlcbvvf
+16. March 2026 incomplete-results / system-log issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/seeing-errors-and-a-SYOwVmf2icOzPoMxc
+17. Historical rate-limit/system-log issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/too-many-requests-er-bPibmu3Rlj3otW2Qy
+18. Result-limit issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/result-count-limit-s-pQ3QdEPEMOvkUiuTV
+19. Concurrent-runs issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/do-you-not-allow-con-cTiiO63PP6fS3LCrm
+20. SolidCode LinkedIn Jobs Scraper competitor — https://apify.com/solidcode/linkedin-jobs-scraper
+21. Coregent LinkedIn Jobs Scraper competitor — https://apify.com/coregent/linkedin-jobs-scraper
 
 ### Material inferences and limitations
 
 - **Inference — revenue (Low-Medium confidence):** the scenario model combines observed 30-day run volume and exact pricing with explicit assumptions for results per run and paid-plan share. The central estimate is intended as an order-of-magnitude estimate, not a claimed seller disclosure.
 - **Inference — paid-result share (Medium-Low confidence):** free users receive only $5 monthly credits and face a $2/1K result price on this Actor; combined with ~33 runs per active user and observed high-volume use, this makes a material paid-result share likely. The actual share is private.
-- **Inference — HTTP-first architecture (High confidence):** current run logs expose Node.js/Crawlee, `JOB_SEARCH` and `JOB_DETAILS2` HTTP request labels, 403/429/proxy errors and no browser-start trace. Internal implementation could still use browser tooling on edge paths.
 - **Inference — competitive advantage (Medium-High confidence):** continued market-leading usage despite cheaper competitors suggests reputation, reliability, feature breadth and accumulated distribution matter. Their individual contribution cannot be separated.
-- **Inference — build effort (Low-Medium confidence):** indicative development times are based on the observed architecture/feature set and general software-development effort, not reported developer time.
+- **Inference — cost intensity (Medium-High confidence):** Apify documentation establishes the platform cost categories and profit formula, while the Actor's exact cost per result is private. The Low-Medium rating reflects the absence of visible fixed data/server costs together with usage-sensitive platform costs that reduce margin.

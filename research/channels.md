@@ -32,7 +32,7 @@ This document is the master index of channels identified during the research met
 | RapidAPI | API and Microservice Marketplaces | Assessed | [Open](channels/rapidapi.md) |
 | Zyla API Hub | API and Microservice Marketplaces | Assessed | [Open](channels/zyla-api-hub.md) |
 | APILayer Marketplace | API and Microservice Marketplaces | Assessed | [Open](channels/apilayer-marketplace.md) |
-| Apify Store | API and Microservice Marketplaces | Assessed | [Open](channels/apify-store.md) |
+| Apify Store | API and Microservice Marketplaces | Assessed | [Open](channels/apify/overview.md) |
 | Ozma | API and Microservice Marketplaces | Assessed | [Open](channels/ozma.md) |
 | API.market | API and Microservice Marketplaces | Assessed | [Open](channels/api-market.md) |
 | AWS Marketplace | Cloud Software Marketplaces | Discovered | [Open](channels/aws-marketplace.md) |

@@ -359,21 +359,64 @@ Assess the channel baseline using the five capability dimensions. These requirem
 
 ## Step 10 — Select Representative Case Studies
 
-For each opportunity area being developed further, select representative real products or providers for deeper case-study analysis.
+For each opportunity area being developed further, select a small set of representative real products or providers for deeper analysis.
 
-The purpose is to ground subsequent conclusions in how actual opportunities work rather than inferring capability requirements solely from the opportunity-area label.
+The purpose of case-study selection is to ground the opportunity-area analysis in how actual commercial opportunities work, while avoiding conclusions based on a single unusually successful, unsuccessful or atypical example.
 
-The detailed case-study selection methodology is defined separately.
+Case studies should be selected so that, collectively, they:
+
+- are materially representative of the opportunity area;
+- have sufficient observable evidence to support meaningful analysis;
+- include commercially relevant examples rather than purely theoretical or trivial products;
+- capture material variation within the opportunity area where such variation exists;
+- provide enough coverage to distinguish common opportunity-area characteristics from case-specific choices.
+
+Record the selected case studies and the rationale for their inclusion before beginning the detailed analysis.
 
 ---
 
 ## Step 11 — Execute Case Studies
 
-Research the selected cases as complete opportunities rather than capability examples alone.
+Research each selected case study as a complete commercial opportunity.
 
-Case studies should build practical understanding of the opportunity, including its specific demand, customers, proposition, competition, economics, implementation, operating model, resources and capability requirements.
+The objective is to understand both **how the opportunity works commercially** and **what capabilities and resources are required to deliver it**.
 
-The detailed case-study methodology and template are defined separately.
+Each case study should investigate the following areas.
+
+### Market and Commercial Analysis
+
+Establish:
+
+- the product or service being offered;
+- the customer and buyer use case;
+- the value proposition;
+- evidence of demand and observable traction;
+- pricing and monetisation model;
+- competitive alternatives and apparent differentiation;
+- relevant economics and cost drivers;
+- the operating model and ongoing commercial requirements.
+
+The analysis should identify characteristics specific to the case while also highlighting evidence that may be relevant to the wider opportunity area.
+
+### Capability Assessment
+
+Assess the case using the same five capability dimensions used for opportunity-area capability analysis:
+
+1. **Technical complexity** — the engineering and technical sophistication required to build and operate the offering.
+2. **Domain expertise** — the subject-matter understanding required to design, position and deliver a useful product.
+3. **Data / resource access** — the datasets, APIs, accounts, infrastructure, third-party services or other resources required.
+4. **Operating complexity** — the ongoing maintenance, monitoring, reliability, support and operational work required.
+5. **Cost intensity** — the material build and ongoing costs, including important recurring and variable cost drivers.
+
+Where internal implementation or commercial information is not directly observable, infer the most plausible model from available evidence.
+
+Clearly distinguish:
+
+- directly observed evidence;
+- inference;
+- material uncertainty or alternative explanations.
+
+The completed case studies provide the evidence base for the subsequent opportunity-area synthesis and capability extrapolation.
 
 ---
 
@@ -430,8 +473,8 @@ This hierarchy mirrors the research taxonomy consistently across all channels.
 
 The methodology currently covers:
 
-**Channel classes → Channels → Opportunity areas → Capability requirements**
+**Channel classes → Channels → Opportunity areas → Representative case studies → Capability requirements**
 
-It establishes the high-level role of representative case studies but does not yet define the detailed case-study selection and execution methodology or the next specific-opportunity selection process.
+It now defines case-study selection and execution as well as the capability synthesis that follows. The next specific-opportunity selection process has not yet been defined.
 
 Personal capability fit is outside the current methodology boundary.

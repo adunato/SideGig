@@ -12,15 +12,17 @@
 
 Assessment framework: [../channel-assessment-framework.md](../channel-assessment-framework.md)
 
-| Metric | Score (1–5) | Evidence and rationale |
-|---|---:|---|
-| Paying demand |  |  |
-| Opportunity density |  |  |
-| New-entrant attainability |  |  |
-| Revenue potential |  |  |
-| Competitive pressure |  |  |
-| Production leverage |  |  |
-| Operating burden |  |  |
+A higher score always means a more attractive channel for this project.
+
+| Metric | Score (1–5) | Confidence | Evidence and rationale |
+|---|---:|---|---|
+| Paying demand |  |  |  |
+| Opportunity density |  |  |  |
+| New-entrant attainability |  |  |  |
+| Revenue potential |  |  |  |
+| Competitive pressure |  |  |  |
+| Production leverage |  |  |  |
+| Operating burden |  |  |  |
 
 ### Supporting assessments
 

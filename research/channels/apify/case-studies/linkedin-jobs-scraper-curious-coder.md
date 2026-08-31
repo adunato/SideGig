@@ -128,7 +128,7 @@ The **best central estimate** is therefore approximately **$15K-$25K per month o
 
 **Revenue-estimate confidence: Low-Medium.** The run count and pricing inputs are strong; results per run and paid-plan result share are inferred. The estimate should therefore be treated as order-of-magnitude economics, not reported revenue.
 
-Platform costs then reduce the creator's 80% share. Their exact level is not public. As a sensitivity rather than an asserted estimate, if platform costs consumed 10%, 20% or 30% of the base-case creator share, monthly profit would be approximately **$15.7K, $13.9K or $12.2K** respectively. The main conclusion is robust to reasonable platform-cost assumptions: this appears capable of being a **five-figure monthly product**, materially above the project's modest side-income target.
+A separate bottom-up estimate of platform costs is included under **Cost intensity** below. Using its base assumption of approximately **$0.22 platform cost per 1,000 paid results**, the base revenue case implies roughly **$4.8K/month of platform costs** and approximately **$12.6K/month of creator profit after platform costs**. Because the exact Actor resource usage is private, this remains an estimate rather than reported profitability.
 
 ### Competition and differentiation
 
@@ -182,7 +182,7 @@ The table below provides the high-level capability profile. The subsections that
 | Domain expertise | **Medium** | Requires strong source-specific understanding of LinkedIn jobs search and enough recruitment/data-product knowledge to expose useful fields and workflows; deep HR expertise is not evident as a prerequisite. | Medium-High |
 | Data / resource access | **Medium** | No proprietary dataset is evident and the Actor works from public LinkedIn jobs surfaces. Apify supplies the managed execution, storage, API, scheduling and billing infrastructure, while reliable collection still depends on compute/network/proxy resources and continued source access. | High |
 | Operating complexity | **High** | Apify removes much of the generic service-operation burden, but the LinkedIn dependency creates recurring maintenance, completeness and blocking issues that require active intervention. | High |
-| Cost intensity | **Low-Medium** | There is little evidence of material fixed infrastructure or data-licensing cost. Cash costs are primarily usage-driven Apify platform costs that are deducted from paid-event revenue when platform usage is included in the Actor price. | Medium-High |
+| Cost intensity | **Low-Medium** | No material fixed data/server cost is visible, but paid usage creates platform costs. A scenario estimate suggests roughly **$0.08-$0.45 per 1,000 paid results**, with a central assumption around **$0.22/1,000**, versus an $0.80 creator gross share before platform costs. | Low-Medium |
 
 ### Technical complexity
 
@@ -230,31 +230,73 @@ This is where the distinction between **development and maintenance** is most im
 
 ### Cost intensity
 
-The product has a relatively light fixed-cost structure but a meaningful variable cost model.
+The product has a relatively light fixed-cost structure but a meaningful variable cost model. The important point is not only what Apify charges, but what those charges imply for cost per billable result and therefore margin.
 
-Under Apify's current pay-per-event model, paid users generate event revenue and the creator's profit is calculated as:
+Under Apify's current pay-per-event model:
 
 `creator profit = (80% × paid-user event revenue) - platform usage costs`
 
-For this Actor, paid-plan users are charged **$1 per 1,000 results**, so the creator's gross share is **$0.80 per 1,000 paid results before platform costs**. Because the Actor's advertised event price includes platform usage, those platform costs are borne by the creator rather than added separately to the customer's bill.
+For this Actor, paid-plan users are charged **$1 per 1,000 results**, so the creator's gross share is **$0.80 per 1,000 paid results before platform costs**. Free-plan activity is excluded from both creator revenue and seller-borne platform cost calculations.
 
-Apify calculates platform cost from the resources consumed by the paid customer's runs. Official documentation identifies the relevant categories as including:
+#### Observed platform cost inputs
 
-- **compute units**, driven by the CPU/memory allocation and duration of Actor runs;
-- **data traffic**;
-- **proxy usage**, where proxies are used;
-- **storage and API operations**;
-- any other platform services consumed during execution.
+Apify publishes the unit rates used when calculating PPE platform costs for paid users. Current standard paid-tier rates are approximately:
 
-The precise unit prices can vary with the customer's Apify pricing/discount tier. The economic unit for the seller is therefore not simply “cost per server per month”; it is the **platform resource cost required to generate a given number of billable results**.
+| Cost component | Bronze | Silver | Gold | Relevance to this Actor |
+|---|---:|---:|---:|---|
+| Compute | $0.20/CU | $0.16/CU | $0.13/CU | CPU/memory × run duration. |
+| Residential proxy | $8/GB | $7.50/GB | $7/GB | Potentially material if residential traffic is used. |
+| External data transfer | $0.20/GB | $0.19/GB | $0.18/GB | LinkedIn requests and returned data. |
+| Dataset writes | $0.005/1K | $0.0045/1K | $0.004/1K | Approximately one output write per delivered job. |
+| Request-queue reads | $0.004/1K | $0.0036/1K | $0.0032/1K | Request orchestration where used. |
+| Request-queue writes | $0.01/1K | $0.009/1K | $0.008/1K | Search/detail request orchestration where used. |
 
-For example, at the current paid-user selling price, the contribution before platform costs is $0.80 per 1,000 results. The actual margin on those 1,000 results depends on how many source requests, detail lookups, retries, proxy requests, compute time and storage operations are needed to produce them. Source instability directly affects economics: rate limits, blocked requests, retries or inefficient pagination can increase platform consumption without creating a proportional increase in billable output.
+Datacenter proxy capacity is priced differently: standard Apify plans include a pool of datacenter IPs, with additional IPs charged separately rather than by traffic volume. The Actor's public logs show proxy use and proxy failures, but do not reveal whether the production workload uses datacenter, residential or a mixture of proxy types. That is the largest cost-model uncertainty.
 
-Free-plan usage is treated differently. Apify's PPE documentation states that free-tier users are excluded from both creator revenue and the platform costs used in the creator-profit calculation; Apify covers that platform usage. This is why high free-user activity can increase visible runs without directly increasing either the seller's payout or seller-borne platform costs.
+The fixed-cost side is much lighter. There is no evidence of a proprietary-data licence, external database subscription, separate server fleet or third-party paid API required to deliver the product. Apify itself supplies execution, storage, API exposure, scheduling, billing and marketplace delivery.
 
-There is no evidence in this case of substantial fixed cash requirements such as proprietary-data licences, dedicated external servers or paid third-party datasets. The principal cash cost is therefore **variable platform consumption associated with paid usage**. Developer maintenance effort is economically important but is better captured under operating complexity rather than mixed into this cash-cost dimension.
+#### Cost estimate assumptions
 
-The overall assessment remains **Low-Medium cost intensity**: the model avoids major fixed infrastructure investment, but margin depends materially on efficient execution because the seller absorbs platform costs from its 80% event-revenue share.
+The exact cost per result is private, so a scenario model is required.
+
+Two external observations help constrain the assumptions:
+
+1. Public logs for Curious Coder show an HTTP request pipeline with retries and proxy failures rather than a clearly browser-heavy workflow.
+2. A newer comparable LinkedIn Jobs Actor from Automation Lab explicitly advertises a **256 MB, HTTP-only, datacenter-proxy** implementation while retailing at roughly **$0.30-$0.50 per 1,000 jobs with platform usage included**. Because an Apify creator receives only 80% of event revenue before platform costs, that comparable product strongly suggests that a lean LinkedIn-jobs implementation can operate with platform costs materially below roughly $0.24-$0.40 per 1,000 results.
+
+Curious Coder's product is richer than that comparator: it retrieves broader job/company/poster detail, handles more compatibility logic and has evidence of retries and source instability. It is therefore reasonable to assume a higher unit cost than the leanest competitor.
+
+The following bracket is used:
+
+| Scenario | Estimated platform cost / 1K paid results | Assumption |
+|---|---:|---|
+| Efficient | **$0.08** | HTTP-first collection, predominantly datacenter proxy capacity, low retry rate, efficient batching; compute/transfer/storage dominate. |
+| Base | **$0.22** | Rich detail retrieval plus ordinary retry/proxy overhead and source inefficiency. |
+| Stressed | **$0.45** | Frequent retries, heavier network/proxy consumption or other adverse source conditions. |
+
+These figures are not reported costs. They are an informed bracket around private resource consumption using Apify's published unit rates and a directly comparable Store product as a market constraint.
+
+#### Implied margin per 1,000 paid results
+
+| Scenario | Creator gross share | Estimated platform cost | Estimated creator profit / 1K results | Implied margin on creator gross |
+|---|---:|---:|---:|---:|
+| Efficient | $0.80 | $0.08 | **$0.72** | **90%** |
+| Base | $0.80 | $0.22 | **$0.58** | **73%** |
+| Stressed | $0.80 | $0.45 | **$0.35** | **44%** |
+
+On the **base revenue case of 21.7M paid results/month**, those unit-cost assumptions imply:
+
+| Cost scenario | Estimated monthly platform cost | Estimated monthly creator profit after platform costs |
+|---|---:|---:|
+| Efficient | **$1.7K** | **$15.7K** |
+| Base | **$4.8K** | **$12.6K** |
+| Stressed | **$9.8K** | **$7.6K** |
+
+The best central estimate is therefore approximately **$4K-$6K/month of platform costs** against the base revenue scenario, leaving roughly **$11K-$14K/month of creator profit after platform costs**. This excludes the economic value of the developer's own maintenance/support time because that is treated under operating complexity rather than as an external cash cost.
+
+**Cost-estimate confidence: Low-Medium.** Published platform unit prices are strong evidence, but the Actor's actual compute time, traffic volume and proxy mix are private. The estimate is most useful as an order-of-magnitude view of unit economics and margin sensitivity.
+
+The overall **Low-Medium cost intensity** rating remains appropriate: there is little visible fixed investment, but variable platform costs are commercially meaningful and can consume a material share of gross creator remuneration when source conditions deteriorate.
 
 ## 4. Case Findings
 
@@ -293,6 +335,7 @@ This case strongly supports several wider hypotheses for **Recruitment & jobs in
 4. Data access need not be proprietary for a product to have meaningful commercial value; engineering reliability and packaging can themselves be monetisable capability.
 5. Mature incumbents can retain strong usage despite cheaper entrants, suggesting trust, reliability and accumulated distribution matter alongside price.
 6. Apify materially reduces generic infrastructure requirements; most differentiating capability sits in source acquisition, transformation, reliability and maintenance rather than hosting/billing/API infrastructure.
+7. Platform costs appear capable of supporting attractive gross margins at $1/1K results, but source inefficiency and proxy strategy can materially alter those margins.
 
 These findings should be tested against additional representative cases before being extrapolated to the opportunity area as a whole.
 
@@ -302,14 +345,14 @@ These findings should be tested against additional representative cases before b
 - Results per run and paid-plan share of result volume are inferred; they dominate the revenue-estimate uncertainty.
 - Monthly active users do not identify paying customers or spend per customer.
 - The current source repository is private, so detailed internal implementation choices remain partly unobservable.
-- Exact proxy configuration, resource consumption and platform cost per result are private.
+- Exact proxy configuration, resource consumption and platform cost per result are private; these dominate the cost-estimate uncertainty.
 - Developer time spent on support and maintenance is unknown.
 - The observed maintenance burden is LinkedIn-specific and may overstate the burden for products built on stable job-board APIs, ATS endpoints or feeds.
 - Some usage may benefit from Curious Coder's wider marketplace reputation and cannot be attributed solely to the product proposition.
 
 ## 5. Evidence and Sources
 
-Directly observed product, seller and platform evidence is prioritised. Third-party sources are used as secondary evidence where they expose otherwise useful marketplace-level usage information or demonstrate downstream use cases.
+Directly observed product, seller and platform evidence is prioritised. Third-party sources are used as secondary evidence where they expose otherwise useful marketplace-level usage information, provide comparable market benchmarks or demonstrate downstream use cases.
 
 ### Sources
 
@@ -334,10 +377,12 @@ Directly observed product, seller and platform evidence is prioritised. Third-pa
 19. Concurrent-runs issue — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/do-you-not-allow-con-cTiiO63PP6fS3LCrm
 20. SolidCode LinkedIn Jobs Scraper competitor — https://apify.com/solidcode/linkedin-jobs-scraper
 21. Coregent LinkedIn Jobs Scraper competitor — https://apify.com/coregent/linkedin-jobs-scraper
+22. Apify platform pricing — https://apify.com/pricing
+23. Automation Lab LinkedIn Jobs Scraper cost/architecture benchmark — https://apify.com/automation-lab/linkedin-jobs-scraper
 
 ### Material inferences and limitations
 
 - **Inference — revenue (Low-Medium confidence):** the scenario model combines observed 30-day run volume and exact pricing with explicit assumptions for results per run and paid-plan share. The central estimate is intended as an order-of-magnitude estimate, not a claimed seller disclosure.
 - **Inference — paid-result share (Medium-Low confidence):** free users receive only $5 monthly credits and face a $2/1K result price on this Actor; combined with ~33 runs per active user and observed high-volume use, this makes a material paid-result share likely. The actual share is private.
 - **Inference — competitive advantage (Medium-High confidence):** continued market-leading usage despite cheaper competitors suggests reputation, reliability, feature breadth and accumulated distribution matter. Their individual contribution cannot be separated.
-- **Inference — cost intensity (Medium-High confidence):** Apify documentation establishes the platform cost categories and profit formula, while the Actor's exact cost per result is private. The Low-Medium rating reflects the absence of visible fixed data/server costs together with usage-sensitive platform costs that reduce margin.
+- **Inference — cost per result (Low-Medium confidence):** Apify publishes the relevant platform unit rates, while the exact Curious Coder resource consumption is private. The scenario bracket uses those rates plus a directly comparable HTTP-only LinkedIn jobs Actor as an external constraint; actual proxy mix and retry behaviour could materially change the result.

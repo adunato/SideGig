@@ -14,7 +14,7 @@
 
 *Methodology mapping: Phase 1, Step 5 — Assess Channels.*
 
-Assessment framework: [../channel-assessment-framework.md](../channel-assessment-framework.md)
+Assessment framework: [../../channel-assessment-framework.md](../../channel-assessment-framework.md)
 
 A higher score always means a more attractive condition for this research objective.
 

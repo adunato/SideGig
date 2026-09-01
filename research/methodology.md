@@ -363,6 +363,8 @@ For each opportunity area being developed further, select a small set of represe
 
 The purpose of case-study selection is to ground the opportunity-area analysis in how actual commercial opportunities work, while avoiding conclusions based on a single unusually successful, unsuccessful or atypical example.
 
+Where an established, commercially meaningful market benchmark exists and sufficient evidence is observable, **use it as the first case study**. This provides the strongest initial evidence on demonstrated demand, economics, operating history and capability requirements. Subsequent cases can then examine newer entrants, alternative commercial models or materially different implementations.
+
 Case studies should be selected so that, collectively, they:
 
 - are materially representative of the opportunity area;
@@ -396,6 +398,18 @@ Establish:
 - relevant economics and cost drivers;
 - the operating model and ongoing commercial requirements.
 
+A **revenue estimate is required** wherever revenue is commercially material to understanding the case. Private or incomplete commercial data should not normally end the analysis. Use observable evidence and defensible assumptions to produce the strongest practical estimate available.
+
+The revenue analysis should record:
+
+- directly observed commercial inputs;
+- the assumptions used to bridge material evidence gaps;
+- a reasonable scenario range or estimate bracket;
+- a best central estimate where the evidence supports one;
+- the confidence of the estimate and its principal sources of uncertainty.
+
+Where relevant, distinguish clearly between customer spending, marketplace or platform revenue, seller/creator payout, operating cost and profit rather than treating them as interchangeable measures.
+
 The analysis should identify characteristics specific to the case while also highlighting evidence that may be relevant to the wider opportunity area.
 
 ### Capability Assessment
@@ -408,12 +422,21 @@ Assess the case using the same five capability dimensions used for opportunity-a
 4. **Operating complexity** — the ongoing maintenance, monitoring, reliability, support and operational work required.
 5. **Cost intensity** — the material build and ongoing costs, including important recurring and variable cost drivers.
 
-Where internal implementation or commercial information is not directly observable, infer the most plausible model from available evidence.
+The capability table is a **summary only**. Follow it with a substantive narrative assessment for each of the five dimensions explaining what the requirement means in practice, the relevant evidence, important dependencies and the reason for the assessment.
+
+Capability analysis should remain focused on **what capability and resources are required and why**. Technical implementation detail should be included only where it materially explains complexity, dependencies or operating requirements. Do not turn the case study into an architecture design, implementation plan or speculative development-effort estimate.
+
+Where relevant, distinguish between **initial development requirements** and **ongoing maintenance requirements**, particularly where external platforms, changing data sources or recurring operational work materially alter the capability profile after launch.
+
+For **Cost intensity**, describing cost drivers alone is insufficient where a meaningful estimate can be constructed. Explain how the cost model works, identify observable unit costs or cost drivers, and use defensible assumptions to estimate a reasonable cost range or scenarios. Record the assumptions and confidence explicitly. Where practical, connect estimated costs back to the revenue estimate so that likely unit economics or margin can be understood.
+
+Where internal implementation or commercial information is not directly observable, infer the most plausible model from available evidence rather than stopping at uncertainty.
 
 Clearly distinguish:
 
 - directly observed evidence;
 - inference;
+- material assumptions;
 - material uncertainty or alternative explanations.
 
 The completed case studies provide the evidence base for the subsequent opportunity-area synthesis and capability extrapolation.

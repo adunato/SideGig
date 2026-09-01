@@ -2,7 +2,7 @@
 
 - **Channel overview:** [overview.md](overview.md)
 - **Assessment status:** In progress
-- **Assessment date:** 2026-08-31
+- **Assessment date:** 2026-09-01
 
 This document records the objective capability requirements associated with Apify Store and its opportunity areas. It does not assess personal capability fit.
 
@@ -33,9 +33,11 @@ Capability requirements at this level will be extrapolated from representative c
 ### Recruitment & jobs intelligence
 
 **Representative case studies:**
-- [Curious Coder LinkedIn Jobs Scraper](case-studies/linkedin-jobs-scraper-curious-coder.md) — established LinkedIn jobs benchmark; first pilot case study.
+- [Curious Coder LinkedIn Jobs Scraper](case-studies/linkedin-jobs-scraper-curious-coder.md) — established LinkedIn jobs market benchmark.
+- [Automation Lab LinkedIn Jobs Scraper](case-studies/linkedin-jobs-scraper-automation-lab.md) — recent low-cost LinkedIn entrant/direct challenger.
+- [Vali G Indeed Jobs Scraper](case-studies/indeed-jobs-scraper-valig.md) — established alternative-source jobs provider, used to distinguish LinkedIn-specific characteristics from wider recruitment/jobs dynamics.
 
-Area-level capability extrapolation will be completed after additional representative cases are available.
+The representative case set is now sufficient for an initial opportunity-area synthesis. That synthesis has not yet been performed in this document.
 
 ### Real-estate & property intelligence
 

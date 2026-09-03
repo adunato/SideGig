@@ -196,6 +196,63 @@ The result of Phase 1 is a consistently assessed and comparable set of channels 
 
 ---
 
+## Step 5A — Community Research: Channel Scope
+
+Run a structured community research pass for the channel after the channel assessment.
+
+### 1. Identify community sources
+
+Identify the main places where users, creators and operators discuss the channel.
+
+Typical sources include:
+
+- Reddit communities dedicated to the platform or adjacent market;
+- Discord communities, using publicly searchable mirrors such as **Answer Overflow** where available;
+- official community forums;
+- platform idea or request boards;
+- product or marketplace issue discussions where they contain broader operator or customer insight;
+- GitHub Discussions or Issues where relevant;
+- other public communities with substantive first-hand discussion.
+
+Prioritise sources containing direct experience from users, sellers or developers. Avoid relying heavily on promotional content or isolated social-media posts. Record the sources used and any important access limitations.
+
+### 2. Research the five standard questions
+
+1. **How do people recommend getting started in this channel?**
+2. **How do people identify promising opportunities in this channel?**
+3. **What seems to help a new product gain traction in this channel?**
+4. **What problems or risks do participants repeatedly encounter in this channel?**
+5. **What does community evidence suggest about earnings, costs and economics in this channel?**
+
+Search broadly enough to identify recurring themes rather than individual anecdotes.
+
+### 3. Assess the evidence
+
+Distinguish between:
+
+- recurring findings supported by multiple discussions or sources;
+- useful but isolated first-hand examples;
+- conflicting views;
+- promotional or weakly supported claims.
+
+Use community evidence as complementary evidence rather than as a replacement for marketplace or first-party data.
+
+### 4. Produce the synthesis
+
+Add a **Channel Community Findings** section to the channel `overview.md`.
+
+The synthesis should:
+
+- use concise narrative prose;
+- normally contain **2–4 short paragraphs**;
+- cover only the material findings from the five questions;
+- highlight important disagreement or uncertainty where relevant;
+- avoid reproducing the research process, long quote collections or question-by-question transcripts.
+
+Detailed community source material remains research evidence; `overview.md` contains only the synthesis.
+
+---
+
 # Phase 2 — Opportunity Areas Within Each Channel
 
 Phase 2 applies the same analytical pattern at a smaller scale.
@@ -332,6 +389,63 @@ Evidence should therefore be relevant to the opportunity area being assessed rat
 Channel-level evidence may provide context, but it does not prove that every opportunity area within the channel is attractive.
 
 The result of Phase 2 is a consistently assessed and comparable set of opportunity areas within the channel.
+
+---
+
+## Step 8A — Community Research: Opportunity-Area Scope
+
+Run a second structured community research pass after the opportunity-area assessment, scoped specifically to the opportunity area being investigated.
+
+### 1. Identify community sources
+
+Identify communities where users, buyers, developers or providers discuss the specific opportunity area.
+
+Typical sources include:
+
+- relevant Reddit discussions;
+- Discord communities or publicly indexed Discord content such as **Answer Overflow**;
+- platform-specific forums;
+- marketplace idea or request boards;
+- product issue discussions and feature requests;
+- specialist communities relevant to the opportunity area;
+- GitHub Discussions or Issues where relevant.
+
+Channel-level community sources may be reused, but searches must be scoped to the specific opportunity area and supplemented with specialist communities where useful. Record the sources used and any important access limitations.
+
+### 2. Research the five standard questions
+
+1. **How do people recommend getting started in this opportunity area?**
+2. **How do people identify promising opportunities within this opportunity area?**
+3. **What seems to help a new product gain traction in this opportunity area?**
+4. **What problems or risks do participants repeatedly encounter in this opportunity area?**
+5. **What does community evidence suggest about earnings, costs and economics in this opportunity area?**
+
+Search terms should reflect the actual market being investigated. For example, recruitment/jobs research may include LinkedIn jobs, Indeed, ATS data, job feeds, recruitment scraping, freshness, deduplication and pricing.
+
+### 3. Assess the evidence
+
+Distinguish between:
+
+- recurring findings supported by multiple discussions or sources;
+- useful but isolated first-hand examples;
+- conflicting evidence;
+- promotional or weakly supported claims.
+
+Use community evidence to supplement the opportunity-area assessment and to inform later case-study selection and capability analysis.
+
+### 4. Produce the synthesis
+
+Add a **Community Findings** subsection within that opportunity area's section in `overview.md`.
+
+The synthesis should:
+
+- use concise narrative prose;
+- normally contain **1–3 short paragraphs**;
+- capture the most material findings from the five questions;
+- focus on information that changes, qualifies or adds practical context to the marketplace assessment;
+- avoid tables, long bullet lists and question-by-question transcripts.
+
+Detailed community source material remains research evidence; the opportunity-area section contains only the synthesis.
 
 ---
 
@@ -484,7 +598,7 @@ channels/
       <case-study>.md
 ```
 
-- **`overview.md`** contains the channel and opportunity-area market analysis.
+- **`overview.md`** contains the channel and opportunity-area market analysis, including the concise channel-level and opportunity-area community syntheses.
 - **`capability.md`** contains channel-level and opportunity-area capability requirements.
 - **`case-studies/`** contains the representative opportunity case studies used for deeper analysis.
 
@@ -498,6 +612,6 @@ The methodology currently covers:
 
 **Channel classes → Channels → Opportunity areas → Representative case studies → Capability requirements**
 
-It now defines case-study selection and execution as well as the capability synthesis that follows. The next specific-opportunity selection process has not yet been defined.
+It now defines community research at both channel and opportunity-area scope, case-study selection and execution, and the capability synthesis that follows. The next specific-opportunity selection process has not yet been defined.
 
 Personal capability fit is outside the current methodology boundary.

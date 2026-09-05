@@ -3,8 +3,8 @@
 - **Channel class:** API and Microservice Marketplaces
 - **Channel URL:** https://apify.com/store
 - **Assessment status:** Assessed
-- **Assessment date:** 2026-08-31
-- **Opportunity-area assessment:** Completed as Phase 2 methodology pilot on 2026-08-31
+- **Assessment date:** 2026-09-05
+- **Opportunity-area assessment:** Completed; Recruitment & jobs intelligence subsequently deep-dived through community research and representative case studies
 
 ## 1. Channel Overview
 
@@ -39,11 +39,21 @@ Apify is a commercially active marketplace with unusually strong evidence of ind
 
 The channel-level assessment therefore supports further analysis inside the marketplace rather than treating Apify as uniformly attractive across all product types.
 
-## 3. Opportunity Landscape
+## 3. Channel Community Findings
+
+*Methodology mapping: Phase 1, Step 5A — Community Research: Channel Scope.*
+
+Community evidence qualifies the strong marketplace-level assessment by showing that **technical publication is easier than commercial entry**. Across `r/apify`, indexed Apify Discord discussions and creator commentary, builders repeatedly describe Store visibility, ranking, distribution and time-to-traction as major constraints. A technically competent Actor can remain little used without an identifiable user problem and some route to discovery, while large categories can contain substantial demand but still concentrate most usage and revenue among a relatively small number of established products.
+
+Community research also provides a practical opportunity-discovery layer that Store statistics do not. Apify Ideas, Reddit requests and Discord discussions expose specific problems, missing sources and buyer language that can be tested against marketplace demand. Creator earnings anecdotes are too sparse and self-selected to establish a representative income distribution, but they consistently show **high variance**, long traction periods and the importance of distinguishing visible usage from paid usage because free users can materially inflate user/run counts without generating creator remuneration.
+
+Overall, the community evidence supports the conclusion that Apify has real paying demand and meaningful creator revenue potential, while tempering any assumption that publication alone makes that demand readily attainable. Distribution, differentiation, paid conversion and source-maintenance risk are material parts of the channel economics.
+
+## 4. Opportunity Landscape
 
 *Methodology mapping: Phase 2, Steps 6–7 — identify discovery sources and discover opportunity areas.*
 
-### 3.1 Discovery basis
+### 4.1 Discovery basis
 
 The internal opportunity landscape was established before area-level scoring using sources chosen for broad Store coverage:
 
@@ -55,7 +65,7 @@ The internal opportunity landscape was established before area-level scoring usi
 
 These sources were used to map the commercial landscape first. Individual products and seller stories were then used as evidence during assessment rather than to define the taxonomy by themselves.
 
-### 3.2 Opportunity-area taxonomy
+### 4.2 Opportunity-area taxonomy
 
 Apify's native taxonomy mixes buyer markets with technologies and product forms. The analytical taxonomy therefore groups products primarily by the buyer need being served.
 
@@ -79,13 +89,13 @@ Apify's native taxonomy mixes buyer markets with technologies and product forms.
 
 `Agents`, `MCP servers` and `Open source` are treated as implementation, interface or licensing forms rather than independent opportunity areas. `Marketing` is treated as a cross-cutting buyer function and its products are allocated to advertising intelligence, lead generation, SEO, social intelligence or another relevant commercial area. `Other` is not retained as a standalone market because it is commercially heterogeneous.
 
-## 4. Opportunity-Area Assessment
+## 5. Opportunity-Area Assessment
 
-*Methodology mapping: Phase 2, Step 8 — Assess Opportunity Areas.*
+*Methodology mapping: Phase 2, Steps 8 and 8A — assess opportunity areas and, where deep-dived, add opportunity-area community research.*
 
 The same seven metrics used for channel assessment are applied at the narrower opportunity-area level. `H`, `M` and `L` indicate High, Medium and Low confidence in the individual score.
 
-### 4.1 Comparison
+### 5.1 Comparison
 
 | Opportunity area | Paying demand | Opportunity density | New-entrant attainability | Revenue potential | Competitive pressure | Production leverage | Operating burden | Trend | Overall confidence |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---|
@@ -103,7 +113,7 @@ The same seven metrics used for channel assessment are applied at the narrower o
 | Web / browser workflow automation | **2 M** | **3 L** | **2 M** | **2 L** | **3 L** | **5 H** | **2 H** | Growing | Medium-Low |
 | Data integrations & connectors | **1 H** | **2 M** | **1 M** | **2 M** | **2 M** | **5 H** | **4 M** | Stable | Medium |
 
-### 4.2 Assessment by opportunity area
+### 5.2 Assessment by opportunity area
 
 #### Social media & video intelligence
 
@@ -155,9 +165,15 @@ Competition remains substantial because the official Google Search Actor is matu
 **Assessment:** Demand 5 (H) · Density 4 (M) · Entrant attainability 4 (H) · Revenue 4 (H) · Competition 3 (M) · Production leverage 5 (H) · Operating burden 3 (M)  
 **Trend:** Growing · **Overall confidence:** High
 
-Jobs combines strong paid demand with comparatively favourable market structure. A major LinkedIn Jobs Scraper has about 15K monthly active users and 143K total users, and other job-board and ATS products also show meaningful adoption. The wider area spans many sources rather than depending entirely on one dominant platform.
+Jobs combines strong paid demand with comparatively favourable market structure. The established Curious Coder LinkedIn Jobs Scraper has roughly 15K monthly active users, while Vali G's Indeed Jobs Scraper has roughly 3.7K monthly active users and the recent Automation Lab LinkedIn entrant has reached a triple-digit monthly active audience within several months. The representative cases also show a wide viable pricing range, from premium incumbent economics to extremely low-price high-volume extraction.
 
-Recent entrant evidence is relatively strong. A newer community LinkedIn Jobs Actor has reached roughly 96 monthly active users and 548 total users, and several newer job/ATS products show material usage alongside failures. Competition is still meaningful, particularly on LinkedIn, but source diversity and structured ATS endpoints reduce both incumbent dominance and, in some cases, maintenance burden. Among the large-demand areas, jobs has one of the most balanced profiles.
+Recent entrant evidence remains strong enough to support the original score, but the deeper review adds an important qualification: entry is easier when the product solves a specific source or workflow problem than when it is a generic clone. Competition is meaningful on major sources, while source diversity, ATS/company-career endpoints and narrower use cases provide additional routes into the market. The three-case and community review therefore **retains the existing scores** rather than changing them.
+
+##### Community Findings
+
+Community evidence makes the opportunity more concrete by surfacing unresolved combinations of **source, coverage, quality and delivery** rather than simply more demand for generic "job scrapers". Repeated examples include exact-company LinkedIn monitoring, missing ATS coverage, regional or niche boards, canonical career-site data, multi-source normalization, freshness, incremental delivery and cross-source deduplication. The practical entry pattern is therefore often one identifiable source/access problem plus useful structured output, with broader aggregation added only when buyer demand supports it.
+
+The main downside is operating quality and cost predictability. Users repeatedly encounter blocking, incomplete pagination, geography-specific gaps, stale or duplicated records, filtering errors and proxy/retry cost variance. Buyers also compare price per result and usage-based versus fixed charging closely. These findings reinforce rather than overturn the assessment: demand and entrant routes are strong, but operating burden depends materially on source choice, and reliable completeness/freshness can be more difficult than the initial extraction build.
 
 #### Real-estate & property intelligence
 
@@ -222,13 +238,13 @@ Store demand for standalone connectors is currently weak. MongoDB Import has zer
 
 The important competitive factor is native substitution rather than sheer Store listing count. Apify already provides built-in integrations, APIs, webhooks, MCP connectivity and compatibility with external automation platforms. Connectors are relatively maintainable and highly reusable from a software perspective, but low competition does not translate into attractive opportunity density when the platform itself already satisfies much of the buyer need.
 
-## 5. Cross-Area Findings
+## 6. Cross-Area Findings
 
 The area-level assessment changes the interpretation of Apify materially. Strong channel-level demand is real, but it is not evenly distributed and does not make every internal market attractive.
 
 **Large demand often comes with severe competition and maintenance.** Social media, lead generation, advertising, ecommerce and search all show substantial usage, but the biggest sources also contain strong incumbents and volatile external targets. In those areas, demand alone is a poor proxy for entrant attractiveness.
 
-**Recruitment and jobs has the most balanced profile among the high-demand areas.** It combines strong current usage with repeated recent-entrant traction, a broader source landscape and somewhat better operating characteristics where structured ATS or public endpoints are available.
+**Recruitment and jobs has the most balanced profile among the high-demand areas.** The deeper review strengthens that conclusion rather than changing its scores. It combines strong incumbent demand, evidence of meaningful non-LinkedIn demand, demonstrated recent-entrant traction and multiple source families. Its main qualification is source-dependent operating burden: public/ATS endpoints can be relatively lightweight, while LinkedIn/Indeed reliability, blocking and completeness can require substantial ongoing work.
 
 **News and media is smaller but structurally interesting.** Its demand is more modest, yet current community products show entrant traction without an overwhelmingly dominant incumbent, and lightweight HTTP/RSS approaches can reduce operating burden substantially.
 
@@ -236,17 +252,19 @@ The area-level assessment changes the interpretation of Apify materially. Strong
 
 **Low competition is not sufficient.** Integrations and generic workflow automation illustrate this directly: competition is not extreme, but observable buyer demand is weak or satisfied by native/off-channel alternatives.
 
-## 6. Evidence Gaps and Limitations
+## 7. Evidence Gaps and Limitations
 
 - **Revenue distribution is private.** Public user counts and pricing are useful demand proxies, but Actor-level seller revenue is generally unavailable.
 - **Opportunity density remains the least certain metric.** Even with extensive Store data, paid demand per listing and revenue concentration are not public.
+- **Community evidence is self-selected.** Reddit, Discord and issue discussions are particularly valuable for practical problems and hypotheses, but individual anecdotes are not representative market measurements.
+- **Indexed Discord coverage is incomplete.** Public Answer Overflow pages expose only a subset of the Apify Discord server.
 - **Native categories overlap.** Category-level counts cannot be treated as clean market segments without normalization by buyer need.
 - **Recent-user counts do not equal paid customers.** They indicate active usage but not the value of each user's paid consumption.
 - **Several areas are represented by a small number of dominant sources.** Real-estate evidence is especially Zillow-heavy, and travel evidence is concentrated around Booking and similar major platforms.
 - **Operating burden varies within an area.** A job Actor using a stable ATS endpoint may be materially easier to maintain than one scraping a heavily protected website, even though both sit in the same opportunity area.
 - **This assessment stops at the opportunity-area level.** It does not infer specific product opportunities or apply a personal-capability overlay.
 
-## 7. Sources
+## 8. Sources
 
 ### Channel and marketplace sources
 
@@ -261,38 +279,58 @@ The area-level assessment changes the interpretation of Apify materially. Strong
 9. Apify Creator Plan — https://apify.com/pricing/creator-plan
 10. Apify — How to monetize your API, November 2025 — https://blog.apify.com/how-to-monetize-api/
 
+### Channel community sources
+
+11. Apify community earnings discussion — https://www.reddit.com/r/apify/comments/1rxssfj/how_much_can_you_actually_earn_by_building_apify/
+12. Community analysis of public Apify Actors — https://www.reddit.com/r/apify/comments/1v5ltmz/i_analyzed_54025_public_apify_actors_here_is_what/
+13. Free Actor strategy discussion — https://www.reddit.com/r/apify/comments/1vb2gd1/free_actor_strategy/
+14. Store visibility / closed-market discussion — https://www.reddit.com/r/apify/comments/1rr3l1s/is_the_apify_store_becoming_a_closed_market_for/
+15. Apify & Crawlee Discord indexed discussion — https://discord.apify.com/m/1035078904022573086
+16. Apify Actor Ideas — https://apify.com/ideas
+
 ### Opportunity-landscape sources
 
-11. Apify Store documentation — https://docs.apify.com/console/store
-12. Apify Store API — https://docs.apify.com/api/v2/store-get
-13. Apify Store API overview — https://docs.apify.com/api/v2/store
-14. Apify integrations — https://apify.com/integrations
-15. July 2026 near-complete Store snapshot and methodology discussion — https://www.reddit.com/r/apify/comments/1v5ltmz/i_analyzed_54025_public_apify_actors_here_is_what/
+17. Apify Store documentation — https://docs.apify.com/console/store
+18. Apify Store API — https://docs.apify.com/api/v2/store-get
+19. Apify Store API overview — https://docs.apify.com/api/v2/store
+20. Apify integrations — https://apify.com/integrations
+21. July 2026 near-complete Store snapshot and methodology discussion — https://www.reddit.com/r/apify/comments/1v5ltmz/i_analyzed_54025_public_apify_actors_here_is_what/
 
 ### Representative area evidence
 
-16. Instagram Scraper — https://apify.com/apify/instagram-scraper
-17. Instagram Related Profiles Scraper — https://apify.com/afanasenko/instagram-related-profiles-scraper
-18. Google Maps Scraper — https://apify.com/compass/crawler-google-places
-19. Google Maps Business Leads Scraper — https://apify.com/lurkapi/google-maps-business-leads-scraper
-20. Facebook Ads Library Scraper — https://apify.com/apify/facebook-ads-scraper
-21. Google Ads Transparency Center Scraper — https://apify.com/scrapesage/google-ads-transparency-scraper
-22. Amazon Product Scraper — https://apify.com/junglee/amazon-crawler
-23. Recent Amazon Product Scraper example — https://apify.com/scraper-engine/amazon-product-scraper
-24. Google Search Results Scraper — https://apify.com/apify/google-search-scraper
-25. Community Google Search Scraper — https://apify.com/api-ninja/google-search-scraper
-26. LinkedIn Jobs Scraper — https://apify.com/curious_coder/linkedin-jobs-scraper
-27. Newer LinkedIn Jobs Scraper — https://apify.com/automation-lab/linkedin-jobs-scraper
-28. Zillow Search Scraper — https://apify.com/maxcopell/zillow-scraper
-29. Community Zillow Listings Scraper — https://apify.com/parseforge/zillow-scraper
-30. Booking Scraper — https://apify.com/voyager/booking-scraper
-31. Recent Booking.com Scraper example — https://apify.com/datascrapers/booking-com-scraper
-32. Google News Scraper — https://apify.com/automation-lab/google-news-scraper
-33. Alternative Google News Scraper — https://apify.com/solidcode/google-news-scraper
-34. Website Content Crawler — https://apify.com/apify/website-content-crawler
-35. AI Web Scraper — https://apify.com/apify/ai-web-scraper
-36. Community AI-oriented Web Scraper — https://apify.com/datascoutapi/web-scraper
-37. Web Scraper — https://apify.com/apify/web-scraper
-38. Browser Use Apify — https://apify.com/lexis-solutions/browser-use-apify
-39. MongoDB Import — https://apify.com/drobnikj/mongodb-import
-40. Google Drive connector — https://apify.com/onidivo/google-drive
+22. Instagram Scraper — https://apify.com/apify/instagram-scraper
+23. Instagram Related Profiles Scraper — https://apify.com/afanasenko/instagram-related-profiles-scraper
+24. Google Maps Scraper — https://apify.com/compass/crawler-google-places
+25. Google Maps Business Leads Scraper — https://apify.com/lurkapi/google-maps-business-leads-scraper
+26. Facebook Ads Library Scraper — https://apify.com/apify/facebook-ads-scraper
+27. Google Ads Transparency Center Scraper — https://apify.com/scrapesage/google-ads-transparency-scraper
+28. Amazon Product Scraper — https://apify.com/junglee/amazon-crawler
+29. Recent Amazon Product Scraper example — https://apify.com/scraper-engine/amazon-product-scraper
+30. Google Search Results Scraper — https://apify.com/apify/google-search-scraper
+31. Community Google Search Scraper — https://apify.com/api-ninja/google-search-scraper
+32. LinkedIn Jobs Scraper — https://apify.com/curious_coder/linkedin-jobs-scraper
+33. Newer LinkedIn Jobs Scraper — https://apify.com/automation-lab/linkedin-jobs-scraper
+34. Indeed Jobs Scraper — https://apify.com/valig/indeed-jobs-scraper
+35. Zillow Search Scraper — https://apify.com/maxcopell/zillow-scraper
+36. Community Zillow Listings Scraper — https://apify.com/parseforge/zillow-scraper
+37. Booking Scraper — https://apify.com/voyager/booking-scraper
+38. Recent Booking.com Scraper example — https://apify.com/datascrapers/booking-com-scraper
+39. Google News Scraper — https://apify.com/automation-lab/google-news-scraper
+40. Alternative Google News Scraper — https://apify.com/solidcode/google-news-scraper
+41. Website Content Crawler — https://apify.com/apify/website-content-crawler
+42. AI Web Scraper — https://apify.com/apify/ai-web-scraper
+43. Community AI-oriented Web Scraper — https://apify.com/datascoutapi/web-scraper
+44. Web Scraper — https://apify.com/apify/web-scraper
+45. Browser Use Apify — https://apify.com/lexis-solutions/browser-use-apify
+46. MongoDB Import — https://apify.com/drobnikj/mongodb-import
+47. Google Drive connector — https://apify.com/onidivo/google-drive
+
+### Recruitment & jobs community sources
+
+48. Exact-company LinkedIn jobs request — https://www.reddit.com/r/apify/comments/1obkgp1/need_apify_actor_to_scrape_jobs_from_a_company/
+49. ATS coverage discussion — https://www.reddit.com/r/apify/comments/1uebgt5/ats_scraping_coverage_is_now_exhaustive_ashby/
+50. Google Jobs pricing/launch discussion — https://www.reddit.com/r/apify/comments/1v5l79n/google_jobs_has_no_official_api_so_i_built_a/
+51. High-volume LinkedIn pricing request — https://apify.com/curious_coder/linkedin-jobs-scraper/issues/rentalmonthly-pricin-GJbM7nnS9zIlcbvvf
+52. Indeed cost-variance issue — https://apify.com/curious_coder/indeed-scraper/issues/how-are-costs-calcul-tR8eCwcrWnLh4IoRw
+53. Career-site filtering issue — https://apify.com/fantastic-jobs/career-site-job-listing-api/issues/excluding-recruitmen-N3veQkAbl7ygMdQKy
+54. Career-site remote-filter issue — https://apify.com/fantastic-jobs/career-site-job-listing-api/issues/inclusion-of-nonremo-TbDiaHqla9PMcpn7d

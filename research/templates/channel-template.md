@@ -2,9 +2,6 @@
 
 - **Channel class:** <Channel class>
 - **Channel URL:** <URL>
-- **Assessment status:** Discovered / Assessed
-- **Assessment date:** <YYYY-MM-DD>
-- **Opportunity-area assessment:** Not started / In progress / Completed
 
 ## 1. Channel Overview
 
@@ -40,6 +37,14 @@ A higher score always means a more attractive condition for this research object
 *Methodology mapping: Phase 1, Step 5A — Community Research: Channel Scope.*
 
 <Provide a concise synthesis of the material findings from the channel-level community research. Normally use 2–4 short paragraphs covering what the community evidence adds about entering the channel, identifying opportunities, gaining traction, recurring problems or risks, and earnings/cost economics. Highlight material disagreement or uncertainty where relevant. Do not reproduce the five-question research process, long quote collections or individual discussion transcripts.>
+
+## Gateway 1 — Channel Selection
+
+*Methodology mapping: Gateway 1 — Select Channels for Opportunity-Area Analysis.*
+
+**Decision:** <Pass / Do not progress>
+
+<Record the decision rationale using the completed channel assessment and channel-level community findings. If the channel passes, explain briefly why within-channel opportunity analysis is justified. If it does not, explain the material reason for stopping here.>
 
 ## 4. Opportunity Landscape
 
@@ -92,16 +97,9 @@ The same seven metrics used for channel assessment are applied at the narrower o
 
 <Provide a concise 1–3 paragraph synthesis of community evidence specific to this opportunity area. Capture only material findings about entering or identifying opportunities, gaining traction or differentiating, recurring problems and risks, and earnings/cost economics. Focus on evidence that complements, qualifies or materially extends the marketplace assessment. Do not reproduce the five-question research process.>
 
-#### <Opportunity area>
+#### <Next Opportunity area>
 
-**Assessment:** Demand <score/confidence> · Density <score/confidence> · Entrant attainability <score/confidence> · Revenue <score/confidence> · Competition <score/confidence> · Production leverage <score/confidence> · Operating burden <score/confidence>  
-**Trend:** <Trend> · **Overall confidence:** <Confidence>
-
-<Assessment narrative.>
-
-##### Community Findings
-
-<Concise 1–3 paragraph synthesis of material community evidence for this opportunity area.>
+<Repeat the same assessment and Community Findings structure for every discovered opportunity area.>
 
 ## 6. Cross-Area Findings
 
@@ -115,10 +113,8 @@ Do not introduce specific product recommendations in this section.
 
 ## 8. Sources
 
-### Channel assessment and community sources
+<Group sources under descriptive `###` headings as useful for the channel. Source-group names are not fixed by the methodology.>
 
-- <Source>
-
-### Opportunity-landscape, area-assessment and community sources
+### <Source group>
 
 - <Source>

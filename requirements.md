@@ -1,5 +1,11 @@
 # Side-Revenue Market Research Specification
 
+## Document role
+
+This document defines the **project objectives, constraints and intended outcomes**. The detailed and authoritative research execution process is defined in [`research/methodology.md`](research/methodology.md).
+
+The high-level research stages below describe what the project ultimately needs to establish; they do not replace or override the detailed methodology steps.
+
 ## Objective
 
 Identify several credible side-revenue opportunities at the intersection of:

@@ -253,6 +253,16 @@ Detailed community source material remains research evidence; `overview.md` cont
 
 ---
 
+## Gateway 1 — Select Channels for Opportunity-Area Analysis
+
+Use the completed channel assessment and channel-level community findings to determine which channels warrant further within-channel analysis.
+
+Selection should consider the channel's overall commercial attractiveness, the confidence of the available evidence and whether analysing its internal opportunity structure is likely to produce useful differentiation between opportunities.
+
+Channels that pass Gateway 1 proceed to Phase 2. Other channels remain in the assessed channel landscape and can be revisited if materially new evidence emerges.
+
+---
+
 # Phase 2 — Opportunity Areas Within Each Channel
 
 Phase 2 applies the same analytical pattern at a smaller scale.
@@ -277,7 +287,7 @@ A native marketplace category may help identify an opportunity area, but it is n
 
 ## Step 6 — Identify Opportunity-Area Discovery Sources
 
-For each channel selected for within-channel analysis, identify suitable sources for discovering the opportunity areas within that channel.
+For each channel selected at Gateway 1, identify suitable sources for discovering the opportunity areas within that channel.
 
 The available sources will depend on the channel.
 
@@ -388,7 +398,7 @@ Evidence should therefore be relevant to the opportunity area being assessed rat
 
 Channel-level evidence may provide context, but it does not prove that every opportunity area within the channel is attractive.
 
-The result of Phase 2 is a consistently assessed and comparable set of opportunity areas within the channel.
+The result of this step is a consistently assessed and comparable set of opportunity areas within the channel.
 
 ---
 
@@ -449,27 +459,43 @@ Detailed community source material remains research evidence; the opportunity-ar
 
 ---
 
-# Phase 3 — Opportunity Deep Dive and Capability Requirements
-
-Phase 3 adds a capability analysis that runs in parallel with and complements the market analysis. It is intended to establish **what is required to compete**, independently of whether those requirements match any particular person's current capabilities.
-
-Capability requirements are described using five dimensions:
-
-1. **Technical complexity** — the engineering and technical sophistication required to build and operate a credible offering.
-2. **Domain expertise** — the subject-matter understanding required to understand the buyer, product requirements and useful differentiation.
-3. **Data / resource access** — the datasets, APIs, accounts, infrastructure, third-party services or other resources required to compete.
-4. **Operating complexity** — the ongoing operational capability required after launch, including maintenance, monitoring, reliability and support.
-5. **Cost intensity** — the material build and ongoing cost requirements, including the principal drivers of variable or recurring cost.
-
-Capability requirements are recorded separately from market-attractiveness scores.
-
 ## Step 9 — Define Channel-Level Capability Prerequisites
 
-Establish the baseline capability and resource requirements that apply to operating in the channel regardless of the particular opportunity area.
+Before selecting opportunity areas for deeper analysis, establish the baseline capability and resource requirements imposed by the channel itself.
 
-Assess the channel baseline using the five capability dimensions. These requirements form the common foundation inherited by deeper opportunity-area analysis.
+The purpose of this step is to identify the requirements a seller inherits simply by operating through the channel, regardless of the particular opportunity area pursued. This creates a channel-level capability baseline that is separate from the additional requirements created by a specific market, product or implementation.
+
+Assess the channel baseline using five capability dimensions:
+
+1. **Technical complexity** — the engineering and technical sophistication required to build, publish and operate credible products through the channel.
+2. **Domain expertise** — channel-specific knowledge required to use the platform, understand its commercial model and operate effectively within it.
+3. **Data / resource access** — accounts, infrastructure, APIs, platform services, third-party resources or other access required to participate in the channel.
+4. **Operating complexity** — ongoing requirements imposed by the channel, including deployment, maintenance, monitoring, reliability, support and platform obligations.
+5. **Cost intensity** — material channel-level build and operating costs, including platform fees and recurring or variable cost drivers.
+
+Use evidence that is genuinely channel-wide, such as platform documentation, provider requirements, commercial terms, technical constraints and channel-level community evidence. A requirement observed in one opportunity area or individual product should not be treated as a channel prerequisite unless there is evidence that it applies more broadly.
+
+Record these requirements in the channel's `capability.md`. They form the common capability foundation inherited by any opportunity area that proceeds to deeper analysis.
+
+Step 9 completes the channel-level picture needed for Gateway 2: the opportunity landscape has been assessed commercially, while the common capability implications of choosing the channel are also understood before deciding whether deeper opportunity-area research is justified.
 
 ---
+
+## Gateway 2 — Select Opportunity Areas for Deep Dive
+
+Use the completed opportunity-area assessments, opportunity-area community findings and channel-level capability prerequisites to determine which opportunity areas warrant deeper investigation.
+
+Selection should be based primarily on the commercial attractiveness of the opportunity area, the confidence of the available evidence and whether the remaining uncertainty is worth resolving through detailed case-study research. Step 9 provides the common capability context that applies to every selected area; area-specific capability requirements are established later from representative case studies.
+
+Opportunity areas that pass Gateway 2 proceed to Phase 3. Other assessed areas remain part of the channel landscape and can be revisited if new evidence materially changes the conclusion.
+
+---
+
+# Phase 3 — Opportunity Deep Dive and Capability Requirements
+
+For opportunity areas selected at Gateway 2, Phase 3 uses representative real-world cases to understand how the opportunity works in practice and what additional capabilities and resources are required to compete.
+
+The deeper capability analysis complements the channel baseline established in Step 9. Capability requirements remain objective and separate from personal capability fit and from the market-attractiveness scores.
 
 ## Step 10 — Select Representative Case Studies
 
@@ -528,7 +554,7 @@ The analysis should identify characteristics specific to the case while also hig
 
 ### Capability Assessment
 
-Assess the case using the same five capability dimensions used for opportunity-area capability analysis:
+Assess the case using the same five capability dimensions established in Step 9:
 
 1. **Technical complexity** — the engineering and technical sophistication required to build and operate the offering.
 2. **Domain expertise** — the subject-matter understanding required to design, position and deliver a useful product.
@@ -630,8 +656,8 @@ This hierarchy mirrors the research taxonomy consistently across all channels.
 
 The methodology currently covers:
 
-**Channel classes → Channels → Opportunity areas → Representative case studies → Opportunity-area synthesis and capability requirements**
+**Channel classes → Channels → selected channels → Opportunity areas → selected opportunity areas → Representative case studies → Opportunity-area synthesis and capability requirements**
 
-It now defines community research at both channel and opportunity-area scope, case-study selection and execution, and the market/commercial and capability synthesis that follows. The next specific-opportunity selection process has not yet been defined.
+It defines two selection gateways, community research at both channel and opportunity-area scope, channel-level capability prerequisites, case-study selection and execution, and the market/commercial and capability synthesis that follows. The next specific-opportunity selection process has not yet been defined.
 
 Personal capability fit is outside the current methodology boundary.

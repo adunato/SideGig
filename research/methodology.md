@@ -553,15 +553,35 @@ Clearly distinguish:
 - material assumptions;
 - material uncertainty or alternative explanations.
 
-The completed case studies provide the evidence base for the subsequent opportunity-area synthesis and capability extrapolation.
+The completed case studies provide the evidence base for the subsequent opportunity-area synthesis.
 
 ---
 
-## Step 12 — Extrapolate Case-Study Findings to Opportunity-Area Capability Requirements
+## Step 12 — Synthesize Case-Study Findings at Opportunity-Area Level
 
-Synthesize the representative case studies to describe the capability requirements of the opportunity area as a whole.
+Synthesize the representative case studies back to the opportunity area as a whole. The synthesis has two complementary outputs: **market/commercial synthesis** and **capability synthesis**.
 
-Assess the area using the same five capability dimensions:
+### Market and commercial synthesis
+
+Use the case-study evidence to test and refine the existing opportunity-area assessment from Step 8 and the community findings from Step 8A.
+
+For the seven market-attractiveness metrics:
+
+1. Paying demand
+2. Opportunity density
+3. New-entrant attainability
+4. Revenue potential
+5. Competitive pressure
+6. Production leverage
+7. Operating burden
+
+identify any case-study evidence that materially strengthens, weakens, qualifies or contradicts the existing assessment. Update scores, confidence or narrative only where the new evidence warrants a change. If the existing assessment remains supported, record that conclusion rather than forcing a revision.
+
+The purpose is not to score the individual case studies. It is to use the more detailed commercial evidence from representative real opportunities to improve the accuracy of the opportunity-area conclusion.
+
+### Capability synthesis
+
+Synthesize the representative case studies to describe the capability requirements of the opportunity area using the same five capability dimensions:
 
 1. Technical complexity
 2. Domain expertise
@@ -569,11 +589,11 @@ Assess the area using the same five capability dimensions:
 4. Operating complexity
 5. Cost intensity
 
-The synthesis should distinguish requirements that appear broadly necessary across the area from those that are specific to individual cases or business models.
+Distinguish requirements that appear broadly necessary across the area from those that are specific to individual cases, sources, implementations or business models.
 
-For each conclusion, retain the evidence or case-study basis and the confidence of the inference. Evidence, inference and confidence are research-quality requirements rather than separate methodology steps.
+For both outputs, retain the evidence or case-study basis and the confidence of material inferences. Clearly distinguish recurring area characteristics from case-specific findings and preserve important uncertainty or disagreement.
 
-The result is an objective capability profile for the opportunity area that complements its market-attractiveness assessment.
+The result is a refined opportunity-area market assessment together with an objective capability profile for that opportunity area.
 
 ---
 
@@ -598,7 +618,7 @@ channels/
       <case-study>.md
 ```
 
-- **`overview.md`** contains the channel and opportunity-area market analysis, including the concise channel-level and opportunity-area community syntheses.
+- **`overview.md`** contains the channel and opportunity-area market analysis, including the concise channel-level and opportunity-area community syntheses and any market-assessment refinement produced by Step 12.
 - **`capability.md`** contains channel-level and opportunity-area capability requirements.
 - **`case-studies/`** contains the representative opportunity case studies used for deeper analysis.
 
@@ -610,8 +630,8 @@ This hierarchy mirrors the research taxonomy consistently across all channels.
 
 The methodology currently covers:
 
-**Channel classes → Channels → Opportunity areas → Representative case studies → Capability requirements**
+**Channel classes → Channels → Opportunity areas → Representative case studies → Opportunity-area synthesis and capability requirements**
 
-It now defines community research at both channel and opportunity-area scope, case-study selection and execution, and the capability synthesis that follows. The next specific-opportunity selection process has not yet been defined.
+It now defines community research at both channel and opportunity-area scope, case-study selection and execution, and the market/commercial and capability synthesis that follows. The next specific-opportunity selection process has not yet been defined.
 
 Personal capability fit is outside the current methodology boundary.

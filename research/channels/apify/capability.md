@@ -1,8 +1,6 @@
 # Apify Store Capability Assessment
 
 - **Channel overview:** [overview.md](overview.md)
-- **Assessment status:** In progress — channel-level prerequisites complete; Recruitment & jobs intelligence deep dive complete
-- **Assessment date:** 2026-09-12
 
 This document records the objective capability requirements associated with Apify Store and its opportunity areas. It does not assess personal capability fit.
 
@@ -22,7 +20,11 @@ These requirements apply to operating through Apify Store regardless of the spec
 
 **Channel-level conclusion:** Apify has a relatively accessible channel baseline. The platform absorbs much of the generic SaaS infrastructure, deployment, billing and distribution burden, so the main capability and cost differences arise from the opportunity area and the external sources or services an Actor depends on rather than from participation in Apify itself.
 
-## Gateway 2 — Recruitment & Jobs Intelligence
+## Gateway 2 — Opportunity-Area Selection
+
+*Methodology mapping: Gateway 2 — Select Opportunity Areas for Deep Dive.*
+
+### Recruitment & jobs intelligence
 
 **Decision: Pass — selected for Phase 3 deep dive.**
 
@@ -30,25 +32,13 @@ Recruitment & jobs intelligence was selected because its Step 8 assessment combi
 
 The channel-level prerequisites above do not introduce a material barrier that changes that conclusion: Apify's managed runtime and commerce stack keep the common platform requirements relatively accessible, while the important remaining uncertainties are opportunity-specific and therefore appropriate for Phase 3.
 
-This records explicitly the Gateway 2 decision that was implicit in the already completed Recruitment & jobs deep dive.
 
 ## 2. Opportunity-Area Capability Requirements
 
 Capability requirements at this level are extrapolated from representative case studies and relevant opportunity-area evidence.
 
-### Social media & video intelligence
-
-### Lead generation & business intelligence
-
-### Advertising & marketing intelligence
-
-### E-commerce & product intelligence
-
-### Search & SEO intelligence
-
 ### Recruitment & jobs intelligence
 
-*Methodology status: Phase 3 Steps 10–12 complete for this opportunity area. The market/commercial Step 12 synthesis is recorded in [overview.md](overview.md); the capability synthesis is recorded below.*
 
 **Representative case studies:**
 - [Curious Coder LinkedIn Jobs Scraper](case-studies/linkedin-jobs-scraper-curious-coder.md) — established LinkedIn jobs market benchmark.
@@ -116,24 +106,6 @@ The common cost drivers are compute, transfer/storage, proxy traffic and retries
 The requirement is therefore **Low-Medium but margin-sensitive**. A focused, efficient Actor can have very low direct platform cost, but low-price products require disciplined execution economics and source instability can materially erode margin. Development and maintenance labour remain important economic considerations but are captured primarily under operating complexity rather than treated as platform cash cost.
 
 **Opportunity-area synthesis conclusion:** Recruitment & jobs intelligence does not require scarce proprietary data or unusually specialised technology. Its attractive entry profile comes from public source availability, managed Apify infrastructure and the ability to begin with a narrow source/problem. The principal capability risk is ongoing source reliability: as the product expands in coverage, enrichment or completeness guarantees, operating complexity rises faster than the basic build complexity.
-
-### Real-estate & property intelligence
-
-### Travel & hospitality intelligence
-
-### News & media intelligence
-
-### AI / LLM data preparation
-
-### General web extraction & developer utilities
-
-### Web / browser workflow automation
-
-### Data integrations & connectors
-
-## 3. Cross-Area Capability Findings
-
-To be completed after additional opportunity-area capability assessments.
 
 ## Sources
 

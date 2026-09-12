@@ -2,9 +2,6 @@
 
 - **Channel class:** API and Microservice Marketplaces
 - **Channel URL:** https://apify.com/store
-- **Assessment status:** Assessed
-- **Assessment date:** 2026-09-05
-- **Opportunity-area assessment:** Completed; Recruitment & jobs intelligence subsequently deep-dived through community research and representative case studies
 
 ## 1. Channel Overview
 
@@ -49,6 +46,14 @@ Community research also provides a practical opportunity-discovery layer that St
 
 Overall, the community evidence supports the conclusion that Apify has real paying demand and meaningful creator revenue potential, while tempering any assumption that publication alone makes that demand readily attainable. Distribution, differentiation, paid conversion and source-maintenance risk are material parts of the channel economics.
 
+## Gateway 1 — Channel Selection
+
+*Methodology mapping: Gateway 1 — Select Channels for Opportunity-Area Analysis.*
+
+**Decision: Pass — proceed to Phase 2 opportunity-area analysis.**
+
+Apify combines strong paying demand, credible independent-creator revenue, high production leverage and comparatively low platform-level operating burden. The channel assessment and community research also show that attractiveness varies materially inside the Store because demand, competition, discoverability and source-maintenance burden are uneven across product categories. That makes within-channel opportunity-area analysis both justified and necessary.
+
 ## 4. Opportunity Landscape
 
 *Methodology mapping: Phase 2, Steps 6–7 — identify discovery sources and discover opportunity areas.*
@@ -91,7 +96,7 @@ Apify's native taxonomy mixes buyer markets with technologies and product forms.
 
 ## 5. Opportunity-Area Assessment
 
-*Methodology mapping: Phase 2, Steps 8 and 8A — assess opportunity areas and, where deep-dived, add opportunity-area community research.*
+*Methodology mapping: Phase 2, Steps 8 and 8A — assess opportunity areas and run opportunity-area community research.*
 
 The same seven metrics used for channel assessment are applied at the narrower opportunity-area level. `H`, `M` and `L` indicate High, Medium and Low confidence in the individual score.
 
@@ -124,6 +129,10 @@ Demand is exceptionally strong. Apify's Instagram Scraper has roughly 41K monthl
 
 The weakness is market structure. Social Media is one of Apify's highest-demand categories, but it also contains thousands of Actors and extremely strong incumbents. Differentiated community products can gain traction—for example, a related-profiles product has reached meaningful monthly usage—but generic clones commonly remain near zero. Operating burden is also high because major social platforms change frequently and aggressively resist automation. The area therefore combines excellent demand with some of the worst competitive and maintenance conditions in the Store.
 
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
+
 #### Lead generation & business intelligence
 
 **Assessment:** Demand 5 (H) · Density 3 (M) · Entrant attainability 4 (H) · Revenue 5 (H) · Competition 2 (H) · Production leverage 5 (H) · Operating burden 2 (H)  
@@ -132,6 +141,10 @@ The weakness is market structure. Social Media is one of Apify's highest-demand 
 Lead generation is another major paid market. Google Maps Scraper alone has roughly 34K monthly active users and 583K total users, while paid enrichment and contact/business data appear across many Store products. Pricing per record or enrichment event makes the project's annual revenue target plausible at a small fraction of incumbent-scale usage.
 
 Competition is heavy across Maps, LinkedIn, directories, email enrichment and overlapping social sources, but entrant evidence is stronger than in several other large markets. A community Google Maps Business Leads product has reached roughly 193 monthly active users and 2K total users despite competing with a very large incumbent. The area remains maintenance-heavy because data quality and source reliability require ongoing work, but differentiated entrants demonstrably can acquire demand.
+
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
 
 #### Advertising & marketing intelligence
 
@@ -142,6 +155,10 @@ Advertising intelligence shows substantial paid usage across major sources. Apif
 
 The area is not uniformly open: major Meta, Google and TikTok data surfaces already have strong competitors and multiple close substitutes. However, recent community traction is stronger than in ecommerce or real estate, which supports a relatively high entrant-attainability score. Source changes, monitoring expectations and extraction reliability keep operating burden material.
 
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
+
 #### E-commerce & product intelligence
 
 **Assessment:** Demand 4 (H) · Density 2 (M) · Entrant attainability 2 (M) · Revenue 4 (M) · Competition 2 (H) · Production leverage 5 (H) · Operating burden 2 (H)  
@@ -151,6 +168,10 @@ Paid demand is established: Apify's Amazon Product Scraper has roughly 1.9K mont
 
 The difficulty is entry. Major ecommerce sources contain many competing products and current recent-entrant evidence is weak; several newer Amazon products have zero or only a handful of monthly users while established products retain most visible adoption. Retail sites are also dynamic and anti-bot heavy. The area therefore has credible revenue but relatively poor density, entrant evidence and operating characteristics.
 
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
+
 #### Search & SEO intelligence
 
 **Assessment:** Demand 5 (H) · Density 3 (M) · Entrant attainability 3 (M) · Revenue 5 (H) · Competition 2 (H) · Production leverage 5 (H) · Operating burden 2 (H)  
@@ -159,6 +180,10 @@ The difficulty is entry. Major ecommerce sources contain many competing products
 Search data is a large recurring market. Apify's Google Search Results Scraper has roughly 15K monthly active users and more than 172K total users with explicit per-result pricing. The scale of ongoing usage makes the annual target plausible with a modest share of area demand.
 
 Competition remains substantial because the official Google Search Actor is mature and heavily used and multiple community products compete on price, localisation and coverage. A community alternative with roughly 80 monthly active users shows that entrants can attract some usage, but the evidence is less convincing than in jobs or advertising. Search changes and anti-bot behaviour also create continuing maintenance requirements.
+
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
 
 #### Recruitment & jobs intelligence
 
@@ -184,6 +209,10 @@ There is clear but more modest paid demand. The Apify-maintained Zillow Search S
 
 Recent community Zillow products generally show zero to single-digit monthly usage, so entrant evidence is weak. The market is fragmented across countries and property portals, which prevents competition from being uniformly severe, but that same fragmentation makes area-wide demand difficult to quantify. Property portals also bring significant scraping and anti-bot maintenance. Current evidence therefore supports a middling rather than strongly attractive assessment.
 
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
+
 #### Travel & hospitality intelligence
 
 **Assessment:** Demand 4 (H) · Density 3 (M) · Entrant attainability 2 (M) · Revenue 4 (M) · Competition 3 (M) · Production leverage 5 (H) · Operating burden 2 (H)  
@@ -192,6 +221,10 @@ Recent community Zillow products generally show zero to single-digit monthly usa
 Accommodation and travel data show real paid demand. Apify's Booking Scraper has roughly 737 monthly active users and 8.8K total users, and other hotel and booking products have accumulated meaningful usage. Pricing, reviews and availability data all have recurring commercial value.
 
 The market is less concentrated than social media, but current evidence for recent entrants is limited and major Booking/Google-related sources already have established products. Date-sensitive pricing, availability, dynamic pages and anti-bot controls create a substantial ongoing reliability burden. The area is commercially credible but not especially easy to enter or operate.
+
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
 
 #### News & media intelligence
 
@@ -202,6 +235,10 @@ Absolute demand is lower than in the largest data markets, but the competitive s
 
 The area also has comparatively favourable operating characteristics because some useful products can rely on RSS or lightweight HTTP extraction rather than browser-heavy scraping. Competition can occur on coverage, language, geography, history and monitoring quality. Revenue evidence is less certain because usage volumes are smaller, but the combination of entrant attainability, manageable competition and lower maintenance produces a balanced profile.
 
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
+
 #### AI / LLM data preparation
 
 **Assessment:** Demand 5 (H) · Density 3 (M) · Entrant attainability 2 (M) · Revenue 4 (M) · Competition 2 (H) · Production leverage 5 (H) · Operating burden 3 (M)  
@@ -210,6 +247,10 @@ The area also has comparatively favourable operating characteristics because som
 The buyer need is clearly established. Apify's Website Content Crawler has roughly 9.6K monthly active users and 151K total users, while AI Web Scraper has around 259 monthly active users with explicit paid extraction pricing. LLM/RAG workflows therefore generate real marketplace usage rather than merely speculative interest.
 
 The weakness is entrant structure. Demand is concentrated in mature Apify-maintained tools, and sampled community generic AI/RAG scrapers have very low current usage. The area also competes with generic crawlers and abundant off-platform open-source tools. Production leverage is exceptionally high, but the evidence does not currently show that generic community entrants capture demand easily.
+
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
 
 #### General web extraction & developer utilities
 
@@ -220,6 +261,10 @@ Generic extraction infrastructure is heavily used: Apify's Web Scraper has rough
 
 This makes generic functionality highly substitutable. A sampled community generic web/AI scraper has only about two monthly active users, and public evidence for community tools approaching official-product adoption is weak. General-purpose tools avoid dependence on one source but must support many site patterns and browser behaviours, which creates broad compatibility and support work. The area has strong technical leverage but poor market differentiation.
 
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
+
 #### Web / browser workflow automation
 
 **Assessment:** Demand 2 (M) · Density 3 (L) · Entrant attainability 2 (M) · Revenue 2 (L) · Competition 3 (L) · Production leverage 5 (H) · Operating burden 2 (H)  
@@ -229,6 +274,10 @@ Dedicated generic browser/agent automation currently has much weaker Store adopt
 
 Effective competition is therefore hard to quantify: Store supply is not obviously overwhelming, but off-channel browser frameworks and open-source agent tools are strong substitutes. Browser automation also carries significant maintenance exposure from page changes, authentication, model behaviour and third-party dependencies. The area is technically attractive but commercially weak on current evidence.
 
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
+
 #### Data integrations & connectors
 
 **Assessment:** Demand 1 (H) · Density 2 (M) · Entrant attainability 1 (M) · Revenue 2 (M) · Competition 2 (M) · Production leverage 5 (H) · Operating burden 4 (M)  
@@ -237,6 +286,10 @@ Effective competition is therefore hard to quantify: Store supply is not obvious
 Store demand for standalone connectors is currently weak. MongoDB Import has zero monthly active users and 36 total users, while a paid Google Drive connector has around one monthly active user and 51 total users. Subscription pricing is possible, but current adoption does not support a strong revenue case.
 
 The important competitive factor is native substitution rather than sheer Store listing count. Apify already provides built-in integrations, APIs, webhooks, MCP connectivity and compatibility with external automation platforms. Connectors are relatively maintainable and highly reusable from a software perspective, but low competition does not translate into attractive opportunity density when the platform itself already satisfies much of the buyer need.
+
+##### Community Findings
+
+<To be completed as part of Phase 2 opportunity-area community research.>
 
 ## 6. Cross-Area Findings
 

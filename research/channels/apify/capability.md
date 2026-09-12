@@ -1,20 +1,36 @@
 # Apify Store Capability Assessment
 
 - **Channel overview:** [overview.md](overview.md)
-- **Assessment status:** In progress
-- **Assessment date:** 2026-09-05
+- **Assessment status:** In progress — channel-level prerequisites complete; Recruitment & jobs intelligence deep dive complete
+- **Assessment date:** 2026-09-12
 
 This document records the objective capability requirements associated with Apify Store and its opportunity areas. It does not assess personal capability fit.
 
 ## 1. Channel-Level Capability Prerequisites
 
+*Methodology mapping: Phase 2, Step 9 — Define Channel-Level Capability Prerequisites.*
+
+These requirements apply to operating through Apify Store regardless of the specific opportunity area pursued. Opportunity-specific requirements are assessed separately from representative case studies.
+
 | Dimension | Requirement | Evidence / basis | Confidence |
 |---|---|---|---|
-| Technical complexity |  |  |  |
-| Domain expertise |  |  |  |
-| Data / resource access |  |  |  |
-| Operating complexity |  |  |  |
-| Cost intensity |  |  |  |
+| Technical complexity | **Medium** | Apify removes the need to build a separate deployment, billing and distribution stack, but a seller must still build a production-quality Actor, configure its runtime, define input/output schemas and permissions, document it, test it and publish it correctly. Actors run in managed containers and can be deployed directly to Apify. | High |
+| Domain expertise | **Low-Medium** | No specialist subject-matter expertise is required merely to participate in the channel, but sellers need working knowledge of Apify concepts and commercial mechanics: Actors, runs, datasets/storage, pricing events, platform usage costs, publication requirements and Store discovery. | High |
+| Data / resource access | **Low** | The baseline requirement is primarily an Apify account and development environment. Apify supplies the managed runtime, storage, APIs, schedules, billing, Store distribution and optional platform resources such as proxies. External datasets, accounts or third-party APIs depend on the opportunity area rather than on the channel itself. | High |
+| Operating complexity | **Low-Medium** | Apify handles infrastructure scaling, execution, billing, transactions and core product delivery. The seller remains responsible for Actor reliability, documentation, updates, support, pricing configuration, usage/cost monitoring and compliance with publishing requirements. | High |
+| Cost intensity | **Low-Medium, usage-variable** | Fixed channel-entry costs are low because separate production infrastructure and commerce systems are not required. Variable costs arise from platform resources such as compute, data transfer, storage/API operations and proxies. Under pay-per-event pricing, creator profit is based on 80% of event revenue less platform usage costs unless those costs are passed through to users. | High |
+
+**Channel-level conclusion:** Apify has a relatively accessible channel baseline. The platform absorbs much of the generic SaaS infrastructure, deployment, billing and distribution burden, so the main capability and cost differences arise from the opportunity area and the external sources or services an Actor depends on rather than from participation in Apify itself.
+
+## Gateway 2 — Recruitment & Jobs Intelligence
+
+**Decision: Pass — selected for Phase 3 deep dive.**
+
+Recruitment & jobs intelligence was selected because its Step 8 assessment combined strong paying demand, relatively favourable opportunity density and entrant attainability, credible revenue potential and high evidence confidence without the extreme competition or operating burden seen in several other high-demand Apify areas. Community research also identified concrete unresolved source, coverage, freshness, deduplication and delivery problems that justified deeper case-study investigation.
+
+The channel-level prerequisites above do not introduce a material barrier that changes that conclusion: Apify's managed runtime and commerce stack keep the common platform requirements relatively accessible, while the important remaining uncertainties are opportunity-specific and therefore appropriate for Phase 3.
+
+This records explicitly the Gateway 2 decision that was implicit in the already completed Recruitment & jobs deep dive.
 
 ## 2. Opportunity-Area Capability Requirements
 
@@ -31,6 +47,8 @@ Capability requirements at this level are extrapolated from representative case 
 ### Search & SEO intelligence
 
 ### Recruitment & jobs intelligence
+
+*Methodology status: Phase 3 Steps 10–12 complete for this opportunity area. The market/commercial Step 12 synthesis is recorded in [overview.md](overview.md); the capability synthesis is recorded below.*
 
 **Representative case studies:**
 - [Curious Coder LinkedIn Jobs Scraper](case-studies/linkedin-jobs-scraper-curious-coder.md) — established LinkedIn jobs market benchmark.
@@ -118,6 +136,15 @@ The requirement is therefore **Low-Medium but margin-sensitive**. A focused, eff
 To be completed after additional opportunity-area capability assessments.
 
 ## Sources
+
+### Channel-level capability prerequisites
+
+- Apify Docs — Publish Actors: https://docs.apify.com/actors/publishing
+- Apify Docs — Publish your Actor: https://docs.apify.com/actors/publishing/publish
+- Apify Docs — Monetize Actors: https://docs.apify.com/actors/publishing/monetize
+- Apify Docs — Set up Actor monetization: https://docs.apify.com/actors/monetize/set-up-monetization
+- Apify Docs — Actor usage and resources: https://docs.apify.com/actors/running/usage-and-resources
+- Apify Docs — How Actor monetization works: https://docs.apify.com/academy/actor-marketing-playbook/store-basics/how-actor-monetization-works
 
 ### Recruitment & jobs intelligence
 

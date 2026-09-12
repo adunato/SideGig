@@ -57,6 +57,10 @@ Revenue should be estimated rather than left unresolved merely because exact fig
 
 <Describe relevant alternatives, competitive positioning and apparent differentiation.>
 
+### Economics and cost drivers
+
+<Summarise the commercial economics and material cost drivers that affect the case. Keep this at the opportunity/business-model level; the detailed resource and cost capability assessment belongs under Cost intensity below.>
+
 ### Operating model
 
 <Describe how the opportunity operates commercially, including how customers buy/use it and any ongoing service, support or delivery requirements.>

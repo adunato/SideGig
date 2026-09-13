@@ -554,7 +554,6 @@ function buildHtml(model) {
   const { validator, channels, stepCounts, structure } = model;
   const totalDocs = validator.summary.VALID + validator.summary.INCOMPLETE + validator.summary.INVALID;
   const generated = new Date().toISOString();
-  const apify = channels.find((c) => c.slug === 'apify');
 
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -575,7 +574,6 @@ function buildHtml(model) {
 <div class="card"><div class="n">${channels.length}</div><div class="label">Channels</div></div>
 </div>
 
-${apify ? `<h2>Apify Store — methodology progress</h2><div class="panel">${methodologyTable(apify)}</div>` : ''}
 
 <h2>Methodology progress across channels</h2>
 <div class="panel"><table><thead><tr><th>Step</th><th>Methodology</th><th>Complete</th><th>In progress</th><th>Not started</th><th>N/A</th><th>Structural issue</th></tr></thead><tbody>${METHODOLOGY_STEPS.map(([id, label]) => { const c = stepCounts[id]; return `<tr><td class="step">${esc(id)}</td><td>${esc(label)}</td><td>${c.COMPLETE}</td><td>${c.IN_PROGRESS}</td><td>${c.NOT_STARTED}</td><td>${c.NOT_APPLICABLE}</td><td>${c.ISSUE}</td></tr>`; }).join('')}</tbody></table></div>

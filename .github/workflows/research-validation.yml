@@ -2,6 +2,9 @@ name: Research document validation
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/validation-trigger.txt'
 
 permissions:
   contents: read

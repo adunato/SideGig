@@ -22,4 +22,20 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Validate research documents
-        run: npm run validate:research
+        id: validate
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm run validate:research 2>&1 | tee validation-report.txt
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-validation-report
+          path: validation-report.txt
+          retention-days: 30
+
+      - name: Fail workflow when validation fails
+        if: steps.validate.outcome == 'failure'
+        run: exit 1

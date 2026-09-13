@@ -3,7 +3,7 @@ name: Remove Apify report special case
 on:
   push:
     paths:
-      - '.github/remove-apify-report-trigger.txt'
+      - '.github/validation-trigger.txt'
 
 permissions:
   contents: write

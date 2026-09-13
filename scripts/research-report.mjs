@@ -588,7 +588,7 @@ function buildHtml(model) {
 </style></head><body><main class="wrap">
 <h1>SideGig Research Validation & Progress</h1>
 <div class="muted">Generated ${esc(generated)} from repository Markdown and validator output.</div>
-<div class="note"><strong>Progress rule:</strong> the report follows the numbered methodology. Presence of content is evidence, not automatically completion. In particular, populated Step 8 assessment records are not presented as completed opportunity-area work while the required Step 8A research for those areas remains unfinished. Structural validity is shown separately from research progress.</div>
+<div class="note"><strong>Progress rule:</strong> the report follows the numbered methodology. For Steps 8 and 8A, completing at least one opportunity area satisfies the step; coverage is shown separately so the breadth of research remains visible. Optional unresearched opportunity areas do not make the document structurally incomplete. Structural issues in required artifacts qualify the overall status.</div>
 
 <h2>Validation overview</h2>
 <div class="cards">

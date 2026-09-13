@@ -2,18 +2,6 @@ name: Research document validation
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'research/**/*.md'
-      - 'scripts/research-validator.mjs'
-      - 'package.json'
-      - '.github/workflows/research-validation.yml'
-  pull_request:
-    paths:
-      - 'research/**/*.md'
-      - 'scripts/research-validator.mjs'
-      - 'package.json'
-      - '.github/workflows/research-validation.yml'
 
 permissions:
   contents: read

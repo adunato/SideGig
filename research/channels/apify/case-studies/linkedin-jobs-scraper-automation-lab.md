@@ -142,6 +142,14 @@ Automation Lab's differentiation is unusually explicit:
 
 This makes it a useful example of a **cost-leadership entrant** rather than an attempt to beat the incumbent on every feature. The early traction indicates that this positioning can attract users, but the stable MAU base does not yet demonstrate displacement of the leader.
 
+### Economics and cost drivers
+
+The commercial model is strongly usage- and volume-driven. Paid customers are charged roughly **$0.30-$0.50 per 1,000 jobs** plus a small run-start fee, while the creator receives 80% of paid event revenue before underlying Apify platform usage is deducted.
+
+The deliberately lightweight implementation keeps the principal variable cost drivers low: 256 MB HTTP-only execution, data transfer, dataset writes, retries and datacenter-proxy traffic. The detailed cost assessment below estimates platform usage at roughly **$0.01-$0.05 per 1,000 paid jobs**, implying that infrastructure cost is unlikely to be the binding commercial constraint at current pricing. Instead, the economics depend primarily on active-user scale, results volume per customer and the paid/free usage mix.
+
+Developer maintenance and support effort are not included in those platform-cost estimates. LinkedIn markup changes, rate limits and filter behaviour therefore remain material non-platform economic burdens even when the direct infrastructure margin is strong.
+
 ### Operating model
 
 Commercial delivery is low-touch because Apify handles execution, billing, storage, API access, schedules and integrations.

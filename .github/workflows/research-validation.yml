@@ -31,12 +31,19 @@ jobs:
           set -o pipefail
           npm run validate:research 2>&1 | tee validation-report.txt
 
+      - name: Generate HTML progress report
+        if: always()
+        run: npm run report:research
+
       - name: Upload validation report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: research-validation-report
-          path: validation-report.txt
+          path: |
+            validation-report.txt
+            research-validation-report.html
+            research-validation-report.json
           retention-days: 30
 
       - name: Fail workflow when validation fails

@@ -329,49 +329,49 @@ function buildMethodologySteps(channel, globals) {
   const o = channel.overviewFacts;
   const c = channel.capabilityFacts;
   const currentStructure = channel.overviewStatus !== 'INVALID';
+  const overviewStepStructure = currentStructure ? 'VALID' : channel.overviewStatus;
   const steps = [];
 
   steps.push(makeStep('1', globals.frameworkComplete ? 'COMPLETE' : 'NOT_STARTED', globals.frameworkComplete ? 'Canonical assessment framework is present.' : 'Assessment framework is missing.'));
   steps.push(makeStep('2', globals.classesComplete && o.channelClass && !hasPlaceholder(o.channelClass) ? 'COMPLETE' : 'NOT_STARTED', o.channelClass ? `Channel class: ${o.channelClass}.` : 'Channel class is not recorded.'));
   steps.push(makeStep('3', globals.discoverySourcesComplete ? 'COMPLETE' : 'NOT_STARTED', globals.discoverySourcesComplete ? 'Channel-class discovery sources are recorded in channel-classes.md.' : 'Channel-class discovery sources are not confirmed.'));
-  steps.push(makeStep('4', channel.discovered ? 'COMPLETE' : 'NOT_STARTED', channel.discovered ? 'Channel is present in the master index and has an overview document.' : 'Channel discovery output is incomplete.', channel.overviewStatus));
+  steps.push(makeStep('4', channel.discovered ? 'COMPLETE' : 'NOT_STARTED', channel.discovered ? 'Channel is present in the master index and has an overview document.' : 'Channel discovery output is incomplete.', overviewStepStructure));
 
   if (!currentStructure) {
     for (const [id] of METHODOLOGY_STEPS.filter(([id]) => STEP_ORDER.get(id) >= STEP_ORDER.get('5'))) {
-      steps.push(makeStep(id, 'ISSUE', 'Progress cannot be derived reliably because the channel overview uses a legacy/non-canonical structure.', channel.overviewStatus));
+      steps.push(makeStep(id, 'ISSUE', 'Progress cannot be derived reliably because the channel overview uses a legacy/non-canonical structure.', overviewStepStructure));
     }
     return steps;
   }
 
-  steps.push(makeStep('5', progressStatus(o.channelAssessment, Boolean(firstHeading(o.ast, 2, '2. Channel Assessment'))), o.channelAssessment ? 'Channel assessment table is complete.' : 'Channel assessment is not complete.', channel.overviewStatus));
-  steps.push(makeStep('5A', progressStatus(o.channelCommunity, Boolean(firstHeading(o.ast, 2, '3. Channel Community Findings'))), o.channelCommunity ? 'Channel community synthesis is complete.' : 'Channel community research is not complete.', channel.overviewStatus));
-  steps.push(makeStep('G1', o.gateway1 ? 'COMPLETE' : 'NOT_STARTED', o.gateway1 ? `Decision: ${o.gateway1}` : 'No Gateway 1 decision is recorded.', channel.overviewStatus));
+  steps.push(makeStep('5', progressStatus(o.channelAssessment, Boolean(firstHeading(o.ast, 2, '2. Channel Assessment'))), o.channelAssessment ? 'Channel assessment table is complete.' : 'Channel assessment is not complete.', overviewStepStructure));
+  steps.push(makeStep('5A', progressStatus(o.channelCommunity, Boolean(firstHeading(o.ast, 2, '3. Channel Community Findings'))), o.channelCommunity ? 'Channel community synthesis is complete.' : 'Channel community research is not complete.', overviewStepStructure));
+  steps.push(makeStep('G1', o.gateway1 ? 'COMPLETE' : 'NOT_STARTED', o.gateway1 ? `Decision: ${o.gateway1}` : 'No Gateway 1 decision is recorded.', overviewStepStructure));
 
   const gateway1Pass = Boolean(o.gateway1 && /^Pass\b/i.test(o.gateway1));
   if (!gateway1Pass) {
     const laterStatus = o.gateway1 ? 'NOT_APPLICABLE' : 'NOT_STARTED';
     for (const [id] of METHODOLOGY_STEPS.filter(([id]) => STEP_ORDER.get(id) >= STEP_ORDER.get('6'))) {
-      steps.push(makeStep(id, laterStatus, o.gateway1 ? 'Not applicable unless Gateway 1 passes.' : 'Waiting for Gateway 1.', channel.overviewStatus));
+      steps.push(makeStep(id, laterStatus, o.gateway1 ? 'Not applicable unless Gateway 1 passes.' : 'Waiting for Gateway 1.', overviewStepStructure));
     }
     return steps;
   }
 
-  steps.push(makeStep('6', progressStatus(o.discoverySources, Boolean(firstHeading(o.ast, 2, '4. Opportunity Landscape'))), o.discoverySources ? 'Opportunity-area discovery basis is recorded.' : 'Opportunity-area discovery sources are not complete.', channel.overviewStatus));
-  steps.push(makeStep('7', progressStatus(o.taxonomyComplete, o.opportunityAreas.length > 0), o.taxonomyComplete ? `${o.opportunityAreas.length} opportunity areas are defined.` : 'Opportunity-area taxonomy is not complete.', channel.overviewStatus));
+  steps.push(makeStep('6', progressStatus(o.discoverySources, Boolean(firstHeading(o.ast, 2, '4. Opportunity Landscape'))), o.discoverySources ? 'Opportunity-area discovery basis is recorded.' : 'Opportunity-area discovery sources are not complete.', overviewStepStructure));
+  steps.push(makeStep('7', progressStatus(o.taxonomyComplete, o.opportunityAreas.length > 0), o.taxonomyComplete ? `${o.opportunityAreas.length} opportunity areas are defined.` : 'Opportunity-area taxonomy is not complete.', overviewStepStructure));
 
   const totalAreas = o.opportunityAreas.length;
-  const phase2AreaComplete = totalAreas > 0 && o.fullyResearchedAreas === totalAreas;
-  const step8Started = o.assessmentRecords > 0;
-  const step8Status = phase2AreaComplete ? 'COMPLETE' : progressStatus(false, step8Started);
-  const step8Detail = totalAreas
-    ? `${o.assessmentRecords}/${totalAreas} assessment records are present; ${o.fullyResearchedAreas}/${totalAreas} opportunity areas are fully researched through Step 8A. Content presence is not treated as completed opportunity-area work.`
-    : 'No opportunity areas are available to assess.';
-  steps.push(makeStep('8', step8Status, step8Detail, channel.overviewStatus));
+  const step8Complete = o.assessmentRecords > 0;
+  steps.push(makeStep('8', progressStatus(step8Complete, false), totalAreas
+    ? `${o.assessmentRecords}/${totalAreas} opportunity areas have assessment records. Step 8 is complete once at least one opportunity area is assessed; additional area coverage is optional.`
+    : 'No opportunity areas are available to assess.', overviewStepStructure));
 
-  const step8AComplete = totalAreas > 0 && o.communityAreas === totalAreas;
-  steps.push(makeStep('8A', progressStatus(step8AComplete, o.communityAreas > 0), totalAreas ? `${o.communityAreas}/${totalAreas} opportunity areas have substantive community findings.` : 'No opportunity areas are available for community research.', channel.overviewStatus));
+  const step8AComplete = o.communityAreas > 0;
+  steps.push(makeStep('8A', progressStatus(step8AComplete, false), totalAreas
+    ? `${o.communityAreas}/${totalAreas} opportunity areas have substantive community findings. Step 8A is complete once at least one opportunity area has community research; additional area coverage is optional.`
+    : 'No opportunity areas are available for community research.', overviewStepStructure));
 
-  const capabilityStructure = channel.capabilityStatus;
+  const capabilityStructure = channel.capabilityStatus === 'INVALID' ? 'INVALID' : channel.capabilityStatus === 'MISSING' ? 'MISSING' : 'VALID';
   steps.push(makeStep('9', c.exists ? progressStatus(c.baseline, true) : 'NOT_STARTED', c.baseline ? 'Channel-level capability prerequisites are complete.' : 'Channel-level capability prerequisites are not complete.', capabilityStructure));
 
   const eligibleAreas = o.areaDetails.filter((x) => x.fullyResearched).map((x) => x.area);
@@ -515,20 +515,45 @@ function issueList(issue) {
   ].join('')}</ul>`;
 }
 
+function combinedStepStatus(step) {
+  const progress = progressBadge(step.status);
+  if (step.structure === 'INVALID' || step.structure === 'ISSUES') return `${progress} <span class="badge structure-invalid">Structural issue</span>`;
+  if (step.structure === 'MISSING') return `${progress} <span class="badge structure-missing">Missing document</span>`;
+  return progress;
+}
+
 function methodologyTable(channel) {
-  return `<table class="method-table"><thead><tr><th>Step</th><th>Methodology</th><th>Progress</th><th>Evidence / coverage</th><th>Structure</th></tr></thead><tbody>${channel.steps.map((step) => `<tr><td class="step">${esc(step.id)}</td><td>${esc(step.label)}</td><td>${progressBadge(step.status)}</td><td>${esc(step.detail)}</td><td>${structuralBadge(step.structure)}</td></tr>`).join('')}</tbody></table>`;
+  return `<table class="method-table"><thead><tr><th>Step</th><th>Methodology</th><th>Status</th><th>Evidence / coverage</th></tr></thead><tbody>${channel.steps.map((step) => `<tr><td class="step">${esc(step.id)}</td><td>${esc(step.label)}</td><td>${combinedStepStatus(step)}</td><td>${esc(step.detail)}</td></tr>`).join('')}</tbody></table>`;
+}
+
+function opportunityCoverage(channel) {
+  const total = channel.overviewFacts.opportunityAreas.length;
+  if (!total || channel.overviewStatus === 'INVALID') return '<span class="muted">—</span>';
+  const complete = channel.overviewFacts.fullyResearchedAreas;
+  const pct = Math.max(0, Math.min(100, Math.round((complete / total) * 100)));
+  return `<div class="coverage"><div class="coverage-fill" style="width:${pct}%"></div></div><div class="coverage-label"><strong>${complete}/${total}</strong> fully researched</div>`;
+}
+
+function overallChannelStatus(channel) {
+  const applicable = channel.steps.filter((step) => step.status !== 'NOT_APPLICABLE');
+  const progressComplete = applicable.length > 0 && applicable.every((step) => step.status === 'COMPLETE');
+  const hasStructuralIssue = channel.steps.some((step) => step.status === 'ISSUE' || step.structure === 'INVALID' || step.structure === 'ISSUES');
+  if (progressComplete && hasStructuralIssue) return `${progressBadge('COMPLETE')} <span class="badge structure-invalid">Structural fixes needed</span>`;
+  if (progressComplete) return progressBadge('COMPLETE');
+  if (hasStructuralIssue) return `${progressBadge('IN_PROGRESS')} <span class="badge structure-invalid">Structural issue</span>`;
+  return progressBadge('IN_PROGRESS');
 }
 
 function channelRows(channels) {
   return channels.map((channel) => {
-    const latestStep = [...channel.steps].reverse().find((step) => step.status === 'COMPLETE')?.id ?? '—';
     const inProgress = channel.steps.filter((step) => step.status === 'IN_PROGRESS').map((step) => step.id).join(', ') || '—';
     const search = esc(`${channel.name} ${channel.slug} ${channel.overviewStatus} ${channel.capabilityStatus}`.toLowerCase());
     return `<tr class="channel-row" data-search="${search}" data-status="${channel.overviewStatus}">
       <td><strong>${esc(channel.name)}</strong><div class="path">${esc(channel.slug)}</div></td>
+      <td>${overallChannelStatus(channel)}</td>
+      <td>${opportunityCoverage(channel)}</td>
       <td>${structuralBadge(channel.overviewStatus)}</td>
       <td>${structuralBadge(channel.capabilityStatus)}</td>
-      <td>${esc(latestStep)}</td>
       <td>${esc(inProgress)}</td>
       <td><details><summary>View methodology progress</summary><div class="detail">
         ${methodologyTable(channel)}
@@ -559,7 +584,7 @@ function buildHtml(model) {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SideGig Research Validation & Progress</title>
 <style>
-:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f6f8fb}*{box-sizing:border-box}body{margin:0}.wrap{max-width:1500px;margin:auto;padding:28px}h1{margin:0 0 6px;font-size:30px}h2{margin-top:34px}h4{margin-bottom:7px}.muted,.path{color:#697386}.path{font-size:12px;margin-top:4px}.note{background:#fff8df;border:1px solid #ead99d;border-radius:10px;padding:12px 14px;margin:18px 0}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}.card{background:white;border:1px solid #dfe4ec;border-radius:12px;padding:16px}.card .n{font-size:28px;font-weight:750}.card .label{font-size:13px;color:#697386;margin-top:4px}.panel{background:white;border:1px solid #dfe4ec;border-radius:12px;padding:18px;margin:14px 0;overflow:auto}table{border-collapse:collapse;width:100%}th,td{padding:9px 11px;border-bottom:1px solid #e7ebf0;text-align:left;vertical-align:top}thead th{background:#f7f9fc;position:sticky;top:0}.step{font-weight:800;white-space:nowrap}.badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}.structure-valid,.progress-complete{background:#def7e5;color:#166534}.structure-incomplete,.progress-in-progress{background:#fff1c2;color:#854d0e}.structure-invalid,.progress-issue{background:#fee2e2;color:#991b1b}.structure-missing,.progress-not-started,.progress-not-applicable{background:#eceff3;color:#596273}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}input,select{padding:9px 10px;border:1px solid #cfd6e0;border-radius:8px;background:white}input{min-width:260px;flex:1}summary{cursor:pointer}.detail{min-width:800px;padding:12px 0 4px}.case{padding:10px 0;border-top:1px solid #edf0f4}.issue-doc{padding:8px 0;border-bottom:1px solid #edf0f4}ul{margin:8px 0 12px;padding-left:22px}code{font-size:12px}.method-table th:nth-child(1){width:55px}.method-table th:nth-child(3){width:120px}.method-table th:nth-child(5){width:100px}@media(max-width:760px){.wrap{padding:14px}.panel{padding:10px}.detail{min-width:700px}h1{font-size:23px}th,td{padding:7px 8px}}
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f6f8fb}*{box-sizing:border-box}body{margin:0}.wrap{max-width:1500px;margin:auto;padding:28px}h1{margin:0 0 6px;font-size:30px}h2{margin-top:34px}h4{margin-bottom:7px}.muted,.path{color:#697386}.path{font-size:12px;margin-top:4px}.note{background:#fff8df;border:1px solid #ead99d;border-radius:10px;padding:12px 14px;margin:18px 0}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}.card{background:white;border:1px solid #dfe4ec;border-radius:12px;padding:16px}.card .n{font-size:28px;font-weight:750}.card .label{font-size:13px;color:#697386;margin-top:4px}.panel{background:white;border:1px solid #dfe4ec;border-radius:12px;padding:18px;margin:14px 0;overflow:auto}table{border-collapse:collapse;width:100%}th,td{padding:9px 11px;border-bottom:1px solid #e7ebf0;text-align:left;vertical-align:top}thead th{background:#f7f9fc;position:sticky;top:0}.step{font-weight:800;white-space:nowrap}.badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}.structure-valid,.progress-complete{background:#def7e5;color:#166534}.structure-incomplete,.progress-in-progress{background:#fff1c2;color:#854d0e}.structure-invalid,.progress-issue{background:#fee2e2;color:#991b1b}.structure-missing,.progress-not-started,.progress-not-applicable{background:#eceff3;color:#596273}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}input,select{padding:9px 10px;border:1px solid #cfd6e0;border-radius:8px;background:white}input{min-width:260px;flex:1}summary{cursor:pointer}.detail{min-width:800px;padding:12px 0 4px}.case{padding:10px 0;border-top:1px solid #edf0f4}.issue-doc{padding:8px 0;border-bottom:1px solid #edf0f4}ul{margin:8px 0 12px;padding-left:22px}code{font-size:12px}.method-table th:nth-child(1){width:55px}.method-table th:nth-child(3){width:190px}.coverage{width:130px;max-width:100%;height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-bottom:5px}.coverage-fill{height:100%;background:#16a34a}.coverage-label{font-size:12px;white-space:nowrap}@media(max-width:760px){.wrap{padding:14px}.panel{padding:10px}.detail{min-width:700px}h1{font-size:23px}th,td{padding:7px 8px}}
 </style></head><body><main class="wrap">
 <h1>SideGig Research Validation & Progress</h1>
 <div class="muted">Generated ${esc(generated)} from repository Markdown and validator output.</div>
@@ -579,7 +604,7 @@ function buildHtml(model) {
 <div class="panel"><table><thead><tr><th>Step</th><th>Methodology</th><th>Complete</th><th>In progress</th><th>Not started</th><th>N/A</th><th>Structural issue</th></tr></thead><tbody>${METHODOLOGY_STEPS.map(([id, label]) => { const c = stepCounts[id]; return `<tr><td class="step">${esc(id)}</td><td>${esc(label)}</td><td>${c.COMPLETE}</td><td>${c.IN_PROGRESS}</td><td>${c.NOT_STARTED}</td><td>${c.NOT_APPLICABLE}</td><td>${c.ISSUE}</td></tr>`; }).join('')}</tbody></table></div>
 
 <h2>Channels</h2>
-<div class="panel"><div class="controls"><input id="search" placeholder="Search channel"><select id="filter"><option value="ALL">All overview structures</option><option value="VALID">Valid</option><option value="INCOMPLETE">Incomplete</option><option value="INVALID">Issue</option></select></div><table><thead><tr><th>Channel</th><th>Overview structure</th><th>Capability structure</th><th>Latest completed step</th><th>Step(s) in progress</th><th>Detail</th></tr></thead><tbody id="channels">${channelRows(channels)}</tbody></table></div>
+<div class="panel"><div class="controls"><input id="search" placeholder="Search channel"><select id="filter"><option value="ALL">All overview structures</option><option value="VALID">Valid</option><option value="INCOMPLETE">Incomplete</option><option value="INVALID">Issue</option></select></div><table><thead><tr><th>Channel</th><th>Overall</th><th>Opportunity coverage</th><th>Overview structure</th><th>Capability structure</th><th>Step(s) in progress</th><th>Detail</th></tr></thead><tbody id="channels">${channelRows(channels)}</tbody></table></div>
 
 <h2>Structural validity by document type</h2>
 <div class="panel"><table><thead><tr><th>Document type</th><th>Valid</th><th>Incomplete</th><th>Issue</th><th>Missing</th></tr></thead><tbody>

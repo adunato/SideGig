@@ -238,7 +238,16 @@ function validateChannel(file, doc, templates) {
     if (!/Decision\s*:/i.test(text)) result.errors.push('Gateway 1 section does not contain a Decision field.');
   }
 
-  addIncompletePlaceholders(result, raw);
+  const optionalCommunityPlaceholderCount = areaRecords.reduce((sum, area) => {
+    const communityHeading = findNestedHeading(ast, area, 5, 'Community Findings');
+    if (!communityHeading) return sum;
+    const communityText = sectionNodes(ast, communityHeading).map(nodeText).join('\n');
+    return sum + placeholderCount(communityText);
+  }, 0);
+  const requiredPlaceholderCount = Math.max(0, placeholderCount(raw) - optionalCommunityPlaceholderCount);
+  if (requiredPlaceholderCount > 0) {
+    result.incomplete.push(`${requiredPlaceholderCount} template placeholder${requiredPlaceholderCount === 1 ? '' : 's'} remain outside optional opportunity-area community research.`);
+  }
   result.data = { opportunityAreas: taxonomyAreas };
   return result;
 }

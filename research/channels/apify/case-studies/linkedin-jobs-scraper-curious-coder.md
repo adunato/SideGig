@@ -104,7 +104,7 @@ Revenue is private, but the public data is sufficient to construct a useful scen
 
 That free-tier ceiling is informative. At the observed average of 33 runs per active user, a free user spending all $5 solely on this Actor could average only about **76 results per run** before exhausting the monthly credit. The Actor's documentation and public issues show common use cases requesting tens to hundreds of jobs and support use above 1,000 results. This makes it unlikely that the product's result volume is dominated entirely by free users even though the user count may contain many free accounts.
 
-#### Scenario assumptions
+#### Assumptions
 
 Because results per run and paid/free output share are not public, three scenarios are used:
 
@@ -116,13 +116,15 @@ Because results per run and paid/free output share are not public, three scenari
 
 These assumptions are not measurements. They are a transparent bracket around the two private variables that matter most.
 
-#### Estimated monthly economics
+#### Estimated range / scenarios
 
 | Scenario | Estimated paid results / month | Paid customer event revenue | Creator 80% share before platform costs |
 |---|---:|---:|---:|
 | Low | 6.0M | **$6.0K** | **$4.8K** |
 | Base | 21.7M | **$21.7K** | **$17.4K** |
 | High | 72.5M | **$72.5K** | **$58.0K** |
+
+#### Central estimate and confidence
 
 The **best central estimate** is therefore approximately **$15K-$25K per month of creator remuneration before platform costs**, with a deliberately broad plausible range of roughly **$5K-$60K per month**. Annualised, the central estimate is roughly **$180K-$300K before platform costs**, while the broad scenario range is approximately **$58K-$696K**.
 
@@ -238,7 +240,7 @@ Under Apify's current pay-per-event model:
 
 For this Actor, paid-plan users are charged **$1 per 1,000 results**, so the creator's gross share is **$0.80 per 1,000 paid results before platform costs**. Free-plan activity is excluded from both creator revenue and seller-borne platform cost calculations.
 
-#### Observed platform cost inputs
+#### Observed cost inputs
 
 Apify publishes the unit rates used when calculating PPE platform costs for paid users. Current standard paid-tier rates are approximately:
 
@@ -255,7 +257,7 @@ Datacenter proxy capacity is priced differently: standard Apify plans include a 
 
 The fixed-cost side is much lighter. There is no evidence of a proprietary-data licence, external database subscription, separate server fleet or third-party paid API required to deliver the product. Apify itself supplies execution, storage, API exposure, scheduling, billing and marketplace delivery.
 
-#### Cost estimate assumptions
+#### Cost assumptions
 
 The exact cost per result is private, so a scenario model is required.
 
@@ -276,7 +278,7 @@ The following bracket is used:
 
 These figures are not reported costs. They are an informed bracket around private resource consumption using Apify's published unit rates and a directly comparable Store product as a market constraint.
 
-#### Implied margin per 1,000 paid results
+#### Estimated cost range / scenarios
 
 | Scenario | Creator gross share | Estimated platform cost | Estimated creator profit / 1K results | Implied margin on creator gross |
 |---|---:|---:|---:|---:|
@@ -291,6 +293,8 @@ On the **base revenue case of 21.7M paid results/month**, those unit-cost assump
 | Efficient | **$1.7K** | **$15.7K** |
 | Base | **$4.8K** | **$12.6K** |
 | Stressed | **$9.8K** | **$7.6K** |
+
+#### Margin / economic impact and confidence
 
 The best central estimate is therefore approximately **$4K-$6K/month of platform costs** against the base revenue scenario, leaving roughly **$11K-$14K/month of creator profit after platform costs**. This excludes the economic value of the developer's own maintenance/support time because that is treated under operating complexity rather than as an external cash cost.
 

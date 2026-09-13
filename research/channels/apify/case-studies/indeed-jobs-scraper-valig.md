@@ -163,6 +163,14 @@ Vali G therefore competes in an unusually wide price band. Its differentiation a
 
 The case demonstrates that low-price products can accumulate large usage in a crowded marketplace, but it also suggests that jobs scraping does not behave as a pure commodity: providers coexist at prices differing by one to two orders of magnitude.
 
+### Economics and cost drivers
+
+The commercial model depends on high-volume execution at an unusually low unit price. Paid customers are charged only **$0.07-$0.09 per 1,000 results**, leaving the creator roughly **$0.056-$0.072 per 1,000 results** before underlying Apify platform usage is deducted.
+
+The principal variable cost drivers are compute, transfer/storage operations, retries and proxy traffic. Because the selling price is so low, small changes in source-access efficiency or proxy intensity can materially affect contribution margin. The detailed cost analysis below estimates platform usage at roughly **$0.008-$0.045 per 1,000 paid results**, with the base case around **$0.020/1K**.
+
+The model has little visible fixed infrastructure or data-licensing cost because Apify provides the marketplace/runtime layer and the source data is public. The main commercial trade-off is therefore between volume and execution efficiency: large usage can create meaningful revenue, but the low selling price leaves little room for expensive proxy strategies, retries or inefficient processing. Developer maintenance/support labour is an additional cost not captured in the platform-cost scenarios.
+
 ### Operating model
 
 Commercial delivery is low-touch because Apify supplies the cloud runtime, datasets, API, billing and integrations.

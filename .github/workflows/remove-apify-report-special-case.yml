@@ -1,0 +1,40 @@
+name: Remove Apify report special case
+
+on:
+  push:
+    paths:
+      - '.github/remove-apify-report-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Remove Apify-specific report block
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('scripts/research-report.mjs')
+          s = p.read_text()
+          s = s.replace("  const apify = channels.find((c) => c.slug === 'apify');\n", "")
+          block = "\n${apify ? `<h2>Apify Store — methodology progress</h2><div class=\"panel\">${methodologyTable(apify)}</div>` : ''}\n"
+          if block not in s:
+              raise SystemExit('Expected Apify report block not found')
+          s = s.replace(block, "\n")
+          if 'Apify Store — methodology progress' in s:
+              raise SystemExit('Apify-specific report block still present')
+          p.write_text(s)
+          PY
+
+      - name: Commit change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/research-report.mjs
+          git commit -m "Remove Apify-specific report section"
+          git push

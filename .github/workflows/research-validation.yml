@@ -35,6 +35,10 @@ jobs:
         if: always()
         run: npm run report:research
 
+      - name: Generate channel insights dashboard
+        if: always()
+        run: npm run dashboard:research
+
       - name: Upload validation report
         if: always()
         uses: actions/upload-artifact@v4
@@ -44,6 +48,7 @@ jobs:
             validation-report.txt
             research-validation-report.html
             research-validation-report.json
+            research-insights-dashboard.html
           retention-days: 30
 
       - name: Fail workflow when validation fails

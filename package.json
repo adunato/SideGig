@@ -5,7 +5,7 @@
   "scripts": {
     "validate:research": "node scripts/research-validator.mjs",
     "report:research": "node scripts/research-report.mjs",
-    "dashboard:research": "node scripts/research-dashboard.mjs"
+    "dashboard:research": "node scripts/research-dashboard.mjs && node scripts/research-dashboard-polish.mjs"
   },
   "dependencies": {
     "remark-gfm": "4.0.1",

@@ -115,6 +115,71 @@ The requirement is therefore **Low-Medium but margin-sensitive**. A focused, eff
 
 **Opportunity-area synthesis conclusion:** Recruitment & jobs intelligence does not require scarce proprietary data or unusually specialised technology. Its attractive entry profile comes from public source availability, managed Apify infrastructure and the ability to begin with a narrow source/problem. The principal capability risk is ongoing source reliability: as the product expands in coverage, enrichment or completeness guarantees, operating complexity rises faster than the basic build complexity.
 
+### Lead generation & business intelligence
+
+**Representative case studies:**
+- [Compass Google Maps Scraper](case-studies/google-maps-scraper-compass.md) — established high-volume benchmark for organisation/location data and incumbent-scale reliability.
+- [LurkAPI Google Maps Business Leads Scraper](case-studies/google-maps-business-leads-scraper-lurkapi.md) — recent enriched entrant combining Maps extraction with website contacts, social profiles and optional qualification signals.
+- [Dev Fusion Mass LinkedIn Profile Scraper with Email](case-studies/linkedin-profile-scraper-dev-fusion.md) — established person/contact enrichment case using a different primary source and external contact-finder layer.
+
+The cases deliberately span three important forms of the opportunity: commodity-to-mature business/location extraction, a recent workflow-oriented enriched entrant, and higher-value person/contact enrichment. Together they distinguish what is intrinsic to lead-generation data products from choices specific to Google Maps, LinkedIn or a particular enrichment stack.
+
+| Dimension | Opportunity-area requirement | Evidence / basis | Confidence |
+|---|---|---|---|
+| Technical complexity | **Medium-High** | Raw source extraction can be moderate, but commercially useful products add geographic/search semantics, deduplication, normalization, website crawling, contact enrichment, verification, retries and stable schemas. | High |
+| Domain expertise | **Medium** | Providers need source-specific knowledge plus practical understanding of prospect identity, qualification and which fields make data useful for sales/research workflows; scarce specialist expertise is not evident. | High |
+| Data / resource access | **Medium** | Core Maps/LinkedIn/business-web data can be sourced publicly and Apify supplies infrastructure, but richer products may require proxies plus third-party email/mobile, registry or verification services. | High |
+| Operating complexity | **Medium-High** | Commercial delivery is self-service, but source changes, geographic/search completeness, heterogeneous websites, contact match rates and external enrichment dependencies require ongoing quality and reliability work. | High |
+| Cost intensity | **Low-Medium, enrichment-sensitive** | Fixed costs are low; variable compute/network/proxy and third-party enrichment costs matter. Unit prices range from roughly $1.50-$1.89/1K businesses to $10/1K enriched LinkedIn profiles, so margin depends strongly on product depth and source efficiency. | Medium-High |
+
+#### Technical complexity
+
+The representative cases show a clear progression. The technical floor—retrieve a source record and put it in a dataset—is accessible. The capability required for a differentiated commercial lead product is materially higher.
+
+Compass demonstrates the mature extraction layer: search/category/location semantics, geographic expansion, place details, deduplication, reviews, filtering and stable large-scale operation. LurkAPI adds website crawling, multi-field contact extraction and optional company-level enrichment. Dev Fusion adds bulk LinkedIn profile normalization, concurrent processing, retries and third-party email/mobile discovery.
+
+The common requirement is therefore not an exotic architecture but a **reliable multi-stage data pipeline**. Products must distinguish missing source data from extraction failure, preserve useful partial results, deduplicate identities and keep schemas stable enough for CRM/API workflows. Complexity rises further with each enrichment layer because every additional source introduces its own matching and failure semantics.
+
+The area is assessed **Medium-High**. A narrow MVP may be Medium complexity; the capability needed to compete on quality, enrichment or workflow completeness is consistently higher across the case set.
+
+#### Domain expertise
+
+The shared domain requirement is practical B2B data-product knowledge combined with source-specific understanding.
+
+For Google Maps products, sellers need to understand categories, geography, place identity, search-result limits and the fields buyers use to qualify organisations. For LinkedIn enrichment, they need to understand professional identity, current role/employer context, company attributes and how sales/recruiting users interpret those fields. Across both, contact data creates product decisions around primary email/phone, verification, missing values and confidence.
+
+Community evidence and the LurkAPI case show that differentiation often comes from translating a broad source into a specific buyer outcome: vertical targeting, ICP filters, verified contacts, businesses lacking websites, advertising activity or CRM-ready records. That requires enough commercial understanding to choose the right transformations, but not scarce industry credentials.
+
+The opportunity-area requirement is therefore **Medium**.
+
+#### Data / resource access
+
+The area does not generally require ownership of a proprietary base dataset. Compass and LurkAPI derive their core value from Google Maps and public company websites; Dev Fusion operates without LinkedIn cookies and works from public profile URLs. This keeps fixed entry barriers relatively low.
+
+The resource profile changes when a seller moves from extraction to enrichment. Reliable large-scale source access can require proxies and routing. Website crawling introduces arbitrary target behaviour. Email/mobile discovery, registry matching, ad-activity checks and verification can introduce external providers whose pricing, coverage and availability become part of the product.
+
+Apify removes most generic SaaS infrastructure requirements by supplying runtime, storage, datasets, API access, scheduling, metering, billing and distribution. The area-specific requirement is therefore **Medium**: public base data keeps access feasible, but a competitive enriched product commonly depends on additional network and third-party resources.
+
+#### Operating complexity
+
+All three cases are commercially low-touch but technically maintenance-sensitive. Customers configure runs and receive data through Apify without seller-operated checkout, hosting or delivery systems. The ongoing work is concentrated in maintaining data quality across external sources.
+
+The case set exposes different failure classes: Google Maps search/geography can return partial or unexpected coverage; arbitrary business websites may lack or block contact information; LinkedIn fields may change or be absent; external email/mobile finders can return no match; and enrichment stages can technically succeed while still producing data that buyers consider incomplete or low quality.
+
+This is why the requirement is **Medium-High** rather than simply Medium. In lead generation, commercial correctness is often stricter than technical run success. A product can return rows but still fail if the rows are irrelevant, duplicated, stale, poorly matched or missing the contact fields that justified the purchase.
+
+#### Cost intensity
+
+Fixed cash requirements are generally low. The cases do not depend on proprietary licensed base datasets, and Apify provides the commercial/runtime platform. The dominant costs scale with usage.
+
+At the low-depth end, Compass advertises core place extraction from about $1.50/1K and LurkAPI about $1.89/1K before discounts; the margin envelope is therefore sensitive to compute, network, proxy and retry efficiency. At the richer end, Dev Fusion charges $10/1K profiles, providing more revenue headroom but adding external email/mobile lookup costs. LurkAPI's separately charged verification, registry, LinkedIn-company and ad-activity events illustrate a useful economic pattern: **monetise expensive enrichment separately when its cost and buyer value are incremental**.
+
+Under standard Apify PPE economics, community creators receive 80% of paid event revenue before platform costs. The case-study cost scenarios are necessarily broad because actual resource consumption and external-service contracts are private. They consistently support the same conclusion: base extraction can have low direct cash cost, but enrichment depth and failed/retried lookups can materially change contribution margin.
+
+The opportunity-area requirement is therefore **Low-Medium, enrichment-sensitive** rather than uniformly low.
+
+**Opportunity-area synthesis conclusion:** Lead generation & business intelligence has a relatively accessible technical and data-entry floor, but the cases reinforce the Step 8A finding that **raw extraction is not the strongest entrant proposition**. Defensible products usually move closer to the buyer's outcome through reliable identity, deduplication, enrichment, verification, qualification or workflow-ready delivery. Those layers raise technical and operating complexity to Medium-High and can introduce material third-party cost, while Apify keeps the generic infrastructure and commerce burden low. The principal capability constraint is therefore not building an initial scraper; it is operating a dependable enrichment pipeline whose additional buyer value remains greater than its maintenance and unit cost.
+
 ## Sources
 
 ### Channel-level capability prerequisites
@@ -132,3 +197,10 @@ The requirement is therefore **Low-Medium but margin-sensitive**. A focused, eff
 - [Automation Lab LinkedIn Jobs Scraper case study](case-studies/linkedin-jobs-scraper-automation-lab.md)
 - [Vali G Indeed Jobs Scraper case study](case-studies/indeed-jobs-scraper-valig.md)
 - [Recruitment & Jobs community search pilot](../../apify-recruitment-jobs-community-search-pilot.md)
+
+### Lead generation & business intelligence
+
+- [Compass Google Maps Scraper case study](case-studies/google-maps-scraper-compass.md)
+- [LurkAPI Google Maps Business Leads Scraper case study](case-studies/google-maps-business-leads-scraper-lurkapi.md)
+- [Dev Fusion Mass LinkedIn Profile Scraper with Email case study](case-studies/linkedin-profile-scraper-dev-fusion.md)
+- Apify Docs — Pay-per-event pricing: https://docs.apify.com/actors/publishing/monetize/pay-per-event

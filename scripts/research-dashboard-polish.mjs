@@ -25,13 +25,20 @@ function addDeepDiveColumn(sectionHtml, deepDiveAreas) {
   if (!tableMatch) return sectionHtml;
 
   let table = tableMatch[0];
-  table = table.replace('<th>Trend</th>', '<th class="opportunity-score-col">Opportunity Score</th><th>Trend</th>');
+  table = table.replace('<th>Opportunity area</th>', '<th class="opportunity-score-col">Opportunity Score</th><th>Opportunity area</th>');
   table = table.replace(/(<thead><tr>[\s\S]*?)(<\/tr><\/thead>)/, '$1<th class="depth-col">Research depth</th>$2');
 
   table = table.replace(/<tr>([\s\S]*?)<\/tr>/g, (rowHtml, cellsHtml) => {
     if (/<th\b/.test(cellsHtml)) return rowHtml;
 
     const cells = cellsHtml.match(/<td[\s\S]*?<\/td>/g) ?? [];
+    let area = null;
+
+    if (cells.length > 0) {
+      const nameMatch = cells[0].match(/<td><strong>([\s\S]*?)<\/strong><\/td>/);
+      if (nameMatch) area = decodeHtml(nameMatch[1].replace(/<[^>]+>/g, '').trim());
+    }
+
     if (cells.length >= 10) {
       const scores = cells.slice(1, 8).map((cell) => {
         const text = decodeHtml(cell.replace(/<[^>]+>/g, '').trim());
@@ -39,14 +46,14 @@ function addDeepDiveColumn(sectionHtml, deepDiveAreas) {
       });
       if (scores.every(Number.isFinite)) {
         const opportunityScore = (scores.reduce((sum, score) => sum + score, 0) / scores.length).toFixed(1);
-        cells.splice(8, 0, `<td class="opportunity-score-col"><strong>${opportunityScore}</strong></td>`);
+        const numericScore = Number.parseFloat(opportunityScore);
+        const scoreBand = numericScore >= 4 ? 'high' : numericScore >= 3 ? 'mid' : 'low';
+        cells.unshift(`<td class="opportunity-score-col opportunity-score-${scoreBand}"><strong>${opportunityScore}</strong></td>`);
         cellsHtml = cells.join('');
       }
     }
 
-    const nameMatch = cellsHtml.match(/<td><strong>([\s\S]*?)<\/strong><\/td>/);
-    if (!nameMatch) return `<tr>${cellsHtml}</tr>`;
-    const area = decodeHtml(nameMatch[1].replace(/<[^>]+>/g, '').trim());
+    if (!area) return `<tr>${cellsHtml}</tr>`;
     const deepDive = deepDiveAreas.has(area);
     const marker = deepDive
       ? '<td class="depth-col"><span class="depth-badge deep">✓ Deep dive</span></td>'
@@ -81,7 +88,11 @@ function main() {
 .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(88px,1fr));gap:4px}.cap-grid{display:grid;grid-template-columns:repeat(3,minmax(100px,1fr));gap:4px}
 .metric,.cap-item{padding:4px 6px;border-radius:6px;font-size:10px;line-height:1.2;gap:4px;min-width:0}.metric span,.cap-item span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.score,.requirement{font-size:9px;min-width:21px;padding:1px 5px;flex:0 0 auto}
 .card-footer{grid-area:footer;border-top:0;border-left:1px solid var(--line);padding:1px 0 1px 13px;margin:0;display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;gap:8px;min-height:100%;font-size:10px;line-height:1.35}.card-footer span{color:var(--muted)}.open-channel{padding:6px 8px;font-size:10px;width:100%;white-space:nowrap}
-.opportunity-score-col{white-space:nowrap;text-align:center;font-variant-numeric:tabular-nums}
+th.opportunity-score-col{white-space:nowrap;text-align:center;font-variant-numeric:tabular-nums;background:var(--accent-soft);color:var(--accent);font-weight:800}
+td.opportunity-score-col{white-space:nowrap;text-align:center;font-variant-numeric:tabular-nums;font-size:14px;font-weight:800;border-right:2px solid var(--surface)}
+td.opportunity-score-high{background:var(--high-bg);color:var(--high)}
+td.opportunity-score-mid{background:var(--mid-bg);color:var(--mid)}
+td.opportunity-score-low{background:var(--low-bg);color:var(--low)}
 .depth-col{white-space:nowrap}.depth-badge{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:750;white-space:nowrap}
 .depth-badge.deep{background:var(--high-bg);color:var(--high)}.depth-badge.assessed{background:#edf1f4;color:#657180}
 .detail-depth{margin-left:8px}.insight-detail summary{display:flex;align-items:center;gap:8px}.insight-detail .summary-meta{margin-left:auto}
@@ -117,7 +128,7 @@ function main() {
   }
 
   fs.writeFileSync(HTML_REPORT, html);
-  console.log('Applied opportunity score, wide compact overview layout and deep-dive markers to research-insights-dashboard.html.');
+  console.log('Applied first-column opportunity score highlighting, wide compact overview layout and deep-dive markers to research-insights-dashboard.html.');
 }
 
 main();

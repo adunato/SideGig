@@ -32,13 +32,21 @@ Recruitment & jobs intelligence was selected because its Step 8 assessment combi
 
 The channel-level prerequisites above do not introduce a material barrier that changes that conclusion: Apify's managed runtime and commerce stack keep the common platform requirements relatively accessible, while the important remaining uncertainties are opportunity-specific and therefore appropriate for Phase 3.
 
+### Lead generation & business intelligence
+
+**Decision: Pass — selected for Phase 3 deep dive.**
+
+Lead generation & business intelligence is selected as the next opportunity area because its Step 8 assessment combines very strong paying demand and revenue potential with high production leverage and credible evidence that recent community entrants can acquire meaningful usage. Its market structure is less favourable than recruitment/jobs because major Maps, LinkedIn and enrichment products are crowded, but the area remains attractive enough to justify deeper investigation rather than being rejected at the comparison stage.
+
+The opportunity-area community research sharpens the reason for the deep dive. The strongest signal is not for another generic source scraper, but for products that convert raw source data into a more useful buyer outcome through enrichment, verification, qualification, vertical or ICP-specific targeting and workflow-ready delivery. Current entrant evidence supports that distinction, while recurring complaints about irrelevant results, incomplete contact data, email quality and price pressure show that the remaining uncertainty is precisely about **which product forms create enough additional value to overcome strong competition**.
+
+The channel-level prerequisites do not add a material barrier beyond those already understood for Apify. The unresolved questions are opportunity-specific—source choice, enrichment depth, data-quality requirements, unit economics and ongoing source maintenance—so representative case studies are the appropriate next step.
 
 ## 2. Opportunity-Area Capability Requirements
 
 Capability requirements at this level are extrapolated from representative case studies and relevant opportunity-area evidence.
 
 ### Recruitment & jobs intelligence
-
 
 **Representative case studies:**
 - [Curious Coder LinkedIn Jobs Scraper](case-studies/linkedin-jobs-scraper-curious-coder.md) — established LinkedIn jobs market benchmark.

@@ -144,7 +144,11 @@ Competition is heavy across Maps, LinkedIn, directories, email enrichment and ov
 
 ##### Community Findings
 
-<To be completed as part of Phase 2 opportunity-area community research.>
+Community evidence suggests that the useful commercial unit is usually **not raw lead scraping by itself**, but a workflow that turns source data into a more actionable prospect list. Users repeatedly combine Google Maps, LinkedIn, social profiles or directories with enrichment, filtering, scoring, deduplication and email verification because raw source results can be irrelevant, incomplete or missing usable contact information. Recent Apify products increasingly package these steps together through website crawling, email/social extraction, verification, vertical filters and CRM-ready output.
+
+There is also current evidence that differentiated entrants can gain traction despite a dominant Maps incumbent. LurkAPI's Google Maps Business Leads Scraper, launched only months ago, has accumulated roughly 2,000 total users and well over 100 monthly active users while bundling Maps extraction with website-derived emails, phones and social profiles. Narrower products are also appearing around specific buyer outcomes, such as identifying businesses without websites. The opportunity signal therefore appears strongest around **qualification, enrichment, vertical or ICP-specific targeting and workflow-ready delivery**, rather than another undifferentiated Maps or LinkedIn scraper.
+
+The main qualification is quality and cost pressure. Community discussions repeatedly mention irrelevant search results, incomplete enrichment, email validity, source instability and the need to clean or verify records before outreach. Buyers can assemble inexpensive multi-tool pipelines and compare price per lead closely, so a product must justify its margin through better quality, richer data or reduced workflow effort. These findings **retain the existing scores**: paying demand and entrant attainability remain strong, while competition and operating burden remain material.
 
 #### Advertising & marketing intelligence
 
@@ -387,3 +391,12 @@ The area-level assessment changes the interpretation of Apify materially. Strong
 52. Indeed cost-variance issue — https://apify.com/curious_coder/indeed-scraper/issues/how-are-costs-calcul-tR8eCwcrWnLh4IoRw
 53. Career-site filtering issue — https://apify.com/fantastic-jobs/career-site-job-listing-api/issues/excluding-recruitmen-N3veQkAbl7ygMdQKy
 54. Career-site remote-filter issue — https://apify.com/fantastic-jobs/career-site-job-listing-api/issues/inclusion-of-nonremo-TbDiaHqla9PMcpn7d
+
+### Lead generation & business intelligence community sources
+
+55. Lead-generation workflow and lead-quality discussion — https://www.reddit.com/r/apify/comments/1sag9uv/lead_generation_using_apify/
+56. Google Maps lead relevance / filtering discussion — https://www.reddit.com/r/LeadGeneration/comments/1khzc1v/
+57. Low-cost Maps plus enrichment pipeline — https://www.reddit.com/r/coldemail/comments/1r676eb/built_a_google_maps_lead_scraping_pipeline_for/
+58. Apify local-lead workflow / verticalisation discussion — https://www.reddit.com/r/scrapingtools/comments/1ty8o0e/a_practical_apify_local_lead_stack_maps_website/
+59. Current community entrant — Google Maps Business Leads Scraper — https://apify.com/lurkapi/google-maps-business-leads-scraper
+60. Narrow outcome example — businesses without websites — https://apify.com/lurkapi/google-maps-business-without-websites-leads-scraper

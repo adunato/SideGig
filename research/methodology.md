@@ -18,7 +18,7 @@ Capability analysis complements the market analysis. It describes what is requir
 
 Establish the common criteria used to assess commercial attractiveness consistently.
 
-The assessment framework uses seven core metrics:
+The assessment framework uses five core market-attractiveness metrics:
 
 1. **Paying demand**  
    Evidence that customers currently spend money through the channel.
@@ -35,11 +35,6 @@ The assessment framework uses seven core metrics:
 5. **Competitive pressure**  
    How difficult it is to create an offering that buyers will choose over existing alternatives.
 
-6. **Production leverage**  
-   Whether software development, automation and AI can provide a material production advantage.
-
-7. **Operating burden**  
-   The ongoing maintenance, support, infrastructure, customer-service and other commitments required to earn revenue.
 
 Two supporting assessments are also recorded:
 
@@ -134,8 +129,6 @@ Each channel is assessed on:
 3. New-entrant attainability
 4. Revenue potential
 5. Competitive pressure
-6. Production leverage
-7. Operating burden
 
 Each metric records:
 
@@ -351,7 +344,7 @@ If a material opportunity area is discovered later during assessment, it should 
 
 ## Step 8 — Assess Opportunity Areas
 
-Assess every discovered opportunity area using the **same assessment framework used for channels**.
+Assess every discovered opportunity area using the **same five market-attractiveness metrics used for channels**. Capability requirements are deliberately excluded from this score and are assessed separately when the opportunity area proceeds to Phase 3.
 
 Each opportunity area is assessed on:
 
@@ -360,8 +353,6 @@ Each opportunity area is assessed on:
 3. **New-entrant attainability**
 4. **Revenue potential**
 5. **Competitive pressure**
-6. **Production leverage**
-7. **Operating burden**
 
 Each metric records:
 
@@ -591,15 +582,13 @@ Synthesize the representative case studies back to the opportunity area as a who
 
 Use the case-study evidence to test and refine the existing opportunity-area assessment from Step 8 and the community findings from Step 8A.
 
-For the seven market-attractiveness metrics:
+For the five market-attractiveness metrics:
 
 1. Paying demand
 2. Opportunity density
 3. New-entrant attainability
 4. Revenue potential
 5. Competitive pressure
-6. Production leverage
-7. Operating burden
 
 identify any case-study evidence that materially strengthens, weakens, qualifies or contradicts the existing assessment. Update scores, confidence or narrative only where the new evidence warrants a change. If the existing assessment remains supported, record that conclusion rather than forcing a revision.
 
@@ -614,6 +603,8 @@ Synthesize the representative case studies to describe the capability requiremen
 3. Data / resource access
 4. Operating complexity
 5. Cost intensity
+
+Score each dimension explicitly from **1 to 5**, where **1 = Low requirement**, **2 = Low-Medium**, **3 = Medium**, **4 = Medium-High** and **5 = High requirement**. The **Capability Score** is the arithmetic mean of the five dimension scores, shown to one decimal place. A higher Capability Score therefore means a more demanding capability/resource profile; unlike the market-attractiveness scores, higher is not better.
 
 Distinguish requirements that appear broadly necessary across the area from those that are specific to individual cases, sources, implementations or business models.
 

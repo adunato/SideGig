@@ -32,8 +32,6 @@ const CHANNEL_METRICS = [
   'New-entrant attainability',
   'Revenue potential',
   'Competitive pressure',
-  'Production leverage',
-  'Operating burden',
 ];
 
 const CAPABILITY_DIMENSIONS = [

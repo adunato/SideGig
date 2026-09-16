@@ -22,8 +22,6 @@ A higher score always means a more attractive condition for this research object
 | New-entrant attainability |  |  |  |
 | Revenue potential |  |  |  |
 | Competitive pressure |  |  |  |
-| Production leverage |  |  |  |
-| Operating burden |  |  |  |
 
 **Trend:** <Growing / Stable / Declining / Unclear>  
 **Overall evidence confidence:** <High / Medium / Low>
@@ -75,23 +73,23 @@ A higher score always means a more attractive condition for this research object
 
 *Methodology mapping: Phase 2, Steps 8 and 8A — assess opportunity areas and run opportunity-area community research.*
 
-The same seven metrics used for channel assessment are applied at the narrower opportunity-area level. `H`, `M` and `L` indicate High, Medium and Low confidence in the individual score.
+The same five market-attractiveness metrics used for channel assessment are applied at the narrower opportunity-area level. Capability requirements are assessed separately. `H`, `M` and `L` indicate High, Medium and Low confidence in the individual score.
 
 ### 5.1 Comparison
 
-| Opportunity area | Paying demand | Opportunity density | New-entrant attainability | Revenue potential | Competitive pressure | Production leverage | Operating burden | Trend | Overall confidence |
-|---|---:|---:|---:|---:|---:|---:|---:|---|---|
-| <Opportunity area> |  |  |  |  |  |  |  |  |  |
-| <Opportunity area> |  |  |  |  |  |  |  |  |  |
+| Opportunity area | Paying demand | Opportunity density | New-entrant attainability | Revenue potential | Competitive pressure | Trend | Overall confidence |
+|---|---:|---:|---:|---:|---:|---|---|
+| <Opportunity area> |  |  |  |  |  |  |  |
+| <Opportunity area> |  |  |  |  |  |  |  |
 
 ### 5.2 Assessment by opportunity area
 
 #### <Opportunity area>
 
-**Assessment:** Demand <score/confidence> · Density <score/confidence> · Entrant attainability <score/confidence> · Revenue <score/confidence> · Competition <score/confidence> · Production leverage <score/confidence> · Operating burden <score/confidence>  
+**Assessment:** Demand <score/confidence> · Density <score/confidence> · Entrant attainability <score/confidence> · Revenue <score/confidence> · Competition <score/confidence>  
 **Trend:** <Trend> · **Overall confidence:** <Confidence>
 
-<Present the evidence and interpretation as a coherent narrative. Cover the seven metrics without reproducing a separate seven-row table. Focus on demand, supply/competition, entrant evidence, revenue economics, production leverage, operating characteristics and important uncertainties.>
+<Present the evidence and interpretation as a coherent narrative. Cover the five market metrics without reproducing a separate table. Focus on demand, supply/competition, entrant evidence, revenue economics and important uncertainties. Capability and operating complexity belong in capability analysis.>
 
 ##### Community Findings
 
@@ -103,7 +101,7 @@ The same seven metrics used for channel assessment are applied at the narrower o
 
 ## 6. Cross-Area Findings
 
-<Synthesise patterns that become visible only after comparing all opportunity areas. Examples include where demand is strongest, where entrant attainability differs materially, where competition or operating burden changes the attractiveness of otherwise large markets, and any other cross-area pattern supported by the completed assessment.>
+<Synthesise patterns that become visible only after comparing all opportunity areas. Examples include where demand is strongest, where entrant attainability differs materially, where competitive structure changes the attractiveness of otherwise large markets, and any other cross-area pattern supported by the completed assessment.>
 
 Do not introduce specific product recommendations in this section.
 

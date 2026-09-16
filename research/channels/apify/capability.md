@@ -42,6 +42,16 @@ The opportunity-area community research sharpens the reason for the deep dive. T
 
 The channel-level prerequisites do not add a material barrier beyond those already understood for Apify. The unresolved questions are opportunity-specific—source choice, enrichment depth, data-quality requirements, unit economics and ongoing source maintenance—so representative case studies are the appropriate next step.
 
+### News & media intelligence
+
+**Decision: Pass — selected for Phase 3 deep dive.**
+
+News & media intelligence is selected as a deliberate contrast case. Its market assessment is respectable rather than dominant—Opportunity Score **3.6**—but it combines good opportunity density and new-entrant attainability with evidence that commercially useful products can be built on lightweight public feeds and HTTP extraction.
+
+The Step 8A community research reinforces that rationale. Users commonly begin with RSS or Google News feeds and add canonical-URL resolution or article extraction only where the buyer workflow needs it. The remaining uncertainty is therefore whether this simpler delivery model still supports sufficient paid demand and whether operating complexity stays materially below the two areas already deep-dived.
+
+The channel-level prerequisites do not create a barrier to testing that question. Representative case studies are appropriate to establish the actual capability profile and revenue depth.
+
 ## 2. Opportunity-Area Capability Requirements
 
 Capability requirements at this level are extrapolated from representative case studies and relevant opportunity-area evidence.
@@ -186,6 +196,67 @@ The opportunity-area requirement is therefore **Low-Medium, enrichment-sensitive
 
 **Opportunity-area synthesis conclusion:** Lead generation & business intelligence has a relatively accessible technical and data-entry floor, but the cases reinforce the Step 8A finding that **raw extraction is not the strongest entrant proposition**. Defensible products usually move closer to the buyer's outcome through reliable identity, deduplication, enrichment, verification, qualification or workflow-ready delivery. Those layers raise technical and operating complexity to Medium-High and can introduce material third-party cost, while Apify keeps the generic infrastructure and commerce burden low. The principal capability constraint is therefore not building an initial scraper; it is operating a dependable enrichment pipeline whose additional buyer value remains greater than its maintenance and unit cost.
 
+### News & media intelligence
+
+**Representative case studies:**
+- [EasyApi Google News Scraper](case-studies/google-news-scraper-easyapi.md) — established paid Google News benchmark with multi-year history, thousands of users and visible reliability issues.
+- [Crawler Bros Google News Scraper](case-studies/google-news-scraper-crawlerbros.md) — recent entrant with strong active-user traction, low per-result pricing and optional full-text extraction.
+- [Automation Lab RSS Feed Reader](case-studies/rss-feed-reader-automation-lab.md) — lower-complexity feed product that tests the simplest commercially useful end of the opportunity area.
+
+The case set covers an established Google News incumbent, a recent direct challenger and a simpler RSS-native product. Together they provide enough variation to separate common news-monitoring requirements from complexity introduced by richer full-text extraction or a particular provider implementation.
+
+| Dimension | Score (1–5) | Opportunity-area requirement | Evidence / basis | Confidence |
+|---|---:|---|---|---|
+| Technical complexity | **2** | **Low-Medium** | Useful products can be built on public RSS/Google News feeds with straightforward HTTP parsing, filtering and structured output. Complexity rises when resolving redirects or extracting full text across arbitrary publishers, but that is an optional product-depth choice rather than a universal requirement. | High |
+| Domain expertise | **2** | **Low-Medium** | Sellers need practical knowledge of news-search queries, publisher/source identity, recency, locales, deduplication and monitoring workflows, but the cases do not require scarce editorial or industry expertise. | High |
+| Data / resource access | **1** | **Low** | Core inputs are public Google News/RSS feeds and public publisher pages. The representative cases require no proprietary dataset, customer credentials or paid external data source as a general prerequisite. | High |
+| Operating complexity | **2** | **Low-Medium** | RSS/feed products are low-touch; Google News products still need monitoring for redirect/schema changes and occasional zero-result failures. Full-text extraction adds publisher variability, but the common baseline remains materially lighter than source-heavy lead or jobs products. | Medium-High |
+| Cost intensity | **1** | **Low** | Fixed costs are minimal and lightweight feed/HTTP extraction can avoid browser and proxy spend. Platform compute/storage remain variable costs, but no material licensed-data or external-enrichment cost is intrinsic to the area. | High |
+
+**Capability Score: 1.6 / 5**
+
+#### Technical complexity
+
+The cases establish a low technical floor. Automation Lab's RSS Feed Reader primarily fetches standard RSS/Atom formats and normalises common metadata fields. Google News also exposes feed/search surfaces that can be consumed without a browser. This makes useful keyword monitoring, feed aggregation and structured article discovery achievable with ordinary HTTP parsing, filtering, pagination/item limits and dataset output.
+
+The main complexity boundary is **enrichment depth**. Crawler Bros adds canonical URLs, images and full article text; community discussions show that Google News redirect resolution and arbitrary publisher extraction can require additional parsing/fallback logic. Those features can move an individual product toward Medium complexity, but they are not required for every commercially useful news-monitoring product.
+
+The opportunity-area requirement is therefore **Low-Medium (2)**.
+
+#### Domain expertise
+
+A credible product needs to understand how buyers search and monitor news: query syntax, keywords, date windows, language/country selection, publisher identity, duplicate stories, freshness and the difference between article metadata and full text. Those decisions matter to usability, especially for PR, research and competitive-monitoring workflows.
+
+However, none of the representative cases depends on specialist editorial credentials, proprietary taxonomies or deep regulated-domain knowledge. The required expertise is learnable product/source knowledge rather than scarce subject-matter expertise.
+
+The requirement is **Low-Medium (2)**.
+
+#### Data / resource access
+
+This is the strongest capability advantage of the area. Google News/RSS and publisher feeds are public inputs, and the RSS case explicitly operates on arbitrary public feed URLs. Crawler Bros advertises operation without proxies, while the benchmark Google News products require no private customer account or licensed data asset as part of their public value proposition.
+
+Full-text extraction can encounter publisher blocking or paywalls, but that is a target-specific extension rather than a prerequisite for entering the area. Apify supplies the runtime, datasets, scheduling, API and billing layer.
+
+The requirement is therefore **Low (1)**.
+
+#### Operating complexity
+
+The lightweight end of the area is comparatively low-touch. Standard feeds change less frequently than aggressively protected social, jobs or ecommerce interfaces, and a feed parser can support many publishers without a dedicated connector for each one.
+
+There is still real maintenance. EasyApi's issue history includes temporary zero-result and outage reports, and community users describe Google News wrapped links breaking naive downstream extraction. Full-text products must also handle publisher HTML variation, missing fields and occasional blocking. These are meaningful but narrower failure modes than the multi-source enrichment and identity-quality problems seen in lead generation.
+
+The resulting requirement is **Low-Medium (2)**, with the important caveat that a product promising universal full-text extraction can become materially harder to operate than a feed/metadata product.
+
+#### Cost intensity
+
+The cases show low fixed cash requirements. Automation Lab prices RSS parsing at a small start fee plus roughly $0.001 per item, and Crawler Bros prices Google News around $1 per 1,000 results while advertising no proxy requirement. The common delivery path does not inherently require licensed datasets, external enrichment APIs or browser-heavy infrastructure.
+
+Under Apify PPE/PPR economics, creators retain 80% of charge revenue before applicable platform usage costs. Efficient feed/HTTP products should therefore be able to operate with low direct unit cost, although exact creator margins are private and depend on compute, storage, transfer and the proportion of free-plan usage.
+
+The area is assessed **Low (1)** for cost intensity.
+
+**Opportunity-area synthesis conclusion:** News & media intelligence provides the lower-capability contrast sought by the project. Its **1.6 Capability Score** is materially below Recruitment & jobs (**2.8**) and Lead generation & business intelligence (**3.2**). The reason is structural: public feeds, simple HTTP access and low external-resource requirements allow a commercially useful product to remain narrow and lightweight. The trade-off is commercial rather than capability-driven: absolute demand and revenue depth are weaker and less certain than in the two higher-scoring opportunity areas. A low-capability strategy should therefore favour monitoring, feed aggregation, canonical-URL resolution or narrowly valuable enrichment rather than universal browser-based article extraction.
+
 ## Sources
 
 ### Channel-level capability prerequisites
@@ -210,3 +281,12 @@ The opportunity-area requirement is therefore **Low-Medium, enrichment-sensitive
 - [LurkAPI Google Maps Business Leads Scraper case study](case-studies/google-maps-business-leads-scraper-lurkapi.md)
 - [Dev Fusion Mass LinkedIn Profile Scraper with Email case study](case-studies/linkedin-profile-scraper-dev-fusion.md)
 - Apify Docs — Pay-per-event pricing: https://docs.apify.com/actors/publishing/monetize/pay-per-event
+
+
+### News & media intelligence
+
+- [EasyApi Google News Scraper case study](case-studies/google-news-scraper-easyapi.md)
+- [Crawler Bros Google News Scraper case study](case-studies/google-news-scraper-crawlerbros.md)
+- [Automation Lab RSS Feed Reader case study](case-studies/rss-feed-reader-automation-lab.md)
+- Apify News category — https://apify.com/store/categories/news
+- Apify Docs — Actor pricing and costs — https://docs.apify.com/actors/publishing/monetize/pricing-and-costs

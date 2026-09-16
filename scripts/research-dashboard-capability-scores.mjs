@@ -20,6 +20,15 @@ function escRegex(value) {
   return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function encodeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
 function decodeHtml(value) {
   return String(value)
     .replaceAll('&amp;', '&')
@@ -116,7 +125,8 @@ function updateCapabilitySynthesis(sectionHtml, capabilityData) {
 
   for (const [area, data] of capabilityData.entries()) {
     const cls = capabilityScoreClass(data.overall);
-    const areaEscaped = escRegex(area);
+    const areaHtml = encodeHtml(area);
+    const areaEscaped = escRegex(areaHtml);
     const blockPattern = new RegExp(`(<details class="insight-detail"><summary><span>${areaEscaped}<\\/span><span class="summary-meta">Capability synthesis<\\/span><\\/summary><div class="detail-body">)([\\s\\S]*?)(<\\/div><\\/details>)`);
     const match = out.match(blockPattern);
     if (!match) continue;
@@ -141,7 +151,7 @@ function updateCapabilitySynthesis(sectionHtml, capabilityData) {
       body = body.replace(tableMatch[0], table);
     }
 
-    const replacement = `<details class="insight-detail"><summary><span>${area}</span><span class="summary-meta">Capability synthesis <span class="capability-score-pill capability-score-${cls}">Score ${data.overall}</span></span></summary><div class="detail-body">${body}</div></details>`;
+    const replacement = `<details class="insight-detail"><summary><span>${areaHtml}</span><span class="summary-meta">Capability synthesis <span class="capability-score-pill capability-score-${cls}">Score ${data.overall}</span></span></summary><div class="detail-body">${body}</div></details>`;
     out = out.replace(blockPattern, replacement);
   }
 

@@ -1,3 +1,3 @@
 Validation trigger. Update this file only for an explicit on-demand validation run.
 
-run: 2026-09-16-explicit-capability-scores-v2
+run: 2026-09-16-news-media-deep-dive-final

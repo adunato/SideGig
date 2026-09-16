@@ -111,11 +111,14 @@ function rebuildOpportunityTable(table, deepDiveAreas, capabilityScores) {
   const keepIndexes = originalHeaders
     .map((header, index) => ({ header, index }))
     .filter(({ header }) => !REMOVED_MARKET_METRICS.has(header));
+  const areaColumn = keepIndexes.find(({ header }) => header === 'Opportunity area');
+  const remainingColumns = keepIndexes.filter(({ header }) => header !== 'Opportunity area');
 
   const finalHeaders = [
     '<th class="opportunity-score-col">Opportunity Score</th>',
-    ...keepIndexes.map(({ header }) => `<th>${header}</th>`),
-    '<th class="capability-score-col">Capability Score</th>',
+    areaColumn ? '<th>Opportunity area</th>' : '',
+    '<th class="capability-score-col" title="1 = lower capability requirement; 5 = higher capability requirement">Capability Score</th>',
+    ...remainingColumns.map(({ header }) => `<th>${header}</th>`),
     '<th class="depth-col">Research depth</th>',
   ].join('');
 
@@ -127,7 +130,8 @@ function rebuildOpportunityTable(table, deepDiveAreas, capabilityScores) {
     const cells = rowHtml.match(/<td[\s\S]*?<\/td>/g) ?? [];
     if (!cells.length) return rowHtml;
 
-    const area = plainText(cells[0]);
+    const areaIndex = originalHeaders.indexOf('Opportunity area');
+    const area = areaIndex >= 0 && cells[areaIndex] ? plainText(cells[areaIndex]) : '';
     const scoreValues = MARKET_METRICS.map((metric) => {
       const index = originalHeaders.indexOf(metric);
       if (index < 0 || !cells[index]) return NaN;
@@ -138,7 +142,6 @@ function rebuildOpportunityTable(table, deepDiveAreas, capabilityScores) {
       : '—';
     const opportunityClass = opportunityScore === '—' ? 'na' : opportunityScoreClass(opportunityScore);
 
-    const keptCells = keepIndexes.map(({ index }) => cells[index]).filter(Boolean);
     const capabilityScore = capabilityScores.get(area) ?? '—';
     const capabilityClass = capabilityScoreClass(capabilityScore);
     const deepDive = deepDiveAreas.has(area);
@@ -146,7 +149,10 @@ function rebuildOpportunityTable(table, deepDiveAreas, capabilityScores) {
       ? '<td class="depth-col"><span class="depth-badge deep">✓ Deep dive</span></td>'
       : '<td class="depth-col"><span class="depth-badge assessed">Assessment only</span></td>';
 
-    return `<tr><td class="opportunity-score-col opportunity-score-${opportunityClass}"><strong>${opportunityScore}</strong></td>${keptCells.join('')}<td class="capability-score-col capability-score-${capabilityClass}"><strong>${capabilityScore}</strong></td>${marker}</tr>`;
+    const areaCell = areaColumn && cells[areaColumn.index] ? cells[areaColumn.index] : '';
+    const remainingCells = remainingColumns.map(({ index }) => cells[index]).filter(Boolean).join('');
+
+    return `<tr><td class="opportunity-score-col opportunity-score-${opportunityClass}"><strong>${opportunityScore}</strong></td>${areaCell}<td class="capability-score-col capability-score-${capabilityClass}"><strong>${capabilityScore}</strong></td>${remainingCells}${marker}</tr>`;
   }).join('');
 
   return table
@@ -175,6 +181,16 @@ function removeMarketMetricsFromDashboard(html) {
     html = html.replace(new RegExp(`<tr><td><strong>${escaped}<\\/strong><\\/td>[\\s\\S]*?<\\/tr>`, 'g'), '');
     html = html.replace(new RegExp(`\\s*·\\s*${escaped}[^·<]*`, 'gi'), '');
   }
+
+  html = html.replace(
+    /Production leverage is exceptionally high, but the evidence does not currently show that generic community entrants capture demand easily\./gi,
+    '',
+  );
+  html = html.replace(/Operating burden is also high because /gi, 'Ongoing maintenance is substantial because ');
+  html = html.replace(/operating burden remain material/gi, 'ongoing reliability demands remain material');
+  html = html.replace(/keep operating burden material/gi, 'create ongoing reliability demands');
+  html = html.replace(/<li><p><strong>Operating burden varies within an area\.<\/strong>[\s\S]*?<\/p><\/li>/gi, '');
+
   return html;
 }
 

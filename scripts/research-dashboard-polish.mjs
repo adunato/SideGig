@@ -57,12 +57,16 @@ function capabilityScoresForChannel(slug) {
 
   const scores = new Map();
   const section = sectionMatch[1];
-  const areaRegex = /^### (.+)\s*$([\s\S]*?)(?=^### |\z)/gm;
-  let match;
-  while ((match = areaRegex.exec(section)) !== null) {
-    const area = match[1].trim();
-    const body = match[2];
+  const areaMatches = [...section.matchAll(/^### (.+)\s*$/gm)];
+
+  for (let i = 0; i < areaMatches.length; i += 1) {
+    const areaMatch = areaMatches[i];
+    const area = areaMatch[1].trim();
+    const bodyStart = areaMatch.index + areaMatch[0].length;
+    const bodyEnd = i + 1 < areaMatches.length ? areaMatches[i + 1].index : section.length;
+    const body = section.slice(bodyStart, bodyEnd);
     const values = [];
+
     for (const dimension of [
       'Technical complexity',
       'Domain expertise',
@@ -74,10 +78,12 @@ function capabilityScoresForChannel(slug) {
       const level = row ? capabilityLevel(row[1]) : null;
       if (level !== null) values.push(level);
     }
+
     if (values.length === 5) {
       scores.set(area, (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1));
     }
   }
+
   return scores;
 }
 

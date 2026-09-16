@@ -28,7 +28,7 @@ These requirements apply to operating through Apify Store regardless of the spec
 
 **Decision: Pass — selected for Phase 3 deep dive.**
 
-Recruitment & jobs intelligence was selected because its Step 8 assessment combined strong paying demand, relatively favourable opportunity density and entrant attainability, credible revenue potential and high evidence confidence without the extreme competition or operating burden seen in several other high-demand Apify areas. Community research also identified concrete unresolved source, coverage, freshness, deduplication and delivery problems that justified deeper case-study investigation.
+Recruitment & jobs intelligence was selected because its Step 8 assessment combined strong paying demand, relatively favourable opportunity density and entrant attainability, credible revenue potential and high evidence confidence. Community research also identified concrete unresolved source, coverage, freshness, deduplication and delivery problems that justified deeper case-study investigation.
 
 The channel-level prerequisites above do not introduce a material barrier that changes that conclusion: Apify's managed runtime and commerce stack keep the common platform requirements relatively accessible, while the important remaining uncertainties are opportunity-specific and therefore appropriate for Phase 3.
 
@@ -36,7 +36,7 @@ The channel-level prerequisites above do not introduce a material barrier that c
 
 **Decision: Pass — selected for Phase 3 deep dive.**
 
-Lead generation & business intelligence is selected as the next opportunity area because its Step 8 assessment combines very strong paying demand and revenue potential with high production leverage and credible evidence that recent community entrants can acquire meaningful usage. Its market structure is less favourable than recruitment/jobs because major Maps, LinkedIn and enrichment products are crowded, but the area remains attractive enough to justify deeper investigation rather than being rejected at the comparison stage.
+Lead generation & business intelligence is selected as the next opportunity area because its Step 8 assessment combines very strong paying demand and revenue potential with credible evidence that recent community entrants can acquire meaningful usage. Its market structure is less favourable than recruitment/jobs because major Maps, LinkedIn and enrichment products are crowded, but the area remains attractive enough to justify deeper investigation rather than being rejected at the comparison stage.
 
 The opportunity-area community research sharpens the reason for the deep dive. The strongest signal is not for another generic source scraper, but for products that convert raw source data into a more useful buyer outcome through enrichment, verification, qualification, vertical or ICP-specific targeting and workflow-ready delivery. Current entrant evidence supports that distinction, while recurring complaints about irrelevant results, incomplete contact data, email quality and price pressure show that the remaining uncertainty is precisely about **which product forms create enough additional value to overcome strong competition**.
 
@@ -45,6 +45,8 @@ The channel-level prerequisites do not add a material barrier beyond those alrea
 ## 2. Opportunity-Area Capability Requirements
 
 Capability requirements at this level are extrapolated from representative case studies and relevant opportunity-area evidence.
+
+Each capability dimension is explicitly scored from **1 to 5**, where **1 = Low**, **2 = Low-Medium**, **3 = Medium**, **4 = Medium-High** and **5 = High** requirement. The **Capability Score** is the arithmetic mean of the five dimension scores, shown to one decimal place. Higher scores mean a more demanding capability/resource profile; this is not an attractiveness score.
 
 ### Recruitment & jobs intelligence
 
@@ -55,13 +57,15 @@ Capability requirements at this level are extrapolated from representative case 
 
 The three cases provide enough variation for an initial opportunity-area synthesis: a mature premium LinkedIn incumbent, a lean low-cost LinkedIn entrant, and an established high-volume Indeed provider. Community evidence adds source/coverage gaps, buyer quality requirements and operating problems that are not fully visible from Store metrics alone.
 
-| Dimension | Opportunity-area requirement | Evidence / basis | Confidence |
-|---|---|---|---|
-| Technical complexity | **Medium** | A credible single-source product can be built with lightweight HTTP extraction, but commercial quality requires search/filter semantics, pagination, completeness, deduplication, normalization and adaptation to source changes. Multi-source/ATS aggregation raises complexity further. | High |
-| Domain expertise | **Medium** | Requires source-specific jobs/search knowledge and enough recruitment/labour-market understanding to expose useful fields, freshness, geography, salary, skills and employer data; deep HR expertise is not generally required. | High |
-| Data / resource access | **Low-Medium** | Core data is generally public and no proprietary dataset is required in the representative cases. Apify supplies generic runtime, storage, APIs, scheduling and billing, but reliable source access may require proxies, geography-specific routing or source-specific endpoints. | High |
-| Operating complexity | **Medium-High** | Commercial delivery is low-touch on Apify, but source changes, blocking, incomplete results, filter errors, duplicates, freshness and multi-connector maintenance create recurring operational work. Burden varies materially by source. | High |
-| Cost intensity | **Low-Medium, margin-sensitive** | Fixed infrastructure requirements are low because Apify supplies the platform and source data is public. Variable compute/proxy/retry costs can materially affect margin, especially for very low-priced Actors. | Medium-High |
+| Dimension | Score (1–5) | Opportunity-area requirement | Evidence / basis | Confidence |
+|---|---:|---|---|---|
+| Technical complexity | **3** | **Medium** | A credible single-source product can be built with lightweight HTTP extraction, but commercial quality requires search/filter semantics, pagination, completeness, deduplication, normalization and adaptation to source changes. Multi-source/ATS aggregation raises complexity further. | High |
+| Domain expertise | **3** | **Medium** | Requires source-specific jobs/search knowledge and enough recruitment/labour-market understanding to expose useful fields, freshness, geography, salary, skills and employer data; deep HR expertise is not generally required. | High |
+| Data / resource access | **2** | **Low-Medium** | Core data is generally public and no proprietary dataset is required in the representative cases. Apify supplies generic runtime, storage, APIs, scheduling and billing, but reliable source access may require proxies, geography-specific routing or source-specific endpoints. | High |
+| Operating complexity | **4** | **Medium-High** | Commercial delivery is low-touch on Apify, but source changes, blocking, incomplete results, filter errors, duplicates, freshness and multi-connector maintenance create recurring operational work. Burden varies materially by source. | High |
+| Cost intensity | **2** | **Low-Medium, margin-sensitive** | Fixed infrastructure requirements are low because Apify supplies the platform and source data is public. Variable compute/proxy/retry costs can materially affect margin, especially for very low-priced Actors. | Medium-High |
+
+**Capability Score: 2.8 / 5**
 
 #### Technical complexity
 
@@ -124,13 +128,15 @@ The requirement is therefore **Low-Medium but margin-sensitive**. A focused, eff
 
 The cases deliberately span three important forms of the opportunity: commodity-to-mature business/location extraction, a recent workflow-oriented enriched entrant, and higher-value person/contact enrichment. Together they distinguish what is intrinsic to lead-generation data products from choices specific to Google Maps, LinkedIn or a particular enrichment stack.
 
-| Dimension | Opportunity-area requirement | Evidence / basis | Confidence |
-|---|---|---|---|
-| Technical complexity | **Medium-High** | Raw source extraction can be moderate, but commercially useful products add geographic/search semantics, deduplication, normalization, website crawling, contact enrichment, verification, retries and stable schemas. | High |
-| Domain expertise | **Medium** | Providers need source-specific knowledge plus practical understanding of prospect identity, qualification and which fields make data useful for sales/research workflows; scarce specialist expertise is not evident. | High |
-| Data / resource access | **Medium** | Core Maps/LinkedIn/business-web data can be sourced publicly and Apify supplies infrastructure, but richer products may require proxies plus third-party email/mobile, registry or verification services. | High |
-| Operating complexity | **Medium-High** | Commercial delivery is self-service, but source changes, geographic/search completeness, heterogeneous websites, contact match rates and external enrichment dependencies require ongoing quality and reliability work. | High |
-| Cost intensity | **Low-Medium, enrichment-sensitive** | Fixed costs are low; variable compute/network/proxy and third-party enrichment costs matter. Unit prices range from roughly $1.50-$1.89/1K businesses to $10/1K enriched LinkedIn profiles, so margin depends strongly on product depth and source efficiency. | Medium-High |
+| Dimension | Score (1–5) | Opportunity-area requirement | Evidence / basis | Confidence |
+|---|---:|---|---|---|
+| Technical complexity | **4** | **Medium-High** | Raw source extraction can be moderate, but commercially useful products add geographic/search semantics, deduplication, normalization, website crawling, contact enrichment, verification, retries and stable schemas. | High |
+| Domain expertise | **3** | **Medium** | Providers need source-specific knowledge plus practical understanding of prospect identity, qualification and which fields make data useful for sales/research workflows; scarce specialist expertise is not evident. | High |
+| Data / resource access | **3** | **Medium** | Core Maps/LinkedIn/business-web data can be sourced publicly and Apify supplies infrastructure, but richer products may require proxies plus third-party email/mobile, registry or verification services. | High |
+| Operating complexity | **4** | **Medium-High** | Commercial delivery is self-service, but source changes, geographic/search completeness, heterogeneous websites, contact match rates and external enrichment dependencies require ongoing quality and reliability work. | High |
+| Cost intensity | **2** | **Low-Medium, enrichment-sensitive** | Fixed costs are low; variable compute/network/proxy and third-party enrichment costs matter. Unit prices range from roughly $1.50-$1.89/1K businesses to $10/1K enriched LinkedIn profiles, so margin depends strongly on product depth and source efficiency. | Medium-High |
+
+**Capability Score: 3.2 / 5**
 
 #### Technical complexity
 

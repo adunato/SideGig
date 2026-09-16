@@ -38,7 +38,9 @@ jobs:
 
       - name: Validate research documents
         continue-on-error: true
-        run: npm run validate:research
+        run: |
+          set -o pipefail
+          npm run validate:research 2>&1 | tee validation-report.txt
 
       - name: Generate progress report
         run: npm run report:research

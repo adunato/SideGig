@@ -152,7 +152,7 @@ function updateCapabilitySynthesis(sectionHtml, capabilityData) {
     }
 
     const replacement = `<details class="insight-detail"><summary><span>${areaHtml}</span><span class="summary-meta">Capability synthesis <span class="capability-score-pill capability-score-${cls}">Score ${data.overall}</span></span></summary><div class="detail-body">${body}</div></details>`;
-    out = out.replace(blockPattern, replacement);
+    out = out.replace(blockPattern, () => replacement);
   }
 
   return out;

@@ -42,6 +42,16 @@ Record each Gateway 2 decision once the opportunity-area assessment, opportunity
 
 Include an opportunity area here only after it has passed Gateway 2 and its representative case studies have been completed. Capability requirements must be extrapolated from the representative cases and should distinguish broadly necessary requirements from case-specific choices.
 
+Each capability dimension is explicitly scored from **1 to 5**, where a higher score means a **more demanding capability/resource requirement**:
+
+- **1 = Low**
+- **2 = Low-Medium**
+- **3 = Medium**
+- **4 = Medium-High**
+- **5 = High**
+
+The **Capability Score** is the arithmetic mean of the five dimension scores, shown to one decimal place. It summarises delivery difficulty/resource demand; it is not an attractiveness score.
+
 ### <Opportunity Area>
 
 **Representative case studies:**
@@ -50,13 +60,15 @@ Include an opportunity area here only after it has passed Gateway 2 and its repr
 
 <Briefly explain why the case set provides sufficient coverage for an initial opportunity-area synthesis.>
 
-| Dimension | Opportunity-area requirement | Evidence / basis | Confidence |
-|---|---|---|---|
-| Technical complexity |  |  |  |
-| Domain expertise |  |  |  |
-| Data / resource access |  |  |  |
-| Operating complexity |  |  |  |
-| Cost intensity |  |  |  |
+| Dimension | Score (1–5) | Opportunity-area requirement | Evidence / basis | Confidence |
+|---|---:|---|---|---|
+| Technical complexity |  |  |  |  |
+| Domain expertise |  |  |  |  |
+| Data / resource access |  |  |  |  |
+| Operating complexity |  |  |  |  |
+| Cost intensity |  |  |  |  |
+
+**Capability Score:** <Average of the five scores, one decimal place> / 5
 
 #### Technical complexity
 

@@ -246,7 +246,72 @@ The decision is recorded in `implementation/<channel>/prerequisites-validation.m
 
 ## Step 3 — Select the POC Opportunity
 
-Select the opportunity to use for the first commercial implementation experiment using the existing opportunity research and implementation-specific considerations.
+### Purpose
+
+Select one concrete commercial opportunity to carry into POC definition using the existing research evidence and the implementation evidence established in Phase 1.
+
+This step narrows the research from broad opportunity areas and representative cases to a specific opportunity suitable for a first commercial implementation experiment. The selected opportunity must therefore be more specific than an opportunity-area label, but it does not yet require the full problem, target-user, value-proposition, scope or success-criteria definition produced in Step 4.
+
+Step 3 is an implementation decision, not a second research phase. It must reuse the existing market and capability research rather than re-score the channel or repeat opportunity-area assessment.
+
+### Inputs
+
+Use:
+
+- the completed `implementation/<channel>/prerequisites-validation.md` artifact with Gateway 1 recorded as **Pass**;
+- the selected channel's opportunity-area assessment and research gateway decisions;
+- opportunity-area capability requirements and representative case-study findings;
+- relevant community findings and identified buyer problems or product gaps;
+- project constraints and any opportunity-specific implications of deferred requirements recorded during Phase 1;
+- Phase 1 technical evidence where it materially affects the practicality of a candidate opportunity.
+
+Candidates should normally come from opportunity areas already selected for deeper investigation by the research methodology. If a candidate depends on a material commercial assumption that the existing research does not support, that gap should be resolved through the research methodology rather than by expanding Step 3 into new market research.
+
+### Candidate selection method
+
+Form a small set of concrete opportunities that are plausible contenders for the first POC. The candidate set does not need to reproduce every opportunity area previously researched; it should contain only opportunities with enough existing evidence to merit an implementation decision.
+
+Compare candidates qualitatively using the considerations that matter specifically when choosing a first POC:
+
+- **Commercial evidence** — whether the existing research establishes a credible buyer problem, paying demand or valuable outcome;
+- **Differentiation / unresolved need** — whether the opportunity has a specific value angle or unresolved problem rather than being an undifferentiated clone of an established product;
+- **POC testability** — whether the core proposition can be tested with a deliberately bounded implementation rather than requiring a near-production product before useful evidence can be obtained;
+- **Implementation considerations** — material source/access dependencies, external services, operating burden, cost exposure, legal or platform constraints, and compatibility with project constraints;
+- **Learning value** — whether a POC would resolve a material commercial, technical or operating uncertainty relevant to deciding whether the opportunity should progress.
+
+No mandatory numeric scoring is used in Step 3. Existing research scores are evidence inputs and should not be recalculated into a second attractiveness model.
+
+Each candidate must use one of the following decisions:
+
+- **Selected** — chosen for Step 4 POC definition;
+- **Deferred** — remains viable but is not the first POC;
+- **Not selected** — not being carried forward in the current implementation cycle.
+
+Exactly one candidate may be **Selected** when Step 3 is complete.
+
+### Required output
+
+Create `implementation/<channel>/poc.md` from [`templates/poc-template.md`](templates/poc-template.md).
+
+Step 3 creates the Phase 2 POC artifact and records the candidate comparison, the selected opportunity, the research opportunity area it derives from, the primary uncertainty that makes a POC useful, and the selection rationale.
+
+Steps 4 and 5 will subsequently extend the same `poc.md` artifact when those methodology steps are formalised. Step 3 must not pre-empt those definitions by specifying the detailed POC design or operating requirements.
+
+### Completion criteria
+
+Step 3 is complete when:
+
+1. Gateway 1 is recorded as **Pass** for the channel;
+2. `implementation/<channel>/poc.md` exists and conforms to the canonical template;
+3. the candidate set is grounded in the existing research and contains only plausible first-POC opportunities;
+4. each candidate is compared using the material commercial, differentiation, testability and implementation considerations relevant to the decision;
+5. exactly one candidate is marked **Selected**;
+6. the selected opportunity is traceable to a researched opportunity area and is specific enough to be defined as a POC in Step 4;
+7. the selection rationale explains why it was chosen over the alternatives without creating a new research scoring model;
+8. the primary uncertainty that the POC is intended to resolve is recorded;
+9. no unresolved blocker remains that would prevent moving to Step 4.
+
+Step 3 completion selects what should be defined and tested next. It does not commit the project to building the POC; that commitment occurs only after Steps 4 and 5 at Gateway 2.
 
 ## Step 4 — Define the POC
 

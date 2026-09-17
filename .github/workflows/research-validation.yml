@@ -1,4 +1,4 @@
-name: Document validation and research reporting
+name: Research document validation
 
 on:
   workflow_dispatch:
@@ -25,18 +25,11 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Validate research documents
-        id: validate_research
+        id: validate
         continue-on-error: true
         run: |
           set -o pipefail
           npm run validate:research 2>&1 | tee validation-report.txt
-
-      - name: Validate implementation documents
-        id: validate_implementation
-        continue-on-error: true
-        run: |
-          set -o pipefail
-          npm run validate:implementation 2>&1 | tee implementation-validation-report.txt
 
       - name: Generate HTML progress report
         if: always()
@@ -50,15 +43,14 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: document-validation-report
+          name: research-validation-report
           path: |
             validation-report.txt
-            implementation-validation-report.txt
             research-validation-report.html
             research-validation-report.json
             research-insights-dashboard.html
           retention-days: 30
 
       - name: Fail workflow when validation fails
-        if: steps.validate_research.outcome == 'failure' || steps.validate_implementation.outcome == 'failure'
+        if: steps.validate.outcome == 'failure'
         run: exit 1

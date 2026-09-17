@@ -1,0 +1,11 @@
+{
+  "actorSpecification": 1,
+  "name": "prerequisites-validation-test",
+  "title": "Prerequisites Validation Test",
+  "description": "Minimal non-commercial Actor used to validate the Apify implementation prerequisites.",
+  "version": "0.0",
+  "buildTag": "latest",
+  "defaultMemoryMbytes": 256,
+  "minMemoryMbytes": 128,
+  "maxMemoryMbytes": 256
+}

@@ -29,7 +29,7 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          npm run validate:research 2>&1 | tee research-validation-report.txt
+          npm run validate:research 2>&1 | tee validation-report.txt
 
       - name: Validate implementation documents
         id: validate_implementation
@@ -52,7 +52,7 @@ jobs:
         with:
           name: document-validation-report
           path: |
-            research-validation-report.txt
+            validation-report.txt
             implementation-validation-report.txt
             research-validation-report.html
             research-validation-report.json

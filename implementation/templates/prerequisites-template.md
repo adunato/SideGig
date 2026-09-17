@@ -15,9 +15,9 @@
 - <Research or implementation input>
 - <Research or implementation input>
 
-## 2. Prerequisites Required for Platform Baseline
+## 2. Prerequisites Required for Validation Test
 
-Record every material prerequisite that must be satisfied before Step 2 — Validate the Platform Baseline can begin.
+Record every material prerequisite that must be satisfied before Step 2 — Prerequisites Validation Test can begin.
 
 Use only the following statuses:
 

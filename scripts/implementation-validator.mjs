@@ -14,6 +14,7 @@ const TEMPLATE_DIR = path.join(IMPLEMENTATION, 'templates');
 const TEMPLATE_PATHS = {
   prerequisites: path.join(TEMPLATE_DIR, 'prerequisites-template.md'),
   prerequisitesValidation: path.join(TEMPLATE_DIR, 'prerequisites-validation-template.md'),
+  poc: path.join(TEMPLATE_DIR, 'poc-template.md'),
 };
 
 const REQUIRED_CANONICAL_FILES = [
@@ -23,6 +24,7 @@ const REQUIRED_CANONICAL_FILES = [
 
 const PREREQUISITE_STATUSES = new Set(['Ready', 'Action required', 'Blocked', 'Not applicable']);
 const VALIDATION_STATUSES = new Set(['Pass', 'Fail', 'Not applicable']);
+const POC_SELECTION_DECISIONS = new Set(['Selected', 'Deferred', 'Not selected']);
 
 const parser = unified().use(remarkParse).use(remarkGfm);
 
@@ -102,14 +104,14 @@ function metadataValue(raw, label) {
 }
 
 function baseResult(file, type) {
-  return { file: rel(file), type, errors: [], incomplete: [] };
+  return { file: rel(file), type, errors: [], incomplete: [], data: {} };
 }
 
-function compareTemplateHeadings(result, ast, template) {
-  const actual = headingsAtDepth(ast, 2);
-  const expected = headingsAtDepth(template.ast, 2);
+function compareTemplateHeadings(result, ast, template, depth, label) {
+  const actual = headingsAtDepth(ast, depth);
+  const expected = headingsAtDepth(template.ast, depth);
   if (!arraysEqual(actual, expected)) {
-    result.errors.push(`H2 heading structure differs from template. Expected: ${formatList(expected)}. Found: ${formatList(actual)}.`);
+    result.errors.push(`${label} heading structure differs from template. Expected: ${formatList(expected)}. Found: ${formatList(actual)}.`);
   }
 }
 
@@ -117,6 +119,16 @@ function validateMetadata(result, raw, labels) {
   for (const label of labels) {
     if (!metadataValue(raw, label)) result.errors.push(`Missing metadata field: ${label}.`);
   }
+}
+
+function validateRequiredFields(result, raw, labels) {
+  const values = {};
+  for (const label of labels) {
+    const value = fieldValue(raw, label);
+    values[label] = value;
+    if (!value) result.errors.push(`Missing field: ${label}.`);
+  }
+  return values;
 }
 
 function validateTable(result, table, expectedHeaders, statusColumn, allowedStatuses, label) {
@@ -131,17 +143,16 @@ function validateTable(result, table, expectedHeaders, statusColumn, allowedStat
     result.errors.push(`${label} table headers differ from canonical structure. Expected: ${formatList(expectedHeaders)}. Found: ${formatList(headers)}.`);
   }
 
-  const statuses = [];
-  for (const row of rows.slice(1)) {
+  const bodyRows = rows.slice(1);
+  for (const row of bodyRows) {
     const status = row[statusColumn]?.trim();
     if (!status) {
       result.errors.push(`${label} contains a row without a status.`);
       continue;
     }
-    statuses.push(status);
     if (!allowedStatuses.has(status)) result.errors.push(`${label} contains invalid status "${status}".`);
   }
-  return statuses;
+  return bodyRows;
 }
 
 function addIncompletePlaceholders(result, raw) {
@@ -151,11 +162,11 @@ function addIncompletePlaceholders(result, raw) {
 
 function validatePrerequisites(file, doc, template) {
   const result = baseResult(file, 'prerequisites');
-  compareTemplateHeadings(result, doc.ast, template);
+  compareTemplateHeadings(result, doc.ast, template, 2, 'H2');
   validateMetadata(result, doc.raw, ['Channel', 'Capability source', 'Assessment date']);
 
   const section = firstHeading(doc.ast, 2, '2. Prerequisites Required for Validation Test');
-  const statuses = validateTable(
+  const rows = validateTable(
     result,
     firstTableInSection(doc.ast, section),
     ['Area', 'Prerequisite', 'Why required', 'Status', 'Evidence / current state', 'Action required'],
@@ -164,28 +175,32 @@ function validatePrerequisites(file, doc, template) {
     'Prerequisites',
   );
 
-  const ready = fieldValue(doc.raw, 'Ready for Step 2');
-  const blockers = fieldValue(doc.raw, 'Open blockers');
-  if (!ready || !['Yes', 'No'].includes(ready)) result.errors.push('Ready for Step 2 must be Yes or No.');
-  if (!blockers) result.errors.push('Missing Open blockers field.');
+  const fields = validateRequiredFields(result, doc.raw, ['Ready for Step 2', 'Open blockers']);
+  const ready = fields['Ready for Step 2'];
+  const blockers = fields['Open blockers'];
+
+  if (ready && !['Yes', 'No'].includes(ready)) result.errors.push('Ready for Step 2 must be Yes or No.');
 
   if (ready === 'Yes') {
-    const blockingStatuses = statuses.filter((status) => !['Ready', 'Not applicable'].includes(status));
+    const blockingStatuses = rows
+      .map((row) => row[3]?.trim())
+      .filter((status) => status && !['Ready', 'Not applicable'].includes(status));
     if (blockingStatuses.length) result.errors.push(`Ready for Step 2 is Yes but blocking prerequisite statuses remain: ${formatList(blockingStatuses)}.`);
     if (blockers && blockers.toLowerCase() !== 'none') result.errors.push('Ready for Step 2 is Yes but Open blockers is not None.');
   }
 
+  result.data = { readyForStep2: ready };
   addIncompletePlaceholders(result, doc.raw);
   return result;
 }
 
 function validatePrerequisitesValidation(file, doc, template) {
   const result = baseResult(file, 'prerequisites-validation');
-  compareTemplateHeadings(result, doc.ast, template);
+  compareTemplateHeadings(result, doc.ast, template, 2, 'H2');
   validateMetadata(result, doc.raw, ['Channel', 'Prerequisites', 'Test date']);
 
   const section = firstHeading(doc.ast, 2, '2. Validation Results');
-  const statuses = validateTable(
+  const rows = validateTable(
     result,
     firstTableInSection(doc.ast, section),
     ['Test item', 'What was tested', 'Status', 'Evidence / result', 'Issue / follow-up'],
@@ -194,23 +209,78 @@ function validatePrerequisitesValidation(file, doc, template) {
     'Validation results',
   );
 
-  const complete = fieldValue(doc.raw, 'Step 2 complete');
-  const blockers = fieldValue(doc.raw, 'Open blockers');
-  const decision = fieldValue(doc.raw, 'Decision');
-  const testImplementation = fieldValue(doc.raw, 'Test implementation');
+  const fields = validateRequiredFields(result, doc.raw, [
+    'Test implementation',
+    'Step 2 complete',
+    'Open blockers',
+    'Decision',
+  ]);
+  const complete = fields['Step 2 complete'];
+  const blockers = fields['Open blockers'];
+  const decision = fields.Decision;
 
-  if (!testImplementation) result.errors.push('Missing Test implementation field.');
-  if (!complete || !['Yes', 'No'].includes(complete)) result.errors.push('Step 2 complete must be Yes or No.');
-  if (!blockers) result.errors.push('Missing Open blockers field.');
-  if (!decision || !['Pass', 'Fail'].includes(decision)) result.errors.push('Gateway 1 Decision must be Pass or Fail.');
+  if (complete && !['Yes', 'No'].includes(complete)) result.errors.push('Step 2 complete must be Yes or No.');
+  if (decision && !['Pass', 'Fail'].includes(decision)) result.errors.push('Gateway 1 Decision must be Pass or Fail.');
 
-  const failed = statuses.includes('Fail');
+  const failed = rows.some((row) => row[2]?.trim() === 'Fail');
   if (complete === 'Yes' && failed) result.errors.push('Step 2 complete is Yes but at least one validation result is Fail.');
   if (complete === 'Yes' && blockers && blockers.toLowerCase() !== 'none') result.errors.push('Step 2 complete is Yes but Open blockers is not None.');
   if (complete === 'Yes' && decision !== 'Pass') result.errors.push('Step 2 complete is Yes but Gateway 1 Decision is not Pass.');
   if (decision === 'Pass' && complete !== 'Yes') result.errors.push('Gateway 1 Decision is Pass but Step 2 complete is not Yes.');
   if (decision === 'Pass' && failed) result.errors.push('Gateway 1 Decision is Pass but at least one validation result is Fail.');
 
+  result.data = { step2Complete: complete, gatewayDecision: decision };
+  addIncompletePlaceholders(result, doc.raw);
+  return result;
+}
+
+function validatePoc(file, doc, template) {
+  const result = baseResult(file, 'poc');
+  compareTemplateHeadings(result, doc.ast, template, 2, 'H2');
+  compareTemplateHeadings(result, doc.ast, template, 3, 'H3');
+  validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Selection date']);
+
+  const candidates = firstHeading(doc.ast, 3, 'Candidate Opportunities');
+  const rows = validateTable(
+    result,
+    firstTableInSection(doc.ast, candidates),
+    [
+      'Candidate opportunity',
+      'Research basis',
+      'Commercial evidence',
+      'Differentiation / unresolved need',
+      'POC testability',
+      'Implementation considerations',
+      'Decision',
+    ],
+    6,
+    POC_SELECTION_DECISIONS,
+    'POC opportunity candidates',
+  );
+
+  if (rows.length === 0) result.errors.push('POC opportunity candidate table contains no candidates.');
+
+  const fields = validateRequiredFields(result, doc.raw, [
+    'Selected opportunity',
+    'Research opportunity area',
+    'Primary uncertainty to test',
+    'Selection rationale',
+    'Step 3 complete',
+    'Open blockers',
+  ]);
+  const complete = fields['Step 3 complete'];
+  const blockers = fields['Open blockers'];
+  const selectedCount = rows.filter((row) => row[6]?.trim() === 'Selected').length;
+
+  if (complete && !['Yes', 'No'].includes(complete)) result.errors.push('Step 3 complete must be Yes or No.');
+  if (selectedCount > 1) result.errors.push('More than one POC opportunity candidate is marked Selected.');
+
+  if (complete === 'Yes') {
+    if (selectedCount !== 1) result.errors.push('Step 3 complete is Yes but exactly one candidate is not marked Selected.');
+    if (blockers && blockers.toLowerCase() !== 'none') result.errors.push('Step 3 complete is Yes but Open blockers is not None.');
+  }
+
+  result.data = { step3Complete: complete, selectedCount };
   addIncompletePlaceholders(result, doc.raw);
   return result;
 }
@@ -230,14 +300,35 @@ function classify(file) {
   const relative = rel(file);
   if (/^implementation\/[^/]+\/prerequisites\.md$/.test(relative)) return 'prerequisites';
   if (/^implementation\/[^/]+\/prerequisites-validation\.md$/.test(relative)) return 'prerequisites-validation';
+  if (/^implementation\/[^/]+\/poc\.md$/.test(relative)) return 'poc';
   return null;
 }
 
 function validateCrossDocument(results) {
   const byFile = new Map(results.map((result) => [result.file, result]));
+
   for (const result of results.filter((item) => item.type === 'prerequisites-validation')) {
     const prerequisiteFile = `${path.posix.dirname(result.file)}/prerequisites.md`;
-    if (!byFile.has(prerequisiteFile)) result.errors.push('Prerequisites validation artifact has no sibling prerequisites.md artifact.');
+    const prerequisite = byFile.get(prerequisiteFile);
+    if (!prerequisite) {
+      result.errors.push('Prerequisites validation artifact has no sibling prerequisites.md artifact.');
+      continue;
+    }
+    if (result.data.gatewayDecision === 'Pass' && prerequisite.data.readyForStep2 !== 'Yes') {
+      result.errors.push('Gateway 1 is Pass but the sibling prerequisites artifact does not record Ready for Step 2: Yes.');
+    }
+  }
+
+  for (const result of results.filter((item) => item.type === 'poc')) {
+    const validationFile = `${path.posix.dirname(result.file)}/prerequisites-validation.md`;
+    const validation = byFile.get(validationFile);
+    if (!validation) {
+      result.errors.push('POC artifact has no sibling prerequisites-validation.md artifact.');
+      continue;
+    }
+    if (result.data.step3Complete === 'Yes' && validation.data.gatewayDecision !== 'Pass') {
+      result.errors.push('Step 3 is complete but Gateway 1 in the sibling prerequisites-validation artifact is not Pass.');
+    }
   }
 }
 
@@ -318,6 +409,7 @@ function main() {
   const templates = {
     prerequisites: parseMarkdown(TEMPLATE_PATHS.prerequisites),
     prerequisitesValidation: parseMarkdown(TEMPLATE_PATHS.prerequisitesValidation),
+    poc: parseMarkdown(TEMPLATE_PATHS.poc),
   };
 
   let files = walk(IMPLEMENTATION).filter((file) => file.endsWith('.md') && classify(file));
@@ -330,7 +422,8 @@ function main() {
     const type = classify(file);
     const doc = parseMarkdown(file);
     if (type === 'prerequisites') return validatePrerequisites(file, doc, templates.prerequisites);
-    return validatePrerequisitesValidation(file, doc, templates.prerequisitesValidation);
+    if (type === 'prerequisites-validation') return validatePrerequisitesValidation(file, doc, templates.prerequisitesValidation);
+    return validatePoc(file, doc, templates.poc);
   });
 
   validateCrossDocument(results);

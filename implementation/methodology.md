@@ -288,6 +288,16 @@ Use the completed research outputs for opportunity areas that passed Research Ga
 
 Compare the eligible opportunity areas using the existing research dimensions rather than creating a new scoring model.
 
+#### Decision principle
+
+Step 3 is a **market-sufficiency and proportionality decision**, not a ranking by market score alone and not a search for the absolute lowest capability score.
+
+First establish whether each area has enough market evidence for a small POC to plausibly generate meaningful usage or buyer feedback. An area that does not clear that bar should not be selected merely because it is easy to implement.
+
+Among areas that do clear the market-evidence bar, the first POC should generally favour the lower capability burden because the experiment is intentionally small, simple and inexpensive. A more demanding area can still be selected where its stronger market evidence is material enough to justify the additional technical, operating, resource or cost burden and the resulting POC remains genuinely bounded.
+
+Do not assume that a small improvement in market attractiveness justifies a large increase in capability requirements. Equally, do not assume that the lowest-capability area wins where its market signal is too weak to make the experiment informative. The rationale should make this proportional trade-off explicit rather than applying an undeclared weighting or composite score.
+
 #### Market attractiveness
 
 Use the five existing market-attractiveness dimensions:

@@ -1,0 +1,42 @@
+name: Implementation document validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'implementation/**'
+      - 'scripts/implementation-validator.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/implementation-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install validator dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate implementation documents
+        run: |
+          set -o pipefail
+          npm run validate:implementation 2>&1 | tee implementation-validation-report.txt
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: implementation-validation-report
+          path: implementation-validation-report.txt
+          retention-days: 30

@@ -195,36 +195,38 @@ Use only:
 
 | Candidate opportunity | Market-attractiveness summary | Capability-requirements summary | Expected POC evidence | POC complexity / cost | Decision |
 |---|---|---|---|---|---|
-| <Shortlisted candidate> | <Summary from Step 5> | <Summary from Step 5> | <What market and capability evidence this POC can generate> | <Why the POC can or cannot remain small and inexpensive> | <Selected / Deferred> |
+| Google News search API | Very strong direct demand and entrant evidence; market dimensions 5/4/4/4/2, with competition the main weakness. | Low burden: 2/2/1/2/1; public source, lightweight HTTP/RSS extraction and no intrinsic licensed-data or proxy requirement. | Whether a clean, reliable, competitively priced new entrant can acquire measurable usage in a crowded but proven demand space; whether lightweight source handling remains reliable and cheap in practice. | Low. A representative POC can remain one-source, HTTP-based and inexpensive while still exercising query, locale, recency, normalization and source-reliability requirements. | Selected |
+| Google News canonical-link and full-text enrichment | Strong evidence and clearer differentiation; market dimensions 4/4/4/4/3 with meaningful recent-entrant traction. | Moderate burden: 3/2/1/3/2; publisher-page variability materially expands build and operating complexity. | Whether buyers value canonical links/full text enough to support differentiated usage and whether heterogeneous publisher extraction can remain reliable at low cost. | Low-medium. Still feasible as a POC, but it adds publisher extraction, retries and fallback behaviour that are not required to test the core Google News market. | Deferred |
+| RSS/Atom normalization API | Real but materially weaker demand/revenue depth; market dimensions 3/4/3/2/2. | Minimal burden: 1/1/1/1/1; standards-based parsing with the lowest cost and maintenance profile. | Whether convenience and normalization alone produce enough paid usage despite abundant free/DIY substitutes. | Very low, but the weaker demand and revenue evidence make the resulting commercial test less informative than Google News search. | Deferred |
 
 ### Selected Opportunity
 
-**Selected opportunity:** <Exactly one shortlisted concrete proposition>
+**Selected opportunity:** Google News search API
 
-**Buyer problem:** <Problem/use case established during Step 4 research>
+**Buyer problem:** Buyers need structured Google News search and headline data without manually operating the Google News interface or maintaining their own extraction and normalization code.
 
-**Target user:** <Target buyer/user established during Step 4 research>
+**Target user:** Developers, researchers, PR/marketing teams, news/content aggregators and AI/data workflows that consume current news-search results programmatically.
 
-**Core value proposition:** <Commercial outcome/value established by the research>
+**Core value proposition:** A low-friction, low-cost Apify API/dataset that converts Google News queries into reliable structured article metadata with useful query, locale and recency controls.
 
-**Market assumptions to test:** <Specific market-attractiveness assumptions the POC should be capable of testing>
+**Market assumptions to test:** Google News search has enough active paid demand for a new entrant to acquire measurable usage despite heavy competition; reliability, usability and competitive pricing are sufficient differentiators for a simple entrant; the breadth of monitoring, research, aggregation and AI workflows produces enough repeat usage to make the market signal observable during a small POC.
 
-**Capability assumptions to test:** <Specific capability assumptions the POC should be capable of testing>
+**Capability assumptions to test:** A commercially credible Google News search product can be implemented with lightweight HTTP/RSS-style extraction and normalization; useful query, locale and recency semantics can be supported without proprietary data or intrinsic proxy spend; source changes and occasional failures can be handled with a bounded operating burden; direct execution costs remain low enough for usage-based pricing.
 
-**Selection rationale:** <Why this proposition provides the best balance of meaningful market evidence and manageable, representative capability requirements>
+**Selection rationale:** Google News search provides the strongest balance for the first POC. It has the strongest direct demand evidence in the shortlist and recent entrants demonstrate attainability, while its capability profile remains low. Canonical-link/full-text enrichment offers clearer differentiation but adds materially more technical and operating complexity without stronger overall market evidence. RSS normalization is simpler still, but its paying-demand and revenue evidence are substantially weaker. Google News search therefore gives the smallest low-cost experiment with the highest probability of producing meaningful market feedback while still testing real source-reliability and operating assumptions.
 
-**Selection date:** <YYYY-MM-DD>
+**Selection date:** 2026-09-17
 
 ### Step 6 Completion
 
-**Step 6 complete:** No
+**Step 6 complete:** Yes
 
-**Step 6 blockers:** Awaiting review of the Step 5 shortlist.
+**Step 6 blockers:** None
 
 ## 5. Gateway 2 — POC Opportunity Selected
 
-**Decision:** <Pass / Fail>
+**Decision:** Pass
 
-**Rationale:** <Why the Phase 2 evidence does or does not justify carrying the selected opportunity into POC definition and design>
+**Rationale:** Steps 3–6 are complete and traceable to the research evidence. News & media intelligence was selected as the proportionate first POC area, six specific propositions were researched and assessed, and Google News search API was selected from the evidence-based shortlist. The proposition has strong enough market evidence to support an informative POC while remaining simple, inexpensive and representative of the material capability assumptions to be tested. No unresolved blocker prevents progression to Phase 3 POC definition and design.
 
 A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, and no unresolved blocker preventing Phase 3.

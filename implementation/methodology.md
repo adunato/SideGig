@@ -103,7 +103,70 @@ Channel-specific extensions to the generic templates should be introduced only w
 
 ## Step 1 — Establish Implementation Prerequisites
 
-Translate the selected channel's capability requirements into the concrete accounts, tools, configuration, knowledge and resources required to begin implementation.
+### Purpose
+
+Convert the selected channel's capability baseline into a concrete, implementation-ready view of what must be in place before platform-level implementation can begin.
+
+This step establishes readiness to execute Step 2. It does not redesign the channel capability assessment and should reuse existing research findings wherever they are already sufficient. Additional investigation is required only where an implementation prerequisite is unclear, outdated or not covered by the research artifacts.
+
+### Inputs
+
+Use the relevant existing research outputs as the starting point, particularly:
+
+- the selected channel overview and decision evidence;
+- channel-level capability prerequisites;
+- relevant case-study or opportunity findings where they expose a genuine channel-level dependency;
+- known project constraints that affect implementation readiness;
+- current platform documentation or terms where an implementation detail requires verification.
+
+Opportunity-specific product requirements should not be introduced unless they are genuinely required to establish the common platform baseline.
+
+### Required output
+
+Create `implementation/<channel>/prerequisites.md` from [`templates/prerequisites-template.md`](templates/prerequisites-template.md).
+
+The artifact must record the prerequisites required to begin Step 2, their current readiness, supporting evidence and any action needed to close a gap. Known prerequisites that belong to later POC, production or launch stages may be recorded separately for traceability, but they do not block Step 1.
+
+### Assessment scope
+
+Consider the prerequisite areas that are material for the selected channel. Typical API/microservice implementation areas include:
+
+- channel access and eligibility;
+- commercial, billing or payout setup where required for implementation;
+- development and runtime tooling;
+- authentication, credentials and permissions;
+- deployment or publication access;
+- API or service invocation capability;
+- channel-level data, infrastructure or external resource access;
+- usage and cost visibility;
+- minimum logging or operational visibility needed during the platform spike;
+- platform knowledge required to implement and troubleshoot the baseline;
+- channel policies or other participation constraints that affect implementation.
+
+The list is intentionally non-exhaustive. Record only prerequisites that are materially relevant to the selected implementation.
+
+### Prerequisite status
+
+Each prerequisite required for Step 2 must use one of the following statuses:
+
+- **Ready** — the prerequisite is in place and sufficiently verified;
+- **Action required** — the prerequisite is understood and can be satisfied, but work remains;
+- **Blocked** — the prerequisite cannot currently be satisfied or depends on an unresolved external constraint;
+- **Not applicable** — the prerequisite category or identified item does not apply to this implementation.
+
+Later-stage requirements that are known but are not required for Step 2 should be recorded as deferred requirements rather than mixed into the readiness assessment.
+
+### Completion criteria
+
+Step 1 is complete when:
+
+1. the prerequisites artifact exists and conforms to the canonical template;
+2. the relevant prerequisite areas have been considered and all material Step 2 prerequisites are recorded;
+3. every Step 2 prerequisite is either **Ready** or **Not applicable**;
+4. no unresolved **Action required** or **Blocked** item remains for Step 2;
+5. the artifact explicitly confirms readiness to proceed to the platform-baseline validation step and records the evidence supporting that conclusion.
+
+Step 1 completion means that the implementation foundation is ready to be exercised. It does not itself prove that the platform works end to end; that is the purpose of Step 2 and Gateway 1.
 
 ## Step 2 — Validate the Platform Baseline
 

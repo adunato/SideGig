@@ -14,9 +14,17 @@ The methodology governs the sequence of implementation work, the outputs expecte
 
 ## Relationship to the Research Methodology
 
-The research methodology determines where implementation effort should be invested and produces inputs such as channel assessments, opportunity-area analysis, representative case studies and capability requirements.
+The implementation methodology explicitly depends on the [Research Methodology](../research/methodology.md). The research methodology owns channel discovery and assessment, opportunity-area discovery and assessment, community research, research selection gateways, representative case studies and channel/opportunity capability synthesis. The implementation methodology consumes those outputs; it must not silently assume that they exist or reproduce them as implementation work.
 
-The implementation methodology begins once a channel has been selected for execution. It consumes relevant research outputs rather than repeating them, and converts them into implementation prerequisites, experiments, product decisions and operational processes.
+The expected handoff is:
+
+- **Research Phase 1 / Gateway 1** identifies the channel selected for deeper opportunity analysis and records the channel market assessment in `research/channels/<channel>/overview.md`.
+- **Research Phase 2 / Gateway 2** defines and assesses the channel's opportunity areas, records opportunity-area community findings and identifies which opportunity areas proceed to deep dive. These outputs are held primarily in `research/channels/<channel>/overview.md`, with the channel-level capability baseline in `research/channels/<channel>/capability.md`.
+- **Research Phase 3 / Steps 10–12** executes representative case studies and synthesizes their findings back to the opportunity-area level. Representative cases are held under `research/channels/<channel>/case-studies/`; refined opportunity-area market findings remain in `overview.md`, and opportunity-area capability requirements are recorded in `capability.md`.
+
+When an implementation step depends on research, its input contract should identify the relevant research methodology stage and artifacts explicitly. If a required research output is missing, materially incomplete or inconsistent with the current research methodology, resolve that gap through the research methodology before treating the implementation step as complete.
+
+The implementation methodology begins once a channel has been selected for execution. It converts the relevant research outputs into implementation prerequisites, experiments, product decisions and operational processes without creating a parallel research model.
 
 ---
 
@@ -119,7 +127,7 @@ Use the relevant existing research outputs as the starting point, particularly:
 - known project constraints that affect implementation readiness;
 - current platform documentation or terms where an implementation detail requires verification.
 
-Opportunity-specific product requirements should not be introduced unless they are genuinely required to satisfy the common implementation prerequisites.
+The research-side inputs above are defined by the [Research Methodology](../research/methodology.md), particularly the selected channel evidence and channel-level capability baseline. Opportunity-specific product requirements should not be introduced unless they are genuinely required to satisfy the common implementation prerequisites.
 
 ### Required output
 
@@ -250,22 +258,27 @@ The decision is recorded in `implementation/<channel>/prerequisites-validation.m
 
 Select one concrete commercial opportunity to carry into POC definition using the existing research evidence and the implementation evidence established in Phase 1.
 
-This step narrows the research from broad opportunity areas and representative cases to a specific opportunity suitable for a first commercial implementation experiment. The selected opportunity must therefore be more specific than an opportunity-area label, but it does not yet require the full problem, target-user, value-proposition, scope or success-criteria definition produced in Step 4.
+This step is the explicit handoff from the [Research Methodology](../research/methodology.md) into opportunity-specific implementation. The research methodology ends after selected opportunity areas have been deep-dived through representative case studies and synthesized back to opportunity-area market and capability conclusions; Step 3 uses those outputs to choose the specific opportunity to define as the first POC.
+
+The selected opportunity must therefore be more specific than an opportunity-area label, but it does not yet require the full problem, target-user, value-proposition, scope or success-criteria definition produced in Step 4.
 
 Step 3 is an implementation decision, not a second research phase. It must reuse the existing market and capability research rather than re-score the channel or repeat opportunity-area assessment.
 
 ### Inputs
 
-Use:
+The primary research inputs are the outputs defined by Research Phase 2 and Phase 3:
+
+- `research/channels/<channel>/overview.md`, containing the opportunity-area taxonomy from Research Step 7, the market assessment from Step 8, opportunity-area community findings from Step 8A, Gateway 2 selection decisions, and any market-assessment refinement produced by Step 12;
+- `research/channels/<channel>/capability.md`, containing the channel-level capability baseline from Research Step 9 and the opportunity-area capability synthesis produced by Step 12;
+- `research/channels/<channel>/case-studies/*.md`, containing the representative cases selected and executed under Research Steps 10 and 11 and used as the evidence base for Step 12.
+
+Also use:
 
 - the completed `implementation/<channel>/prerequisites-validation.md` artifact with Gateway 1 recorded as **Pass**;
-- the selected channel's opportunity-area assessment and research gateway decisions;
-- opportunity-area capability requirements and representative case-study findings;
-- relevant community findings and identified buyer problems or product gaps;
 - project constraints and any opportunity-specific implications of deferred requirements recorded during Phase 1;
 - Phase 1 technical evidence where it materially affects the practicality of a candidate opportunity.
 
-Candidates should normally come from opportunity areas already selected for deeper investigation by the research methodology. If a candidate depends on a material commercial assumption that the existing research does not support, that gap should be resolved through the research methodology rather than by expanding Step 3 into new market research.
+Candidates should derive from opportunity areas that passed Research Gateway 2 and, before Step 3 is treated as complete, should be grounded in the corresponding completed Research Phase 3 deep-dive evidence. If the required opportunity-area assessment, Gateway 2 decision, case-study evidence or Step 12 synthesis is missing or materially incomplete, resolve that gap through the research methodology rather than expanding Step 3 into new market research.
 
 ### Candidate selection method
 
@@ -293,7 +306,7 @@ Exactly one candidate may be **Selected** when Step 3 is complete.
 
 Create `implementation/<channel>/poc.md` from [`templates/poc-template.md`](templates/poc-template.md).
 
-Step 3 creates the Phase 2 POC artifact and records the candidate comparison, the selected opportunity, the research opportunity area it derives from, the primary uncertainty that makes a POC useful, and the selection rationale.
+Step 3 creates the Phase 2 POC artifact and records the exact research methodology and research artifacts used, the candidate comparison, the selected opportunity, the Research Gateway 2 opportunity area it derives from, the primary uncertainty that makes a POC useful, and the selection rationale.
 
 Steps 4 and 5 will subsequently extend the same `poc.md` artifact when those methodology steps are formalised. Step 3 must not pre-empt those definitions by specifying the detailed POC design or operating requirements.
 
@@ -303,13 +316,15 @@ Step 3 is complete when:
 
 1. Gateway 1 is recorded as **Pass** for the channel;
 2. `implementation/<channel>/poc.md` exists and conforms to the canonical template;
-3. the candidate set is grounded in the existing research and contains only plausible first-POC opportunities;
-4. each candidate is compared using the material commercial, differentiation, testability and implementation considerations relevant to the decision;
-5. exactly one candidate is marked **Selected**;
-6. the selected opportunity is traceable to a researched opportunity area and is specific enough to be defined as a POC in Step 4;
-7. the selection rationale explains why it was chosen over the alternatives without creating a new research scoring model;
-8. the primary uncertainty that the POC is intended to resolve is recorded;
-9. no unresolved blocker remains that would prevent moving to Step 4.
+3. the artifact links to the Research Methodology and records the channel research, capability research and Phase 3 case-study/deep-dive evidence used for the decision;
+4. each candidate is traceable to an opportunity area that passed Research Gateway 2 and to the corresponding completed deep-dive evidence;
+5. the candidate set contains only plausible first-POC opportunities grounded in those research outputs;
+6. each candidate is compared using the material commercial, differentiation, testability and implementation considerations relevant to the decision;
+7. exactly one candidate is marked **Selected**;
+8. the selected opportunity is specific enough to be defined as a POC in Step 4;
+9. the selection rationale explains why it was chosen over the alternatives without creating a new research scoring model;
+10. the primary uncertainty that the POC is intended to resolve is recorded;
+11. no unresolved blocker remains that would prevent moving to Step 4.
 
 Step 3 completion selects what should be defined and tested next. It does not commit the project to building the POC; that commitment occurs only after Steps 4 and 5 at Gateway 2.
 

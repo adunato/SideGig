@@ -238,7 +238,18 @@ function validatePoc(file, doc, template) {
   const result = baseResult(file, 'poc');
   compareTemplateHeadings(result, doc.ast, template, 2, 'H2');
   compareTemplateHeadings(result, doc.ast, template, 3, 'H3');
-  validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Selection date']);
+  validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Research methodology', 'Selection date']);
+
+  const researchMethodology = metadataValue(doc.raw, 'Research methodology');
+  if (researchMethodology && !/research\/methodology\.md/i.test(researchMethodology)) {
+    result.errors.push('Research methodology metadata must link to research/methodology.md.');
+  }
+
+  const researchFields = validateRequiredFields(result, doc.raw, [
+    'Channel research',
+    'Capability research',
+    'Case-study / deep-dive evidence',
+  ]);
 
   const candidates = firstHeading(doc.ast, 3, 'Candidate Opportunities');
   const rows = validateTable(
@@ -278,6 +289,12 @@ function validatePoc(file, doc, template) {
   if (complete === 'Yes') {
     if (selectedCount !== 1) result.errors.push('Step 3 complete is Yes but exactly one candidate is not marked Selected.');
     if (blockers && blockers.toLowerCase() !== 'none') result.errors.push('Step 3 complete is Yes but Open blockers is not None.');
+    if (!researchMethodology || !/research\/methodology\.md/i.test(researchMethodology)) {
+      result.errors.push('Step 3 complete is Yes but the Research methodology handoff is not explicitly linked.');
+    }
+    for (const [label, value] of Object.entries(researchFields)) {
+      if (!value) result.errors.push(`Step 3 complete is Yes but ${label} is not recorded.`);
+    }
   }
 
   result.data = { step3Complete: complete, selectedCount };

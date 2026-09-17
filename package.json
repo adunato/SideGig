@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "validate": "npm run validate:research && npm run validate:implementation",
     "validate:research": "node scripts/research-validator.mjs",
+    "validate:implementation": "node scripts/implementation-validator.mjs",
     "report:research": "node scripts/research-report.mjs",
     "dashboard:research": "node scripts/research-dashboard-view.mjs && node scripts/research-dashboard-polish.mjs && node scripts/research-dashboard-capability-scores.mjs"
   },

@@ -8,9 +8,15 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const PROGRESS_JSON = path.join(ROOT, 'research-validation-report.json');
 
+function gateway1Decision(channel) {
+  if (channel.gateway1) return String(channel.gateway1);
+  const step = (channel.steps ?? []).find((item) => item.id === 'G1');
+  return String(step?.detail ?? '');
+}
+
 function isInsightReady(channel) {
   if (channel.overviewStatus !== 'VALID' || channel.capabilityStatus !== 'VALID') return false;
-  if (!/^Pass\b/i.test(String(channel.gateway1 ?? ''))) return false;
+  if (!/\bPass\b/i.test(gateway1Decision(channel))) return false;
   return Array.isArray(channel.selectedAreas) && channel.selectedAreas.length > 0;
 }
 

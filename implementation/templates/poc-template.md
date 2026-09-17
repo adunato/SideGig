@@ -11,6 +11,8 @@
 
 Select one researched opportunity area that can support a simple, inexpensive POC while still generating meaningful evidence on market attractiveness and capability requirements.
 
+Apply the methodology's **market-sufficiency and proportionality** principle: first establish that an area has enough market evidence for an informative POC; among areas that clear that bar, generally favour the lower capability burden unless materially stronger market evidence justifies the additional complexity.
+
 ### Research Inputs
 
 **Channel research:** <Link to research/channels/<channel>/overview.md containing opportunity-area market assessments, community findings, Gateway 2 decisions and Step 12 refinements>
@@ -39,7 +41,7 @@ Reuse the existing research scores. Higher = more demanding.
 
 **Selected opportunity area:** <Exactly one eligible opportunity area>
 
-**Step 3 rationale:** <Concise explanation of the balance between market-evidence potential and manageable capability requirements>
+**Step 3 rationale:** <Concise explanation of the proportional trade-off between sufficient market-evidence potential and manageable capability requirements>
 
 ### Step 3 Completion
 
@@ -52,6 +54,8 @@ Reuse the existing research scores. Higher = more demanding.
 *Methodology mapping: Phase 2, Step 4 — Research Specific POC Opportunities.*
 
 Research the selected opportunity area below the area level and establish a credible landscape of concrete commercial propositions before selection.
+
+Existing marketplace products, Actors and competitors are **evidence sources** for demand, competition, entrant traction, pricing and capability requirements. They are not themselves the candidate opportunity unless the candidate is the broader commercial proposition or demand space they represent; Step 4 is not a process for selecting an existing product to clone.
 
 ### Candidate Landscape
 

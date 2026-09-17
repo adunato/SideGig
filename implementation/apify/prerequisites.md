@@ -8,7 +8,7 @@
 
 *Methodology mapping: Phase 1, Step 1 — Establish Implementation Prerequisites.*
 
-This assessment identifies the minimum prerequisites that must be in place before Step 2 — Validate the Platform Baseline. It deliberately excludes opportunity-specific implementation requirements and later commercial/production requirements unless they would block the platform-baseline spike.
+This assessment identifies the minimum prerequisites that must be in place before Step 2 — Prerequisites Validation Test. It deliberately excludes opportunity-specific implementation requirements and later commercial/production requirements unless they would block that validation test.
 
 The existing Apify research is treated as the primary capability input. Current Apify documentation is used only to verify implementation mechanics that may change over time.
 
@@ -22,37 +22,37 @@ The existing Apify research is treated as the primary capability input. Current 
 - [Apify Actor usage and resources documentation](https://docs.apify.com/actors/running/usage-and-resources)
 - [Apify monetisation and payout documentation](https://docs.apify.com/actors/publishing/monetize)
 
-## 2. Prerequisites Required for Platform Baseline
+## 2. Prerequisites Required for Validation Test
 
 | Area | Prerequisite | Why required | Status | Evidence / current state | Action required |
 |---|---|---|---|---|---|
 | Channel access | Working Apify account with access to Apify Console and Actor development | Step 2 must create, deploy and run an Actor on the platform | Ready | Apify account has been created and Console access confirmed. | None. |
-| Development tooling | Apify CLI installed and executable in the local development environment | The baseline spike will use the standard local create/run/push workflow | Ready | Apify CLI has been installed successfully in the local development environment. | None. |
+| Development tooling | Apify CLI installed and executable in the local development environment | The validation test will use the standard local create/run/push workflow | Ready | Apify CLI has been installed successfully in the local development environment. | None. |
 | Authentication | CLI authenticated to the intended Apify account and an API token available for API testing | Step 2 must deploy through the authenticated development workflow and separately verify API invocation | Ready | CLI authentication has been completed successfully and an API token has been generated for explicit API testing. | None. Keep the token outside the repository and use it only through local environment/configuration. |
-| Baseline implementation runtime | A single supported implementation runtime/language selected for the platform spike | The spike needs one concrete Actor project that can be run locally and on Apify | Ready | TypeScript/Node.js has been selected as the baseline runtime for the platform spike. | None. |
-| Source control / workspace | Repository location available for the platform-spike implementation | The spike code and evidence must be reproducible and traceable to the implementation artifacts | Ready | The existing `adunato/SideGig` repository is available and already contains the implementation methodology and Apify implementation artifacts. | None. |
-| Platform usage visibility | Ability to inspect individual Actor runs, logs and platform usage/cost information | Step 2 must verify runtime behaviour and observe resource consumption rather than merely obtain a successful result | Ready | Apify Console access is confirmed and exposes Runs and Billing/usage views. Run-specific logs and usage will be verified as an explicit outcome of Step 2 once the first baseline Actor is executed. | None before Step 2. |
-| Cost guardrail | A deliberately low-cost baseline-spike execution approach | The platform spike should validate mechanics without creating unnecessary spend | Ready | Billing limits were checked in Apify Console. Current usage is $0.00 and the account has a custom monthly platform-usage limit of $5.00, providing a bounded cost ceiling for the spike. | None. |
-| External data / third-party services | No opportunity-specific external dataset, proxy service or third-party API required for Step 2 | The platform baseline must remain independent of the later commercial opportunity | Not applicable | The capability assessment identifies external resources as opportunity-specific; Apify itself supplies the managed runtime, storage and API needed for the baseline. | None. |
-| Commercial payout setup | Billing details, payout method and creator identity verification | Required to receive commercial payouts, but not to create and run the opportunity-independent platform spike | Not applicable | Apify requires billing details, payout method and KYC for payouts, including for individual creators, but these are not prerequisites for basic Actor development/testing. | Defer to the commercial/launch stages. |
+| Implementation runtime | A single supported implementation runtime/language selected for the validation test | The test needs one concrete Actor project that can be run locally and on Apify | Ready | TypeScript/Node.js has been selected as the runtime for the validation test. | None. |
+| Source control / workspace | Repository location available for the validation-test implementation | The test code and evidence must be reproducible and traceable to the implementation artifacts | Ready | The existing `adunato/SideGig` repository is available and already contains the implementation methodology and Apify implementation artifacts. | None. |
+| Platform usage visibility | Ability to inspect individual Actor runs, logs and platform usage/cost information | Step 2 must verify runtime behaviour and observe resource consumption rather than merely obtain a successful result | Ready | Apify Console access is confirmed and exposes Runs and Billing/usage views. Run-specific logs and usage will be verified as an explicit outcome of Step 2 once the test Actor is executed. | None before Step 2. |
+| Cost guardrail | A deliberately low-cost validation-test execution approach | The test should validate mechanics without creating unnecessary spend | Ready | Billing limits were checked in Apify Console. Current usage is $0.00 and the account has a custom monthly platform-usage limit of $5.00, providing a bounded cost ceiling for the test. | None. |
+| External data / third-party services | No opportunity-specific external dataset, proxy service or third-party API required for Step 2 | The validation test must remain independent of the later commercial opportunity | Not applicable | The capability assessment identifies external resources as opportunity-specific; Apify itself supplies the managed runtime, storage and API needed for the validation test. | None. |
+| Commercial payout setup | Billing details, payout method and creator identity verification | Required to receive commercial payouts, but not to create and run the opportunity-independent validation test | Not applicable | Apify requires billing details, payout method and KYC for payouts, including for individual creators, but these are not prerequisites for basic Actor development/testing. | Defer to the commercial/launch stages. |
 
 ## 3. Deferred Requirements
 
 | Requirement | Expected stage | Evidence / basis | Notes |
 |---|---|---|---|
-| Store publication requirements, public README, display information and product documentation | Production / Launch | Public Store publication requires product-facing configuration and documentation | Not required for a private platform-baseline Actor. |
+| Store publication requirements, public README, display information and product documentation | Production / Launch | Public Store publication requires product-facing configuration and documentation | Not required for a private validation-test Actor. |
 | Monetisation model and pay-per-event configuration | Production / Launch | Paid Actors require an explicit pricing/charging model | Must be informed by measured product costs and the later commercial design. |
 | Billing details, payout method and KYC | Launch | Required for creator payouts | Apify documents an individual verification path, so establishing a company is not a prerequisite to creator payout eligibility. |
 | Production token permissions and secret-management design | Production | Production integrations should use appropriately scoped credentials and controlled secret handling | The Step 2 token only needs to support controlled development/API validation. |
-| CI/CD and automated release process | Production | Useful for repeatable production deployment and maintenance | Not required to prove the basic platform lifecycle. |
+| CI/CD and automated release process | Production | Useful for repeatable production deployment and maintenance | Not required to prove the basic development/deployment mechanics. |
 | Production monitoring, alerting and incident handling | POC / Production | Operational readiness is developed progressively later in the methodology | Step 2 only needs direct visibility of runs, failures, logs and usage. |
-| Opportunity-specific data sources, proxies, accounts and source-access controls | POC | These depend on the POC opportunity and implementation | Deliberately excluded from the opportunity-independent platform baseline. |
+| Opportunity-specific data sources, proxies, accounts and source-access controls | POC | These depend on the POC opportunity and implementation | Deliberately excluded from the opportunity-independent validation test. |
 
 ## 4. Open Issues and Dependencies
 
 None that block Step 2.
 
-Run-specific logs and resource/usage evidence do not yet exist because the baseline Actor has not been executed. Their verification is part of Step 2 itself rather than a prerequisite for beginning it.
+Run-specific logs and resource/usage evidence do not yet exist because the validation-test Actor has not been executed. Their verification is part of Step 2 itself rather than a prerequisite for beginning it.
 
 ## 5. Step 1 Completion
 
@@ -60,4 +60,4 @@ Run-specific logs and resource/usage evidence do not yet exist because the basel
 
 **Open blockers:** None
 
-All prerequisites required to begin the opportunity-independent platform-baseline spike are now in place: Apify account access, local CLI, authenticated CLI access, API token, TypeScript/Node.js runtime selection, repository workspace and a bounded $5 monthly usage limit. Step 1 is complete.
+All prerequisites required to begin the opportunity-independent prerequisites validation test are now in place: Apify account access, local CLI, authenticated CLI access, API token, TypeScript/Node.js runtime selection, repository workspace and a bounded $5 monthly usage limit. Step 1 is complete.

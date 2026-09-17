@@ -24,7 +24,27 @@ const REQUIRED_CANONICAL_FILES = [
 
 const PREREQUISITE_STATUSES = new Set(['Ready', 'Action required', 'Blocked', 'Not applicable']);
 const VALIDATION_STATUSES = new Set(['Pass', 'Fail', 'Not applicable']);
-const POC_SELECTION_DECISIONS = new Set(['Selected', 'Deferred', 'Not selected']);
+const AREA_SELECTION_DECISIONS = new Set(['Selected', 'Not selected']);
+const SHORTLIST_DECISIONS = new Set(['Shortlisted', 'Excluded']);
+const FINAL_SELECTION_DECISIONS = new Set(['Selected', 'Deferred']);
+const GATEWAY_DECISIONS = new Set(['Pass', 'Fail']);
+const CONFIDENCE_VALUES = new Set(['High', 'Medium', 'Low']);
+
+const MARKET_DIMENSIONS = new Set([
+  'Paying demand',
+  'Opportunity density',
+  'New-entrant attainability',
+  'Revenue potential',
+  'Competitive pressure',
+]);
+
+const CAPABILITY_DIMENSIONS = new Set([
+  'Technical complexity',
+  'Domain expertise',
+  'Data / resource access',
+  'Operating complexity',
+  'Cost intensity',
+]);
 
 const parser = unified().use(remarkParse).use(remarkGfm);
 
@@ -91,6 +111,10 @@ function placeholderCount(raw) {
   return (raw.match(/<[^>\n]+>/g) ?? []).length;
 }
 
+function isPlaceholder(value) {
+  return typeof value === 'string' && /<[^>]+>/.test(value);
+}
+
 function fieldValue(raw, label) {
   const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const match = raw.match(new RegExp(`^\\*\\*${escaped}:\\*\\*\\s*(.+)$`, 'mi'));
@@ -131,28 +155,62 @@ function validateRequiredFields(result, raw, labels) {
   return values;
 }
 
-function validateTable(result, table, expectedHeaders, statusColumn, allowedStatuses, label) {
+function validateTableShape(result, table, expectedHeaders, label) {
   if (!table) {
     result.errors.push(`Missing ${label} table.`);
     return [];
   }
-
   const rows = tableRows(table);
   const headers = rows[0] ?? [];
   if (!arraysEqual(headers, expectedHeaders)) {
     result.errors.push(`${label} table headers differ from canonical structure. Expected: ${formatList(expectedHeaders)}. Found: ${formatList(headers)}.`);
   }
+  return rows.slice(1);
+}
 
-  const bodyRows = rows.slice(1);
+function validateStatusTable(result, table, expectedHeaders, statusColumn, allowedStatuses, label) {
+  const bodyRows = validateTableShape(result, table, expectedHeaders, label);
   for (const row of bodyRows) {
     const status = row[statusColumn]?.trim();
     if (!status) {
       result.errors.push(`${label} contains a row without a status.`);
       continue;
     }
-    if (!allowedStatuses.has(status)) result.errors.push(`${label} contains invalid status "${status}".`);
+    if (!isPlaceholder(status) && !allowedStatuses.has(status)) {
+      result.errors.push(`${label} contains invalid status "${status}".`);
+    }
   }
   return bodyRows;
+}
+
+function validateScoreRows(result, rows, dimensionSet, label) {
+  for (const row of rows) {
+    const dimension = row[1]?.trim();
+    const score = row[2]?.trim();
+    const confidence = row[3]?.trim();
+
+    if (dimension && !isPlaceholder(dimension) && !dimensionSet.has(dimension)) {
+      result.errors.push(`${label} contains unknown dimension "${dimension}".`);
+    }
+    if (score && !isPlaceholder(score) && !/^[1-5]$/.test(score)) {
+      result.errors.push(`${label} contains score "${score}" outside 1-5.`);
+    }
+    if (confidence && !isPlaceholder(confidence) && !CONFIDENCE_VALUES.has(confidence)) {
+      result.errors.push(`${label} contains invalid confidence "${confidence}".`);
+    }
+  }
+}
+
+function validateCompleteField(result, value, label) {
+  if (value && !isPlaceholder(value) && !['Yes', 'No'].includes(value)) {
+    result.errors.push(`${label} must be Yes or No.`);
+  }
+}
+
+function requireCompletedStep(result, complete, blockers, label) {
+  if (complete === 'Yes' && blockers && !isPlaceholder(blockers) && blockers.toLowerCase() !== 'none') {
+    result.errors.push(`${label} is complete but blockers are not None.`);
+  }
 }
 
 function addIncompletePlaceholders(result, raw) {
@@ -166,7 +224,7 @@ function validatePrerequisites(file, doc, template) {
   validateMetadata(result, doc.raw, ['Channel', 'Capability source', 'Assessment date']);
 
   const section = firstHeading(doc.ast, 2, '2. Prerequisites Required for Validation Test');
-  const rows = validateTable(
+  const rows = validateStatusTable(
     result,
     firstTableInSection(doc.ast, section),
     ['Area', 'Prerequisite', 'Why required', 'Status', 'Evidence / current state', 'Action required'],
@@ -178,15 +236,14 @@ function validatePrerequisites(file, doc, template) {
   const fields = validateRequiredFields(result, doc.raw, ['Ready for Step 2', 'Open blockers']);
   const ready = fields['Ready for Step 2'];
   const blockers = fields['Open blockers'];
-
-  if (ready && !['Yes', 'No'].includes(ready)) result.errors.push('Ready for Step 2 must be Yes or No.');
+  validateCompleteField(result, ready, 'Ready for Step 2');
 
   if (ready === 'Yes') {
     const blockingStatuses = rows
       .map((row) => row[3]?.trim())
-      .filter((status) => status && !['Ready', 'Not applicable'].includes(status));
+      .filter((status) => status && !isPlaceholder(status) && !['Ready', 'Not applicable'].includes(status));
     if (blockingStatuses.length) result.errors.push(`Ready for Step 2 is Yes but blocking prerequisite statuses remain: ${formatList(blockingStatuses)}.`);
-    if (blockers && blockers.toLowerCase() !== 'none') result.errors.push('Ready for Step 2 is Yes but Open blockers is not None.');
+    if (blockers && !isPlaceholder(blockers) && blockers.toLowerCase() !== 'none') result.errors.push('Ready for Step 2 is Yes but Open blockers is not None.');
   }
 
   result.data = { readyForStep2: ready };
@@ -200,7 +257,7 @@ function validatePrerequisitesValidation(file, doc, template) {
   validateMetadata(result, doc.raw, ['Channel', 'Prerequisites', 'Test date']);
 
   const section = firstHeading(doc.ast, 2, '2. Validation Results');
-  const rows = validateTable(
+  const rows = validateStatusTable(
     result,
     firstTableInSection(doc.ast, section),
     ['Test item', 'What was tested', 'Status', 'Evidence / result', 'Issue / follow-up'],
@@ -209,22 +266,17 @@ function validatePrerequisitesValidation(file, doc, template) {
     'Validation results',
   );
 
-  const fields = validateRequiredFields(result, doc.raw, [
-    'Test implementation',
-    'Step 2 complete',
-    'Open blockers',
-    'Decision',
-  ]);
+  const fields = validateRequiredFields(result, doc.raw, ['Test implementation', 'Step 2 complete', 'Open blockers', 'Decision']);
   const complete = fields['Step 2 complete'];
   const blockers = fields['Open blockers'];
   const decision = fields.Decision;
 
-  if (complete && !['Yes', 'No'].includes(complete)) result.errors.push('Step 2 complete must be Yes or No.');
-  if (decision && !['Pass', 'Fail'].includes(decision)) result.errors.push('Gateway 1 Decision must be Pass or Fail.');
+  validateCompleteField(result, complete, 'Step 2 complete');
+  if (decision && !isPlaceholder(decision) && !GATEWAY_DECISIONS.has(decision)) result.errors.push('Gateway 1 Decision must be Pass or Fail.');
 
   const failed = rows.some((row) => row[2]?.trim() === 'Fail');
   if (complete === 'Yes' && failed) result.errors.push('Step 2 complete is Yes but at least one validation result is Fail.');
-  if (complete === 'Yes' && blockers && blockers.toLowerCase() !== 'none') result.errors.push('Step 2 complete is Yes but Open blockers is not None.');
+  if (complete === 'Yes' && blockers && !isPlaceholder(blockers) && blockers.toLowerCase() !== 'none') result.errors.push('Step 2 complete is Yes but Open blockers is not None.');
   if (complete === 'Yes' && decision !== 'Pass') result.errors.push('Step 2 complete is Yes but Gateway 1 Decision is not Pass.');
   if (decision === 'Pass' && complete !== 'Yes') result.errors.push('Gateway 1 Decision is Pass but Step 2 complete is not Yes.');
   if (decision === 'Pass' && failed) result.errors.push('Gateway 1 Decision is Pass but at least one validation result is Fail.');
@@ -238,66 +290,162 @@ function validatePoc(file, doc, template) {
   const result = baseResult(file, 'poc');
   compareTemplateHeadings(result, doc.ast, template, 2, 'H2');
   compareTemplateHeadings(result, doc.ast, template, 3, 'H3');
-  validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Research methodology', 'Selection date']);
+  validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Research methodology', 'Phase 2 start date']);
 
   const researchMethodology = metadataValue(doc.raw, 'Research methodology');
-  if (researchMethodology && !/research\/methodology\.md/i.test(researchMethodology)) {
+  if (researchMethodology && !isPlaceholder(researchMethodology) && !/research\/methodology\.md/i.test(researchMethodology)) {
     result.errors.push('Research methodology metadata must link to research/methodology.md.');
   }
 
-  const researchFields = validateRequiredFields(result, doc.raw, [
-    'Channel research',
-    'Capability research',
-    'Case-study / deep-dive evidence',
-  ]);
+  const researchFields = validateRequiredFields(result, doc.raw, ['Channel research', 'Capability research', 'Case-study / deep-dive evidence']);
 
-  const candidates = firstHeading(doc.ast, 3, 'Candidate Opportunities');
-  const rows = validateTable(
+  const areaMarketHeading = firstHeading(doc.ast, 3, 'Eligible Opportunity Areas — Market Attractiveness');
+  const areaMarketRows = validateTableShape(
     result,
-    firstTableInSection(doc.ast, candidates),
-    [
-      'Candidate opportunity',
-      'Research basis',
-      'Commercial evidence',
-      'Differentiation / unresolved need',
-      'POC testability',
-      'Implementation considerations',
-      'Decision',
-    ],
-    6,
-    POC_SELECTION_DECISIONS,
-    'POC opportunity candidates',
+    firstTableInSection(doc.ast, areaMarketHeading),
+    ['Opportunity area', 'Paying demand', 'Opportunity density', 'New-entrant attainability', 'Revenue potential', 'Competitive pressure', 'Overall market result / confidence', 'POC market implication'],
+    'Opportunity-area market-attractiveness',
   );
 
-  if (rows.length === 0) result.errors.push('POC opportunity candidate table contains no candidates.');
+  const areaCapabilityHeading = firstHeading(doc.ast, 3, 'Eligible Opportunity Areas — Capability Requirements');
+  const areaCapabilityRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, areaCapabilityHeading),
+    ['Opportunity area', 'Technical complexity', 'Domain expertise', 'Data / resource access', 'Operating complexity', 'Cost intensity', 'Capability score / confidence', 'POC capability implication'],
+    'Opportunity-area capability',
+  );
 
-  const fields = validateRequiredFields(result, doc.raw, [
-    'Selected opportunity',
-    'Research opportunity area',
-    'Primary uncertainty to test',
-    'Selection rationale',
-    'Step 3 complete',
-    'Open blockers',
-  ]);
-  const complete = fields['Step 3 complete'];
-  const blockers = fields['Open blockers'];
-  const selectedCount = rows.filter((row) => row[6]?.trim() === 'Selected').length;
-
-  if (complete && !['Yes', 'No'].includes(complete)) result.errors.push('Step 3 complete must be Yes or No.');
-  if (selectedCount > 1) result.errors.push('More than one POC opportunity candidate is marked Selected.');
-
-  if (complete === 'Yes') {
-    if (selectedCount !== 1) result.errors.push('Step 3 complete is Yes but exactly one candidate is not marked Selected.');
-    if (blockers && blockers.toLowerCase() !== 'none') result.errors.push('Step 3 complete is Yes but Open blockers is not None.');
-    if (!researchMethodology || !/research\/methodology\.md/i.test(researchMethodology)) {
-      result.errors.push('Step 3 complete is Yes but the Research methodology handoff is not explicitly linked.');
-    }
+  const step3 = validateRequiredFields(result, doc.raw, ['Selected opportunity area', 'Step 3 rationale', 'Step 3 complete', 'Step 3 blockers']);
+  validateCompleteField(result, step3['Step 3 complete'], 'Step 3 complete');
+  requireCompletedStep(result, step3['Step 3 complete'], step3['Step 3 blockers'], 'Step 3');
+  if (step3['Step 3 complete'] === 'Yes') {
+    if (areaMarketRows.length === 0 || areaCapabilityRows.length === 0) result.errors.push('Step 3 is complete but eligible opportunity-area comparison evidence is missing.');
+    if (!step3['Selected opportunity area'] || isPlaceholder(step3['Selected opportunity area'])) result.errors.push('Step 3 is complete but no opportunity area is selected.');
     for (const [label, value] of Object.entries(researchFields)) {
-      if (!value) result.errors.push(`Step 3 complete is Yes but ${label} is not recorded.`);
+      if (!value || isPlaceholder(value)) result.errors.push(`Step 3 is complete but ${label} is not substantively recorded.`);
     }
   }
 
-  result.data = { step3Complete: complete, selectedCount };
+  const candidateHeading = firstHeading(doc.ast, 3, 'Candidate Landscape');
+  const candidateRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, candidateHeading),
+    ['Candidate opportunity', 'Buyer problem / use case', 'Target buyer', 'Commercial outcome / value', 'Demand / usage evidence', 'Alternatives / competition', 'Differentiation / unresolved need', 'Data / source / delivery model', 'Capability / cost implications', 'Evidence links'],
+    'Specific POC opportunity research',
+  );
+
+  const step4 = validateRequiredFields(result, doc.raw, ['Step 4 complete', 'Step 4 blockers']);
+  validateCompleteField(result, step4['Step 4 complete'], 'Step 4 complete');
+  requireCompletedStep(result, step4['Step 4 complete'], step4['Step 4 blockers'], 'Step 4');
+  if (step4['Step 4 complete'] === 'Yes') {
+    if (step3['Step 3 complete'] !== 'Yes') result.errors.push('Step 4 is complete but Step 3 is not complete.');
+    const substantiveCandidates = candidateRows.filter((row) => row[0] && !isPlaceholder(row[0]));
+    if (substantiveCandidates.length < 2) result.errors.push('Step 4 is complete but fewer than two concrete candidate opportunities are recorded.');
+  }
+
+  const marketAssessmentHeading = firstHeading(doc.ast, 3, 'Market Attractiveness Assessment');
+  const marketRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, marketAssessmentHeading),
+    ['Candidate opportunity', 'Dimension', 'Score (1-5)', 'Confidence', 'Evidence / rationale'],
+    'Specific-opportunity market-attractiveness assessment',
+  );
+  validateScoreRows(result, marketRows, MARKET_DIMENSIONS, 'Specific-opportunity market-attractiveness assessment');
+
+  const capabilityAssessmentHeading = firstHeading(doc.ast, 3, 'Capability Assessment');
+  const capabilityRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, capabilityAssessmentHeading),
+    ['Candidate opportunity', 'Dimension', 'Score (1-5)', 'Confidence', 'Evidence / rationale'],
+    'Specific-opportunity capability assessment',
+  );
+  validateScoreRows(result, capabilityRows, CAPABILITY_DIMENSIONS, 'Specific-opportunity capability assessment');
+
+  const shortlistHeading = firstHeading(doc.ast, 3, 'Shortlist');
+  const shortlistRows = validateStatusTable(
+    result,
+    firstTableInSection(doc.ast, shortlistHeading),
+    ['Candidate opportunity', 'Market evidence potential', 'POC capability suitability', 'Decision', 'Rationale'],
+    3,
+    SHORTLIST_DECISIONS,
+    'POC shortlist',
+  );
+
+  const step5 = validateRequiredFields(result, doc.raw, ['Step 5 complete', 'Step 5 blockers']);
+  validateCompleteField(result, step5['Step 5 complete'], 'Step 5 complete');
+  requireCompletedStep(result, step5['Step 5 complete'], step5['Step 5 blockers'], 'Step 5');
+  if (step5['Step 5 complete'] === 'Yes') {
+    if (step4['Step 4 complete'] !== 'Yes') result.errors.push('Step 5 is complete but Step 4 is not complete.');
+    const shortlisted = shortlistRows.filter((row) => row[3]?.trim() === 'Shortlisted');
+    if (shortlisted.length === 0) result.errors.push('Step 5 is complete but no opportunity is Shortlisted.');
+
+    const candidateNames = new Set(candidateRows.map((row) => row[0]?.trim()).filter((value) => value && !isPlaceholder(value)));
+    for (const candidate of candidateNames) {
+      const marketDimensions = new Set(marketRows.filter((row) => row[0]?.trim() === candidate).map((row) => row[1]?.trim()).filter((value) => MARKET_DIMENSIONS.has(value)));
+      const capabilityDimensions = new Set(capabilityRows.filter((row) => row[0]?.trim() === candidate).map((row) => row[1]?.trim()).filter((value) => CAPABILITY_DIMENSIONS.has(value)));
+      if (marketDimensions.size !== MARKET_DIMENSIONS.size) result.errors.push(`Step 5 is complete but ${candidate} does not have all five market-attractiveness dimensions.`);
+      if (capabilityDimensions.size !== CAPABILITY_DIMENSIONS.size) result.errors.push(`Step 5 is complete but ${candidate} does not have all five capability dimensions.`);
+    }
+  }
+
+  const comparisonHeading = firstHeading(doc.ast, 3, 'Shortlist Comparison');
+  const comparisonRows = validateStatusTable(
+    result,
+    firstTableInSection(doc.ast, comparisonHeading),
+    ['Candidate opportunity', 'Market-attractiveness summary', 'Capability-requirements summary', 'Expected POC evidence', 'POC complexity / cost', 'Decision'],
+    5,
+    FINAL_SELECTION_DECISIONS,
+    'Final POC opportunity comparison',
+  );
+
+  const selectionFields = validateRequiredFields(result, doc.raw, [
+    'Selected opportunity',
+    'Buyer problem',
+    'Target user',
+    'Core value proposition',
+    'Market assumptions to test',
+    'Capability assumptions to test',
+    'Selection rationale',
+    'Selection date',
+    'Step 6 complete',
+    'Step 6 blockers',
+  ]);
+
+  const step6Complete = selectionFields['Step 6 complete'];
+  validateCompleteField(result, step6Complete, 'Step 6 complete');
+  requireCompletedStep(result, step6Complete, selectionFields['Step 6 blockers'], 'Step 6');
+  const selectedCount = comparisonRows.filter((row) => row[5]?.trim() === 'Selected').length;
+  if (selectedCount > 1) result.errors.push('More than one Step 6 candidate is marked Selected.');
+  if (step6Complete === 'Yes') {
+    if (step5['Step 5 complete'] !== 'Yes') result.errors.push('Step 6 is complete but Step 5 is not complete.');
+    if (selectedCount !== 1) result.errors.push('Step 6 is complete but exactly one candidate is not marked Selected.');
+    for (const [label, value] of Object.entries(selectionFields)) {
+      if (['Step 6 complete', 'Step 6 blockers'].includes(label)) continue;
+      if (!value || isPlaceholder(value)) result.errors.push(`Step 6 is complete but ${label} is not substantively recorded.`);
+    }
+  }
+
+  const gatewayFields = validateRequiredFields(result, doc.raw, ['Decision', 'Rationale']);
+  const gatewayDecision = gatewayFields.Decision;
+  if (gatewayDecision && !isPlaceholder(gatewayDecision) && !GATEWAY_DECISIONS.has(gatewayDecision)) {
+    result.errors.push('Gateway 2 Decision must be Pass or Fail.');
+  }
+  if (gatewayDecision === 'Pass') {
+    if (step3['Step 3 complete'] !== 'Yes' || step4['Step 4 complete'] !== 'Yes' || step5['Step 5 complete'] !== 'Yes' || step6Complete !== 'Yes') {
+      result.errors.push('Gateway 2 is Pass but Steps 3-6 are not all complete.');
+    }
+    if (selectedCount !== 1) result.errors.push('Gateway 2 is Pass but exactly one Step 6 candidate is not Selected.');
+  }
+
+  result.data = {
+    step3Complete: step3['Step 3 complete'],
+    step4Complete: step4['Step 4 complete'],
+    step5Complete: step5['Step 5 complete'],
+    step6Complete,
+    gateway2Decision: gatewayDecision,
+    selectedCount,
+  };
+
   addIncompletePlaceholders(result, doc.raw);
   return result;
 }
@@ -343,8 +491,9 @@ function validateCrossDocument(results) {
       result.errors.push('POC artifact has no sibling prerequisites-validation.md artifact.');
       continue;
     }
-    if (result.data.step3Complete === 'Yes' && validation.data.gatewayDecision !== 'Pass') {
-      result.errors.push('Step 3 is complete but Gateway 1 in the sibling prerequisites-validation artifact is not Pass.');
+    const phase2Started = [result.data.step3Complete, result.data.step4Complete, result.data.step5Complete, result.data.step6Complete].includes('Yes') || result.data.gateway2Decision === 'Pass';
+    if (phase2Started && validation.data.gatewayDecision !== 'Pass') {
+      result.errors.push('Phase 2 records completed work but Gateway 1 in the sibling prerequisites-validation artifact is not Pass.');
     }
   }
 }

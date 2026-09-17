@@ -105,7 +105,7 @@ Channel-specific extensions to the generic templates should be introduced only w
 
 ### Purpose
 
-Convert the selected channel's capability baseline into a concrete, implementation-ready view of what must be in place before platform-level implementation can begin.
+Convert the selected channel's capability baseline into a concrete, implementation-ready view of what must be in place before practical implementation testing can begin.
 
 This step establishes readiness to execute Step 2. It does not redesign the channel capability assessment and should reuse existing research findings wherever they are already sufficient. Additional investigation is required only where an implementation prerequisite is unclear, outdated or not covered by the research artifacts.
 
@@ -119,7 +119,7 @@ Use the relevant existing research outputs as the starting point, particularly:
 - known project constraints that affect implementation readiness;
 - current platform documentation or terms where an implementation detail requires verification.
 
-Opportunity-specific product requirements should not be introduced unless they are genuinely required to establish the common platform baseline.
+Opportunity-specific product requirements should not be introduced unless they are genuinely required to satisfy the common implementation prerequisites.
 
 ### Required output
 
@@ -139,8 +139,8 @@ Consider the prerequisite areas that are material for the selected channel. Typi
 - API or service invocation capability;
 - channel-level data, infrastructure or external resource access;
 - usage and cost visibility;
-- minimum logging or operational visibility needed during the platform spike;
-- platform knowledge required to implement and troubleshoot the baseline;
+- minimum logging or operational visibility needed during the validation test;
+- platform knowledge required to implement and troubleshoot the test;
 - channel policies or other participation constraints that affect implementation.
 
 The list is intentionally non-exhaustive. Record only prerequisites that are materially relevant to the selected implementation.
@@ -164,17 +164,81 @@ Step 1 is complete when:
 2. the relevant prerequisite areas have been considered and all material Step 2 prerequisites are recorded;
 3. every Step 2 prerequisite is either **Ready** or **Not applicable**;
 4. no unresolved **Action required** or **Blocked** item remains for Step 2;
-5. the artifact explicitly confirms readiness to proceed to the platform-baseline validation step and records the evidence supporting that conclusion.
+5. the artifact explicitly confirms readiness to proceed to the prerequisites validation test and records the evidence supporting that conclusion.
 
-Step 1 completion means that the implementation foundation is ready to be exercised. It does not itself prove that the platform works end to end; that is the purpose of Step 2 and Gateway 1.
+Step 1 completion means that the required setup is ready to be tested in practice. It does not itself prove that the prerequisites work together correctly; that is the purpose of Step 2 and Gateway 1.
 
-## Step 2 — Validate the Platform Baseline
+## Step 2 — Prerequisites Validation Test
 
-Implement a minimal opportunity-independent platform spike to prove the essential development lifecycle and establish practical understanding of the selected platform.
+### Purpose
 
-## Gateway 1 — Platform Readiness
+Verify in practice that the prerequisites established in Step 1 are sufficient to perform the essential technical actions required to build and deliver through the selected channel.
 
-Confirm that the essential implementation capabilities have been demonstrated and that no material platform-level blockers remain.
+The test should use the smallest possible non-commercial implementation. Its purpose is to validate setup, access, tooling and platform mechanics before a real POC is selected or built. It must not introduce opportunity-specific functionality or production design unless required simply to exercise the channel.
+
+### Inputs
+
+Use:
+
+- the completed `implementation/<channel>/prerequisites.md` artifact;
+- the development environment, credentials and platform access established in Step 1;
+- current platform documentation where needed to execute or troubleshoot the test.
+
+### Required output
+
+Create `implementation/<channel>/prerequisites-validation.md` from [`templates/prerequisites-validation-template.md`](templates/prerequisites-validation-template.md).
+
+The artifact must define the minimal test, record the actions performed and their evidence, capture any issues discovered, and record the Gateway 1 decision.
+
+The test implementation itself may exist as code or platform configuration outside the artifact. The artifact must link to or identify that implementation sufficiently for the result to be reproducible and auditable.
+
+### Test scope
+
+Exercise only the essential technical path required to prove that the Step 1 prerequisites work together. For a typical API/microservice channel this may include:
+
+- creating or initializing a minimal implementation locally;
+- executing it successfully in the local development environment where local execution is part of the channel workflow;
+- deploying or uploading it to the selected platform;
+- executing the deployed implementation successfully;
+- invoking it through the platform's external API or equivalent programmatic interface;
+- retrieving a valid structured result;
+- inspecting execution status and logs;
+- inspecting usage or cost information where the platform exposes it.
+
+Not every channel will require every item. Any non-applicable capability should be recorded explicitly rather than tested artificially.
+
+The test should remain deliberately trivial. Successful completion proves the technical setup and delivery mechanics, not the viability, quality or production readiness of any commercial product.
+
+### Test result status
+
+Each required test item must use one of the following statuses:
+
+- **Pass** — executed successfully with evidence;
+- **Fail** — attempted but did not work or produced an unresolved material issue;
+- **Not applicable** — the test item does not apply to the selected channel.
+
+Issues discovered during testing should be resolved and retested where practical. A failed item that is required for later implementation remains a blocker to Gateway 1.
+
+### Completion criteria
+
+Step 2 is complete when:
+
+1. the prerequisites-validation artifact exists and conforms to the canonical template;
+2. the minimal test implementation is identified and its scope is explicitly non-commercial and opportunity-independent;
+3. every material technical action required to exercise the Step 1 prerequisites has been tested;
+4. every required test item is **Pass** or **Not applicable**;
+5. the evidence demonstrates successful deployment/execution, programmatic invocation and result retrieval where those capabilities are material to the channel;
+6. execution visibility and usage/cost visibility have been confirmed where available;
+7. no unresolved material issue remains that would prevent moving to POC selection and definition;
+8. the artifact records the Gateway 1 decision and rationale.
+
+Step 2 completion proves only that the implementation prerequisites and essential channel mechanics work in practice. It does not validate a commercial opportunity, product design or production operating model.
+
+## Gateway 1 — Prerequisites Validated
+
+Confirm that the Step 1 prerequisites have been exercised successfully in practice and that no material technical blocker remains before selecting and defining the commercial POC.
+
+The decision is recorded in `implementation/<channel>/prerequisites-validation.md` as **Pass** or **Fail**, with a concise rationale and any remaining non-blocking observations.
 
 ---
 

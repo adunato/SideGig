@@ -252,3 +252,31 @@ Define only the operating capabilities needed to observe, protect and evaluate t
 
 **Step 8 blockers:** <None, or concise list>
 
+## 8. Gateway 3 — POC Commitment
+
+*Methodology mapping: Phase 3, Gateway 3 — POC Commitment.*
+
+Assess whether the defined POC is sufficiently bounded, measurable, operationally manageable and feasible to justify implementation.
+
+### Commitment Assessment
+
+Use only **Ready**, **Action before observation**, **Blocked**, or **Not applicable**.
+
+| Commitment dimension | Evidence / assessment | Status | Required action / condition |
+|---|---|---|---|
+| <Definition readiness / Evidence readiness / Operational manageability / Implementation proportionality / Prerequisite feasibility / Risk and cost containment> | <Evidence-based assessment> | <Ready / Action before observation / Blocked / Not applicable> | <None or action> |
+
+### Pre-Observation Requirements
+
+| Requirement | Why required | Required by | Status | Action |
+|---|---|---|---|---|
+| <Requirement> | <Reason> | <Before public/paid observation window, or more specific point> | <Ready / Action before observation / Not applicable> | <Action or None> |
+
+**Gateway 3 decision:** <Pass / Fail>
+
+**Gateway 3 commitment:** <Commit to POC implementation / Do not commit>
+
+**Gateway 3 rationale:** <Why the completed definition, operations and prerequisites do or do not justify implementation>
+
+**Authorized next step:** <Step 9 — Implement the POC, or the blocking work required before reconsideration>
+

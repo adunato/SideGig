@@ -318,7 +318,7 @@ The selected proposition remains the **Google News search API** from Step 6. Thi
 | Dimension | Criterion | Threshold / decision rule |
 |---|---|---|
 | Market | Independent external users | **Success:** at least 10 distinct non-owner users during the 30-day observation window. |
-| Market | Repeat use | **Success:** at least 3 external users run the Actor on more than one distinct day, providing evidence beyond one-off trials. |
+| Market | Repeat-use signal | **Success:** at least 3 successful external runs occur beyond the one-run-per-new-user baseline during the observation window, demonstrating usage beyond pure first trials. |
 | Market | Monetised demand | **Success:** at least one external paid-plan usage produces positive creator revenue during the observation window. |
 | Capability | Run reliability | **Success:** at least 95% of valid-input POC runs complete successfully, excluding clearly attributable Apify-wide outages. |
 | Capability | Core record completeness | **Success:** at least 98% of returned records contain valid `title`, `sourceName`, `googleNewsUrl` and `publishedAt` values. |
@@ -328,7 +328,7 @@ The selected proposition remains the **Google News search API** from Step 6. Thi
 
 **POC success rule:** The POC is successful when all five capability criteria pass and all three market criteria are met within the 30-day observation window. This provides evidence that both the selected market and capability assumptions survived a real commercial experiment.
 
-**Bounded iteration rule:** One bounded iteration is justified when the capability criteria pass but market evidence is partial — specifically, at least 5 distinct external users are observed but one or more of the 10-user, repeat-use or monetised-demand thresholds are missed — or when one capability criterion narrowly misses because of a specific fix that does not change the proposition or introduce an excluded dependency. The iteration must have an explicit hypothesis and remain within the Step 7 functional boundary.
+**Bounded iteration rule:** One bounded iteration is justified when the capability criteria pass but market evidence is partial — specifically, at least 5 distinct external users are observed but one or more of the 10-user, repeat-use-signal or monetised-demand thresholds are missed — or when one capability criterion narrowly misses because of a specific fix that does not change the proposition or introduce an excluded dependency. The iteration must have an explicit hypothesis and remain within the Step 7 functional boundary.
 
 **Exit / stop rule:** Stop the POC without further implementation expansion when, after the 30-day window, fewer than 5 distinct external users are observed; or when the core proposition cannot meet the reliability/completeness criteria without browser automation, a mandatory paid external data source or residential-proxy dependence; or when representative unit economics materially exceed the 40% cost threshold and cannot be corrected within the existing scope. A failure caused by the selected proposition should return to Gateway 4 evidence assessment rather than being hidden by adding deferred features.
 
@@ -337,4 +337,55 @@ The selected proposition remains the **Google News search API** from Step 6. Thi
 **Step 7 complete:** Yes
 
 **Step 7 blockers:** None
+
+## 7. POC Operational Requirements
+
+*Methodology mapping: Phase 3, Step 8 — Define POC Operational Requirements.*
+
+The operational design is intentionally lightweight. Apify already exposes run statuses, logs, resource usage, cost information, built-in Actor monitoring, dataset-field alerts and Actor Analytics. Those native capabilities are sufficient for this POC; no separate monitoring service or production support stack is required.
+
+**Operational evidence basis:** [Apify Actor monitoring](https://docs.apify.com/actors/running/monitoring); [Actor Analytics and monetisation](https://docs.apify.com/actors/publishing/monetize); [Actor run API](https://docs.apify.com/api/v2/actors-actor-runs); [Pay-per-event pricing](https://docs.apify.com/actors/publishing/monetize/pay-per-event).
+
+The Step 7 repeat-use criterion has been expressed as an aggregate **repeat-use signal** rather than "three identifiable repeat users". Apify exposes unique-user counts and owner-excluded public run statistics, but the documented operational interfaces do not require per-user identity analysis to evaluate the experiment. The revised measure preserves the intended question — whether usage extends beyond first trials — while making the criterion reproducible from channel-native evidence.
+
+### Operational Requirements
+
+| Operational concern | Signal / evidence | Mechanism | Trigger / review rule | Required response |
+|---|---|---|---|---|
+| Run health / reliability | Run terminal status, success-rate statistics, run logs and status message | Apify built-in monitoring plus run details/API | Review every `FAILED` or `TIMED-OUT` run. A user-initiated/spending-limit `ABORTED` run is classified separately. Pause if three consecutive valid-input runs fail for an Actor/source reason or if observed valid-input success drops below 90% before the final 95% evaluation threshold. | Inspect logs and input, classify platform/user/Actor/source cause, record whether the run counts toward reliability, and make only an in-scope fix. Resume after the failure mode is demonstrably cleared. |
+| Core result completeness | Presence of `title`, `sourceName`, `googleNewsUrl` and `publishedAt` across dataset rows | Dataset schema/field statistics and periodic dataset sampling | Investigate any alert or sample showing completeness below the Step 7 98% threshold or a systematic malformed-field pattern. | Inspect affected records and source response; correct normalization/parser defects within scope. Do not add canonical-link/full-text extraction as a remedy. |
+| Google News dependency health | Successful parsing, non-malformed feed response, normal result structure and supported locale/recency behaviour | User-run evidence plus a small owner-run canary using a broad query; run logs | Canary once daily during the observation window. Investigate any canary parser failure or systematic control mismatch. | Confirm whether Google behaviour changed. Apply a bounded parser/query-semantics fix if possible; pause if lightweight feed access is no longer sufficient. |
+| Run duration / abnormal resource use | Duration, compute units, external transfer and run usage | Run detail/API and Actor Analytics | Review an obvious step-change from the implementation baseline or repeated abnormal resource usage; no arbitrary production SLA is imposed. | Identify retries, loops or unexpected response growth. Correct bounded defects; do not add heavier infrastructure simply to mask source behaviour. |
+| POC unit economics | Revenue, platform cost, profit and cost per 1,000 results | Actor Analytics; finalized run usage/charged-event data for representative paid runs | Review after the first paid external run, then as part of each periodic review. Investigate any negative-profit paid run or repeated evidence that platform cost is above 40% of net creator revenue. | Check compute/data usage and charging configuration. Correct implementation inefficiency if possible within scope; repeated structural failure against the 40% criterion triggers pause/exit assessment rather than silent repricing. |
+| Charging / user spend limits | Charged event counts, run status and max-charge behaviour | PPE synthetic dataset-item/start events, run pricing information and logs | Any evidence of output being produced without the intended event charge, charging without an accessible result, or failure to terminate cleanly at a spending limit. | Treat as a blocking billing defect; pause public execution until corrected and verified. |
+| New-user market signal | Change in Actor unique-user statistics from the launch baseline | Actor Stats / Actor Analytics user-growth metrics | Snapshot at public launch; review periodically; final delta at day 30 is the authoritative Step 7 user measure. | No operational intervention merely because growth is weak. Record the evidence; demand failure is evaluated through the Step 7/Step 10 decision rules. |
+| Repeat-use signal | Owner-excluded successful public runs compared with the new-user delta | Public Actor run statistics plus launch/final Actor Stats | At final evaluation, require at least three successful external runs beyond the one-run-per-new-user baseline. Periodic review is informational only. | Record the signal. Do not change functionality or pricing simply to manufacture repeat usage during the same observation window. |
+| Monetised demand | Paid/free user analytics, revenue and profit | Actor Analytics | Review periodically and at day 30. Success requires positive creator revenue from at least one external paid-plan usage. | Record result. A lack of paid usage is market evidence, not an operational defect. |
+| User-reported defects | Store issues, shared debug runs and directly exposed Actor feedback | Apify Actor Analytics/debug evidence and Store issue mechanisms | Review at least twice weekly and whenever Apify surfaces a shared debug run or issue. | Fix reproducible in-scope defects. Record feature requests separately; do not expand the Step 7 proposition during the same observation window. |
+
+### Operating Cadence and Evidence
+
+| Activity | Cadence / trigger | Evidence retained |
+|---|---|---|
+| Launch baseline | Immediately before the public 30-day window begins | Actor Stats (`totalUsers`, relevant public run counters), pricing configuration, default build/version and Step 7 scope; this baseline makes subsequent user/run deltas reproducible. |
+| Automated operational monitoring | Continuous through Apify built-in monitoring | Run-status alerts and dataset-field alerts linked to the relevant run/dataset evidence. |
+| Dependency canary | Once daily during the observation window | Owner-run ID, status and any exception/control failure. Owner activity is kept separate from external market evidence. |
+| Early economics check | First paid external run | Finalized run usage/cost and charged-event evidence after run statistics have settled. |
+| Periodic POC review | Twice weekly during the observation window | Actor Analytics snapshot/export covering users, runs, success rate, revenue, costs, profit and cost per 1,000 results; open operational issues and interventions. |
+| Material incident review | Whenever a pause trigger or material defect occurs | Run IDs, logs, classification, corrective action, verification run and whether the observation window remains valid. |
+| End-of-window snapshot | At the end of day 30 before any experiment-changing modification | Actor Analytics JSON export where available, Actor Stats, public run statistics, revenue/cost/profit evidence and the run/data-quality evidence needed to evaluate all Step 7 criteria. |
+
+### Intervention Boundaries
+
+**Bounded operational intervention:** Parser/normalization corrections, query/locale/recency implementation fixes, retry/backoff corrections, logging improvements, schema implementation corrections, billing-defect fixes and documentation clarifications may be made where they preserve the Google News metadata-search proposition, Step 7 scope, temporary price and lightweight-access assumption. Every material fix during the observation window must be recorded with the affected runs and verification evidence.
+
+**Experiment-change rule:** Adding canonical-link or full-text enrichment, browser scraping, residential-proxy dependence, a paid external data/API dependency, stateful monitoring, additional news sources, AI enrichment, a material pricing change or another buyer-facing scope change is not routine operations. It requires an explicit bounded-iteration or gateway decision. If the change can materially affect user acquisition, repeat use or willingness to pay, the 30-day market observation window restarts for the changed experiment.
+
+**Pause rule:** Pause the public POC when a billing defect could mischarge users; when three consecutive valid-input runs fail for an Actor/source reason; when required-field quality is systematically below the 98% criterion; when lightweight Google News access is materially broken; or when repeated paid runs show structurally negative economics / platform cost above the Step 7 threshold. Resume only after the issue is corrected within scope and verified.
+
+### Step 8 Completion
+
+**Step 8 complete:** Yes
+
+**Step 8 blockers:** None
 

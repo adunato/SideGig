@@ -280,3 +280,31 @@ Use only **Ready**, **Action before observation**, **Blocked**, or **Not applica
 
 **Authorized next step:** <Step 9 — Implement the POC, or the blocking work required before reconsideration>
 
+## 9. POC Implementation
+
+*Methodology mapping: Phase 4, Step 9 — Implement the POC.*
+
+Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.
+
+**Product repository:** <Repository URL or reference>
+
+**Development/design evidence:** <Links to the project design and implementation-planning artifacts required by the SideGig Development Operating Model>
+
+**Deployed implementation reference:** <Commit / version / build / deployment identifier>
+
+### Implementation and Validation Evidence
+
+| Implementation area | Requirement source | Evidence / reference | Status |
+|---|---|---|---|
+| <Functional scope / inputs and outputs / dependencies / operational evidence / deployment / charging or other relevant area> | <Step 7 / Step 8 / Gateway 3 requirement> | <Test, CI, run, deployment or configuration evidence> | <Pass / Fail / Not applicable> |
+
+**Pre-observation requirements closed:** <Yes / No>
+
+**Observation baseline captured:** <Yes / No>
+
+### Step 9 Completion
+
+**Step 9 complete:** <Yes / No>
+
+**Step 9 blockers:** <None, or concise list>
+

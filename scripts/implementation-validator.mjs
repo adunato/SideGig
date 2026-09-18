@@ -290,7 +290,7 @@ function validatePoc(file, doc, template) {
   const result = baseResult(file, 'poc');
   compareTemplateHeadings(result, doc.ast, template, 2, 'H2');
   compareTemplateHeadings(result, doc.ast, template, 3, 'H3');
-  validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Research methodology', 'Phase 2 start date']);
+  validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Research methodology', 'Phase 2 start date', 'Phase 3 definition date']);
 
   const researchMethodology = metadataValue(doc.raw, 'Research methodology');
   if (researchMethodology && !isPlaceholder(researchMethodology) && !/research\/methodology\.md/i.test(researchMethodology)) {
@@ -437,6 +437,87 @@ function validatePoc(file, doc, template) {
     if (selectedCount !== 1) result.errors.push('Gateway 2 is Pass but exactly one Step 6 candidate is not Selected.');
   }
 
+  const scopeHeading = firstHeading(doc.ast, 3, 'Functional Scope');
+  const scopeRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, scopeHeading),
+    ['Scope item', 'Status', 'Definition / rationale'],
+    'POC functional scope',
+  );
+  const validScopeStatuses = new Set(['In scope', 'Out of scope']);
+  for (const row of scopeRows) {
+    const value = row[1]?.trim();
+    if (value && !isPlaceholder(value) && !validScopeStatuses.has(value)) {
+      result.errors.push(`POC functional scope has invalid status "${value}".`);
+    }
+  }
+
+  const inputsHeading = firstHeading(doc.ast, 3, 'Inputs');
+  const inputRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, inputsHeading),
+    ['Input', 'Required', 'Type / allowed values', 'Default / bound', 'Purpose'],
+    'POC inputs',
+  );
+
+  const outputsHeading = firstHeading(doc.ast, 3, 'Outputs');
+  const outputRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, outputsHeading),
+    ['Output', 'Required', 'Definition'],
+    'POC outputs',
+  );
+
+  const dependencyHeading = firstHeading(doc.ast, 3, 'Dependencies and Constraints');
+  const dependencyRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, dependencyHeading),
+    ['Dependency / constraint', 'POC implication', 'Boundary / response'],
+    'POC dependencies and constraints',
+  );
+
+  const criteriaHeading = firstHeading(doc.ast, 3, 'Success and Exit Criteria');
+  const criteriaRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, criteriaHeading),
+    ['Dimension', 'Criterion', 'Threshold / decision rule'],
+    'POC success and exit criteria',
+  );
+
+  const step7 = validateRequiredFields(result, doc.raw, [
+    'POC objective',
+    'Primary POC user',
+    'Experiment mode',
+    'Observation window',
+    'POC commercial parameter',
+    'POC success rule',
+    'Bounded iteration rule',
+    'Exit / stop rule',
+    'Step 7 complete',
+    'Step 7 blockers',
+  ]);
+  validateCompleteField(result, step7['Step 7 complete'], 'Step 7 complete');
+  requireCompletedStep(result, step7['Step 7 complete'], step7['Step 7 blockers'], 'Step 7');
+
+  if (step7['Step 7 complete'] === 'Yes') {
+    if (gatewayDecision !== 'Pass') result.errors.push('Step 7 is complete but Gateway 2 is not Pass.');
+    if (selectedCount !== 1) result.errors.push('Step 7 is complete but exactly one Step 6 candidate is not Selected.');
+    if (scopeRows.length < 2) result.errors.push('Step 7 is complete but the functional scope is not substantively defined.');
+    if (!scopeRows.some((row) => row[1]?.trim() === 'In scope')) result.errors.push('Step 7 is complete but no functional scope item is In scope.');
+    if (!scopeRows.some((row) => row[1]?.trim() === 'Out of scope')) result.errors.push('Step 7 is complete but no functional scope item is Out of scope.');
+    if (inputRows.length === 0) result.errors.push('Step 7 is complete but no POC inputs are defined.');
+    if (outputRows.length === 0) result.errors.push('Step 7 is complete but no POC outputs are defined.');
+    if (dependencyRows.length === 0) result.errors.push('Step 7 is complete but no dependencies or constraints are defined.');
+    const marketCriteria = criteriaRows.filter((row) => row[0]?.trim() === 'Market');
+    const capabilityCriteria = criteriaRows.filter((row) => row[0]?.trim() === 'Capability');
+    if (marketCriteria.length === 0) result.errors.push('Step 7 is complete but no market success criterion is defined.');
+    if (capabilityCriteria.length === 0) result.errors.push('Step 7 is complete but no capability success criterion is defined.');
+    for (const [label, value] of Object.entries(step7)) {
+      if (['Step 7 complete', 'Step 7 blockers'].includes(label)) continue;
+      if (!value || isPlaceholder(value)) result.errors.push(`Step 7 is complete but ${label} is not substantively recorded.`);
+    }
+  }
+
   result.data = {
     step3Complete: step3['Step 3 complete'],
     step4Complete: step4['Step 4 complete'],
@@ -444,6 +525,7 @@ function validatePoc(file, doc, template) {
     step6Complete,
     gateway2Decision: gatewayDecision,
     selectedCount,
+    step7Complete: step7['Step 7 complete'],
   };
 
   addIncompletePlaceholders(result, doc.raw);
@@ -491,7 +573,7 @@ function validateCrossDocument(results) {
       result.errors.push('POC artifact has no sibling prerequisites-validation.md artifact.');
       continue;
     }
-    const phase2Started = [result.data.step3Complete, result.data.step4Complete, result.data.step5Complete, result.data.step6Complete].includes('Yes') || result.data.gateway2Decision === 'Pass';
+    const phase2Started = [result.data.step3Complete, result.data.step4Complete, result.data.step5Complete, result.data.step6Complete, result.data.step7Complete].includes('Yes') || result.data.gateway2Decision === 'Pass';
     if (phase2Started && validation.data.gatewayDecision !== 'Pass') {
       result.errors.push('Phase 2 records completed work but Gateway 1 in the sibling prerequisites-validation artifact is not Pass.');
     }

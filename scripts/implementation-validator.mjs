@@ -549,10 +549,16 @@ function validatePoc(file, doc, template) {
     if (step7['Step 7 complete'] !== 'Yes') result.errors.push('Step 8 is complete but Step 7 is not complete.');
     if (operationalRows.length === 0) result.errors.push('Step 8 is complete but no operational requirements are recorded.');
     if (cadenceRows.length === 0) result.errors.push('Step 8 is complete but no operating cadence/evidence activities are recorded.');
-    const requiredOperationalThemes = ['run', 'quality', 'cost', 'market'];
     const operationalText = operationalRows.flat().join(' ').toLowerCase();
-    for (const theme of requiredOperationalThemes) {
-      if (!operationalText.includes(theme)) result.errors.push(`Step 8 is complete but operational coverage for ${theme} evidence is not apparent.`);
+    const requiredOperationalThemes = [
+      ['run health', /(run|reliability|failure|status)/],
+      ['result quality', /(quality|completeness|schema|field)/],
+      ['dependency behaviour', /(dependency|source|upstream|google)/],
+      ['cost / economics', /(cost|economics|profit|revenue|usage)/],
+      ['market evidence', /(market|user|demand|monetised|repeat)/],
+    ];
+    for (const [label, pattern] of requiredOperationalThemes) {
+      if (!pattern.test(operationalText)) result.errors.push(`Step 8 is complete but operational coverage for ${label} is not apparent.`);
     }
     for (const [label, value] of Object.entries(step8)) {
       if (['Step 8 complete', 'Step 8 blockers'].includes(label)) continue;

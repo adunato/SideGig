@@ -4,6 +4,7 @@
 - **Prerequisite validation:** [Apify Prerequisites Validation Test](prerequisites-validation.md)
 - **Research methodology:** [Research Methodology](../../research/methodology.md)
 - **Phase 2 start date:** 2026-09-17
+- **Phase 3 definition date:** 2026-09-18
 
 ## 1. POC Opportunity Area Selection
 
@@ -230,3 +231,110 @@ Use only:
 **Rationale:** Steps 3–6 are complete and traceable to the research evidence. News & media intelligence was selected as the proportionate first POC area, six specific propositions were researched and assessed, and Google News search API was selected from the evidence-based shortlist. The proposition has strong enough market evidence to support an informative POC while remaining simple, inexpensive and representative of the material capability assumptions to be tested. No unresolved blocker prevents progression to Phase 3 POC definition and design.
 
 A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, and no unresolved blocker preventing Phase 3.
+
+## 6. POC Definition
+
+*Methodology mapping: Phase 3, Step 7 — Define the POC.*
+
+The selected proposition remains the **Google News search API** from Step 6. This definition deliberately keeps the experiment at metadata-search level so that the POC tests the selected proposition rather than drifting into the deferred canonical-link/full-text opportunity.
+
+### Experiment Definition
+
+**POC objective:** Determine whether a new, low-cost Google News metadata Actor can acquire measurable real-user usage on Apify while remaining technically reliable, operationally bounded and economically viable using lightweight Google News feed access.
+
+**Primary POC user:** Developers, automation builders and researchers who need self-service structured Google News search results through an Apify Actor, dataset and API rather than a consumer news interface.
+
+**Experiment mode:** Public paid Apify Store POC. The Actor will be discoverable and runnable by external users and will use pay-per-event charging. It is an experimental Store product rather than a production-readiness commitment; later production gateways still govern hardening, final pricing and production launch.
+
+**Observation window:** 30 consecutive days beginning when the POC is publicly listed with monetisation active. The window may end early only for a material capability failure that meets the exit rule.
+
+**POC commercial parameter:** Temporary POC price of **$1.00 per 1,000 dataset results** ($0.001 per result), plus Apify's default `apify-actor-start` synthetic event at its standard price where applicable. This matches the low end of current Google News Store pricing closely enough to avoid testing an obvious price disadvantage. It is an experiment parameter, not the Step 12 production commercial model.
+
+### Functional Scope
+
+| Scope item | Status | Definition / rationale |
+|---|---|---|
+| Query-driven Google News search | In scope | Execute one or more user-supplied Google News search expressions and return structured metadata. This is the core selected proposition. |
+| Multiple queries per run | In scope | Support up to 20 queries in one run so the POC is useful for automation without turning into a large-scale crawling product. |
+| Locale control | In scope | Allow language and country/edition selection so the POC exercises the localisation requirement identified in Phase 2. |
+| Recency control | In scope | Allow a small set of common recency windows to test useful current-news search semantics. |
+| Per-query result limit | In scope | Allow 1–100 results per query, reflecting the practical Google News feed boundary rather than adding pagination mechanisms. |
+| Cross-query deduplication | In scope | Optional deduplication prevents obvious repeated records in multi-query runs while remaining lightweight. |
+| Apify dataset/API delivery | In scope | Store normalized records in the default dataset and expose them through normal Apify API, export and integration mechanisms. |
+| Input and output schemas | In scope | Define native Apify schemas so the Actor is self-describing in Console/API and suitable for programmatic use. |
+| Public Store README sufficient for POC use | In scope | Provide concise usage, field and limitation documentation required for an external user to run the experiment. |
+| Canonical publisher-article URL resolution | Out of scope | Explicitly deferred in Step 6. It would move the POC toward the separate canonical-link enrichment proposition. |
+| Full article-body extraction | Out of scope | Explicitly deferred because arbitrary publisher extraction materially increases technical and operating complexity. |
+| Images / media extraction | Out of scope | Not required to test the selected metadata-search proposition. |
+| Browser-based Google News scraping | Out of scope | The POC tests whether lightweight HTTP/feed access is sufficient; browser automation would invalidate that capability assumption. |
+| Residential proxy dependency | Out of scope | The selected capability hypothesis assumes no intrinsic residential-proxy spend. If it becomes necessary, that is evidence against the hypothesis rather than an automatic scope expansion. |
+| Stateful monitoring / alerting | Out of scope | This is the separate stateful news-monitor proposition excluded in Step 5. Users may still use Apify's generic scheduling/webhook capabilities externally. |
+| Sentiment, clustering or AI enrichment | Out of scope | Separate higher-complexity proposition excluded in Step 5. |
+| Multi-source news aggregation | Out of scope | The POC intentionally remains a single-source Google News experiment. |
+
+### Inputs
+
+| Input | Required | Type / allowed values | Default / bound | Purpose |
+|---|---|---|---|---|
+| `queries` | Yes | Array of non-empty strings | 1–20 queries | Defines the Google News search expressions to execute. Native Google News search operators may be passed through as part of the query. |
+| `maxItemsPerQuery` | No | Integer | Default 20; min 1; max 100 | Bounds output and cost while allowing realistic search workloads. |
+| `language` | No | Locale string supported by the POC | Default `en-US` | Selects the language edition used for the Google News request. |
+| `country` | No | Two-letter country/edition code supported by the POC | Default `US` | Selects the regional Google News edition. |
+| `dateRange` | No | `any`, `1h`, `6h`, `1d`, `7d`, `30d` | Default `7d` | Provides a bounded, user-friendly recency control without introducing arbitrary pagination/history logic. |
+| `dedupe` | No | Boolean | Default `true` | Removes duplicate Google News records returned across multiple queries while preserving the first matching query context. |
+
+### Outputs
+
+| Output | Required | Definition |
+|---|---|---|
+| `query` | Yes | Search expression that produced the record. |
+| `title` | Yes | Article headline returned by Google News. |
+| `sourceName` | Yes | Publisher/source name supplied by the feed. |
+| `sourceUrl` | No | Publisher/source URL supplied by Google News where available; this is not guaranteed to be the canonical article URL. |
+| `googleNewsUrl` | Yes | Google News article/feed URL for the result. |
+| `publishedAt` | Yes | Publication timestamp normalized to ISO 8601 where the source timestamp is valid. |
+| `descriptionText` | No | Plain-text description/snippet derived from the feed when available. |
+| `guid` | No | Google News feed identifier where supplied, useful for deduplication and traceability. |
+| `position` | Yes | 1-based position of the item within the result set for its query before cross-query deduplication. |
+| `language` | Yes | Language edition requested for the run. |
+| `country` | Yes | Country/edition requested for the run. |
+| `scrapedAt` | Yes | ISO 8601 timestamp recording when the POC collected the record. |
+
+### Dependencies and Constraints
+
+| Dependency / constraint | POC implication | Boundary / response |
+|---|---|---|
+| Public Google News feed/search behaviour | The POC depends on an upstream interface that Google may change, throttle or vary without notice. | Use lightweight direct HTTP/feed access first. Measure failures and source changes rather than hiding them behind a heavier browser implementation. |
+| Approximate 100-result feed ceiling per query | A single query cannot be treated as an exhaustive or deeply paginated historical search. | Cap `maxItemsPerQuery` at 100 and document that the POC returns the feed results Google exposes, not guaranteed complete coverage. |
+| Google-controlled query, locale and recency semantics | Result composition and ranking are controlled upstream and can vary by edition/time. | Validate that requested controls are applied consistently; do not claim deterministic ranking or complete market coverage. |
+| Google News redirect/article links | Metadata feeds may expose Google News links rather than canonical publisher article URLs. | Return the Google News URL and source metadata only. Canonical-link resolution remains explicitly out of scope. |
+| Variable or missing snippets/source metadata | Some feed records may omit non-core metadata or provide truncated descriptions. | Required fields are limited to the stable core; optional fields remain nullable. |
+| Apify Actor runtime, dataset, API and Store | The POC relies on Apify for execution, storage, discoverability, charging and usage visibility. | Use native Actor input/output schemas, default dataset and PPE mechanisms rather than external infrastructure. |
+| Apify pay-per-event economics | Creator revenue is reduced by Apify's platform share and underlying platform costs remain the creator's cost. | Measure actual run cost and creator revenue during the POC; production pricing is deferred to Step 12. |
+| No proprietary data or paid external API | The selected capability profile assumes public-source access and minimal variable cost. | Introducing a mandatory paid data/API dependency is a material capability change and triggers the exit/iteration rules rather than silently expanding scope. |
+
+### Success and Exit Criteria
+
+| Dimension | Criterion | Threshold / decision rule |
+|---|---|---|
+| Market | Independent external users | **Success:** at least 10 distinct non-owner users during the 30-day observation window. |
+| Market | Repeat use | **Success:** at least 3 external users run the Actor on more than one distinct day, providing evidence beyond one-off trials. |
+| Market | Monetised demand | **Success:** at least one external paid-plan usage produces positive creator revenue during the observation window. |
+| Capability | Run reliability | **Success:** at least 95% of valid-input POC runs complete successfully, excluding clearly attributable Apify-wide outages. |
+| Capability | Core record completeness | **Success:** at least 98% of returned records contain valid `title`, `sourceName`, `googleNewsUrl` and `publishedAt` values. |
+| Capability | Query / locale / recency behaviour | **Success:** the acceptance matrix defined during implementation passes for all supported controls, with no systematic mismatch that makes a control misleading. |
+| Capability | Lightweight access assumption | **Success:** normal operation does not require browser automation, a paid external data API or mandatory residential-proxy usage. |
+| Capability | Unit economics | **Success:** measured Apify platform cost across representative paid runs remains at or below 40% of net creator revenue generated by those runs at the temporary POC price. |
+
+**POC success rule:** The POC is successful when all five capability criteria pass and all three market criteria are met within the 30-day observation window. This provides evidence that both the selected market and capability assumptions survived a real commercial experiment.
+
+**Bounded iteration rule:** One bounded iteration is justified when the capability criteria pass but market evidence is partial — specifically, at least 5 distinct external users are observed but one or more of the 10-user, repeat-use or monetised-demand thresholds are missed — or when one capability criterion narrowly misses because of a specific fix that does not change the proposition or introduce an excluded dependency. The iteration must have an explicit hypothesis and remain within the Step 7 functional boundary.
+
+**Exit / stop rule:** Stop the POC without further implementation expansion when, after the 30-day window, fewer than 5 distinct external users are observed; or when the core proposition cannot meet the reliability/completeness criteria without browser automation, a mandatory paid external data source or residential-proxy dependence; or when representative unit economics materially exceed the 40% cost threshold and cannot be corrected within the existing scope. A failure caused by the selected proposition should return to Gateway 4 evidence assessment rather than being hidden by adding deferred features.
+
+### Step 7 Completion
+
+**Step 7 complete:** Yes
+
+**Step 7 blockers:** None
+

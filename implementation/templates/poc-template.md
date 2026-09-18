@@ -4,6 +4,7 @@
 - **Prerequisite validation:** <Link to completed prerequisites-validation artifact>
 - **Research methodology:** <Link to research/methodology.md>
 - **Phase 2 start date:** <YYYY-MM-DD>
+- **Phase 3 definition date:** <YYYY-MM-DD>
 
 ## 1. POC Opportunity Area Selection
 
@@ -156,3 +157,64 @@ Use only:
 **Rationale:** <Why the Phase 2 evidence does or does not justify carrying the selected opportunity into POC definition and design>
 
 A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, and no unresolved blocker preventing Phase 3.
+
+## 6. POC Definition
+
+*Methodology mapping: Phase 3, Step 7 — Define the POC.*
+
+Define the smallest credible commercial experiment that can test the selected opportunity's market and capability assumptions. Production architecture, production pricing and production operating requirements remain outside this step.
+
+### Experiment Definition
+
+**POC objective:** <What evidence this experiment is intended to generate>
+
+**Primary POC user:** <Primary user within the Step 6 target-user definition>
+
+**Experiment mode:** <Private / invited / public; free / paid; relevant distribution boundary>
+
+**Observation window:** <Explicit duration or other evaluation boundary>
+
+**POC commercial parameter:** <Temporary POC pricing/charging parameter if required for the experiment, or Not applicable>
+
+### Functional Scope
+
+| Scope item | Status | Definition / rationale |
+|---|---|---|
+| <Function or boundary> | <In scope / Out of scope> | <What is included or deliberately excluded and why> |
+
+### Inputs
+
+| Input | Required | Type / allowed values | Default / bound | Purpose |
+|---|---|---|---|---|
+| <Input> | <Yes / No> | <Type / values> | <Default / bound> | <Why the POC needs it> |
+
+### Outputs
+
+| Output | Required | Definition |
+|---|---|---|
+| <Field or output object> | <Yes / No> | <Meaning and expected form> |
+
+### Dependencies and Constraints
+
+| Dependency / constraint | POC implication | Boundary / response |
+|---|---|---|
+| <Dependency or constraint> | <Why it matters> | <What the POC assumes, measures or deliberately does not solve> |
+
+### Success and Exit Criteria
+
+| Dimension | Criterion | Threshold / decision rule |
+|---|---|---|
+| <Market / Capability> | <Observable criterion> | <Success threshold or decision rule> |
+
+**POC success rule:** <Combined rule for successful POC evidence>
+
+**Bounded iteration rule:** <When limited iteration is justified without changing the selected proposition>
+
+**Exit / stop rule:** <When further POC work is not justified>
+
+### Step 7 Completion
+
+**Step 7 complete:** <Yes / No>
+
+**Step 7 blockers:** <None, or concise list>
+

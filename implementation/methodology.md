@@ -522,7 +522,7 @@ A **Pass** decision requires a completed opportunity-area selection, specific-op
 
 Phase 3 expands the selected opportunity into a structured POC definition that can support an implementation decision. The buyer problem, target user and core proposition established during Phase 2 become inputs rather than being rediscovered from scratch.
 
-**Steps 7 and 8 and Gateway 3 are defined below and may be executed. Phase 4 and the later phases remain directional placeholders until they are explicitly developed using the methodology-definition process above.**
+**Steps 7 and 8, Gateway 3 and Step 9 are defined and may be executed. Step 10, Gateway 4 and the later phases remain directional placeholders until they are explicitly developed using the methodology-definition process above.**
 
 ## Step 7 — Define the POC
 
@@ -817,9 +817,117 @@ Gateway 3 is complete when:
 
 # Phase 4 — POC Implementation and Validation
 
+Phase 4 turns the committed POC into a working experiment and then uses that experiment to gather the evidence required for a productisation decision.
+
 ## Step 9 — Implement the POC
 
-Build and deploy the minimum implementation required to test the defined commercial and technical hypotheses.
+### Purpose
+
+Turn the Gateway 3 commitment into a **deployed, technically validated and observation-ready POC**.
+
+Step 9 implements only the experiment defined in Step 7, with the operating capabilities defined in Step 8. It does not broaden the proposition, introduce production hardening or begin evaluating market success.
+
+Step 9 ends immediately before the Step 7 observation window begins. Step 10 owns live operation, evidence gathering, bounded iteration and evaluation during that window.
+
+### Inputs
+
+Use:
+
+- the completed Step 7 POC definition, including scope, inputs, outputs, dependencies and success/exit criteria;
+- the completed Step 8 operational requirements;
+- the Gateway 3 **Pass** decision and all recorded pre-observation requirements;
+- the Phase 1 prerequisite and validation evidence where it constrains implementation;
+- the current [SideGig Development Operating Model](../development/operating-model.md);
+- current channel documentation where deployment, publication, charging or runtime mechanics must be implemented.
+
+### Relationship to the Development Operating Model
+
+Step 9 defines the **implementation outcome and evidence required by the commercial methodology**. It does not redefine the engineering workflow.
+
+All software development is performed according to the SideGig Development Operating Model. That operating model owns repository structure, work management, Git lifecycle, design artifacts, coding and quality standards, CI/CD, agentic development and release conventions.
+
+The product repository is the authoritative source for design, implementation work, code, tests and CI evidence. The implementation artifact records only the references and evidence needed to determine Step 9 completion.
+
+Where execution of Step 9 exposes a reusable gap in the development operating model, update the development operating model separately rather than embedding project-specific engineering rules in this methodology.
+
+### Implementation method
+
+#### 1. Establish the development project
+
+Create or prepare the product repository according to the current Development Operating Model.
+
+Produce the design and implementation-planning artifacts required by that operating model before feature implementation begins. Translate the Step 7 POC boundary into implementation work without expanding the selected proposition.
+
+#### 2. Implement the defined POC
+
+Build the minimum implementation required to satisfy the Step 7 functional scope, input/output contract and material dependency assumptions.
+
+Out-of-scope functionality remains out of scope unless a deliberate methodology decision changes the POC definition.
+
+#### 3. Validate the implementation technically
+
+Before live observation begins, verify through representative tests and deployed execution that:
+
+- the defined inputs are accepted and bounded correctly;
+- the required outputs are produced in the defined form;
+- the material dependency assumptions can be exercised in the deployed environment;
+- failures required by Step 8 can be diagnosed;
+- the Step 8 monitoring and evidence mechanisms needed during live operation are available;
+- charging or other experiment-critical platform behaviour works where the POC depends on it.
+
+Step 9 validates that the experiment is capable of being run. It does not attempt to satisfy Step 7 market or live-operation thresholds before Step 10 begins.
+
+#### 4. Deploy the observation candidate
+
+Deploy the implementation to the actual channel/environment in which Step 10 will operate it.
+
+Record an immutable or otherwise unambiguous implementation reference such as a commit, version, build or deployment identifier so that the implementation used during the observation window can be identified later.
+
+Verify the intended user execution path and result-delivery path on the deployed implementation.
+
+#### 5. Close the pre-observation requirements
+
+Complete every Gateway 3 item recorded as **Action before observation** and update the Gateway 3 pre-observation table with its final status and evidence.
+
+This includes channel publication, customer-facing documentation, billing/monetisation configuration, monitoring setup or baseline capture where those were explicitly carried into Step 9.
+
+No **Action before observation** or **Blocked** item may remain when Step 9 is complete.
+
+#### 6. Establish the observation baseline
+
+Capture the baseline evidence defined in Step 8 immediately before the live observation window begins and record the deployed implementation/configuration against which Step 10 evidence will be evaluated.
+
+Do not begin counting the observation window until Step 9 has been recorded as complete.
+
+### Required output
+
+Extend `implementation/<channel>/poc.md` using the canonical POC template with a POC Implementation section containing:
+
+- the product repository reference;
+- the development/design evidence references required by the Development Operating Model;
+- the deployed implementation reference;
+- concise technical implementation and validation evidence;
+- confirmation that the Gateway 3 pre-observation requirements are closed;
+- confirmation that the Step 8 observation baseline has been captured;
+- the Step 9 completion decision and any blockers.
+
+Detailed design, issue history, source code, tests and CI records remain in the product repository and should be linked rather than duplicated in the implementation artifact.
+
+### Completion criteria
+
+Step 9 is complete when:
+
+1. Gateway 3 is **Pass**;
+2. the product repository has been established and the current Development Operating Model requirements needed for implementation have been satisfied;
+3. the implemented functionality remains within the Step 7 POC boundary;
+4. representative technical validation demonstrates the Step 7 input/output contract and material capability assumptions sufficiently to begin live operation;
+5. the Step 8 monitoring and evidence mechanisms required during Step 10 are configured and verified;
+6. the POC is deployed to the channel/environment that will be used for the observation window and the intended user execution/result-delivery path works;
+7. the deployed implementation is traceable to a specific implementation reference;
+8. every Gateway 3 **Action before observation** item has been closed or made explicitly **Not applicable**;
+9. the Step 8 baseline required for later evaluation has been captured;
+10. no unresolved implementation defect or configuration issue prevents valid live observation;
+11. the artifact explicitly records Step 9 as complete and ready to proceed to Step 10.
 
 ## Step 10 — Operate, Evaluate and Iterate the POC
 

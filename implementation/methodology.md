@@ -522,7 +522,7 @@ A **Pass** decision requires a completed opportunity-area selection, specific-op
 
 Phase 3 expands the selected opportunity into a structured POC definition that can support an implementation decision. The buyer problem, target user and core proposition established during Phase 2 become inputs rather than being rediscovered from scratch.
 
-**Step 8 and the later phases remain directional placeholders until they are explicitly developed using the methodology-definition process above. Step 7 is defined below and may be executed.**
+**Steps 7 and 8 are defined below and may be executed. Gateway 3 and the later phases remain directional placeholders until they are explicitly developed using the methodology-definition process above.**
 
 ## Step 7 — Define the POC
 
@@ -634,7 +634,96 @@ Step 7 is complete when:
 
 ## Step 8 — Define POC Operational Requirements
 
-Identify the minimum operational capabilities required while the POC is running, such as visibility of failures, dependency changes, cost behaviour and issues requiring intervention.
+### Purpose
+
+Define the **minimum operating layer required to run the Step 7 POC safely and interpret its evidence correctly**.
+
+Step 8 is not the production operating model. It should not introduce production SLAs, 24/7 support, enterprise incident management, redundant infrastructure or other operational mechanisms that are unnecessary for a bounded POC. Its purpose is to ensure that material failures, source changes, data-quality degradation, cost behaviour and market signals can be observed and acted on during the experiment.
+
+The operational design should remain proportional to the POC. Prefer native channel monitoring, logs, analytics and cost controls before introducing custom monitoring infrastructure.
+
+### Inputs
+
+Use:
+
+- the completed Step 7 POC definition;
+- the Step 7 market and capability success criteria, bounded-iteration rule and exit rule;
+- the POC dependencies and constraints;
+- Phase 1 evidence about the channel's available run, log, usage and cost visibility;
+- current channel documentation for monitoring, analytics, charging and operational controls where those mechanics may have changed.
+
+If a Step 7 criterion cannot be measured reliably with the available channel evidence, refine the criterion to the closest observable measure before Step 8 is considered complete. The change must preserve the intent of the criterion rather than making success easier.
+
+### Operational-requirements method
+
+Define only the operational capabilities needed to preserve the validity of the POC and support the later evaluation.
+
+#### Monitoring coverage
+
+For each material operational concern, record:
+
+- the signal, metric or evidence that reveals its state;
+- the monitoring or evidence mechanism;
+- the trigger, threshold or review rule;
+- the action required when the trigger is met.
+
+At minimum consider:
+
+1. **Run health and failures** — whether executions succeed and failures can be diagnosed.
+2. **Data / result quality** — whether the output continues to satisfy the material quality assumptions defined in Step 7.
+3. **External dependency behaviour** — whether an upstream source or service has changed, degraded or become inaccessible.
+4. **Usage, cost and unit economics** — whether the POC remains within its cost assumptions and charging behaviour is operating as intended.
+5. **Market-experiment signals** — whether user, usage, repeat-use and monetisation evidence needed by Step 7 can actually be observed.
+6. **User-reported issues** — where the channel exposes feedback, issues or shared diagnostic evidence that could reveal a POC defect.
+
+A category may be marked not applicable where the POC genuinely does not require it, with a reason.
+
+#### Operating cadence and evidence capture
+
+Define the smallest review cadence needed for the experiment.
+
+Separate:
+
+- **event-driven observation**, where a failure or threshold should trigger attention promptly;
+- **periodic review**, where trends such as usage, user growth, cost or profit can be reviewed less frequently; and
+- **evaluation snapshots**, including the baseline and end-of-window evidence needed to calculate the Step 7 decision criteria.
+
+The evidence source should be identified sufficiently that Step 10 can reproduce the POC evaluation without relying on memory or informal observations. Use existing channel run history, analytics exports, logs and usage records where possible rather than creating a parallel monitoring database.
+
+#### Intervention boundaries
+
+Define what may be changed while the POC is running without invalidating the experiment.
+
+A bounded operational fix may normally correct a defect, parser breakage, retry behaviour, logging, schema implementation or documentation while preserving the selected proposition, experiment mode, commercial parameter and functional boundary.
+
+A change that materially alters the buyer proposition, data source, pricing, distribution mode or excluded capability should not be treated as routine operations. It should trigger a deliberate iteration decision and, where it changes the conditions under which market evidence is collected, a new observation window or later gateway decision.
+
+Define explicit conditions under which the experiment should be paused while a material defect or dependency failure is investigated.
+
+### Required output
+
+Extend `implementation/<channel>/poc.md` using the canonical POC template with a POC Operational Requirements section containing:
+
+- the operational evidence basis;
+- monitoring requirements and response rules;
+- the operating cadence and evidence-retention approach;
+- bounded-intervention and pause rules;
+- the Step 8 completion decision.
+
+### Completion criteria
+
+Step 8 is complete when:
+
+1. Step 7 is complete and the POC boundary is stable enough to operate;
+2. every material Step 7 market and capability criterion has an identified observable evidence source;
+3. run health, result quality, dependency behaviour and cost/economic behaviour are covered where material;
+4. the market signals required to evaluate the POC are measurable using identified channel evidence;
+5. material operational triggers have a defined response;
+6. event-driven monitoring and periodic review are proportionate to the POC rather than production-grade by default;
+7. baseline and end-of-window evidence capture are defined;
+8. bounded fixes are distinguished from changes that invalidate or restart the experiment;
+9. pause conditions are explicit;
+10. no unresolved operational-observability gap prevents Gateway 3 from deciding whether to commit to implementation.
 
 ## Gateway 3 — POC Commitment
 

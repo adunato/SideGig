@@ -518,6 +518,48 @@ function validatePoc(file, doc, template) {
     }
   }
 
+  const operationalHeading = firstHeading(doc.ast, 3, 'Operational Requirements');
+  const operationalRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, operationalHeading),
+    ['Operational concern', 'Signal / evidence', 'Mechanism', 'Trigger / review rule', 'Required response'],
+    'POC operational requirements',
+  );
+
+  const cadenceHeading = firstHeading(doc.ast, 3, 'Operating Cadence and Evidence');
+  const cadenceRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, cadenceHeading),
+    ['Activity', 'Cadence / trigger', 'Evidence retained'],
+    'POC operating cadence and evidence',
+  );
+
+  const step8 = validateRequiredFields(result, doc.raw, [
+    'Operational evidence basis',
+    'Bounded operational intervention',
+    'Experiment-change rule',
+    'Pause rule',
+    'Step 8 complete',
+    'Step 8 blockers',
+  ]);
+  validateCompleteField(result, step8['Step 8 complete'], 'Step 8 complete');
+  requireCompletedStep(result, step8['Step 8 complete'], step8['Step 8 blockers'], 'Step 8');
+
+  if (step8['Step 8 complete'] === 'Yes') {
+    if (step7['Step 7 complete'] !== 'Yes') result.errors.push('Step 8 is complete but Step 7 is not complete.');
+    if (operationalRows.length === 0) result.errors.push('Step 8 is complete but no operational requirements are recorded.');
+    if (cadenceRows.length === 0) result.errors.push('Step 8 is complete but no operating cadence/evidence activities are recorded.');
+    const requiredOperationalThemes = ['run', 'quality', 'cost', 'market'];
+    const operationalText = operationalRows.flat().join(' ').toLowerCase();
+    for (const theme of requiredOperationalThemes) {
+      if (!operationalText.includes(theme)) result.errors.push(`Step 8 is complete but operational coverage for ${theme} evidence is not apparent.`);
+    }
+    for (const [label, value] of Object.entries(step8)) {
+      if (['Step 8 complete', 'Step 8 blockers'].includes(label)) continue;
+      if (!value || isPlaceholder(value)) result.errors.push(`Step 8 is complete but ${label} is not substantively recorded.`);
+    }
+  }
+
   result.data = {
     step3Complete: step3['Step 3 complete'],
     step4Complete: step4['Step 4 complete'],
@@ -526,6 +568,7 @@ function validatePoc(file, doc, template) {
     gateway2Decision: gatewayDecision,
     selectedCount,
     step7Complete: step7['Step 7 complete'],
+    step8Complete: step8['Step 8 complete'],
   };
 
   addIncompletePlaceholders(result, doc.raw);
@@ -573,7 +616,7 @@ function validateCrossDocument(results) {
       result.errors.push('POC artifact has no sibling prerequisites-validation.md artifact.');
       continue;
     }
-    const phase2Started = [result.data.step3Complete, result.data.step4Complete, result.data.step5Complete, result.data.step6Complete, result.data.step7Complete].includes('Yes') || result.data.gateway2Decision === 'Pass';
+    const phase2Started = [result.data.step3Complete, result.data.step4Complete, result.data.step5Complete, result.data.step6Complete, result.data.step7Complete, result.data.step8Complete].includes('Yes') || result.data.gateway2Decision === 'Pass';
     if (phase2Started && validation.data.gatewayDecision !== 'Pass') {
       result.errors.push('Phase 2 records completed work but Gateway 1 in the sibling prerequisites-validation artifact is not Pass.');
     }

@@ -620,6 +620,52 @@ function validatePoc(file, doc, template) {
     }
   }
 
+  const implementationEvidenceHeading = firstHeading(doc.ast, 3, 'Implementation and Validation Evidence');
+  const implementationEvidenceRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, implementationEvidenceHeading),
+    ['Implementation area', 'Requirement source', 'Evidence / reference', 'Status'],
+    'Step 9 implementation and validation evidence',
+  );
+  for (const row of implementationEvidenceRows) {
+    const status = row[3]?.trim();
+    if (status && !isPlaceholder(status) && !VALIDATION_STATUSES.has(status)) {
+      result.errors.push(`Step 9 implementation evidence has invalid status "${status}".`);
+    }
+  }
+
+  const step9 = validateRequiredFields(result, doc.raw, [
+    'Product repository',
+    'Development/design evidence',
+    'Deployed implementation reference',
+    'Pre-observation requirements closed',
+    'Observation baseline captured',
+    'Step 9 complete',
+    'Step 9 blockers',
+  ]);
+  validateCompleteField(result, step9['Pre-observation requirements closed'], 'Pre-observation requirements closed');
+  validateCompleteField(result, step9['Observation baseline captured'], 'Observation baseline captured');
+  validateCompleteField(result, step9['Step 9 complete'], 'Step 9 complete');
+  requireCompletedStep(result, step9['Step 9 complete'], step9['Step 9 blockers'], 'Step 9');
+
+  if (step9['Step 9 complete'] === 'Yes') {
+    if (gateway3Decision !== 'Pass') result.errors.push('Step 9 is complete but Gateway 3 is not Pass.');
+    if (implementationEvidenceRows.length === 0) result.errors.push('Step 9 is complete but no implementation/validation evidence is recorded.');
+    const failedEvidence = implementationEvidenceRows.filter((row) => row[3]?.trim() === 'Fail');
+    if (failedEvidence.length) result.errors.push('Step 9 is complete but failed implementation/validation evidence remains.');
+    if (step9['Pre-observation requirements closed'] !== 'Yes') result.errors.push('Step 9 is complete but pre-observation requirements are not closed.');
+    if (step9['Observation baseline captured'] !== 'Yes') result.errors.push('Step 9 is complete but the observation baseline has not been captured.');
+    const outstandingPreObservation = preObservationRows.filter((row) => {
+      const status = row[3]?.trim();
+      return status === 'Action before observation' || status === 'Blocked';
+    });
+    if (outstandingPreObservation.length) result.errors.push('Step 9 is complete but Gateway 3 pre-observation actions remain open.');
+    for (const [label, value] of Object.entries(step9)) {
+      if (['Step 9 complete', 'Step 9 blockers'].includes(label)) continue;
+      if (!value || isPlaceholder(value)) result.errors.push(`Step 9 is complete but ${label} is not substantively recorded.`);
+    }
+  }
+
   result.data = {
     step3Complete: step3['Step 3 complete'],
     step4Complete: step4['Step 4 complete'],
@@ -630,6 +676,7 @@ function validatePoc(file, doc, template) {
     step7Complete: step7['Step 7 complete'],
     step8Complete: step8['Step 8 complete'],
     gateway3Decision,
+    step9Complete: step9['Step 9 complete'],
   };
 
   addIncompletePlaceholders(result, doc.raw);

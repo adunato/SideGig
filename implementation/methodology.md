@@ -522,7 +522,7 @@ A **Pass** decision requires a completed opportunity-area selection, specific-op
 
 Phase 3 expands the selected opportunity into a structured POC definition that can support an implementation decision. The buyer problem, target user and core proposition established during Phase 2 become inputs rather than being rediscovered from scratch.
 
-**Steps 7 and 8 are defined below and may be executed. Gateway 3 and the later phases remain directional placeholders until they are explicitly developed using the methodology-definition process above.**
+**Steps 7 and 8 and Gateway 3 are defined below and may be executed. Phase 4 and the later phases remain directional placeholders until they are explicitly developed using the methodology-definition process above.**
 
 ## Step 7 — Define the POC
 
@@ -727,7 +727,91 @@ Step 8 is complete when:
 
 ## Gateway 3 — POC Commitment
 
-Confirm that the POC is sufficiently defined, appropriately scoped and operationally manageable before implementation begins.
+### Purpose
+
+Make the explicit decision whether the project should **commit implementation effort to the defined POC**.
+
+Gateway 3 is the transition from definition to implementation. It does not ask whether the POC has already succeeded; that evidence does not exist until the POC is built and operated. Instead, it determines whether Steps 7 and 8 have produced a sufficiently bounded, measurable and operationally manageable experiment to justify Step 9.
+
+A Gateway 3 **Pass** authorizes implementation. It does **not** by itself authorize the public observation window to begin. Requirements that are needed only before public or paid exposure may remain as explicit **Action before observation** items, provided they are understood, feasible and non-blocking to implementation.
+
+### Inputs
+
+Use:
+
+- the completed Step 7 POC definition;
+- the completed Step 8 operational requirements;
+- Phase 1 prerequisite and validation evidence;
+- any deferred prerequisite that has become relevant because of the selected POC mode;
+- current channel documentation where publication, monetisation, permissions or other commitment-critical mechanics may have changed;
+- material project constraints such as cost, legal/eligibility limitations and implementation effort.
+
+Do not reopen market opportunity selection at this gateway unless Steps 7–8 reveal a material contradiction that invalidates the selected proposition.
+
+### Commitment assessment
+
+Assess the following dimensions explicitly:
+
+1. **Definition readiness** — scope, inputs, outputs, dependencies, constraints and experiment boundary are clear enough to implement without material product-definition decisions being left to the coding phase.
+2. **Evidence readiness** — the market and capability hypotheses have observable success, iteration and exit criteria.
+3. **Operational manageability** — the monitoring, evidence capture, intervention and pause rules are proportionate and feasible.
+4. **Implementation proportionality** — the implementation remains sufficiently small, inexpensive and reversible for a POC.
+5. **Prerequisite feasibility** — technical, platform and commercial prerequisites needed for implementation or the later observation window are either ready or have a concrete feasible action.
+6. **Risk / cost containment** — known technical, commercial and operational risks have explicit boundaries and no unresolved exposure makes the experiment unreasonable.
+
+Use only:
+
+- **Ready** — sufficient to commit and no further action is required for this dimension;
+- **Action before observation** — does not block Step 9, but must be completed before the public/paid observation window starts;
+- **Blocked** — unresolved issue prevents responsible commitment to implementation;
+- **Not applicable** — the dimension or identified requirement genuinely does not apply.
+
+A gateway should not pass with any **Blocked** item.
+
+### Pre-observation requirements
+
+Record every known requirement that does not block implementation but must be completed before the Step 7 observation window starts.
+
+Examples include public listing metadata, monetisation/account configuration, customer-facing documentation, publication permissions or other channel-specific setup that is unnecessary for coding but necessary for a valid public experiment.
+
+These items become explicit Step 9 completion dependencies. They must not disappear merely because Gateway 3 passed.
+
+### Decision rule
+
+Gateway 3 is **Pass** when:
+
+- Steps 7 and 8 are complete;
+- no commitment-assessment item is **Blocked**;
+- the POC remains bounded and proportionate;
+- all material success/exit evidence is observable;
+- any **Action before observation** item is explicitly recorded, feasible and has a clear completion point;
+- there is no unresolved prerequisite, cost or operating issue that makes implementation unjustified.
+
+A **Pass** means **Commit to POC implementation and proceed to Step 9**.
+
+Gateway 3 is **Fail** when a material definition, observability, prerequisite, cost or operating issue must be resolved before implementation effort should be committed.
+
+### Required output
+
+Extend `implementation/<channel>/poc.md` using the canonical POC template with a Gateway 3 section containing:
+
+- the commitment assessment;
+- all pre-observation requirements;
+- the Gateway 3 decision and commitment;
+- the rationale;
+- the authorized next step.
+
+### Completion criteria
+
+Gateway 3 is complete when:
+
+1. Steps 7 and 8 are complete;
+2. all six commitment dimensions have been considered;
+3. each material commitment item has a valid readiness status;
+4. no **Blocked** item remains for a Pass decision;
+5. all known pre-observation requirements are recorded;
+6. the decision is explicitly **Pass** or **Fail**;
+7. a Pass explicitly records the commitment to Step 9 and preserves the distinction between implementation authorization and observation-window readiness.
 
 ---
 

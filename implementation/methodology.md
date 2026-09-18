@@ -522,11 +522,115 @@ A **Pass** decision requires a completed opportunity-area selection, specific-op
 
 Phase 3 expands the selected opportunity into a structured POC definition that can support an implementation decision. The buyer problem, target user and core proposition established during Phase 2 become inputs rather than being rediscovered from scratch.
 
-**The steps from Phase 3 onward remain directional placeholders until they are explicitly developed using the methodology-definition process above. They should not be treated as fully defined methodology steps merely because they are named here.**
+**Step 8 and the later phases remain directional placeholders until they are explicitly developed using the methodology-definition process above. Step 7 is defined below and may be executed.**
 
 ## Step 7 — Define the POC
 
-Expand the selected opportunity into a structured POC definition covering the problem, target user, value proposition, scope, inputs and outputs, dependencies, constraints and explicit success and exit criteria.
+### Purpose
+
+Convert the specific opportunity selected at Gateway 2 into a bounded commercial experiment that is precise enough to implement and evaluate.
+
+Step 7 defines **what the POC is and what evidence it must generate**. It does not design production architecture, define the production commercial model or introduce production-grade operational requirements. Those belong to later steps.
+
+The POC must remain the smallest credible implementation that can test both dimensions carried forward from Phase 2:
+
+1. whether the selected proposition can generate observable real-user market evidence; and
+2. whether the material capability assumptions remain valid when the proposition is implemented and exposed under realistic conditions.
+
+### Inputs
+
+Use:
+
+- the completed `implementation/<channel>/poc.md` Phase 2 sections and Gateway 2 decision;
+- the selected opportunity's buyer problem, target user, value proposition, market assumptions and capability assumptions;
+- relevant research and case-study evidence already linked from Phase 2;
+- Phase 1 implementation evidence where it constrains the POC;
+- current channel documentation where implementation or monetisation mechanics must be verified.
+
+Do not reopen opportunity selection unless Step 7 exposes a material contradiction that makes the selected proposition unsuitable for a bounded POC.
+
+### Definition method
+
+Define the POC at the minimum level required to make implementation and later evaluation unambiguous.
+
+#### Experiment boundary
+
+Record:
+
+- the POC objective;
+- the primary target user and buyer problem carried forward from Phase 2;
+- the experiment mode, including whether the POC is private, invited, public, free or paid;
+- the observation window or other explicit evaluation boundary;
+- any temporary POC commercial parameter needed to make the experiment meaningful, while making clear that production pricing belongs to Step 12.
+
+A commercial POC may be publicly exposed or monetised where real-user behaviour is necessary to test the market hypothesis. This does not make the POC a production launch: production readiness, production pricing and the final go-live decision remain governed by later gateways.
+
+#### Functional scope
+
+Define the minimum functionality required to deliver the selected value proposition and test its material capability assumptions.
+
+Record both **in scope** and **out of scope**. Out-of-scope items are important where they prevent the POC from drifting into adjacent propositions, differentiation layers or production features that were not selected at Gateway 2.
+
+#### Inputs and outputs
+
+Define the user-visible inputs and outputs at a level sufficient to implement stable schemas and acceptance tests.
+
+For each material input, record its purpose, type or form, default/bound where relevant and whether it is required.
+
+For each material output, record the field or output object, its meaning and whether it is required for every successful result.
+
+The POC should use the channel's native schema and delivery mechanisms where practical rather than creating unnecessary external interfaces.
+
+#### Dependencies and constraints
+
+Record the external sources, channel services and other dependencies the POC relies on, together with the material constraint each introduces.
+
+Explicitly identify constraints that affect the validity of the experiment, such as source result limits, incomplete data, unstable upstream behaviour, usage policies, geographic behaviour or variable execution cost.
+
+Do not solve these constraints pre-emptively with heavier production mechanisms unless the selected proposition genuinely requires them. The POC should expose whether such mechanisms become necessary.
+
+#### Success and exit criteria
+
+Define observable criteria before implementation begins.
+
+Criteria must cover both:
+
+- **market evidence**, such as independent users, repeat use, paid use, buyer feedback or another observable signal appropriate to the channel; and
+- **capability evidence**, such as functional correctness, run reliability, dependency behaviour, resource requirements and unit-cost behaviour.
+
+Use explicit thresholds where a threshold is meaningful. Define what constitutes:
+
+- **POC success** — evidence sufficient to support progression toward productisation;
+- **bounded iteration** — partial evidence that justifies one or more specific, limited changes without changing the selected proposition; and
+- **exit / stop** — evidence that the market or capability assumptions have failed strongly enough that further POC work is not justified.
+
+Step 7 defines these criteria; Step 10 later measures the implemented POC against them.
+
+### Required output
+
+Extend `implementation/<channel>/poc.md` using the canonical POC template with a Phase 3 POC Definition section containing:
+
+- the experiment definition and boundary;
+- in-scope and out-of-scope functionality;
+- user-visible inputs and outputs;
+- dependencies and constraints;
+- market and capability success criteria;
+- iteration and exit criteria;
+- the Step 7 completion decision.
+
+### Completion criteria
+
+Step 7 is complete when:
+
+1. Gateway 2 is **Pass** and exactly one specific opportunity has been selected;
+2. the POC objective and experiment boundary are explicit;
+3. the scope is small enough to remain a bounded experiment while still delivering the selected proposition's core value;
+4. in-scope and out-of-scope functionality are recorded clearly enough to prevent scope drift;
+5. material user inputs and outputs are defined sufficiently for implementation and acceptance testing;
+6. material dependencies and constraints are explicit;
+7. success criteria cover both market evidence and capability evidence with observable measures;
+8. bounded-iteration and exit criteria are defined;
+9. no unresolved definition gap prevents Step 8 from determining the operational requirements needed to run the POC.
 
 ## Step 8 — Define POC Operational Requirements
 

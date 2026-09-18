@@ -28,6 +28,7 @@ const AREA_SELECTION_DECISIONS = new Set(['Selected', 'Not selected']);
 const SHORTLIST_DECISIONS = new Set(['Shortlisted', 'Excluded']);
 const FINAL_SELECTION_DECISIONS = new Set(['Selected', 'Deferred']);
 const GATEWAY_DECISIONS = new Set(['Pass', 'Fail']);
+const COMMITMENT_STATUSES = new Set(['Ready', 'Action before observation', 'Blocked', 'Not applicable']);
 const CONFIDENCE_VALUES = new Set(['High', 'Medium', 'Low']);
 
 const MARKET_DIMENSIONS = new Set([
@@ -566,6 +567,59 @@ function validatePoc(file, doc, template) {
     }
   }
 
+  const commitmentHeading = firstHeading(doc.ast, 3, 'Commitment Assessment');
+  const commitmentRows = validateStatusTable(
+    result,
+    firstTableInSection(doc.ast, commitmentHeading),
+    ['Commitment dimension', 'Evidence / assessment', 'Status', 'Required action / condition'],
+    2,
+    COMMITMENT_STATUSES,
+    'Gateway 3 commitment assessment',
+  );
+
+  const preObservationHeading = firstHeading(doc.ast, 3, 'Pre-Observation Requirements');
+  const preObservationRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, preObservationHeading),
+    ['Requirement', 'Why required', 'Required by', 'Status', 'Action'],
+    'Gateway 3 pre-observation requirements',
+  );
+  for (const row of preObservationRows) {
+    const value = row[3]?.trim();
+    if (value && !isPlaceholder(value) && !COMMITMENT_STATUSES.has(value)) {
+      result.errors.push(`Gateway 3 pre-observation requirement has invalid status "${value}".`);
+    }
+  }
+
+  const gateway3 = validateRequiredFields(result, doc.raw, [
+    'Gateway 3 decision',
+    'Gateway 3 commitment',
+    'Gateway 3 rationale',
+    'Authorized next step',
+  ]);
+  const gateway3Decision = gateway3['Gateway 3 decision'];
+  if (gateway3Decision && !isPlaceholder(gateway3Decision) && !GATEWAY_DECISIONS.has(gateway3Decision)) {
+    result.errors.push('Gateway 3 decision must be Pass or Fail.');
+  }
+
+  const blockedCommitments = commitmentRows.filter((row) => row[2]?.trim() === 'Blocked');
+  if (gateway3Decision === 'Pass') {
+    if (step7['Step 7 complete'] !== 'Yes' || step8['Step 8 complete'] !== 'Yes') {
+      result.errors.push('Gateway 3 is Pass but Steps 7 and 8 are not both complete.');
+    }
+    if (blockedCommitments.length) result.errors.push('Gateway 3 is Pass but at least one commitment-assessment item is Blocked.');
+    if (commitmentRows.length < 6) result.errors.push('Gateway 3 is Pass but all six commitment dimensions are not recorded.');
+    if (!/^Commit to POC implementation$/i.test(gateway3['Gateway 3 commitment'] ?? '')) {
+      result.errors.push('Gateway 3 is Pass but Gateway 3 commitment is not "Commit to POC implementation".');
+    }
+    if (!/Step 9/i.test(gateway3['Authorized next step'] ?? '')) {
+      result.errors.push('Gateway 3 is Pass but the authorized next step is not Step 9.');
+    }
+    for (const [label, value] of Object.entries(gateway3)) {
+      if (!value || isPlaceholder(value)) result.errors.push(`Gateway 3 is Pass but ${label} is not substantively recorded.`);
+    }
+  }
+
   result.data = {
     step3Complete: step3['Step 3 complete'],
     step4Complete: step4['Step 4 complete'],
@@ -575,6 +629,7 @@ function validatePoc(file, doc, template) {
     selectedCount,
     step7Complete: step7['Step 7 complete'],
     step8Complete: step8['Step 8 complete'],
+    gateway3Decision,
   };
 
   addIncompletePlaceholders(result, doc.raw);
@@ -622,7 +677,7 @@ function validateCrossDocument(results) {
       result.errors.push('POC artifact has no sibling prerequisites-validation.md artifact.');
       continue;
     }
-    const phase2Started = [result.data.step3Complete, result.data.step4Complete, result.data.step5Complete, result.data.step6Complete, result.data.step7Complete, result.data.step8Complete].includes('Yes') || result.data.gateway2Decision === 'Pass';
+    const phase2Started = [result.data.step3Complete, result.data.step4Complete, result.data.step5Complete, result.data.step6Complete, result.data.step7Complete, result.data.step8Complete].includes('Yes') || result.data.gateway2Decision === 'Pass' || result.data.gateway3Decision === 'Pass';
     if (phase2Started && validation.data.gatewayDecision !== 'Pass') {
       result.errors.push('Phase 2 records completed work but Gateway 1 in the sibling prerequisites-validation artifact is not Pass.');
     }

@@ -218,3 +218,37 @@ Define the smallest credible commercial experiment that can test the selected op
 
 **Step 7 blockers:** <None, or concise list>
 
+## 7. POC Operational Requirements
+
+*Methodology mapping: Phase 3, Step 8 — Define POC Operational Requirements.*
+
+Define only the operating capabilities needed to observe, protect and evaluate the bounded POC. Prefer native channel monitoring and analytics over production-grade custom infrastructure.
+
+**Operational evidence basis:** <Links or references to the channel monitoring, analytics, run/log and charging evidence used to define these requirements>
+
+### Operational Requirements
+
+| Operational concern | Signal / evidence | Mechanism | Trigger / review rule | Required response |
+|---|---|---|---|---|
+| <Run health / data quality / dependency / economics / market evidence / user issue> | <Metric or evidence> | <Native monitoring, analytics, logs, API, manual review, etc.> | <Threshold, event or review rule> | <Action required> |
+
+### Operating Cadence and Evidence
+
+| Activity | Cadence / trigger | Evidence retained |
+|---|---|---|
+| <Monitoring or review activity> | <When it happens> | <Evidence source retained for Step 10 evaluation> |
+
+### Intervention Boundaries
+
+**Bounded operational intervention:** <Changes that may be made without changing the experiment>
+
+**Experiment-change rule:** <Changes that require a deliberate iteration decision and possibly a new observation window>
+
+**Pause rule:** <Conditions that require the POC to be paused while the issue is investigated>
+
+### Step 8 Completion
+
+**Step 8 complete:** <Yes / No>
+
+**Step 8 blockers:** <None, or concise list>
+

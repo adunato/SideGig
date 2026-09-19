@@ -42,6 +42,27 @@ The bootstrap must:
 
 The bootstrap is not merely a list of filenames. Each standard artifact must have a canonical SideGig template or baseline defining its purpose, required structure and project-specific extension points.
 
+
+### README baseline
+
+Every project repository contains a root `README.md` created from `development/templates/README-template.md`.
+
+The README is the concise entry point for a developer or operator encountering the repository. It explains what the product is, how to run and validate it, and where to find the authoritative design and implementation documentation.
+
+The README must contain:
+
+- **Project summary** — the project name and a concise project-specific description of what the product does and who or what it serves.
+- **Status** — the current lifecycle state where this materially helps interpret the repository, for example proof of concept, active development or production.
+- **Getting started** — the minimum project-specific prerequisites and commands required to install dependencies and run the product locally.
+- **Usage** — the minimum project-specific instructions needed to exercise the product through its primary local or developer-facing interface.
+- **Development** — the standard commands used to validate, test and build the repository.
+- **Project documentation** — links to `docs/hld.md` and `docs/implementation-plan.md`, identifying them as the authoritative design and implementation-planning artifacts.
+- **Deployment** — a concise project-specific statement identifying the deployment target and the standard release/deployment path, without duplicating CI/CD workflow detail.
+
+The template contains the common wording and headings. Each project replaces the explicit template placeholders with project-specific content during bootstrap.
+
+The README remains concise. Architecture decisions belong in `docs/hld.md`, implementation sequencing belongs in `docs/implementation-plan.md`, agent instructions belong in `AGENTS.md`, and detailed CI/CD behaviour belongs in repository workflow configuration and the Development Operating Model.
+
 ## 2. Work Management
 
 ### Issues

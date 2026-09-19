@@ -427,6 +427,30 @@ The commitment decision uses the completed Step 7 definition and Step 8 operatin
 
 ## 9. POC Implementation
 
+### 9.1 Repository Creation
+
+**Purpose**
+
+Establish the dedicated product repository for the Google News POC in accordance with the SideGig Development Operating Model.
+
+**Repository decision**
+
+- Create one GitHub repository for the independently deployable Google News Actor/product.
+- Repository name: `google-news-search`.
+- Repository visibility: **Private**.
+- The repository is created empty, without GitHub-generated README, `.gitignore`, licence or other initial content.
+- The first repository commit will be created by the SideGig repository bootstrap process.
+- Product source code, tests, configuration and project-specific development artifacts will be maintained in this repository rather than in the SideGig repository.
+
+**Repository reference**
+
+<To be recorded after repository creation>
+
+**Status**
+
+Defined — not yet executed.
+
+
 *Methodology mapping: Phase 4, Step 9 — Implement the POC.*
 
 Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.

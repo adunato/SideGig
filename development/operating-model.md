@@ -924,43 +924,157 @@ Release assembly, staging promotion and production release are not part of the p
 
 ## 6. Coding and Quality Baseline
 
-### TypeScript
+### Purpose
 
-- Application code uses TypeScript, not JavaScript.
-- TypeScript `strict` mode is enabled.
-- Prettier is the formatter.
-- ESLint is the linter.
-- Vitest is the unit-test framework.
+The Coding and Quality Baseline defines the common implementation standards that every SideGig software repository follows.
 
-### Python
+It supports the Development and Validation stages of the [Development Lifecycle](#5-development-lifecycle). It does not define a separate workflow and does not create additional quality documents.
 
-- Ruff is the formatter and linter.
-- Pyright is the type checker.
-- pytest is the test framework.
+The baseline has two practical goals:
 
-### Repository validation
+- keep code mechanically consistent and easy for a developer or coding agent to inspect and change;
+- provide one reproducible local validation contract that can also be enforced by CI.
 
-Every repository exposes one command that executes the complete local validation suite.
+Project-specific requirements may extend this baseline where the product or platform genuinely requires them.
 
-For Node.js projects:
+### General coding principles
+
+- Follow the existing repository structure and established patterns unless an approved change intentionally alters them.
+- Prefer the simplest implementation that satisfies the Issue and approved design.
+- Keep responsibilities explicit and avoid unnecessary abstraction, indirection or framework introduction.
+- Remove dead code created by the change rather than leaving obsolete paths behind.
+- Do not mix unrelated refactoring into an Issue unless it is required to implement the approved outcome safely.
+- Do not weaken linting, typing or tests merely to make a change pass.
+- Generated code and external/vendor material are excluded from normal style rules where applying them would add no value.
+
+### TypeScript baseline
+
+For TypeScript repositories:
+
+- application code uses TypeScript rather than new JavaScript application modules;
+- TypeScript `strict` mode is enabled;
+- Prettier is the formatter;
+- ESLint is the linter;
+- Vitest is the default unit-test framework;
+- project configuration may add framework-specific test tooling where required.
+
+Existing JavaScript may be retained where conversion is unrelated to the active change. SideGig does not require opportunistic migration of otherwise valid code merely to satisfy the baseline.
+
+### Python baseline
+
+For Python repositories:
+
+- Ruff is the formatter and linter;
+- Pyright is the type checker;
+- pytest is the test framework;
+- project configuration defines the supported Python version and material type-checking exclusions explicitly.
+
+Existing project conventions may be retained where changing them would create unrelated migration work, but new code follows the current repository standard.
+
+### Automated testing
+
+Automated tests are proportionate to the behaviour and regression risk of the change.
+
+As a baseline:
+
+- a feature adds or updates automated tests for its material acceptance behaviour where that behaviour can reasonably be automated;
+- a bug fix adds a regression test where practical so the corrected behaviour remains protected;
+- changed error and edge-case behaviour is tested where it is material;
+- existing relevant tests are updated when intentional behaviour changes make their previous expectations obsolete;
+- tests should exercise externally meaningful behaviour or stable component contracts rather than duplicate implementation details unnecessarily.
+
+Use the lowest test level that proves the behaviour reliably:
+
+1. unit tests for isolated logic;
+2. component, API, contract or integration tests where behaviour crosses a meaningful boundary;
+3. end-to-end tests for critical flows that cannot be proved adequately at a lower level.
+
+SideGig does not impose a repository-wide code-coverage percentage. Coverage metrics may be used as diagnostic information, but acceptance is based on whether material changed behaviour and regression risk are adequately tested.
+
+Manual validation is used when behaviour cannot reasonably be automated or when real platform/environment interaction is itself part of the requirement. It supplements rather than replaces practical automated coverage.
+
+### Development integrity checks
+
+During Development, run the checks needed to keep the changed scope mechanically sound while implementation is in progress.
+
+Typical integrity checks include:
+
+- formatting;
+- linting;
+- type checking;
+- changed-scope or targeted automated tests;
+- build, compile or package checks where relevant.
+
+These checks are intentionally fast and may be run selectively while coding.
+
+Before hand-off to Validation, the implementation must be in a state where the repository's complete local validation command can reasonably be expected to pass. A known unrelated repository failure must be identified explicitly rather than silently treated as an implementation failure or ignored.
+
+### Repository validation contract
+
+Every software repository exposes one documented root command that executes its complete local validation suite.
+
+For Node.js / TypeScript repositories:
 
 `npm run validate`
 
-For Python projects:
+For Python repositories:
 
 `make validate`
 
-The validation command runs, in order:
+Where a target platform or project convention makes those commands inappropriate, the repository may define an equivalent single command, but `AGENTS.md` and the README must identify it unambiguously.
+
+The complete validation command runs the repository-applicable checks for:
 
 1. formatting verification;
 2. linting;
 3. type checking;
 4. automated tests;
-5. build or package validation where the project produces a build artefact.
+5. build, compile or package validation where applicable.
 
-CI calls the same underlying validation commands used locally.
+Project-specific validation may extend this command with additional deterministic local checks when they materially protect the product.
 
-Dependency lockfiles are committed and CI installs from the lockfile.
+The command must return a non-zero exit status when a required check fails.
+
+### Validation-stage expectations
+
+The Validation stage uses the repository validation contract as the baseline regression check, then adds the change-specific evidence required by the Issue and any applicable HLD / Implementation Plan / LLD.
+
+Validation therefore normally includes:
+
+- the complete local validation command;
+- acceptance-criteria-specific tests or evidence;
+- relevant integration or end-to-end validation not already covered by the local baseline;
+- required manual validation;
+- confirmation that Product Definition and Architecture Definition updates are consistent with the implemented behaviour.
+
+A validation failure caused by the active change is corrected within the approved scope and rerun.
+
+A pre-existing, environmental or intermittent failure is identified explicitly. It must not be represented as a passing check, but it does not automatically require unrelated corrective work to be absorbed into the current Issue.
+
+### Dependencies and reproducibility
+
+- Dependency lockfiles are committed.
+- CI installs dependencies from the committed lockfile.
+- Dependency changes are intentional and included in the change diff.
+- Do not add a dependency when the required behaviour can be implemented simply and safely with the existing stack.
+- Repository setup and validation must not depend on undocumented local machine state.
+
+### Quality completion boundary
+
+A change is ready to leave Development when:
+
+- the approved implementation scope is complete;
+- relevant automated tests have been added or updated;
+- changed-scope integrity checks pass;
+- no known implementation-caused mechanical failure remains.
+
+A change is ready to leave Validation when:
+
+- the Issue acceptance criteria have been demonstrated;
+- the complete applicable repository validation suite passes, except for explicitly identified unrelated/environmental conditions;
+- material regression risk has been covered proportionately;
+- required integration, end-to-end and manual checks are complete;
+- required durable Product Definition and Architecture Definition updates are consistent with the implementation.
 
 ## 7. CI/CD
 

@@ -29,7 +29,7 @@ Consolidate GitHub delivery controls into one section covering Issues, Milestone
 
 ### 5. Development Lifecycle
 
-Rewrite as the core change-centric engineering process. Start from the originating GitHub Issue and apply proportional HLD, implementation-plan and optional LLD stages before development, validation and integration. Explicitly support both feature and bug paths, durable product/architecture updates, and relevant process-specific Codex skills.
+Defined in the current model. Execute each GitHub Issue through a proportional change lifecycle: workspace, only the design/planning artifacts the change requires, development, validation, durable-document reconciliation and integration. Revisit only for consistency after Coding/Quality and CI/CD are finalized.
 
 ### 6. Coding and Quality Baseline
 
@@ -489,41 +489,191 @@ Release fix:
 
 ## 5. Development Lifecycle
 
-Every normal implementation change follows this lifecycle:
+### Purpose
 
-1. Create or refine the GitHub Issue.
-2. Confirm its objective, acceptance criteria and dependencies.
-3. Assign it to the target release milestone when it is committed for implementation.
-4. Confirm the HLD and implementation plan remain valid for the change; update them before coding if they do not.
-5. Create the issue branch from `dev`.
-6. Implement the issue and its automated tests.
-7. Run the complete local validation command.
-8. Open a pull request targeting `dev`.
-9. Execute the required pull-request validation and resolve failures.
-10. Review the complete diff and acceptance-criteria evidence.
-11. Squash-merge the approved change into `dev`.
-12. Delete the source branch.
-13. Close the issue through the merged pull request.
+The Development Lifecycle defines how one tracked software change moves from an approved GitHub Issue to validated integration.
 
-Release preparation follows this lifecycle:
+The lifecycle is change-centric. The GitHub Delivery Model owns the Issue, branch and pull-request mechanics; this section owns the engineering work performed inside that delivery structure.
 
-14. Confirm the intended release scope and milestone.
-15. Confirm the selected `dev` commit is green under the integrated development validation suite.
-16. Create `release/vMAJOR.MINOR.PATCH` from that `dev` commit.
-17. Open the release promotion pull request to `staging`.
-18. Pass the release-candidate validation gate and merge to `staging`.
-19. Deploy the candidate automatically to the staging environment.
-20. Execute the staging validation gate.
-21. Resolve any release defects through bug issues and release-based fix branches, then repeat the applicable validation steps.
-22. Open the production promotion pull request from the validated release branch to `main`.
-23. Pass the production-promotion checks and merge to `main`.
-24. Create the version tag and GitHub Release.
-25. Deploy the tagged release to production/public environment.
-26. Merge any release-only fixes back into `dev`.
-27. Delete the release branch.
-28. Close the release milestone.
+Every implementation change follows the same core lifecycle:
 
-Untracked implementation work is not allowed.
+`Issue -> workspace -> proportionate design/planning -> development -> validation -> integration`
+
+Design artifacts are created only when they add value. Development and validation are mandatory for every code change.
+
+### Lifecycle entry
+
+A change enters the Development Lifecycle when its GitHub Issue is sufficiently defined to begin implementation.
+
+Before work begins:
+
+- the Issue has a clear required outcome and observable acceptance criteria;
+- relevant dependencies are understood;
+- relevant Product Definition and Architecture Definition context is identified where material;
+- the target release milestone is assigned when the change has been committed to a release.
+
+The Issue remains the root traceability object throughout the lifecycle.
+
+### Determine the required design path
+
+The required design path is determined by the substance of the change, not by ceremony or Issue type alone.
+
+#### High-Level Design
+
+Create a change-specific HLD using the [High-Level Design template](../implementation/templates/high-level-design.md) and the `high-level-design` skill when the change requires a meaningful behavioural or architectural design decision.
+
+An HLD is normally required when the change:
+
+- introduces or materially changes product behaviour whose design is not already unambiguous;
+- changes the durable product or system architecture;
+- changes a material component boundary, interface, integration, data model or principal flow;
+- introduces a material cross-cutting decision involving security, reliability, performance, cost or compatibility;
+- has unresolved design choices that should be settled before implementation.
+
+An HLD is not required merely because code is being changed.
+
+#### Implementation Plan
+
+Create an Implementation Plan using the [Implementation Plan template](../implementation/templates/implementation-plan.md) and the `implementation-plan` skill when the implementation itself requires meaningful repository assessment, sequencing or coordination.
+
+A plan is normally required when:
+
+- the change spans multiple implementation areas with meaningful dependencies;
+- the implementation approach is not obvious from the Issue and existing architecture;
+- sequencing matters;
+- migration, compatibility or integration work needs coordination;
+- validation requires non-trivial preparation;
+- an LLD decision is needed.
+
+The Implementation Plan references the approved HLD when one exists. An HLD is not a prerequisite when the Issue and durable project documentation already provide sufficient design context.
+
+#### Low-Level Design
+
+An LLD is optional and is created only when an approved Implementation Plan explicitly records `LLD required: Yes`.
+
+Use the [Low-Level Design template](../implementation/templates/low-level-design.md) and the `low-level-design` skill when repository-specific file/component interactions are complex enough that implementation would otherwise require significant design decisions while coding.
+
+Do not create an LLD for routine file edits whose implementation is already clear.
+
+#### Typical paths
+
+Common paths are:
+
+- **Simple bug:** Issue -> workspace -> development -> validation -> integration.
+- **Bounded implementation change:** Issue -> workspace -> Implementation Plan -> development -> validation -> integration.
+- **Designed change:** Issue -> workspace -> HLD -> Implementation Plan -> optional LLD -> development -> validation -> integration.
+
+Features will commonly use the designed-change path. Straightforward bugs will commonly use the simple-bug path. Either Issue type may use a different path when the actual complexity warrants it.
+
+When a design stage is skipped, no placeholder artifact is created. Where useful for traceability, record the reason briefly in the Issue or pull request.
+
+### 1. Establish the change workspace
+
+Use the `setup-change-workspace` skill before implementation work begins.
+
+Create or adopt the Issue-specific branch and workspace according to the GitHub Delivery Model:
+
+- normal changes are based on `dev`;
+- approved release fixes are based on the active release branch.
+
+The workspace is established before change-specific design artifacts are created so design documents and code evolve within the same isolated change context.
+
+### 2. Complete required design and planning
+
+Produce only the HLD, Implementation Plan and LLD required by the design-path decision above.
+
+Each required artifact must be substantively complete and approved before the downstream stage that depends on it begins.
+
+If an artifact exposes a material ambiguity in the Issue, Product Definition or Architecture Definition, resolve that ambiguity at its authoritative source rather than compensating for it in a downstream document.
+
+### 3. Develop the change
+
+Use the `development` skill.
+
+Implementation is governed by:
+
+1. the originating GitHub Issue;
+2. the current durable Product Definition and Architecture Definition where relevant;
+3. the approved HLD, Implementation Plan and LLD where those artifacts were required;
+4. repository instructions and the Coding and Quality Baseline.
+
+Keep the implementation within the approved Issue scope. Add or update automated tests proportionately to the changed behaviour.
+
+A material implementation discovery that changes product behaviour, architecture, scope, interfaces, data model or another approved design decision returns the change to the appropriate earlier lifecycle stage. Do not silently redesign during coding.
+
+Run the relevant local integrity checks before hand-off to validation.
+
+### 4. Validate the change
+
+Use the `validation` skill.
+
+Validation proves that:
+
+- the Issue acceptance criteria are satisfied;
+- required behaviour defined by applicable design artifacts is implemented;
+- relevant regressions and edge cases are covered proportionately;
+- repository quality and validation commands pass for the changed scope;
+- no known implementation defect prevents integration.
+
+Validation may fix defects that remain within the approved design and Issue scope. A failure that requires a material product, architecture or scope decision returns the change to the appropriate earlier lifecycle stage.
+
+### 5. Reconcile durable documentation
+
+Before integration, determine whether the completed change modifies a durable product or architectural characteristic.
+
+When it does:
+
+- update the Product Definition when product scope, capability, externally meaningful behaviour, requirements, constraints or non-goals have changed;
+- update the Architecture Definition when the system boundary, major components, interfaces, data/state model, deployment shape, cross-cutting architecture or durable technical constraints have changed.
+
+These updates are part of the same change and are included in the same pull request.
+
+Do not update durable documents for implementation detail that leaves the approved product and architecture unchanged.
+
+### 6. Integrate the change
+
+Use the `merge-change` skill and the GitHub Delivery Model.
+
+For a normal change:
+
+1. open a pull request from the Issue branch to `dev`;
+2. reference the originating Issue;
+3. pass the required CI checks;
+4. review the complete diff, acceptance-criteria evidence, tests and documentation changes;
+5. explicitly approve the merge;
+6. squash-merge the change into `dev`;
+7. delete the change branch when safe;
+8. close the Issue through the integrated pull request.
+
+Release-fix changes follow the same lifecycle but integrate into the active release branch and are later reconciled into `dev` according to the GitHub Delivery Model.
+
+Coding agents may prepare the pull request and evidence but do not perform the human merge decision.
+
+### Lifecycle completion
+
+A change is complete when:
+
+- its Issue outcome and acceptance criteria are satisfied;
+- every required design/planning artifact is approved;
+- implementation is complete;
+- required local and CI validation has passed;
+- durable Product Definition and Architecture Definition artifacts are consistent with the implemented state;
+- the change is integrated into its target branch through the GitHub Delivery Model;
+- the originating Issue is closed or explicitly resolved without code.
+
+Release assembly, staging promotion and production release are not part of the per-change Development Lifecycle. They are governed by the GitHub Delivery Model and CI/CD sections.
+
+### Lifecycle skill mapping
+
+| Lifecycle activity | Standard skill | Required |
+| --- | --- | --- |
+| Establish workspace | `setup-change-workspace` | Yes |
+| High-Level Design | `high-level-design` | When HLD criteria are met |
+| Implementation Plan | `implementation-plan` | When planning criteria are met |
+| Low-Level Design | `low-level-design` | Only when the approved plan requires it |
+| Development | `development` | Yes |
+| Validation | `validation` | Yes |
+| Integration | `merge-change` | Yes |
 
 ## 6. Coding and Quality Baseline
 

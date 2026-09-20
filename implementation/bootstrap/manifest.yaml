@@ -4,11 +4,11 @@ description: Project-owned proportional change-delivery templates and Codex skil
 destinationRoot: .codex/skills
 templates:
   - path: implementation/templates/high-level-design.md
-    purpose: canonical high-level design structure
+    purpose: canonical optional high-level design structure
   - path: implementation/templates/implementation-plan.md
-    purpose: canonical implementation plan structure
+    purpose: canonical optional implementation plan structure
   - path: implementation/templates/low-level-design.md
-    purpose: canonical low-level design structure
+    purpose: canonical optional low-level design structure
 skills:
   - name: setup-change-workspace
     stage: setup
@@ -16,46 +16,46 @@ skills:
     source: implementation/skills/setup-change-workspace/SKILL.md
     dependencies: []
     version: 1.1.0
-    sha256: EA3F6AB3D74E9AA00F9AEA998BC51120672550A6A51B47D79721827EFC6AD576
+    sha256: 231C23C9FDBA1A0CC96F9EB5C09F59FCD39FE7EC83D91F2DB246F335F27FB8F2
   - name: high-level-design
     stage: design
     order: 20
     source: implementation/skills/high-level-design/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 1.0.0
-    sha256: 6D95943ED21D9F4280EF4272D750219D65869545F33ED2D7A776B73726880142
+    version: 1.1.0
+    sha256: 376DDCFC8B1C4D906B1468F107FBDAF2E52060C77DDB9A50BB5AF110A94C5E5C
   - name: implementation-plan
     stage: design
     order: 30
     source: implementation/skills/implementation-plan/SKILL.md
     dependencies: [setup-change-workspace]
     version: 1.1.0
-    sha256: 162A45313F2F2128025EBD4DE98CBFA2421E2B1AB04E84CADD59D6F344AB6DAC
+    sha256: 2B746CC0D1801A79CA63B9CA7B82FA5ECC70EC68BD1373830206B123EF75CBF9
   - name: low-level-design
     stage: design
     order: 40
     source: implementation/skills/low-level-design/SKILL.md
     dependencies: [implementation-plan]
-    version: 1.0.0
-    sha256: 8E049CC2D9277EC3EA23BD66B5C3FA62D376A432298A52ACBCAECF6188BE2EE4
+    version: 1.1.0
+    sha256: A10E2C33D0B80CEE8D205790EF0CDFF54A21FE120DA40AB0017CCBE125C03150
   - name: development
     stage: implementation
     order: 50
     source: implementation/skills/development/SKILL.md
     dependencies: [setup-change-workspace]
     version: 1.1.0
-    sha256: 2BC54DB5D62F2EB86149F4C741921443FBDFB32D129ECE91A13904142BC733B7
+    sha256: D2B2499A77C2D375477BF9B59541E8ECBCAFA3131DAA0ABFC08F39CC7B2A3A12
   - name: validation
     stage: validation
     order: 60
     source: implementation/skills/validation/SKILL.md
     dependencies: [development]
     version: 1.1.0
-    sha256: 7136E065EB36154CD05C25EA69208E8E8BB9B9B70452B41156D4784F18BF79B7
+    sha256: 1B87A7CCDD6B45E995BD60636123D8CCB970762A59BC67881D18D81248F690CA
   - name: merge-change
     stage: closure
     order: 70
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
     version: 1.1.0
-    sha256: 5EC49A0C3413D9ECF72EF4CEE4960BCACE9B70D1D209BF6E1AACB56D51EBBD65
+    sha256: AD5942F99F00706E0B393C2A6DA2A2A18327175E76CEBB7077383905A297AFD5

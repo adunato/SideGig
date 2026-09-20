@@ -111,7 +111,7 @@ The change-delivery lifecycle is project-owned under `implementation/`. The cano
 
 The manifest and source files are authoritative. `install-skills.ps1` requires an explicit destination project root, refuses to overwrite existing destination skill files, and installs only the declared project copies under `.codex/skills/`. It does not claim automatic Codex skill discovery. `verify-skills.ps1` validates declared source paths, reference templates, lifecycle ordering, dependencies, checksums and (when supplied) destination copies.
 
-The lifecycle skills use the artifact rules above: structural validity is distinct from substantive completion; gateways are explicit recorded decisions; cross-artifact traceability is required; and methodology, templates, validators, progress derivation and dashboards must be updated together when their contracts change. The manifest order defines the permitted lifecycle sequence, not a requirement to execute every design skill: HLD, implementation planning and LLD are used only when the Development Operating Model requires them for the change.
+The lifecycle package implements the proportional Development Lifecycle defined by the [SideGig Development Operating Model](../development/operating-model.md). The manifest order describes the normal stage order; skill dependencies describe minimum technical prerequisites and do not make optional HLD, Implementation Plan or LLD stages mandatory for every change. Structural validity remains distinct from substantive approval, cross-artifact traceability is required where artifacts exist, and templates, skills, manifest checksums and validators must be kept synchronized when their contracts change. The manifest order defines the permitted lifecycle sequence, not a requirement to execute every design skill: HLD, implementation planning and LLD are used only when the Development Operating Model requires them for the change.
 
 ---
 
@@ -852,7 +852,7 @@ Use:
 
 Step 9 defines the **implementation outcome and evidence required by the commercial methodology**. It does not redefine the engineering workflow.
 
-All software development is performed according to the SideGig Development Operating Model. That operating model owns repository structure, work management, Git lifecycle, design artifacts, coding and quality standards, CI/CD, agentic development and release conventions.
+All software development is performed according to the SideGig Development Operating Model. That operating model owns repository structure, durable product and architecture documentation, the GitHub Delivery Model, the Development Lifecycle, coding and quality standards, CI/CD, and agentic-development conventions.
 
 The product repository is the authoritative source for design, implementation work, code, tests and CI evidence. The implementation artifact records only the references and evidence needed to determine Step 9 completion.
 

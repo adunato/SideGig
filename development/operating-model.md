@@ -9,43 +9,36 @@ It defines the concrete development conventions used across projects. Project-sp
 
 ## Planned Revision
 
-> **Planning / tracking section.** This section records the agreed structural revision of the operating model and the scope of the next section-by-section iterations. It is not normative operating-model content and should be removed once the target sections have been revised and stabilized.
+> **Planning / tracking section.** This section records the agreed structural revision of the operating model and the scope of the section-by-section iterations. It is not normative operating-model content and should be removed once the target sections have been revised and stabilized.
 
 ### 1. Project and Repository Model
 
-Keep this section focused on the durable structure of a SideGig software project: one repository per independently deployable product or service, bootstrap principles, repository-level files and ownership boundaries. Rework the premature README definition so it does not assume a documentation model that has not yet been defined. Incorporate the project-level agentic framework here: standard agent/tooling, purpose of `AGENTS.md`, location and use of reusable skills, and the principle that process-specific skills are described alongside the lifecycle stage they support rather than in a separate Agentic Development section.
+Revise last, once the durable product, architecture, GitHub, development, quality and CI/CD models are known. Define the final repository structure, bootstrap contents, README, AGENTS.md, agentic framework and locations of canonical project artifacts without assuming document structures that have not yet been settled.
 
 ### 2. Product Definition and Evolution
 
-Add this as a new top-level section. Initially establish the boundary and purpose rather than fully defining the product-management model: this section will own the durable definition of what the product is, its intended capabilities, product requirements/specification, and how that definition evolves as features are introduced. Explicitly distinguish these durable product artifacts from change-specific implementation artifacts such as HLDs and implementation plans. Detailed artifact definitions will be developed in a later iteration.
+Defined in the current model. Maintain one concise durable Product Definition describing the current approved product intent, requirements and externally meaningful behaviour. Revisit only for consistency after downstream sections are finalized.
 
-### 3. Work Management
+### 3. Architecture and Design
 
-Preserve the existing GitHub Issue and milestone model, but make the Issue explicitly the starting point and root traceability object for every software change. Define the handoff from an Issue into the Development Lifecycle and ensure feature and bug issues carry the information needed to determine what subsequent design and planning stages are necessary. Keep milestones focused on release planning rather than change design.
+Defined in the current model. Maintain one concise durable Architecture Definition describing the current approved technical architecture. Revisit only for consistency after the Development Lifecycle is finalized.
 
-### 4. Git Lifecycle
+### 4. GitHub Delivery Model
 
-Retain the agreed `dev` / `staging` / `main` model, release branches, pull-request rules and branch protection. Reconcile the timing of issue branches and workspaces with the revised Development Lifecycle so that change-specific design artifacts, code and validation can evolve in the appropriate change workspace. Git mechanics should implement the lifecycle defined elsewhere rather than define the development methodology themselves.
+Consolidate GitHub delivery controls into one section covering Issues, Milestones, branches, pull requests, release candidates, tags, GitHub Releases and protection rules. GitHub artifacts define delivery state and traceability; they do not define the engineering process itself.
 
-### 6. Architecture and Design
+### 5. Development Lifecycle
 
-Reframe this section around durable project-level architecture and design rather than treating a project-level HLD and implementation plan as the primary architecture artifacts. Define how the overall architecture is initially established, which architectural principles and constraints remain durable, and how they are maintained as the product evolves. Establish the relationship between durable architecture and change-specific HLD/LLD artifacts: changes consume the current architecture and update durable architecture when they materially alter it.
+Rewrite as the core change-centric engineering process. Start from the originating GitHub Issue and apply proportional HLD, implementation-plan and optional LLD stages before development, validation and integration. Explicitly support both feature and bug paths, durable product/architecture updates, and relevant process-specific Codex skills.
 
-### 6. Development Lifecycle
+### 6. Coding and Quality Baseline
 
-Rewrite this as the core change-centric development process while retaining the Development Lifecycle heading. The lifecycle should begin with the originating GitHub Issue and apply process proportionately according to the nature of the change. Define the sequence involving change workspace, HLD where required, implementation plan, optional LLD, development, validation and integration. Explicitly account for both features and bugs so simple fixes are not forced through unnecessary design ceremony, while material bugs can enter the fuller design path when needed. Also define the obligation for a change to update durable product or architecture artifacts when it alters them. The corresponding Codex skills should be referenced within the relevant lifecycle stages.
+Retain common language, formatting, linting, typing, testing, dependency and local-validation standards. Reconcile the section with the finalized Development Lifecycle so it supplies quality rules rather than a competing workflow.
 
-### 7. Coding and Quality Baseline
+### 7. CI/CD
 
-Retain the common implementation standards for TypeScript, Python, formatting, linting, typing, testing, dependency locking and local validation. Review this section after the Development Lifecycle is settled so that its validation commands and quality expectations cleanly support the Development and Validation stages rather than defining a competing process.
+Map automated validation and deployment controls onto the finalized GitHub Delivery Model and Development Lifecycle: change validation, integrated dev validation, release-candidate validation, staging deployment/validation and production promotion.
 
-### 8. CI/CD
-
-Preserve the main automated control layers: change validation into `dev`, integrated and release-candidate validation, and deployed/staging validation before production. Reconcile these gates with the revised Development Lifecycle so CI acts as automated enforcement and evidence for the lifecycle rather than independently describing how a change is developed. Process-specific automation or future agent skills relating to CI/CD should be described here.
-
-### 10. Releases
-
-Keep this section focused on what happens after changes have been integrated: Semantic Versioning, release scope, release branches, tags, GitHub Releases, promotion and release completion. Check consistency with Work Management, Git Lifecycle and CI/CD once those sections are revised. Any future release-oriented agent skills should be referenced here rather than under a standalone Agentic Development section.
 
 ## 1. Project and Repository Model
 
@@ -103,6 +96,15 @@ The README must contain:
 The template contains the common wording and headings. Each project replaces the explicit template placeholders with project-specific content during bootstrap.
 
 The README remains concise. Architecture decisions belong in `docs/hld.md`, implementation sequencing belongs in `docs/implementation-plan.md`, agent instructions belong in `AGENTS.md`, and detailed CI/CD behaviour belongs in repository workflow configuration and the Development Operating Model.
+
+### Agentic development framework
+
+- OpenAI Codex is the standard coding agent for SideGig software projects.
+- Every project repository contains a root `AGENTS.md` providing repository-specific instructions and constraints.
+- SideGig owns reusable agent skills and canonical agent guidance; project repositories receive or extend those assets through the repository bootstrap model.
+- Reusable workflow behaviour is implemented as skills rather than repeated prompt text.
+- Process-specific agent behaviour is defined alongside the operating-model process it supports rather than in a separate parallel lifecycle.
+- Coding agents do not bypass repository controls or perform human merge/promotion decisions.
 
 ## 2. Product Definition and Evolution
 
@@ -176,169 +178,7 @@ Individual software changes begin from GitHub Issues. Where a change implements 
 
 Change-specific HLD, implementation-plan and LLD artifacts describe the design and execution of that change. When the completed change intentionally modifies the durable product definition, the Product Definition is updated within the same change before integration is complete.
 
-## 3. Work Management
-
-### Issues
-
-- GitHub Issues are the canonical development work items.
-- Only two issue type labels are used:
-  - `feature`
-  - `bug`
-- Every implementation change starts from an issue.
-- One issue represents one independently mergeable outcome.
-- Every issue contains:
-  - **Objective** — the required outcome;
-  - **Acceptance criteria** — observable conditions that must be true before closure;
-  - **Dependencies** — issue numbers that must be completed first, or `None`.
-- Feature issues describe the required behaviour, not the implementation approach.
-- Bug issues contain the observed behaviour and the expected behaviour.
-- Every implementation branch is associated with an issue.
-- Work discovered outside the current issue acceptance criteria becomes a separate issue.
-- An issue is closed when its implementation pull request is merged into its target integration branch, or through an explicit no-code resolution recorded in the issue.
-
-### Milestones
-
-- A GitHub Milestone represents exactly one planned release.
-- Milestone names are the target Semantic Version, for example `v0.2.0` or `v1.1.3`.
-- The first planned POC release uses `v0.1.0`.
-- A milestone is created when work for that release is first committed to implementation.
-- Every issue committed to a release is assigned to exactly one milestone.
-- Backlog issues have no milestone.
-- An issue is moved to another milestone only when its target release changes.
-- A milestone is closed only after its corresponding Git tag and GitHub Release have been created and production deployment has completed successfully.
-- SideGig does not use milestones for themes, workstreams, architecture areas or generic planning periods.
-
-### GitHub Projects
-
-- GitHub Projects is not part of the standard project workflow.
-- Issues, milestones, branches and pull requests are the authoritative development state.
-- A project must not duplicate issue or release status in another planning board.
-
-## 4. Git Lifecycle
-
-### Permanent branches
-
-Every project repository has three permanent branches:
-
-- `dev`
-- `staging`
-- `main`
-
-#### `dev`
-
-`dev` is the default development and integration branch.
-
-- Normal implementation changes are integrated into `dev`.
-- Direct pushes to `dev` are disabled after repository bootstrap.
-- Every normal change reaches `dev` through a pull request from an issue-specific branch.
-- A pull request must pass the required change-validation gate before merge.
-- `dev` may continue to accept new work after a release branch has been cut.
-- A release branch may be created only from a green `dev` commit representing the intended release scope.
-
-#### `staging`
-
-`staging` represents the release candidate currently undergoing pre-production validation.
-
-- Application code is not developed directly on `staging`.
-- Direct pushes to `staging` are disabled after repository bootstrap.
-- Code reaches `staging` only through a pull request from the active release branch.
-- A successful merge to `staging` automatically deploys that release candidate to the staging environment.
-- The release candidate on `staging` is subjected to the staging validation gate before production promotion.
-
-#### `main`
-
-`main` represents the production release line.
-
-- Application code is not developed directly on `main`.
-- Direct pushes to `main` are disabled after repository bootstrap.
-- Code reaches `main` only through a pull request from a release branch that has passed staging validation.
-- Production/public deployment is performed from an immutable release tag created from the validated production commit.
-
-### Development branches
-
-Normal implementation branches are created from the current `dev` branch.
-
-Branch names use:
-
-- `feature/<issue-number>-<slug>`
-- `fix/<issue-number>-<slug>`
-
-Examples:
-
-- `feature/42-add-pagination`
-- `fix/57-handle-empty-response`
-
-One branch implements one issue. A development branch is deleted after merge.
-
-### Pull requests into `dev`
-
-- Every implementation change reaches `dev` through a pull request.
-- The pull request references the issue it closes.
-- Required CI checks must pass before merge.
-- The final diff is reviewed by the developer before merge, including agent-generated changes.
-- Short-lived issue branches are squash-merged into `dev`.
-- The squash commit title uses the pull-request title.
-- Merge remains an explicit human action; coding agents do not merge their own pull requests.
-
-### Release branches
-
-A release candidate is represented by a temporary branch named:
-
-`release/vMAJOR.MINOR.PATCH`
-
-The release branch is cut from a green `dev` commit that represents the intended release scope.
-
-Once the release branch has been created:
-
-- its functional scope is frozen except for fixes required to make that release candidate acceptable;
-- `dev` may continue to receive work for later releases;
-- normal feature development is not added to the release branch;
-- fixes discovered during release validation are represented by bug issues and implemented through issue-specific fix branches created from the active release branch;
-- those fix branches are merged into the release branch through pull requests and the updated candidate is revalidated;
-- all release-branch fixes must also be merged back into `dev` before the release branch is deleted.
-
-Release branches are temporary and are deleted after successful production release and reconciliation with `dev`.
-
-### Promotion from release branch to `staging`
-
-Promotion to staging is performed through a pull request from the active release branch to `staging`.
-
-The promotion pull request:
-
-- identifies the exact release candidate being proposed;
-- executes the full automated release-candidate validation suite;
-- cannot merge while any required check is failing;
-- is merged using a normal merge commit so that release lineage remains explicit;
-- triggers automatic deployment of the resulting `staging` state to the staging environment.
-
-Individual feature commits are not cherry-picked from `dev` into `staging`.
-
-### Promotion from release branch to `main`
-
-After the release candidate has passed staging validation, the same active release branch is promoted to `main` through a pull request.
-
-The production promotion:
-
-- must contain the same validated application state as the staging release candidate, apart from release metadata that does not alter application behaviour;
-- must rerun the required production-promotion checks;
-- is merged using a normal merge commit;
-- is followed by creation of the release tag and GitHub Release;
-- triggers production/public deployment from the release tag.
-
-Application fixes are never made directly on `staging` or `main`.
-
-### Branch protection
-
-After repository bootstrap:
-
-- `dev`, `staging` and `main` reject direct normal pushes;
-- force pushes are disabled;
-- branch deletion is disabled;
-- required pull-request and CI checks must pass before merge;
-- promotion merges remain explicit human actions;
-- coding agents do not bypass branch protection or merge their own pull requests.
-
-## 5. Architecture and Design
+## 3. Architecture and Design
 
 ### Purpose
 
@@ -411,7 +251,243 @@ Where a change affects architecture, its GitHub Issue and change-specific HLD re
 
 When the approved change materially alters the durable architecture, the Architecture Definition is updated within the same change before integration is complete.
 
-## 6. Development Lifecycle
+## 4. GitHub Delivery Model
+
+### Purpose
+
+GitHub is the canonical control system for SideGig software delivery.
+
+This section defines the GitHub artifacts and state transitions used to represent, integrate and release software work. It does not define how a change is designed or implemented; that belongs to the Development Lifecycle. It also does not redefine automated validation or deployment behaviour; those controls belong to CI/CD.
+
+The core GitHub artifacts are:
+
+- **Issues** — individual units of software change and the root traceability record;
+- **Milestones** — planned release scope;
+- **change branches** — isolated Git state for one Issue;
+- **pull requests** — controlled integration and promotion records;
+- **permanent branches** — the development, staging and production lines;
+- **release branches** — temporary immutable-in-scope release candidates;
+- **tags and GitHub Releases** — immutable production release records.
+
+### Issues
+
+Every software change is represented by a GitHub Issue before implementation begins.
+
+The Issue is the root traceability reference for the change. Downstream design artifacts, implementation work, pull requests and release records reference the originating Issue where applicable.
+
+SideGig uses two standard Issue type labels:
+
+- `feature`
+- `bug`
+
+One Issue represents one independently mergeable outcome.
+
+Feature Issues are created using the [Feature Issue template](templates/feature-issue.md) and contain:
+
+- the required outcome;
+- observable acceptance criteria;
+- relevant Product Definition or Architecture Definition context where material;
+- dependencies on other Issues, or `None`.
+
+Bug Issues are created using the [Bug Issue template](templates/bug-issue.md) and contain:
+
+- observed behaviour;
+- expected behaviour;
+- observable acceptance criteria;
+- relevant Product Definition or Architecture Definition context where material;
+- dependencies on other Issues, or `None`.
+
+Issues describe required outcomes and evidence, not implementation design. The Development Lifecycle determines what design and planning artifacts are required to execute the Issue.
+
+Work discovered outside the current Issue scope becomes a separate Issue rather than silently expanding the active change.
+
+An Issue is closed when its implementation has been integrated into its target integration branch, or through an explicit no-code resolution recorded in the Issue.
+
+### Milestones
+
+A GitHub Milestone represents exactly one planned release.
+
+Milestone names use the target Semantic Version, for example `v0.2.0` or `v1.1.3`.
+
+- The first planned POC release uses `v0.1.0`.
+- A milestone is created when work is first committed to that release.
+- Every Issue committed to a release is assigned to exactly one milestone.
+- Backlog Issues may remain without a milestone.
+- An Issue moves between milestones only when its target release changes.
+- SideGig does not use milestones for themes, architecture areas, generic workstreams or planning periods.
+- A milestone is closed only after its corresponding production release has completed successfully.
+
+The milestone expresses intended release scope. The actual release candidate is the Git commit selected when the release branch is created.
+
+### Permanent branches
+
+Every project repository has three permanent branches:
+
+- `dev`
+- `staging`
+- `main`
+
+#### `dev`
+
+`dev` is the default development and integration branch.
+
+Normal completed changes are integrated into `dev` through pull requests. Direct normal pushes are disabled after repository bootstrap.
+
+A release branch may be created only from a `dev` commit that is green under the required integrated validation.
+
+#### `staging`
+
+`staging` represents the release candidate currently deployed for pre-production validation.
+
+Application changes are not developed directly on `staging`. Code reaches `staging` only through a promotion pull request from the active release branch.
+
+#### `main`
+
+`main` represents the production release line.
+
+Application changes are not developed directly on `main`. Code reaches `main` only through a production-promotion pull request from a release branch that has passed staging validation.
+
+Production/public deployment is performed from the immutable release tag associated with the validated production commit.
+
+### Change branches
+
+Normal change branches are created from the current `dev` branch and are associated with exactly one Issue.
+
+Branch names use:
+
+- `feature/<issue-number>-<slug>`
+- `fix/<issue-number>-<slug>`
+
+Examples:
+
+- `feature/42-add-pagination`
+- `fix/57-handle-empty-response`
+
+A change branch is deleted after successful integration.
+
+A bug discovered while validating an active release candidate is represented by a Bug Issue. Its fix branch is created from the active release branch rather than from `dev`, then reconciled back into `dev` after the release.
+
+### Pull requests
+
+Pull requests are the controlled GitHub mechanism for integrating changes and promoting releases.
+
+For normal changes:
+
+- the pull request targets `dev`;
+- it references the Issue it resolves;
+- required CI checks must pass before merge;
+- the complete diff and acceptance-criteria evidence are reviewed before merge;
+- the change branch is squash-merged into `dev`;
+- the source branch is deleted after merge.
+
+For release-fix branches, the pull request targets the active release branch and follows the same Issue traceability and validation principles.
+
+Promotion pull requests between release, staging and production branches use normal merge commits so release lineage remains explicit.
+
+Merge and promotion remain explicit human actions. Coding agents do not merge their own pull requests.
+
+### Release branches and release scope
+
+A release candidate is represented by a temporary branch named:
+
+`release/vMAJOR.MINOR.PATCH`
+
+The release branch is cut from a green `dev` commit representing the intended release scope.
+
+Once created:
+
+- the release scope is frozen except for fixes required to make the candidate acceptable;
+- `dev` may continue to receive work for later releases;
+- normal feature development is not added to the release branch;
+- individual features are not cherry-picked from `dev` as the normal release-selection mechanism;
+- release defects are handled through Bug Issues and fix branches based on the active release branch;
+- release-only fixes are reconciled back into `dev` before the release branch is deleted.
+
+The release branch is temporary and is deleted after successful production release and reconciliation.
+
+### Promotion to staging
+
+Promotion to staging is performed through a pull request from the active release branch to `staging`.
+
+The promotion pull request identifies the exact release candidate and is subject to the release-candidate checks defined in CI/CD.
+
+Successful merge:
+
+- uses a normal merge commit;
+- preserves the candidate lineage;
+- triggers deployment of the resulting `staging` state to the staging environment.
+
+A failed required check or failed mandatory staging validation blocks production promotion.
+
+### Promotion to production
+
+After staging validation passes, the same active release branch is promoted to `main` through a pull request.
+
+The production promotion must represent the same validated application state as the staging candidate, apart from release metadata that does not alter application behaviour.
+
+After successful merge:
+
+1. create the immutable release tag;
+2. create the corresponding GitHub Release;
+3. deploy production/public service from the tagged release state;
+4. reconcile any release-only fixes back into `dev`;
+5. delete the release branch;
+6. close the corresponding milestone.
+
+Application fixes are never made directly on `staging` or `main`.
+
+### Versioning and release records
+
+SideGig projects use Semantic Versioning:
+
+`MAJOR.MINOR.PATCH`
+
+Release tags use:
+
+`vMAJOR.MINOR.PATCH`
+
+For a release, the milestone name, release-branch version, Git tag and GitHub Release version are identical.
+
+GitHub Releases are the canonical release record. Each release contains:
+
+- a concise user-visible summary;
+- the features and bug fixes included in the release;
+- links to the relevant Issues or pull requests.
+
+SideGig does not maintain a separate manual `CHANGELOG.md`. GitHub Issues, pull requests, tags and Releases provide the delivery history.
+
+### Branch protection
+
+After repository bootstrap:
+
+- `dev`, `staging` and `main` reject direct normal pushes;
+- force pushes are disabled;
+- deletion of permanent branches is disabled;
+- required pull-request and CI checks must pass before merge;
+- promotion merges remain explicit human actions;
+- coding agents do not bypass branch protection or merge their own pull requests.
+
+### GitHub Projects
+
+GitHub Projects is not part of the standard SideGig delivery model.
+
+Issues, Milestones, branches, pull requests, tags and GitHub Releases are the authoritative GitHub delivery state. SideGig does not duplicate that state in a separate planning board.
+
+### Delivery flow summary
+
+Normal change:
+
+`Issue → change branch → pull request → dev`
+
+Release:
+
+`Milestone scope on dev → release branch → staging promotion → main promotion → tag → GitHub Release`
+
+Release fix:
+
+`Bug Issue → fix branch from release branch → pull request to release branch → revalidation → reconciliation into dev`
+
+## 5. Development Lifecycle
 
 Every normal implementation change follows this lifecycle:
 
@@ -449,7 +525,7 @@ Release preparation follows this lifecycle:
 
 Untracked implementation work is not allowed.
 
-## 7. Coding and Quality Baseline
+## 6. Coding and Quality Baseline
 
 ### TypeScript
 
@@ -489,7 +565,7 @@ CI calls the same underlying validation commands used locally.
 
 Dependency lockfiles are committed and CI installs from the lockfile.
 
-## 8. CI/CD
+## 7. CI/CD
 
 CI/CD implements three quality gates: change validation into `dev`, release-candidate validation into `staging`, and deployed validation before promotion to `main`.
 
@@ -559,36 +635,3 @@ Deployment credentials are configured in the GitHub or target-platform secret st
 
 Routine validation is automated. Merge and promotion decisions remain explicit human actions. SideGig does not require artificial second-person approval for a solo-developed project.
 
-## 9. Agentic Development
-
-- OpenAI Codex is the standard coding agent for SideGig projects.
-- Every project repository contains a root `AGENTS.md`.
-- SideGig defines a canonical baseline `AGENTS.md` under the development framework once that baseline is created.
-- A project `AGENTS.md` extends the SideGig baseline with project-specific commands, architecture constraints and repository instructions.
-- Reusable Codex behaviour is implemented as SideGig Codex skills rather than repeated prompt text.
-- Codex receives implementation work through a GitHub Issue with explicit acceptance criteria.
-- The HLD and implementation plan are authoritative context for architectural and implementation intent.
-- For normal development, Codex creates or works on the issue branch based on `dev`.
-- For an approved release-fix issue, Codex creates or works on the issue branch based on the active release branch.
-- Codex edits code, runs validation and prepares the pull request.
-- Codex does not silently expand issue scope.
-- Work discovered outside the current issue becomes a new GitHub Issue.
-- Codex does not merge its own pull request.
-- Human review before merge focuses on the complete diff, acceptance criteria, test evidence and any architectural/documentation changes rather than line-by-line supervision of the agent's implementation process.
-
-## 10. Releases
-
-- SideGig projects use Semantic Versioning: `MAJOR.MINOR.PATCH`.
-- Release tags use `vMAJOR.MINOR.PATCH`.
-- The release version is identical to the milestone name and release-branch version.
-- The first planned POC release is `v0.1.0`.
-- A release branch is created only from a green `dev` commit representing the intended release scope.
-- A production release is created only after its release candidate has passed the staging validation gate.
-- GitHub Releases are the canonical release record.
-- The GitHub Release contains:
-  - a concise user-visible summary;
-  - the merged features and bug fixes included in the release;
-  - links to the relevant pull requests or issues.
-- SideGig does not maintain a separate manual `CHANGELOG.md`.
-- The production deployment uses the immutable release tag.
-- After the GitHub Release and production deployment complete successfully, release fixes are reconciled into `dev`, the release branch is deleted and the corresponding milestone is closed.

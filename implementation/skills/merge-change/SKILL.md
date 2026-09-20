@@ -1,20 +1,20 @@
 ---
 name: merge-change
-description: Conclude a validated change through the repository's GitHub integration controls and clean up only safe workspace state.
+description: Prepare a validated change for integration through the repository's GitHub Delivery Model and safely conclude workspace state.
 ---
 
 # Merge Change
 
-Before integration, validate the originating Issue, change branch/worktree, base and target branches, intended commits, required validation evidence, repository guidance, and unrelated local changes.
+Use this skill only after validation is complete.
 
-Follow the GitHub Delivery Model. Normal SideGig changes integrate through a pull request to `dev`; approved release fixes integrate through a pull request to the active release branch. Do not bypass protected branches or claim a pull request is merged when it is not.
+Confirm the originating GitHub Issue, change branch/worktree, target branch, intended commits, required change artifacts, durable Product/Architecture updates, validation evidence, and unrelated local changes.
 
-Confirm the pull request references the originating Issue, required checks are satisfied, the complete diff is ready for human review, and any required Product Definition or Architecture Definition updates are included in the same change.
+Follow the GitHub Delivery Model. Normal changes are integrated through a pull request to `dev`; release fixes target the active release branch. Ensure the pull request references the Issue and summarizes the implemented outcome, relevant design/planning artifacts, validation evidence, and any durable-document updates.
 
-Resolve only straightforward conflicts. A conflict that requires a material design, product, architecture, or ownership decision returns the change to the appropriate lifecycle stage.
+Do not bypass required CI, branch protection, or explicit human merge/promotion decisions. A coding agent may prepare or update the pull request but must not claim that an unmerged pull request is integrated.
 
-After integration, remove obsolete worktree/branch state only when safe and preserve any uncommitted or unintegrated work.
+After a human-approved merge is confirmed, verify the target state and remove the obsolete change worktree/branch only when safe. Preserve uncommitted or unintegrated work.
 
 ## Completion report contract
 
-Report Issue, source/change branch, target branch, pull request URL/ID, integration state, primary checkout state, worktree/branch cleanup, deviations, residual conditions, and required user action. The change is complete only when the GitHub Delivery Model's integration conditions are satisfied.
+Report the Issue reference, source branch, target branch, pull request URL/ID, CI/validation state, integration state, durable-document updates, workspace cleanup, residual conditions, and required human action. The change is complete only when integration is confirmed according to the GitHub Delivery Model.

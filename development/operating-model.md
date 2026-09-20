@@ -17,6 +17,35 @@ Revise last, once the durable product, architecture, GitHub, development, qualit
 
 ### 2. Product Definition and Evolution
 
+Defined in the current model. Maintain one concise durable Product Definition describing the current approved product intent, requirements and externally meaningful behaviour. Revisit only for final consistency after downstream sections are finalized.
+
+### 3. Architecture and Design
+
+Defined in the current model. Maintain one concise durable Architecture Definition describing the current approved technical architecture. Revisit only for final consistency after downstream sections are finalized.
+
+### 4. GitHub Delivery Model
+
+Defined in the current model. GitHub Issues, Milestones, branches, pull requests, release candidates, tags, GitHub Releases and protection rules form the delivery-control layer. Revisit only for consistency after CI/CD and repository bootstrap are finalized.
+
+### 5. Development Lifecycle
+
+Defined in the current model. The lifecycle starts from the originating GitHub Issue, creates the change workspace, applies HLD / Implementation Plan / LLD proportionately, then performs development, durable-document updates, validation and integration.
+
+### 6. Coding and Quality Baseline
+
+Defined in the current model. The baseline supplies pragmatic coding, formatting, linting, typing, testing, dependency and reproducible local-validation standards to Development and Validation without defining a separate workflow.
+
+### 7. CI/CD
+
+Next revision. Map automated validation and deployment controls onto the finalized GitHub Delivery Model, Development Lifecycle and Coding/Quality Baseline: change validation, integrated dev validation, release-candidate validation, staging deployment/validation and production promotion.
+
+
+## 1. Project and Repository Model
+
+Revise last, once the durable product, architecture, GitHub, development, quality and CI/CD models are known. Define the final repository structure, bootstrap contents, README, AGENTS.md, agentic framework and locations of canonical project artifacts without assuming document structures that have not yet been settled.
+
+### 2. Product Definition and Evolution
+
 Defined in the current model. Maintain one concise durable Product Definition describing the current approved product intent, requirements and externally meaningful behaviour. Revisit only for consistency after downstream sections are finalized.
 
 ### 3. Architecture and Design

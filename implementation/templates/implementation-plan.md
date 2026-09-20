@@ -6,18 +6,22 @@
 **Status:** `<Draft | Approved | Superseded>`  
 **Owner:** `<person or role>`  
 **Created / updated:** `<YYYY-MM-DD>`  
-**HLD reference:** `<path and artifact ID>`  
+**Originating Issue:** `<issue reference>`  
+**HLD reference:** `<path and artifact ID | Not required>`  
 **Methodology step / gateway:** `<step or gateway>`  
-**Traceability:** `<requirements, decision, or upstream artifact links>`
+**Traceability:** `<requirements, decisions, or upstream artifact links>`
 
 ## 1. Implementation Summary
 
 <Practical implementation shape, affected areas, sequencing, and dependencies.>
 
-## 2. HLD Reference
+## 2. Design Inputs
 
-- <design decision that constrains implementation>
-- <design decision that constrains implementation>
+- **Originating Issue:** <issue reference and outcome>
+- **HLD:** <design decisions that constrain implementation, or "Not required">
+- **Durable product / architecture context:** <relevant Product Definition or Architecture Definition references, or None>
+
+Do not create an HLD solely to satisfy this section. Where no HLD is required, the Issue and durable project documentation provide the design input.
 
 ## 3. Repository Assessment
 
@@ -45,7 +49,7 @@
 ## 6. Development Integrity Checks
 
 - <lint, formatting, syntax, type, build, or repository-specific check>
-- <check or “Not applicable, because …”>
+- <check or "Not applicable, because ...">
 
 ## 7. Validation Requirements
 
@@ -63,7 +67,7 @@
 
 ## 8. Open Implementation Questions
 
-<Questions requiring resolution before or during development. If none: “No outstanding implementation questions.”>
+<Questions requiring resolution before or during development. If none: "No outstanding implementation questions.">
 
 ## 9. Low-Level Design Decision
 
@@ -71,7 +75,7 @@
 
 ### Rationale
 
-<Assess complexity, coupling, repository-specific decisions, and risk. If Yes, state what the LLD must resolve. If No, explain why HLD and plan are sufficient.>
+<Assess complexity, coupling, repository-specific decisions, and risk. If Yes, state what the LLD must resolve. If No, explain why the available design inputs and this plan are sufficient.>
 
 ## 10. Implementation Checklist
 
@@ -88,4 +92,4 @@
 
 ### Completion contract
 
-The plan is substantively complete only when the repository assessment, sequence, checks, validation requirements, explicit LLD decision, checklist, traceability, and gateway decision are resolved and approved.
+The plan is substantively complete only when the repository assessment, sequence, checks, validation requirements, explicit LLD decision, checklist, traceability, and gateway decision are resolved and approved. An HLD is required only when the Development Lifecycle says the change needs one.

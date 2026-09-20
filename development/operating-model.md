@@ -27,7 +27,7 @@ Preserve the existing GitHub Issue and milestone model, but make the Issue expli
 
 Retain the agreed `dev` / `staging` / `main` model, release branches, pull-request rules and branch protection. Reconcile the timing of issue branches and workspaces with the revised Development Lifecycle so that change-specific design artifacts, code and validation can evolve in the appropriate change workspace. Git mechanics should implement the lifecycle defined elsewhere rather than define the development methodology themselves.
 
-### 5. Architecture and Design
+### 6. Architecture and Design
 
 Reframe this section around durable project-level architecture and design rather than treating a project-level HLD and implementation plan as the primary architecture artifacts. Define how the overall architecture is initially established, which architectural principles and constraints remain durable, and how they are maintained as the product evolves. Establish the relationship between durable architecture and change-specific HLD/LLD artifacts: changes consume the current architecture and update durable architecture when they materially alter it.
 
@@ -43,7 +43,7 @@ Retain the common implementation standards for TypeScript, Python, formatting, l
 
 Preserve the main automated control layers: change validation into `dev`, integrated and release-candidate validation, and deployed/staging validation before production. Reconcile these gates with the revised Development Lifecycle so CI acts as automated enforcement and evidence for the lifecycle rather than independently describing how a change is developed. Process-specific automation or future agent skills relating to CI/CD should be described here.
 
-### 9. Releases
+### 10. Releases
 
 Keep this section focused on what happens after changes have been integrated: Semantic Versioning, release scope, release branches, tags, GitHub Releases, promotion and release completion. Check consistency with Work Management, Git Lifecycle and CI/CD once those sections are revised. Any future release-oriented agent skills should be referenced here rather than under a standalone Agentic Development section.
 
@@ -104,7 +104,79 @@ The template contains the common wording and headings. Each project replaces the
 
 The README remains concise. Architecture decisions belong in `docs/hld.md`, implementation sequencing belongs in `docs/implementation-plan.md`, agent instructions belong in `AGENTS.md`, and detailed CI/CD behaviour belongs in repository workflow configuration and the Development Operating Model.
 
-## 2. Work Management
+## 2. Product Definition and Evolution
+
+### Purpose
+
+Each SideGig product maintains a concise, durable definition of **what the product is intended to do**.
+
+The product definition is the authoritative current-state description of the product's purpose, users, scope, capabilities, externally meaningful behaviour, material requirements, constraints and non-goals. It provides the product-level input to architecture and individual software changes.
+
+It is deliberately separate from:
+
+- commercial and market research, which establishes whether the opportunity is worth pursuing;
+- architecture documentation, which describes how the product is technically structured;
+- GitHub Issues, which represent individual units of change;
+- change-specific HLD, implementation-plan and LLD artifacts, which describe how a particular change will be designed and implemented;
+- release records, which describe what was delivered in a particular version.
+
+### Canonical product definition
+
+Every independently deployable SideGig product has one canonical Product Definition artifact created from the [Product Definition template](templates/product-definition.md).
+
+The Product Definition is a **durable current-state artifact**, not a chronology of product changes. Git history, Issues, pull requests and releases provide change history.
+
+The definition contains only the product information needed to make later architecture and change decisions reliably:
+
+- product summary and value;
+- intended users and primary use cases;
+- explicit in-scope and out-of-scope boundaries;
+- product capabilities;
+- material product requirements and behaviour;
+- externally meaningful interaction or contract;
+- product constraints and non-goals;
+- unresolved product questions that materially affect scope or behaviour.
+
+Use stable requirement identifiers where they materially improve traceability, but do not create a heavyweight requirements catalogue for its own sake.
+
+SideGig does not require separate roadmap, feature-specification or product-requirements documents by default. Introduce another durable product artifact only when a real project need cannot be represented clearly in the Product Definition, GitHub Issues and change-specific design artifacts.
+
+### Initial product definition
+
+Create the initial Product Definition from the approved upstream context that authorized the product or POC, such as the selected POC definition, productisation decision or equivalent project evidence.
+
+The upstream source remains authoritative for the decision that created the product. The Product Definition translates that decision into the durable product-level specification needed by the software project rather than duplicating the supporting research.
+
+Set the Product Definition to **Approved** once it is sufficiently resolved to act as an input to architecture and change design. Material unresolved questions that affect product scope or behaviour keep it in **Draft**.
+
+For a sole-developer SideGig project, explicit approval by the project owner is sufficient. A second-person approval step is not required.
+
+### Product evolution
+
+The Product Definition is maintained as the product evolves.
+
+Update it when an approved change intentionally alters a durable product characteristic, including:
+
+- product scope;
+- user-visible or externally observable behaviour;
+- a product capability;
+- a material product requirement;
+- an external contract;
+- a material product constraint or non-goal.
+
+A bug fix that restores already-defined behaviour does not normally require a Product Definition change. If the bug exposes an ambiguity or error in the durable definition, correct the Product Definition as part of the same change.
+
+The Product Definition should always describe the **current approved product**, not preserve obsolete behaviour for historical completeness.
+
+### Relationship to change delivery
+
+The Product Definition is an input to, not a substitute for, the Development Lifecycle.
+
+Individual software changes begin from GitHub Issues. Where a change implements or modifies product behaviour, its Issue and downstream design artifacts reference the relevant Product Definition requirement, capability or section.
+
+Change-specific HLD, implementation-plan and LLD artifacts describe the design and execution of that change. When the completed change intentionally modifies the durable product definition, the Product Definition is updated within the same change before integration is complete.
+
+## 3. Work Management
 
 ### Issues
 
@@ -142,7 +214,7 @@ The README remains concise. Architecture decisions belong in `docs/hld.md`, impl
 - Issues, milestones, branches and pull requests are the authoritative development state.
 - A project must not duplicate issue or release status in another planning board.
 
-## 3. Git Lifecycle
+## 4. Git Lifecycle
 
 ### Permanent branches
 
@@ -266,7 +338,7 @@ After repository bootstrap:
 - promotion merges remain explicit human actions;
 - coding agents do not bypass branch protection or merge their own pull requests.
 
-## 4. Development Lifecycle
+## 5. Development Lifecycle
 
 Every normal implementation change follows this lifecycle:
 
@@ -317,7 +389,7 @@ Untracked implementation work is not allowed.
 - A project creates an LLD only when a component requires detailed internal design that cannot be represented clearly in the HLD, implementation plan and code-level interfaces.
 - Project repositories do not create alternative architecture or implementation-plan formats when a SideGig template exists.
 
-## 6. Coding and Quality Baseline
+## 7. Coding and Quality Baseline
 
 ### TypeScript
 
@@ -357,7 +429,7 @@ CI calls the same underlying validation commands used locally.
 
 Dependency lockfiles are committed and CI installs from the lockfile.
 
-## 7. CI/CD
+## 8. CI/CD
 
 CI/CD implements three quality gates: change validation into `dev`, release-candidate validation into `staging`, and deployed validation before promotion to `main`.
 
@@ -427,7 +499,7 @@ Deployment credentials are configured in the GitHub or target-platform secret st
 
 Routine validation is automated. Merge and promotion decisions remain explicit human actions. SideGig does not require artificial second-person approval for a solo-developed project.
 
-## 8. Agentic Development
+## 9. Agentic Development
 
 - OpenAI Codex is the standard coding agent for SideGig projects.
 - Every project repository contains a root `AGENTS.md`.

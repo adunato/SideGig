@@ -1,17 +1,18 @@
 # Low-Level Design: <change name>
 
-> Canonical artifact. This is a file-level design, not a patch. Keep it synchronized with the approved HLD and implementation plan.
+> Canonical optional file-level design artifact. Create this document only when an approved Implementation Plan explicitly requires an LLD. It is design guidance, not a patch.
 
 **Artifact ID:** `<stable-id>`  
 **Status:** `<Draft | Approved | Superseded>`  
 **Owner:** `<person or role>`  
 **Created / updated:** `<YYYY-MM-DD>`  
-**HLD / plan references:** `<paths and artifact IDs>`  
-**Traceability:** `<requirements or decisions covered>`
+**GitHub Issue:** `<#issue or URL>`  
+**Implementation Plan:** `<path and artifact ID>`  
+**HLD reference:** `<path and artifact ID | Not required>`
 
 ## 1. Change Overview
 
-<Implementation shape in a few sentences; do not repeat the HLD.>
+<Implementation shape in a few sentences; do not repeat the HLD or plan.>
 
 ## 2. File Changes
 
@@ -33,7 +34,7 @@
 2. `<dependent file>` consumes or extends it.
 3. `<integrating file>` exposes the resulting behaviour.
 
-<Omit only when no meaningful sequencing or interaction exists.>
+<State “No meaningful cross-file dependency” when applicable.>
 
 ## 4. File Change Summary
 
@@ -43,4 +44,4 @@
 
 ### Completion contract
 
-The LLD is substantively complete only when every significant file has an action and responsibility, dependencies are explicit where needed, the summary agrees with the detailed entries, and the artifact is approved against the HLD and plan.
+The LLD is substantively complete only when every significant file has an action and responsibility, dependencies are explicit where needed, the summary agrees with the detailed entries, and **Status** is `Approved` against the originating Issue and Implementation Plan.

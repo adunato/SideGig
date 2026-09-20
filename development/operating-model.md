@@ -6,6 +6,47 @@ Draft. This document defines the standard development operating model for all so
 
 It defines the concrete development conventions used across projects. Project-specific technical decisions belong in the project repository; common development process is defined here once.
 
+
+## Planned Revision
+
+> **Planning / tracking section.** This section records the agreed structural revision of the operating model and the scope of the next section-by-section iterations. It is not normative operating-model content and should be removed once the target sections have been revised and stabilized.
+
+### 1. Project and Repository Model
+
+Keep this section focused on the durable structure of a SideGig software project: one repository per independently deployable product or service, bootstrap principles, repository-level files and ownership boundaries. Rework the premature README definition so it does not assume a documentation model that has not yet been defined. Incorporate the project-level agentic framework here: standard agent/tooling, purpose of `AGENTS.md`, location and use of reusable skills, and the principle that process-specific skills are described alongside the lifecycle stage they support rather than in a separate Agentic Development section.
+
+### 2. Product Definition and Evolution
+
+Add this as a new top-level section. Initially establish the boundary and purpose rather than fully defining the product-management model: this section will own the durable definition of what the product is, its intended capabilities, product requirements/specification, and how that definition evolves as features are introduced. Explicitly distinguish these durable product artifacts from change-specific implementation artifacts such as HLDs and implementation plans. Detailed artifact definitions will be developed in a later iteration.
+
+### 3. Work Management
+
+Preserve the existing GitHub Issue and milestone model, but make the Issue explicitly the starting point and root traceability object for every software change. Define the handoff from an Issue into the Development Lifecycle and ensure feature and bug issues carry the information needed to determine what subsequent design and planning stages are necessary. Keep milestones focused on release planning rather than change design.
+
+### 4. Git Lifecycle
+
+Retain the agreed `dev` / `staging` / `main` model, release branches, pull-request rules and branch protection. Reconcile the timing of issue branches and workspaces with the revised Development Lifecycle so that change-specific design artifacts, code and validation can evolve in the appropriate change workspace. Git mechanics should implement the lifecycle defined elsewhere rather than define the development methodology themselves.
+
+### 5. Architecture and Design
+
+Reframe this section around durable project-level architecture and design rather than treating a project-level HLD and implementation plan as the primary architecture artifacts. Define how the overall architecture is initially established, which architectural principles and constraints remain durable, and how they are maintained as the product evolves. Establish the relationship between durable architecture and change-specific HLD/LLD artifacts: changes consume the current architecture and update durable architecture when they materially alter it.
+
+### 6. Development Lifecycle
+
+Rewrite this as the core change-centric development process while retaining the Development Lifecycle heading. The lifecycle should begin with the originating GitHub Issue and apply process proportionately according to the nature of the change. Define the sequence involving change workspace, HLD where required, implementation plan, optional LLD, development, validation and integration. Explicitly account for both features and bugs so simple fixes are not forced through unnecessary design ceremony, while material bugs can enter the fuller design path when needed. Also define the obligation for a change to update durable product or architecture artifacts when it alters them. The corresponding Codex skills should be referenced within the relevant lifecycle stages.
+
+### 7. Coding and Quality Baseline
+
+Retain the common implementation standards for TypeScript, Python, formatting, linting, typing, testing, dependency locking and local validation. Review this section after the Development Lifecycle is settled so that its validation commands and quality expectations cleanly support the Development and Validation stages rather than defining a competing process.
+
+### 8. CI/CD
+
+Preserve the main automated control layers: change validation into `dev`, integrated and release-candidate validation, and deployed/staging validation before production. Reconcile these gates with the revised Development Lifecycle so CI acts as automated enforcement and evidence for the lifecycle rather than independently describing how a change is developed. Process-specific automation or future agent skills relating to CI/CD should be described here.
+
+### 9. Releases
+
+Keep this section focused on what happens after changes have been integrated: Semantic Versioning, release scope, release branches, tags, GitHub Releases, promotion and release completion. Check consistency with Work Management, Git Lifecycle and CI/CD once those sections are revised. Any future release-oriented agent skills should be referenced here rather than under a standalone Agentic Development section.
+
 ## 1. Project and Repository Model
 
 - Each independently deployable product or service has its own GitHub repository.

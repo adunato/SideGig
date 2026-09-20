@@ -338,7 +338,80 @@ After repository bootstrap:
 - promotion merges remain explicit human actions;
 - coding agents do not bypass branch protection or merge their own pull requests.
 
-## 5. Development Lifecycle
+## 5. Architecture and Design
+
+### Purpose
+
+Each SideGig product maintains a concise, durable definition of its **current approved technical architecture**.
+
+The Architecture Definition describes how the product is structurally designed: its system boundary, major components and responsibilities, principal flows, interfaces and integrations, material data/state, deployment shape, cross-cutting architectural concerns, and durable technical constraints or principles.
+
+It is deliberately separate from:
+
+- the Product Definition, which describes what the product is intended to do;
+- GitHub Issues, which represent individual units of change;
+- change-specific HLD and LLD artifacts, which design a particular change;
+- the Implementation Plan, which translates an approved change design into repository-level implementation work;
+- code and configuration, which remain the executable implementation.
+
+### Canonical architecture definition
+
+Every independently deployable SideGig product has one canonical Architecture Definition artifact created from the [Architecture Definition template](templates/architecture-definition.md).
+
+The Architecture Definition is a **durable current-state artifact**, not a historical record of architectural changes. Git history, Issues and change-specific design artifacts provide that history.
+
+The definition contains only architecture information that materially helps a developer or coding agent understand and change the system safely:
+
+- system context and product boundary;
+- major components and their responsibilities;
+- principal system flows;
+- material interfaces and integrations;
+- material data/state ownership and movement;
+- deployment and runtime shape;
+- cross-cutting concerns that materially shape the design;
+- durable architectural principles and constraints;
+- unresolved architecture questions that affect future design or implementation.
+
+Do not turn the Architecture Definition into an exhaustive inventory of classes, files, endpoints or implementation detail. Those belong in code, configuration and change-specific design artifacts.
+
+### Initial architecture definition
+
+Create the initial Architecture Definition from the approved [Product Definition template](templates/product-definition.md) and the technical context available when implementation of the product is first being established.
+
+The architecture should be proportional to the product. A small POC may have a correspondingly small architecture definition; the model does not require artificial components, layers or infrastructure merely to satisfy the template.
+
+Set the Architecture Definition to **Approved** once it is sufficiently resolved to act as the durable technical context for change design and implementation. Material unresolved questions that prevent safe implementation keep it in **Draft**.
+
+For a sole-developer SideGig project, explicit approval by the project owner is sufficient. A second-person architecture approval step is not required.
+
+### Architecture evolution
+
+The Architecture Definition is maintained as the product evolves.
+
+Update it when an approved change intentionally alters a durable architectural characteristic, including:
+
+- the system boundary or deployment shape;
+- a major component or its responsibility;
+- a material interface or integration;
+- material data ownership, persistence or flow;
+- a cross-cutting architectural approach;
+- a durable technology, platform or design constraint.
+
+A change that only modifies implementation detail within the existing architecture does not require an Architecture Definition update.
+
+A bug fix that restores behaviour within the existing architecture does not normally require an architecture update. If the bug reveals that the durable architecture is inaccurate or incomplete, correct the Architecture Definition as part of the same change.
+
+The Architecture Definition should always describe the **current approved architecture**, not preserve superseded structures for historical completeness.
+
+### Relationship to change delivery
+
+The Architecture Definition is an input to, not a substitute for, the Development Lifecycle.
+
+Where a change affects architecture, its GitHub Issue and change-specific HLD reference the relevant parts of the current Product Definition and Architecture Definition. The HLD describes the proposed architectural change in the context of that individual change.
+
+When the approved change materially alters the durable architecture, the Architecture Definition is updated within the same change before integration is complete.
+
+## 6. Development Lifecycle
 
 Every normal implementation change follows this lifecycle:
 
@@ -375,19 +448,6 @@ Release preparation follows this lifecycle:
 28. Close the release milestone.
 
 Untracked implementation work is not allowed.
-
-## 5. Architecture and Design
-
-- Every project repository has `docs/hld.md`.
-- Every project repository has `docs/implementation-plan.md`.
-- Both documents are created from canonical SideGig templates in `development/templates/`.
-- The HLD defines the stable system-level design: components, responsibilities, external interfaces, principal data flows, deployment shape and material technology choices.
-- The implementation plan converts the current approved design into an ordered implementation structure: deliverables, issue decomposition, dependencies and validation approach.
-- The HLD is updated in the same pull request that introduces a material architecture change.
-- The implementation plan is updated when planned implementation scope, sequencing or dependencies materially change.
-- SideGig does not require a standard LLD document.
-- A project creates an LLD only when a component requires detailed internal design that cannot be represented clearly in the HLD, implementation plan and code-level interfaces.
-- Project repositories do not create alternative architecture or implementation-plan formats when a SideGig template exists.
 
 ## 7. Coding and Quality Baseline
 
@@ -516,7 +576,7 @@ Routine validation is automated. Merge and promotion decisions remain explicit h
 - Codex does not merge its own pull request.
 - Human review before merge focuses on the complete diff, acceptance criteria, test evidence and any architectural/documentation changes rather than line-by-line supervision of the agent's implementation process.
 
-## 9. Releases
+## 10. Releases
 
 - SideGig projects use Semantic Versioning: `MAJOR.MINOR.PATCH`.
 - Release tags use `vMAJOR.MINOR.PATCH`.

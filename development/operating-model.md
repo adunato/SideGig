@@ -37,7 +37,7 @@ Defined in the current model. The baseline supplies pragmatic coding, formatting
 
 ### 7. CI/CD
 
-Next revision. Map automated validation and deployment controls onto the finalized GitHub Delivery Model, Development Lifecycle and Coding/Quality Baseline: change validation, integrated dev validation, release-candidate validation, staging deployment/validation and production promotion.
+Defined in the current model. CI/CD reuses the repository validation contract and automates change, integrated, release-candidate, staging and production gates while preserving explicit human merge and promotion decisions. Revisit only for final consistency after repository/bootstrap structure is finalized.
 
 
 ## 1. Project and Repository Model
@@ -894,71 +894,175 @@ A change is ready to leave Validation when:
 
 ## 7. CI/CD
 
-CI/CD implements three quality gates: change validation into `dev`, release-candidate validation into `staging`, and deployed validation before promotion to `main`.
+### Purpose
 
-### Change validation — issue branch to `dev`
+CI/CD automates the quality gates and deployments that enforce the [GitHub Delivery Model](#4-github-delivery-model) and support the [Development Lifecycle](#5-development-lifecycle).
 
-Every pull request targeting `dev` executes the standard automated change-validation suite.
+CI/CD does not define a separate engineering process. It reuses the repository validation contract from the [Coding and Quality Baseline](#6-coding-and-quality-baseline), adds the checks that require integrated or deployed environments, and records whether a GitHub state transition is safe to perform.
 
-The mandatory baseline is:
+Automation should be proportional to the product. A small POC does not require production-scale deployment infrastructure, but every repository must automate the checks that materially protect its delivery path.
 
-1. formatting verification;
-2. linting;
-3. type checking;
-4. unit tests;
-5. relevant automated component or integration tests;
-6. build or package validation;
-7. automated issue-specific acceptance tests where applicable.
+### CI/CD principles
 
-A failed required check blocks merge.
+- Local and CI validation use the same underlying repository commands wherever practical.
+- Required automated checks fail closed: a failed required check blocks the corresponding merge or promotion.
+- CI runs against the exact Git commit proposed for integration or promotion.
+- Deployment credentials and other secrets are held in GitHub or the target platform's secret store, never committed to the repository.
+- Deployment configuration is version-controlled where the target platform permits it.
+- A deployment should be reproducible from repository state plus explicitly managed environment configuration.
+- Merge and promotion decisions remain explicit human actions for a sole-developer project; automation supplies evidence and execution, not an artificial second-person approval.
+- Coding agents may inspect CI results and rectify in-scope failures, but do not bypass required checks, branch protection or human promotion decisions.
 
-### Integrated development validation — `dev`
+### 1. Change validation — change branch to `dev`
 
-The integrated `dev` state is continuously validated using the repository-wide automated regression suite.
+Every pull request targeting `dev` runs the standard change-validation gate.
 
-A release branch may be cut only from a `dev` commit for which the required integrated validation is green.
+The gate must execute the repository's complete local validation contract, normally:
 
-### Release-candidate validation — release branch to `staging`
+- `npm run validate` for Node.js / TypeScript repositories;
+- `make validate` for Python repositories;
+- the explicitly documented equivalent where a project uses another stack.
 
-Every pull request from a release branch to `staging` reruns the complete automated validation suite against the exact candidate being promoted.
+The validation contract already owns formatting, linting, type checking, automated tests and build/package checks. CI should call that contract rather than independently reimplementing the same sequence.
 
-The release-candidate gate must:
+The pull request may add deterministic change-specific checks where they cannot reasonably be included in the common repository command.
 
-1. execute the complete repository regression suite;
-2. execute integration tests that require the combined release state;
-3. build the deployable artefact where the project produces one;
-4. prevent promotion while any required check fails.
+A required failure blocks merge into `dev`.
 
-Successful merge automatically deploys the candidate to the staging environment.
+The pull request remains the evidence record linking:
 
-Where technically practical, the deployable artefact created for the release candidate is retained and promoted unchanged to production rather than rebuilt.
+- the originating Issue;
+- required HLD / Implementation Plan / LLD artifacts where they exist;
+- the implementation diff;
+- local and CI validation;
+- required Product Definition or Architecture Definition updates.
 
-### Staging validation
+### 2. Integrated validation — `dev`
 
-The staging environment validates behaviour that requires the deployed application and its real external dependencies or platform environment.
+After changes are merged, `dev` is validated as the integrated development line.
 
-The required staging baseline is:
+At minimum, the same complete repository validation contract runs against the resulting `dev` commit.
 
-1. deployment smoke tests;
-2. end-to-end functional tests covering the critical user execution path;
-3. external API/service integration checks;
-4. runtime and environment configuration validation;
-5. persistence and material data-flow validation where applicable;
-6. logging and operational-observability checks;
-7. project-specific platform tests that cannot be meaningfully executed locally;
-8. experiment-critical commercial behaviour such as charging, billing or usage metering where applicable.
+Add broader integration or regression checks at this stage only when they materially benefit from the combined `dev` state and are unsuitable for every change-branch pull request.
 
-Project-specific staging tests are defined in the implementation plan and automated wherever practical.
+A release branch may be cut only from a specific `dev` commit for which all required integrated checks are green.
 
-Any failed mandatory staging validation blocks production promotion.
+A later failure on `dev` does not silently invalidate completed Issues, but it must be resolved before that state can be selected as a release candidate.
 
-### Production promotion — release branch to `main`
+### 3. Release-candidate validation and staging deployment
 
-The production-promotion pull request reruns the mandatory repository checks required to ensure that the validated release candidate has not changed unexpectedly.
+A pull request from `release/vMAJOR.MINOR.PATCH` to `staging` represents the proposed release candidate.
 
-Production/public deployment is performed from the tagged committed repository state through GitHub Actions or the target platform's controlled deployment mechanism.
+Before the promotion pull request can merge, CI validates the exact release-branch commit being proposed.
 
-Deployment credentials are configured in the GitHub or target-platform secret store required by the deployment workflow.
+The release-candidate gate includes:
 
-Routine validation is automated. Merge and promotion decisions remain explicit human actions. SideGig does not require artificial second-person approval for a solo-developed project.
+- the complete repository validation contract;
+- material integrated regression or compatibility checks;
+- creation or verification of the deployable artifact where the product has one;
+- any deterministic packaging or platform checks required before deployment.
+
+A required failure blocks promotion to `staging`.
+
+After the promotion pull request is explicitly merged, the resulting staging state is deployed automatically to the staging or pre-production environment.
+
+Where technically practical, create the deployable artifact once for the release candidate and retain it for later production promotion. Where the target platform necessarily rebuilds from source, production must build from the same validated repository state and controlled build definition.
+
+### 4. Staging validation
+
+Staging validates behaviour that cannot be established adequately from repository-local or build-time checks.
+
+The applicable staging scope is determined by the product architecture, platform and release risk. It may include:
+
+- deployment smoke tests;
+- the critical end-to-end execution path;
+- external service or platform integrations;
+- environment and runtime configuration;
+- persistence and material data flows;
+- authentication, permissions or secret integration;
+- logging and operational visibility;
+- platform-specific execution behaviour;
+- charging, billing, metering or other commercial mechanics where they are part of the product.
+
+Automate staging checks where doing so is reliable and proportionate.
+
+Manual validation is acceptable when the behaviour genuinely requires human observation or when automating a low-frequency platform check would add disproportionate complexity. Required manual evidence must be recorded before production promotion.
+
+Not every repository requires every category above. The Architecture Definition and relevant change/release context determine what is material.
+
+A failed required staging check blocks production promotion. Corrective software work follows the release-fix path defined by the GitHub Delivery Model and is revalidated through the applicable gates.
+
+### 5. Production promotion and deployment
+
+After the release candidate has passed required staging validation, the active release branch may be proposed for promotion to `main`.
+
+The production-promotion pull request must verify that the proposed production state corresponds to the validated release candidate.
+
+CI reruns the minimum deterministic checks needed to detect unexpected divergence or packaging failure. It does not need to repeat expensive staging-only tests whose evidence is tied unambiguously to the same candidate.
+
+The pull request remains blocked when:
+
+- the candidate differs materially from the staged state;
+- a required promotion check fails;
+- required staging evidence is incomplete;
+- a known release blocker remains unresolved.
+
+After the explicit human merge to `main`:
+
+1. create the immutable Semantic Version tag defined by the GitHub Delivery Model;
+2. create the corresponding GitHub Release;
+3. deploy production/public service from that tagged state;
+4. verify deployment success with a proportionate smoke or health check.
+
+Production deployment is therefore traceable to an immutable release tag rather than to an arbitrary mutable branch head.
+
+### Deployment failures
+
+A failed production deployment does not create an untracked repair path.
+
+If deployment can be retried safely without changing application or configuration state, retry the same tagged release.
+
+If correction requires a code or version-controlled configuration change:
+
+1. record a Bug Issue;
+2. follow the release-fix change lifecycle;
+3. validate the corrected release candidate;
+4. promote and release the corrected state through the normal GitHub Delivery Model.
+
+Do not patch application code directly in the production environment.
+
+### Environments and configuration
+
+Repositories define only the environments the product genuinely needs.
+
+The standard delivery model recognizes:
+
+- **development/integration** — represented by `dev`;
+- **staging/pre-production** — represented by `staging` and the target staging environment;
+- **production** — represented by `main`, an immutable release tag and the production environment.
+
+A target platform may not expose a conventional long-lived staging environment. In that case, use the closest isolated pre-production or candidate-validation mechanism available and document the project-specific mapping in the Architecture Definition and repository deployment configuration.
+
+Environment-specific values are configuration, not source-code forks. The same application implementation is promoted through environments.
+
+### Workflow ownership
+
+Each project repository contains the CI/CD workflow configuration needed to implement this chapter.
+
+This operating model defines the required **behaviour and gates**, not universal workflow YAML. Exact GitHub Actions jobs, target-platform commands and credentials depend on the repository's language, architecture and deployment target.
+
+Chapter 1 — Project and Repository Model defines the canonical repository locations and bootstrap mechanics for those workflows once the operating-model revision is complete.
+
+### CI/CD completion boundary
+
+For a normal change, CI/CD responsibility is complete when the required change-validation checks pass and the pull request is eligible for the explicit merge decision.
+
+For a release, CI/CD responsibility is complete when:
+
+1. the selected `dev` state is green;
+2. the release candidate passes its automated gate;
+3. staging deployment succeeds;
+4. required staging validation is complete;
+5. production promotion checks pass;
+6. the tagged production deployment succeeds and the required post-deployment check is green.
 

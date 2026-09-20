@@ -1,20 +1,18 @@
 ---
 name: validation
-description: Validate an implemented change against its GitHub Issue, applicable design artifacts, and repository quality expectations.
+description: Validate an implemented GitHub Issue against its acceptance criteria and any required change artifacts, rectifying in-scope defects proportionately.
 ---
 
 # Validation
 
-Use the originating GitHub Issue and its acceptance criteria as the mandatory validation baseline. Also use any HLD, implementation plan or LLD that was required for the change, together with relevant durable Product Definition and Architecture Definition requirements.
+Use the GitHub Issue as the primary acceptance contract. Also use the HLD, implementation plan, and LLD when those artifacts were required for the change, together with the current Product Definition, Architecture Definition, implementation hand-off, repository tests, and relevant operating-model quality rules.
 
-Cover changed behaviour, regressions, edge cases, errors, user flows, and integration boundaries proportionately. Add or extend appropriate unit, integration, API, contract, component, or end-to-end tests; do not introduce disproportionate infrastructure merely for ceremony.
+Validate changed behaviour, regression risk, edge cases, errors, user/system flows, and material integration boundaries. Add or extend proportionate unit, integration, API, contract, component, or end-to-end tests; do not introduce disproportionate infrastructure merely for ceremony.
 
-Run change-specific tests first, rectify implementation defects within approved scope, rerun affected tests, then run the relevant regression and repository validation coverage. Do not weaken valid tests.
+Run change-specific tests first, rectify implementation defects within the approved scope, rerun affected tests, then run the relevant regression coverage. Do not weaken valid tests.
 
-If validation reveals a material design error, scope expansion, architectural change, or new product decision, return the change to the appropriate earlier lifecycle stage rather than fixing it silently inside validation.
-
-Before validation is considered complete, confirm that any required Product Definition or Architecture Definition updates are present and consistent with the implemented change.
+If validation exposes a material product, architecture, scope, or design change, stop and return to the appropriate Issue/design/planning artifact. Before hand-off for integration, confirm that any required Product Definition or Architecture Definition update is present and consistent with the implemented behaviour.
 
 ## Completion report contract
 
-Report Issue, validation performed and coverage, acceptance-criteria results, results and excluded suites, every fix and rerun, outstanding failures classified as implementation/pre-existing/environment/intermittent, durable-document consistency, and manual validation still required. Explicitly state `No additional manual validation is required.` when applicable.
+Report the Issue reference, validation performed and coverage, acceptance-criteria results, tests and reruns, every in-scope correction, outstanding failures classified as implementation/pre-existing/environment/intermittent, manual validation still required, and durable-document consistency. Explicitly state `No additional manual validation is required.` when applicable.

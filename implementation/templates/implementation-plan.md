@@ -1,27 +1,22 @@
 # Implementation Plan: <change name>
 
-> Canonical artifact. Required headings are stable for structural validation. Structural validity and substantive completion are separate.
+> Canonical change-specific implementation artifact. Use this template only when the Development Lifecycle requires an implementation plan. An HLD is referenced when one was required; otherwise record explicitly why no HLD was needed.
 
 **Artifact ID:** `<stable-id>`  
 **Status:** `<Draft | Approved | Superseded>`  
 **Owner:** `<person or role>`  
 **Created / updated:** `<YYYY-MM-DD>`  
-**Originating Issue:** `<issue reference>`  
+**GitHub Issue:** `<#issue or URL>`  
 **HLD reference:** `<path and artifact ID | Not required>`  
-**Methodology step / gateway:** `<step or gateway>`  
-**Traceability:** `<requirements, decisions, or upstream artifact links>`
+**Context references:** `<Product Definition / Architecture Definition references or None>`
 
 ## 1. Implementation Summary
 
 <Practical implementation shape, affected areas, sequencing, and dependencies.>
 
-## 2. Design Inputs
+## 2. HLD Reference
 
-- **Originating Issue:** <issue reference and outcome>
-- **HLD:** <design decisions that constrain implementation, or "Not required">
-- **Durable product / architecture context:** <relevant Product Definition or Architecture Definition references, or None>
-
-Do not create an HLD solely to satisfy this section. Where no HLD is required, the Issue and durable project documentation provide the design input.
+<Identify the approved HLD and the design decisions that constrain implementation. If no HLD was required, state “Not required” and explain why the Issue and durable product/architecture context are sufficient.>
 
 ## 3. Repository Assessment
 
@@ -49,7 +44,7 @@ Do not create an HLD solely to satisfy this section. Where no HLD is required, t
 ## 6. Development Integrity Checks
 
 - <lint, formatting, syntax, type, build, or repository-specific check>
-- <check or "Not applicable, because ...">
+- <check or “Not applicable, because …”>
 
 ## 7. Validation Requirements
 
@@ -59,7 +54,7 @@ Do not create an HLD solely to satisfy this section. Where no HLD is required, t
 
 ### End-to-End Validation
 
-- <user/system flow to prove>
+- <user/system flow to prove, or Not applicable>
 
 ### Other Relevant Validation
 
@@ -67,7 +62,7 @@ Do not create an HLD solely to satisfy this section. Where no HLD is required, t
 
 ## 8. Open Implementation Questions
 
-<Questions requiring resolution before or during development. If none: "No outstanding implementation questions.">
+<Questions requiring resolution before or during development. If none: “No outstanding implementation questions.”>
 
 ## 9. Low-Level Design Decision
 
@@ -75,21 +70,21 @@ Do not create an HLD solely to satisfy this section. Where no HLD is required, t
 
 ### Rationale
 
-<Assess complexity, coupling, repository-specific decisions, and risk. If Yes, state what the LLD must resolve. If No, explain why the available design inputs and this plan are sufficient.>
+<Assess file-level complexity, coupling, repository-specific decisions, and implementation risk. If Yes, state what the LLD must resolve. If No, explain why the Issue, HLD (if any), and plan are sufficient.>
 
 ## 10. Implementation Checklist
 
 - [ ] <implementation activity>
 - [ ] <implementation activity>
 - [ ] Complete relevant integrity checks
-- [ ] Complete implementation summary for validation hand-off
+- [ ] Prepare implementation hand-off for validation
 
-### Gateway decision
+### Approval
 
 **Decision:** `<Approve implementation | Hold | Reject>`  
-**Rationale:** `<evidence and conditions>`  
-**Required evidence:** `<artifact links or None>`
+**Rationale:** `<decision and remaining conditions>`  
+**Required follow-up:** `<actions or None>`
 
 ### Completion contract
 
-The plan is substantively complete only when the repository assessment, sequence, checks, validation requirements, explicit LLD decision, checklist, traceability, and gateway decision are resolved and approved. An HLD is required only when the Development Lifecycle says the change needs one.
+The plan is substantively complete only when the repository assessment, implementation approach and sequence, checks, validation requirements, explicit LLD decision, open questions, and traceability are resolved. Set **Status** to `Approved` only when implementation can proceed without an unresolved material planning decision.

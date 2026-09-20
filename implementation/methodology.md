@@ -111,7 +111,7 @@ The change-delivery lifecycle is project-owned under `implementation/`. The cano
 
 The manifest and source files are authoritative. `install-skills.ps1` requires an explicit destination project root, refuses to overwrite existing destination skill files, and installs only the declared project copies under `.codex/skills/`. It does not claim automatic Codex skill discovery. `verify-skills.ps1` validates declared source paths, reference templates, lifecycle ordering, dependencies, checksums and (when supplied) destination copies.
 
-The lifecycle skills use the artifact rules above: structural validity is distinct from substantive completion; gateways are explicit recorded decisions; cross-artifact traceability is required; and methodology, templates, validators, progress derivation and dashboards must be updated together when their contracts change.
+The lifecycle skills use the artifact rules above: structural validity is distinct from substantive completion; gateways are explicit recorded decisions; cross-artifact traceability is required; and methodology, templates, validators, progress derivation and dashboards must be updated together when their contracts change. The manifest order defines the permitted lifecycle sequence, not a requirement to execute every design skill: HLD, implementation planning and LLD are used only when the Development Operating Model requires them for the change.
 
 ---
 

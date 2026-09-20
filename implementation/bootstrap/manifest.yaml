@@ -1,6 +1,6 @@
 schemaVersion: 1
-version: 1.0.0
-description: Project-owned change-delivery templates and Codex skills for SideGig.
+version: 1.1.0
+description: Project-owned proportional change-delivery templates and Codex skills for SideGig.
 destinationRoot: .codex/skills
 templates:
   - path: implementation/templates/high-level-design.md
@@ -15,8 +15,8 @@ skills:
     order: 10
     source: implementation/skills/setup-change-workspace/SKILL.md
     dependencies: []
-    version: 1.0.0
-    sha256: 74EC41FC48BB3FF0915C7CA1AD5BC3FA72F8D69D26F818850A1D1334AAEAF8EC
+    version: 1.1.0
+    sha256: EA3F6AB3D74E9AA00F9AEA998BC51120672550A6A51B47D79721827EFC6AD576
   - name: high-level-design
     stage: design
     order: 20
@@ -28,9 +28,9 @@ skills:
     stage: design
     order: 30
     source: implementation/skills/implementation-plan/SKILL.md
-    dependencies: [high-level-design]
-    version: 1.0.0
-    sha256: 14741CE19BA4C577DF231618EDCEE9DF12A0AEFD0AB6DEDED2280621906D5AB9
+    dependencies: [setup-change-workspace]
+    version: 1.1.0
+    sha256: 162A45313F2F2128025EBD4DE98CBFA2421E2B1AB04E84CADD59D6F344AB6DAC
   - name: low-level-design
     stage: design
     order: 40
@@ -42,20 +42,20 @@ skills:
     stage: implementation
     order: 50
     source: implementation/skills/development/SKILL.md
-    dependencies: [implementation-plan]
-    version: 1.0.0
-    sha256: 35FA769C587BB9B88DFD05E42C32F9E33814513115AC148474EE5C57269E1BB3
+    dependencies: [setup-change-workspace]
+    version: 1.1.0
+    sha256: 2BC54DB5D62F2EB86149F4C741921443FBDFB32D129ECE91A13904142BC733B7
   - name: validation
     stage: validation
     order: 60
     source: implementation/skills/validation/SKILL.md
     dependencies: [development]
-    version: 1.0.0
-    sha256: EFCE8A037FC72333C21C6349052D60D1E67647271DC02991074CB0DEFDC8B3B9
+    version: 1.1.0
+    sha256: 7136E065EB36154CD05C25EA69208E8E8BB9B9B70452B41156D4784F18BF79B7
   - name: merge-change
     stage: closure
     order: 70
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
-    version: 1.0.0
-    sha256: 799BE5BB30F47C56945D33DADAD9F206DCFFAB8C078D63CD2FF2C68BBC61A815
+    version: 1.1.0
+    sha256: 5EC49A0C3413D9ECF72EF4CEE4960BCACE9B70D1D209BF6E1AACB56D51EBBD65

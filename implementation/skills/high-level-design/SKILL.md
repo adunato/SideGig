@@ -1,14 +1,18 @@
 ---
 name: high-level-design
-description: Produce an approved, artifact-first high-level design using the project’s canonical 13-section template.
+description: Produce a concise change-specific high-level design when the Development Lifecycle requires one.
 ---
 
 # High-Level Design
 
-Create `implementation/templates/high-level-design.md`-shaped artifacts from a clarified requirement. The HLD must stand alone, describe current and expected behaviour, preserve the 13-section architecture outline, and avoid file-level prescriptions. Record stable metadata, methodology mapping, upstream traceability, open questions, validation considerations, and an explicit gateway decision.
+Use the canonical `implementation/templates/high-level-design.md` template when the Development Lifecycle requires an HLD.
 
-Use the template as the structural contract. Check required headings and unresolved placeholders separately from substantive completion. Do not mark a step complete because the document is structurally valid; requirements, design rationale, evidence, traceability, and approval must be present. Keep methodology, template, validators, progress derivation, and dashboards synchronized when this contract changes.
+Start from the GitHub Issue, current Product Definition, current Architecture Definition, and relevant repository context. The HLD describes the proposed behaviour and design for this individual change; it does not replace the durable product or architecture documents and must not prescribe individual file edits.
+
+Keep the design proportional to the change. Resolve material design choices, interfaces, state changes, error behaviour, validation considerations, and any intended impact on the durable Product Definition or Architecture Definition.
+
+Structural validity is not substantive approval. Do not approve the HLD while a material design question remains unresolved.
 
 ## Completion contract
 
-Report artifact path/ID, requirements and architecture covered, validation considerations, gateway decision, unresolved questions, structural checks, substantive completion state, and downstream dependencies. A missing decision or material unanswered question is a hold, not an implicit approval.
+Report the artifact path/ID, originating Issue, product/architecture context used, material design decisions, validation considerations, durable-document impacts, unresolved questions, and approval state. A material unresolved design question keeps the HLD on hold.

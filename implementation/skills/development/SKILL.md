@@ -1,20 +1,22 @@
 ---
 name: development
-description: Implement a tracked change from its GitHub Issue and any applicable approved design artifacts with controlled deviations and integrity checks.
+description: Implement a GitHub Issue using the approved change artifacts that are required for that change, with controlled deviations and integrity checks.
 ---
 
 # Development
 
-Read the originating GitHub Issue, repository instructions, current Product Definition and Architecture Definition where relevant, and every design artifact required for this change before editing.
+Read the originating GitHub Issue, repository instructions, Product Definition, Architecture Definition, and every change-specific artifact that the Development Lifecycle required before editing.
 
-Treat the Issue as the required scope and acceptance reference. Treat an HLD, implementation plan and LLD as authoritative only when the Development Lifecycle required and approved them for the change. A simple change may legitimately proceed without one or more of those artifacts.
+Treat the Issue as the scope and acceptance contract; HLD, implementation plan, and LLD are authoritative only when they were required and approved for the change. A simple bug may therefore proceed without design/planning artifacts.
 
-Keep implementation within the approved scope and preserve established repository patterns. Add or update automated tests proportionately to the changed behaviour.
+Keep implementation within the approved scope and preserve established repository patterns. Add or update automated tests proportionately with the implementation.
 
-Minor deviations may be made when they do not change product behaviour, architecture, scope, interfaces, data model, or introduce a significant decision; record them. A major deviation stops development and returns the change to the appropriate earlier lifecycle stage. Do not silently redesign or broaden the Issue.
+Minor implementation deviations are acceptable when they do not change product behaviour, architecture, external interfaces, data ownership, scope, or another material decision; record them in the implementation hand-off. A major deviation stops development and returns to the relevant Issue/design/planning decision rather than being silently absorbed.
 
-Run the relevant local integrity checks defined by the Coding and Quality Baseline and repository instructions. Fix implementation-caused failures and distinguish unrelated failures.
+Update the durable Product Definition or Architecture Definition in the same change when the implemented outcome intentionally changes them.
+
+Run the relevant local integrity checks and distinguish implementation-caused failures from unrelated failures.
 
 ## Completion report contract
 
-Report Issue, implementation summary, changed areas/artifacts, deviations and reasons, confirmation that no unapproved major deviation occurred, checks and scope/results, tests added or changed, and known unrelated failures. Development is complete only when the approved scope is implemented and the changed scope is ready for validation.
+Report the Issue reference, implementation summary, changed areas, change-artifact deviations and reasons, durable-document updates, tests added/changed, integrity checks and results, and known unrelated failures. Development is complete only when the approved scope is implemented and ready for validation.

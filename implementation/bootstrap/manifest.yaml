@@ -1,0 +1,61 @@
+schemaVersion: 1
+version: 1.0.0
+description: Project-owned change-delivery templates and Codex skills for SideGig.
+destinationRoot: .codex/skills
+templates:
+  - path: implementation/templates/high-level-design.md
+    purpose: canonical high-level design structure
+  - path: implementation/templates/implementation-plan.md
+    purpose: canonical implementation plan structure
+  - path: implementation/templates/low-level-design.md
+    purpose: canonical low-level design structure
+skills:
+  - name: setup-change-workspace
+    stage: setup
+    order: 10
+    source: implementation/skills/setup-change-workspace/SKILL.md
+    dependencies: []
+    version: 1.0.0
+    sha256: 74EC41FC48BB3FF0915C7CA1AD5BC3FA72F8D69D26F818850A1D1334AAEAF8EC
+  - name: high-level-design
+    stage: design
+    order: 20
+    source: implementation/skills/high-level-design/SKILL.md
+    dependencies: [setup-change-workspace]
+    version: 1.0.0
+    sha256: 6D95943ED21D9F4280EF4272D750219D65869545F33ED2D7A776B73726880142
+  - name: implementation-plan
+    stage: design
+    order: 30
+    source: implementation/skills/implementation-plan/SKILL.md
+    dependencies: [high-level-design]
+    version: 1.0.0
+    sha256: 14741CE19BA4C577DF231618EDCEE9DF12A0AEFD0AB6DEDED2280621906D5AB9
+  - name: low-level-design
+    stage: design
+    order: 40
+    source: implementation/skills/low-level-design/SKILL.md
+    dependencies: [implementation-plan]
+    version: 1.0.0
+    sha256: 8E049CC2D9277EC3EA23BD66B5C3FA62D376A432298A52ACBCAECF6188BE2EE4
+  - name: development
+    stage: implementation
+    order: 50
+    source: implementation/skills/development/SKILL.md
+    dependencies: [implementation-plan]
+    version: 1.0.0
+    sha256: 35FA769C587BB9B88DFD05E42C32F9E33814513115AC148474EE5C57269E1BB3
+  - name: validation
+    stage: validation
+    order: 60
+    source: implementation/skills/validation/SKILL.md
+    dependencies: [development]
+    version: 1.0.0
+    sha256: EFCE8A037FC72333C21C6349052D60D1E67647271DC02991074CB0DEFDC8B3B9
+  - name: merge-change
+    stage: closure
+    order: 70
+    source: implementation/skills/merge-change/SKILL.md
+    dependencies: [validation]
+    version: 1.0.0
+    sha256: 799BE5BB30F47C56945D33DADAD9F206DCFFAB8C078D63CD2FF2C68BBC61A815

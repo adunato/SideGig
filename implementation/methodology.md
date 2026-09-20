@@ -105,6 +105,14 @@ The methodology and its core templates should remain reusable across API/microse
 
 Channel-specific extensions to the generic templates should be introduced only where a genuine implementation requirement cannot be represented cleanly by the common structure.
 
+## 12. Project-Owned Lifecycle Package and Bootstrap
+
+The change-delivery lifecycle is project-owned under `implementation/`. The canonical HLD, implementation-plan and LLD templates live under `implementation/templates/`; the corresponding project skills live under `implementation/skills/`; and `implementation/bootstrap/manifest.yaml` is the versioned manifest for repeatable bootstrap.
+
+The manifest and source files are authoritative. `install-skills.ps1` requires an explicit destination project root, refuses to overwrite existing destination skill files, and installs only the declared project copies under `.codex/skills/`. It does not claim automatic Codex skill discovery. `verify-skills.ps1` validates declared source paths, reference templates, lifecycle ordering, dependencies, checksums and (when supplied) destination copies.
+
+The lifecycle skills use the artifact rules above: structural validity is distinct from substantive completion; gateways are explicit recorded decisions; cross-artifact traceability is required; and methodology, templates, validators, progress derivation and dashboards must be updated together when their contracts change.
+
 ---
 
 # Phase 1 — Implementation Foundation

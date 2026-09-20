@@ -7,7 +7,8 @@
     "validate:research": "node scripts/research-validator.mjs",
     "validate:implementation": "node scripts/implementation-validator.mjs",
     "report:research": "node scripts/research-report.mjs",
-    "dashboard:research": "node scripts/research-dashboard-view.mjs && node scripts/research-dashboard-polish.mjs && node scripts/research-dashboard-capability-scores.mjs"
+    "dashboard:research": "node scripts/research-dashboard-view.mjs && node scripts/research-dashboard-polish.mjs && node scripts/research-dashboard-capability-scores.mjs",
+    "verify:implementation-skills": "powershell -NoProfile -ExecutionPolicy Bypass -File implementation/bootstrap/verify-skills.ps1"
   },
   "dependencies": {
     "remark-gfm": "4.0.1",

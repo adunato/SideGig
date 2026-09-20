@@ -1,13 +1,15 @@
 # High-Level Design: <change name>
 
-> Canonical artifact. Keep the required headings stable so structural validators and progress views can read this document. A valid structure does not, by itself, mean the design or its gateway is complete.
+> Canonical change-specific design artifact. Use this template only when the Development Lifecycle requires an HLD. Keep the design proportional to the change and separate from the durable Product Definition and Architecture Definition.
 
 **Artifact ID:** `<stable-id>`  
 **Status:** `<Draft | Approved | Superseded>`  
 **Owner:** `<person or role>`  
 **Created / updated:** `<YYYY-MM-DD>`  
-**Related methodology step / gateway:** `<step or gateway>`  
-**Traceability:** `<research, issue, requirement, or upstream artifact links>`
+**GitHub Issue:** `<#issue or URL>`  
+**Product Definition:** `<path / requirement references or None>`  
+**Architecture Definition:** `<path / section references or None>`  
+**Traceability:** `<other upstream requirement or decision links, or None>`
 
 ## 1. Summary
 
@@ -19,7 +21,7 @@
 
 ## 3. Requirements
 
-<Restate the requirements so this artifact stands alone.>
+<Restate the requirements needed for the design so this artifact can be understood alongside the originating Issue.>
 
 ### Functional Requirements
 
@@ -85,12 +87,12 @@
 - <key decision>
 - <key decision>
 
-### Gateway decision
+### Approval
 
-**Decision:** `<Proceed | Hold | Reject | Not applicable>`  
-**Rationale:** `<evidence-based decision and remaining conditions>`  
-**Required evidence before downstream work:** `<artifact links or None>`
+**Decision:** `<Approve | Hold | Reject>`  
+**Rationale:** `<decision and remaining conditions>`  
+**Required follow-up before implementation planning/development:** `<actions or None>`
 
 ### Completion contract
 
-The HLD is substantively complete only when requirements, proposed architecture, validation considerations, open questions, traceability, and the gateway decision are resolved. Record approval in the artifact; do not infer completion from headings alone.
+The HLD is substantively complete only when the material requirements, proposed design, validation considerations, durable Product/Architecture impacts, and open questions are resolved. Set **Status** to `Approved` only when the design is ready to constrain downstream implementation.

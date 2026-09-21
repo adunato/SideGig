@@ -201,97 +201,6 @@ A bootstrap implementation should remain reproducible from the SideGig-owned inp
 
 ## 2. Product Definition and Evolution
 
-Defined in the current model. Maintain one concise durable Product Definition describing the current approved product intent, requirements and externally meaningful behaviour. Revisit only for final consistency after downstream sections are finalized.
-
-### 3. Architecture and Design
-
-Defined in the current model. Maintain one concise durable Architecture Definition describing the current approved technical architecture. Revisit only for final consistency after downstream sections are finalized.
-
-### 4. GitHub Delivery Model
-
-Defined in the current model. GitHub Issues, Milestones, branches, pull requests, release candidates, tags, GitHub Releases and protection rules form the delivery-control layer. Revisit only for consistency after CI/CD and repository bootstrap are finalized.
-
-### 5. Development Lifecycle
-
-Defined in the current model. The lifecycle starts from the originating GitHub Issue, creates the change workspace, applies HLD / Implementation Plan / LLD proportionately, then performs development, durable-document updates, validation and integration.
-
-### 6. Coding and Quality Baseline
-
-Defined in the current model. The baseline supplies pragmatic coding, formatting, linting, typing, testing, dependency and reproducible local-validation standards to Development and Validation without defining a separate workflow.
-
-### 7. CI/CD
-
-Defined in the current model. CI/CD reuses the repository validation contract and automates change, integrated, release-candidate, staging and production gates while preserving explicit human merge and promotion decisions. Revisit only for final consistency after repository/bootstrap structure is finalized.
-
-
-## 1. Project and Repository Model
-
-- Each independently deployable product or service has its own GitHub repository.
-- Product source code does not live in the SideGig repository.
-- The SideGig repository owns cross-project development standards, canonical templates, repository-bootstrap definitions and reusable agentic-development assets.
-- New project repositories are private by default.
-- Repository names use lowercase kebab-case.
-- A repository contains one independently deployable product or service. SideGig does not use a shared product monorepo.
-- Every project repository contains:
-  - `README.md`
-  - `AGENTS.md`
-  - `docs/hld.md`
-  - `docs/implementation-plan.md`
-  - application source code
-  - automated tests
-  - project configuration
-  - `.github/workflows/`
-
-### Repository bootstrap
-
-Every new project repository is established through the standard SideGig repository bootstrap.
-
-The bootstrap creates the initial repository baseline directly. The normal pull-request lifecycle begins after the bootstrap baseline has been created.
-
-The bootstrap must:
-
-1. create the repository as private unless an explicit project decision requires otherwise;
-2. create the canonical repository structure and baseline files;
-3. create the initial `dev`, `staging` and `main` branches from the same bootstrap baseline;
-4. set `dev` as the default branch;
-5. install the standard CI/CD workflows required by this operating model;
-6. configure the required branch protections after the initial branches exist;
-7. create the initial design and implementation artifacts from the canonical SideGig templates.
-
-The bootstrap is not merely a list of filenames. Each standard artifact must have a canonical SideGig template or baseline defining its purpose, required structure and project-specific extension points.
-
-
-### README baseline
-
-Every project repository contains a root `README.md` created from `development/templates/README-template.md`.
-
-The README is the concise entry point for a developer or operator encountering the repository. It explains what the product is, how to run and validate it, and where to find the authoritative design and implementation documentation.
-
-The README must contain:
-
-- **Project summary** — the project name and a concise project-specific description of what the product does and who or what it serves.
-- **Status** — the current lifecycle state where this materially helps interpret the repository, for example proof of concept, active development or production.
-- **Getting started** — the minimum project-specific prerequisites and commands required to install dependencies and run the product locally.
-- **Usage** — the minimum project-specific instructions needed to exercise the product through its primary local or developer-facing interface.
-- **Development** — the standard commands used to validate, test and build the repository.
-- **Project documentation** — links to `docs/hld.md` and `docs/implementation-plan.md`, identifying them as the authoritative design and implementation-planning artifacts.
-- **Deployment** — a concise project-specific statement identifying the deployment target and the standard release/deployment path, without duplicating CI/CD workflow detail.
-
-The template contains the common wording and headings. Each project replaces the explicit template placeholders with project-specific content during bootstrap.
-
-The README remains concise. Architecture decisions belong in `docs/hld.md`, implementation sequencing belongs in `docs/implementation-plan.md`, agent instructions belong in `AGENTS.md`, and detailed CI/CD behaviour belongs in repository workflow configuration and the Development Operating Model.
-
-### Agentic development framework
-
-- OpenAI Codex is the standard coding agent for SideGig software projects.
-- Every project repository contains a root `AGENTS.md` providing repository-specific instructions and constraints.
-- SideGig owns reusable agent skills and canonical agent guidance; project repositories receive or extend those assets through the repository bootstrap model.
-- Reusable workflow behaviour is implemented as skills rather than repeated prompt text.
-- Process-specific agent behaviour is defined alongside the operating-model process it supports rather than in a separate parallel lifecycle.
-- Coding agents do not bypass repository controls or perform human merge/promotion decisions.
-
-## 2. Product Definition and Evolution
-
 ### Purpose
 
 Each SideGig product maintains a concise, durable definition of **what the product is intended to do**.
@@ -1235,7 +1144,7 @@ Each project repository contains the CI/CD workflow configuration needed to impl
 
 This operating model defines the required **behaviour and gates**, not universal workflow YAML. Exact GitHub Actions jobs, target-platform commands and credentials depend on the repository's language, architecture and deployment target.
 
-Chapter 1 — Project and Repository Model defines the canonical repository locations and bootstrap mechanics for those workflows once the operating-model revision is complete.
+Chapter 1 — Project and Repository Model defines the canonical repository locations and bootstrap mechanics for those workflows.
 
 ### CI/CD completion boundary
 

@@ -14,11 +14,23 @@ For every software change, read:
 
 The GitHub Issue remains the root traceability object. Do not expand its scope silently.
 
+## Agent package
+
+Reusable SideGig skills are installed under:
+
+`.codex/skills/`
+
+Canonical project-local templates used by those skills are installed under:
+
+`.codex/templates/`
+
+Use the relevant skill instead of recreating lifecycle behaviour ad hoc. The installed package covers repository bootstrap, durable product/architecture definition, Issue refinement, proportional change assessment, workspace/design/planning, development, validation, CI diagnosis, integration, release preparation, staging validation and production promotion.
+
 ## Development lifecycle
 
-Use the installed SideGig lifecycle skills under `.codex/skills/`.
+Before implementation, ensure the Issue is development-ready. Use `refine-issue` when requirements or acceptance criteria need shaping, and `assess-change` to choose the minimum proportional design/planning path.
 
-Create change-specific design artifacts only when required by the proportional Development Lifecycle:
+Create change-specific design artifacts only when required:
 
 - `hld.md` for a material change-design decision;
 - `implementation-plan.md` for meaningful repository-level implementation planning;
@@ -28,6 +40,8 @@ When required, store these under:
 
 `docs/changes/<issue-number>/`
 
+Use the canonical copies in `.codex/templates/` when creating those artifacts.
+
 Update `docs/product.md` or `docs/architecture.md` in the same change when the implemented outcome materially changes the durable product or architecture.
 
 ## Git and integration
@@ -36,8 +50,10 @@ Update `docs/product.md` or `docs/architecture.md` in the same change when the i
 - Follow the repository branch naming defined by the SideGig GitHub Delivery Model.
 - Do not push normal changes directly to `dev`, `staging` or `main`.
 - Prepare pull requests with Issue, design and validation traceability.
+- Use `ci-diagnostics` for failed automated gates rather than weakening checks.
 - Do not bypass required CI or branch protection.
 - Do not merge or promote your own change; those remain explicit human actions.
+- Use the release skills for candidate preparation, staging validation and production promotion where applicable.
 
 ## Project commands
 

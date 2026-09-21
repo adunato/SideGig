@@ -7,15 +7,199 @@ Draft. This document defines the standard development operating model for all so
 It defines the concrete development conventions used across projects. Project-specific technical decisions belong in the project repository; common development process is defined here once.
 
 
-## Planned Revision
+## 1. Project and Repository Model
 
-> **Planning / tracking section.** This section records the agreed structural revision of the operating model and the scope of the section-by-section iterations. It is not normative operating-model content and should be removed once the target sections have been revised and stabilized.
+### Purpose
 
-### 1. Project and Repository Model
+Each independently deployable SideGig product or service has its own GitHub repository.
 
-Revise last, once the durable product, architecture, GitHub, development, quality and CI/CD models are known. Define the final repository structure, bootstrap contents, README, AGENTS.md, agentic framework and locations of canonical project artifacts without assuming document structures that have not yet been settled.
+The product repository is the authoritative home for the product's durable definition, architecture, source code, tests, change-specific design artifacts, repository instructions and CI/CD configuration.
 
-### 2. Product Definition and Evolution
+The SideGig repository is the authoritative home for the cross-project operating model, canonical templates, reusable lifecycle skills and bootstrap definitions. Product repositories consume those standards; they do not duplicate the SideGig methodology itself.
+
+SideGig does not use a shared product monorepo by default.
+
+### Repository identity
+
+- Repository names use lowercase kebab-case.
+- New product repositories are private by default unless an explicit product/distribution requirement requires otherwise.
+- One repository represents one independently deployable product or service.
+- `dev` is the default working/integration branch after bootstrap.
+- The GitHub Delivery Model defines the roles of `dev`, `staging`, `main`, change branches and release branches.
+
+### Canonical repository structure
+
+A SideGig product repository uses the following conceptual structure:
+
+```text
+README.md
+AGENTS.md
+
+docs/
+  product.md
+  architecture.md
+  changes/
+    <issue-number>/
+      hld.md                  # only when required
+      implementation-plan.md  # only when required
+      low-level-design.md      # only when required
+
+.github/
+  ISSUE_TEMPLATE/
+    feature.md
+    bug.md
+  workflows/
+    <project-specific CI/CD workflows>
+
+.codex/
+  skills/
+    <installed SideGig lifecycle skills>
+
+<application source>
+<automated tests>
+<project configuration>
+```
+
+Only the durable and always-required elements are created unconditionally. Optional change artifacts and project-specific directories are created when the product or individual Issue requires them.
+
+The structure is conceptual rather than a requirement to create empty directories. For example, `docs/changes/` need not exist until the first Issue requires a change-specific design artifact.
+
+### Durable project artifacts
+
+Every product repository contains:
+
+- `docs/product.md` — the canonical Product Definition, created from the [Product Definition template](templates/product-definition.md);
+- `docs/architecture.md` — the canonical Architecture Definition, created from the [Architecture Definition template](templates/architecture-definition.md).
+
+These are current-state documents and are maintained as the product evolves.
+
+They are not replaced by change-specific HLD, Implementation Plan or LLD artifacts.
+
+### Change-specific artifacts
+
+When the Development Lifecycle requires a change artifact, store it under:
+
+`docs/changes/<issue-number>/`
+
+Use the stable filenames:
+
+- `hld.md`
+- `implementation-plan.md`
+- `low-level-design.md`
+
+Create only the artifacts required for that Issue.
+
+The folder is keyed by the originating GitHub Issue number so the Issue remains the root traceability object.
+
+Change-specific artifacts remain in the repository after integration as evidence of the decision and implementation context for that change. They are historical change records and are not subsequently rewritten to describe the current overall product; the durable Product Definition and Architecture Definition serve that purpose.
+
+### README
+
+Every repository contains a root `README.md` created from the [README template](templates/README-template.md).
+
+The README is the concise human entry point to the repository. It contains:
+
+- a short project summary and lifecycle status;
+- minimum prerequisites and local setup;
+- the primary local usage path;
+- the canonical repository validation command;
+- links to `AGENTS.md`, `docs/product.md` and `docs/architecture.md`;
+- a concise statement of the deployment target/release path.
+
+The README does not duplicate product requirements, architecture, change design or CI/CD workflow detail.
+
+### AGENTS.md and agentic framework
+
+Every repository contains a root `AGENTS.md` created from the [AGENTS template](templates/AGENTS-template.md).
+
+`AGENTS.md` is the repository-specific operating entry point for coding agents. It identifies:
+
+- the authoritative Issue/Product/Architecture context;
+- the canonical install, run and validation commands;
+- project-specific constraints;
+- the location of optional change artifacts;
+- Git and integration boundaries;
+- the requirement to use the SideGig Development Lifecycle proportionately.
+
+OpenAI Codex is the standard coding agent for SideGig software projects.
+
+Reusable lifecycle behaviour is implemented through the SideGig skills defined under `implementation/skills/` and installed into the product repository under:
+
+`.codex/skills/`
+
+Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
+
+A project may extend `AGENTS.md` with genuine repository-specific instructions, but it should not restate the full Development Operating Model.
+
+### GitHub repository controls
+
+The bootstrap installs the canonical GitHub Issue templates as:
+
+- `.github/ISSUE_TEMPLATE/feature.md` from [Feature Issue template](templates/feature-issue.md);
+- `.github/ISSUE_TEMPLATE/bug.md` from [Bug Issue template](templates/bug-issue.md).
+
+The repository uses only the standard `feature` and `bug` change labels unless a later project need demonstrates that another label adds material value.
+
+Branch protections, merge rules, Milestones, release branches, tags and GitHub Releases are governed by the GitHub Delivery Model rather than repeated here.
+
+### CI/CD configuration
+
+Every product repository contains the workflow configuration required to implement Chapter 7.
+
+Workflow files live under:
+
+`.github/workflows/`
+
+The operating model standardizes the required delivery gates and validation behaviour, not one universal workflow YAML.
+
+The bootstrap therefore establishes the repository-appropriate validation workflow for the selected language/runtime and any deployment workflows that are already known from the project architecture.
+
+Additional staging or production workflows are added before the corresponding delivery path is first used if they were not required at initial bootstrap.
+
+Repository CI calls the same underlying validation contract used locally.
+
+### Repository bootstrap
+
+Every new product repository is established through the standard SideGig bootstrap process.
+
+The bootstrap creates the initial repository baseline directly. It is infrastructure/setup work, not a product change, so SideGig does not create an artificial bootstrap Issue and pull request solely to establish the repository.
+
+The bootstrap performs the following:
+
+1. create the GitHub repository as private by default;
+2. create the baseline repository content and project-specific source/test/configuration structure;
+3. instantiate `README.md` from the canonical README template;
+4. instantiate `AGENTS.md` from the canonical AGENTS template;
+5. create `docs/product.md` from the Product Definition template and populate it from the approved upstream product/POC context;
+6. create `docs/architecture.md` from the Architecture Definition template and populate the architecture known at project establishment;
+7. install the standard Feature and Bug Issue templates;
+8. establish the repository's canonical local validation command and supporting language/tool configuration;
+9. install the reusable SideGig lifecycle skills under `.codex/skills/` using the versioned lifecycle package;
+10. install the CI validation workflow and any immediately required deployment workflow;
+11. commit the resulting bootstrap baseline;
+12. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
+13. create the standard `feature` and `bug` labels;
+14. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
+
+The Product Definition and Architecture Definition may initially be `Draft` where legitimate project decisions remain unresolved. They must reach the approval state required by Chapters 2 and 3 before downstream development depends on those unresolved areas.
+
+Normal software changes begin through the GitHub Issue / Development Lifecycle after the bootstrap baseline exists.
+
+### Bootstrap ownership
+
+SideGig owns the canonical bootstrap inputs:
+
+- repository conventions in this operating model;
+- templates under `development/templates/`;
+- change-delivery templates under `implementation/templates/`;
+- lifecycle skills under `implementation/skills/`;
+- the versioned lifecycle-skill bootstrap package under `implementation/bootstrap/`.
+
+The product repository owns the instantiated outputs and all project-specific extension or configuration.
+
+A bootstrap implementation should remain reproducible from the SideGig-owned inputs. It must not depend on undocumented manual setup for any repository state that the operating model treats as standard.
+
+## 2. Product Definition and Evolution
 
 Defined in the current model. Maintain one concise durable Product Definition describing the current approved product intent, requirements and externally meaningful behaviour. Revisit only for final consistency after downstream sections are finalized.
 

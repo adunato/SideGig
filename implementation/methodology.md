@@ -26,6 +26,31 @@ When an implementation step depends on research, its input contract should ident
 
 The implementation methodology begins once a channel has been selected for execution. It converts the relevant research outputs into implementation prerequisites, opportunity selection, experiments, product decisions and operational processes without creating a parallel channel/opportunity-area research model.
 
+
+## Relationship to the Development Operating Model
+
+The implementation methodology and the [SideGig Development Operating Model](../development/operating-model.md) are complementary and intentionally operate at different levels.
+
+The implementation methodology owns the **commercial implementation lifecycle**: the sequence from a selected channel through prerequisite validation, POC selection and definition, implementation commitment, live POC evaluation, productisation, launch readiness and initial live operation. It defines the outcome and evidence required from each step and the gateways that authorize progression.
+
+The Development Operating Model owns the **software engineering lifecycle** for every independently deployable SideGig product or service. It defines repository bootstrap and structure, durable Product and Architecture definitions, the GitHub Delivery Model, Issue-driven change delivery, proportional design and planning, development and validation, coding/quality standards, CI/CD, release preparation, staging validation, production promotion and agentic-development conventions.
+
+The boundary is governed by the following rules:
+
+1. When an implementation-methodology step requires software to be created or changed, that engineering work is performed in the product repository under the current Development Operating Model.
+2. The product repository is authoritative for durable Product and Architecture definitions, GitHub Issues, change-specific design artifacts, source code, tests, CI/CD configuration, pull requests, release state and engineering validation evidence.
+3. Implementation artifacts record the methodology decision, required cross-project evidence and stable references needed to establish step completion. They do not duplicate detailed engineering artifacts from the product repository.
+4. Initial creation of a product repository uses the operating model's bootstrap process. Normal software changes after bootstrap are Issue-driven and follow the Development Lifecycle.
+5. Channel configuration, commercial decisions, market evidence and operating-process definitions that are not software-engineering state remain owned by the implementation methodology and its artifacts. Version-controlled software or configuration changes still follow the Development Operating Model.
+6. If implementation exposes a reusable engineering-process gap, correct the Development Operating Model rather than embedding a project-specific replacement process in this methodology.
+7. Active implementations consume the current Development Operating Model unless a documented project-specific exception is genuinely required.
+
+This gives the lifecycle a one-way delegation model:
+
+Implementation methodology outcome → Development Operating Model execution → product-repository evidence → implementation methodology completion evidence
+
+The implementation methodology may therefore require a software outcome without prescribing branches, pull-request mechanics, design-document depth, CI jobs or release commands. Those details are resolved by the Development Operating Model and the product repository.
+
 ---
 
 # Methodology Operating Principles
@@ -105,19 +130,15 @@ The methodology and its core templates should remain reusable across API/microse
 
 Channel-specific extensions to the generic templates should be introduced only where a genuine implementation requirement cannot be represented cleanly by the common structure.
 
-## 12. Project-Owned Agent Package and Bootstrap
+## 12. Development Execution Uses the Development Operating Model
 
-The project-owned agent package is sourced from `implementation/` and `development/templates/`. Reusable skills live under `implementation/skills/`; change-design templates live under `implementation/templates/`; durable-project, Issue, README and AGENTS templates live under `development/templates/`; and `implementation/bootstrap/manifest.yaml` is the versioned package manifest.
+The implementation methodology does not maintain a parallel software-development process.
 
-The package is intentionally broader than the inner coding loop. It supports repository bootstrap, durable product and architecture definition, Issue refinement, proportional change assessment, change execution, CI diagnosis, integration, release preparation, staging validation and production promotion.
+Whenever a methodology step requires repository establishment, product or architecture definition, software changes, technical validation, release preparation, staging validation, production promotion or corrective software work, use the current [SideGig Development Operating Model](../development/operating-model.md) and its canonical templates and skills.
 
-`install-skills.ps1` requires an explicit destination project root and installs the declared package copies under `.codex/skills/` and `.codex/templates/`. It refuses to overwrite existing installed package files. The installed templates remove any dependency on SideGig-repository-relative template paths inside a product repository.
+The SideGig-owned reusable agent package, bootstrap definitions and engineering templates are implementation mechanisms of that operating model. Their detailed composition, installation and lifecycle rules belong to the Development Operating Model rather than being repeated here.
 
-`verify-skills.ps1` validates declared source paths, destination paths, skill ordering/dependencies, template and skill checksums, and — when a destination is supplied — the installed copies of both skills and templates.
-
-The package implements the proportional Development Operating Model. Manifest order is organizational; dependencies express minimum technical prerequisites and do not force every optional stage. HLD, Implementation Plan and LLD remain conditional. Human scope/design approval, merge and promotion decisions remain explicit even where an agent prepares the corresponding artifact or GitHub action.
-
-Templates, skills, manifest checksums, installer/verifier logic and operating-model references must evolve together when their contracts change.
+Implementation artifacts retain only the evidence and references required to prove the methodology step or gateway. Detailed engineering state remains in the product repository.
 
 ---
 
@@ -858,52 +879,53 @@ Use:
 
 Step 9 defines the **implementation outcome and evidence required by the commercial methodology**. It does not redefine the engineering workflow.
 
-All software development is performed according to the SideGig Development Operating Model. That operating model owns repository structure, durable product and architecture documentation, the GitHub Delivery Model, the Development Lifecycle, coding and quality standards, CI/CD, and agentic-development conventions.
+All software engineering required by Step 9 is performed according to the current [SideGig Development Operating Model](../development/operating-model.md). The operating model owns repository bootstrap, durable Product and Architecture definitions, GitHub Issues and release state, proportional change design and planning, development, validation, CI/CD and promotion.
 
-The product repository is the authoritative source for design, implementation work, code, tests and CI evidence. The implementation artifact records only the references and evidence needed to determine Step 9 completion.
+The product repository is therefore authoritative for the engineering execution of the POC. implementation/<channel>/poc.md records only the references and cross-project evidence needed to determine whether Step 9 is complete and the observation window may begin.
 
-Where execution of Step 9 exposes a reusable gap in the development operating model, update the development operating model separately rather than embedding project-specific engineering rules in this methodology.
+Where Step 9 exposes a reusable gap in the Development Operating Model, update that operating model separately rather than embedding an alternative engineering process in this methodology.
 
 ### Implementation method
 
 #### 1. Establish the development project
 
-Create or prepare the product repository according to the current Development Operating Model.
+Create or reconcile the product repository through the standard bootstrap process defined by the Development Operating Model.
 
-Produce the design and implementation-planning artifacts required by that operating model before feature implementation begins. Translate the Step 7 POC boundary into implementation work without expanding the selected proposition.
+Use the approved Step 7 POC definition, Step 8 operational requirements and Gateway 3 decision as upstream product context. The product repository must contain the durable Product Definition and Architecture Definition required by the operating model, with sufficient approval state for downstream implementation to rely on them.
 
-#### 2. Implement the defined POC
+Repository bootstrap is project establishment rather than a product change and does not require an artificial bootstrap Issue.
 
-Build the minimum implementation required to satisfy the Step 7 functional scope, input/output contract and material dependency assumptions.
+#### 2. Translate the POC into controlled software work
 
-Out-of-scope functionality remains out of scope unless a deliberate methodology decision changes the POC definition.
+Represent implementation work after bootstrap through GitHub Issues under the Development Operating Model.
 
-#### 3. Validate the implementation technically
+The POC boundary remains controlled by Step 7. Issues translate that approved boundary into independently mergeable outcomes; they do not create new product scope.
 
-Before live observation begins, verify through representative tests and deployed execution that:
+Use the operating model's proportional lifecycle to determine whether each Issue requires an HLD, Implementation Plan or LLD. The implementation methodology does not prescribe those artifacts independently.
 
-- the defined inputs are accepted and bounded correctly;
-- the required outputs are produced in the defined form;
-- the material dependency assumptions can be exercised in the deployed environment;
-- failures required by Step 8 can be diagnosed;
-- the Step 8 monitoring and evidence mechanisms needed during live operation are available;
-- charging or other experiment-critical platform behaviour works where the POC depends on it.
+Where the POC is the first planned release, use the release/versioning conventions defined by the GitHub Delivery Model.
 
-Step 9 validates that the experiment is capable of being run. It does not attempt to satisfy Step 7 market or live-operation thresholds before Step 10 begins.
+#### 3. Implement, validate and integrate the defined POC
 
-#### 4. Deploy the observation candidate
+Execute each implementation Issue through the Development Lifecycle.
 
-Deploy the implementation to the actual channel/environment in which Step 10 will operate it.
+The resulting code, tests, durable-document updates, validation evidence, pull requests and CI results remain in the product repository. All required implementation work must be integrated into the appropriate development line before the POC release candidate is prepared.
 
-Record an immutable or otherwise unambiguous implementation reference such as a commit, version, build or deployment identifier so that the implementation used during the observation window can be identified later.
+Step 9 does not broaden the proposition to solve deferred production concerns.
 
-Verify the intended user execution path and result-delivery path on the deployed implementation.
+#### 4. Prepare, validate and deploy the observation release
+
+Use the Development Operating Model's release, staging-validation and production-promotion path proportionately for the target channel.
+
+The release candidate must represent the POC that will actually be observed in Step 10. Validate the material deployed behaviour that cannot be established locally, including the Step 7 input/output contract and the Step 8 platform, monitoring, charging or operational mechanisms where applicable.
+
+Deploy the validated release to the actual channel/environment used for the observation window and retain an unambiguous implementation/release reference.
 
 #### 5. Close the pre-observation requirements
 
 Complete every Gateway 3 item recorded as **Action before observation** and update the Gateway 3 pre-observation table with its final status and evidence.
 
-This includes channel publication, customer-facing documentation, billing/monetisation configuration, monitoring setup or baseline capture where those were explicitly carried into Step 9.
+This includes channel publication, customer-facing documentation, billing/monetisation configuration, monitoring setup or other channel-specific requirements explicitly carried into Step 9.
 
 No **Action before observation** or **Blocked** item may remain when Step 9 is complete.
 
@@ -945,72 +967,456 @@ Step 9 is complete when:
 
 ## Step 10 — Operate, Evaluate and Iterate the POC
 
-Run the POC under realistic conditions, evaluate it against its success criteria, observe its operational behaviour and perform bounded iterations where justified by the evidence.
+### Purpose
+
+Run the deployed POC under the Step 7 experiment conditions, collect the Step 8 evidence, perform only bounded interventions that preserve the experiment, and evaluate the result against the defined success, iteration and exit rules.
+
+Step 10 owns the live observation window. It does not silently convert the POC into a production product.
+
+### Inputs
+
+Use:
+
+- the completed Step 9 implementation evidence and deployed release reference;
+- the Step 7 POC scope, experiment mode, success criteria, bounded-iteration rule and exit rule;
+- the Step 8 monitoring, evidence-capture, intervention and pause rules;
+- the launch baseline captured at the end of Step 9.
+
+### Operating method
+
+Operate the POC for the defined observation window and retain the evidence required by Step 7 and Step 8.
+
+Classify interventions as:
+
+- **Operational observation only** — evidence collection with no change to the experiment;
+- **Bounded fix** — a defect correction permitted by the Step 8 intervention boundary;
+- **Experiment-changing iteration** — a material change to proposition, scope, data source, pricing, distribution mode or another Step 7 condition.
+
+Any software correction or iteration is implemented through the Development Operating Model. A bounded fix does not create an informal repair path. Where a software change requires a new release, use the applicable Issue, validation and release flow and record whether the observation window remains valid.
+
+An experiment-changing iteration must be explicitly authorized under the Step 7 bounded-iteration rule and must restart or redefine the observation window where the evidence conditions materially change.
+
+### Required output
+
+Extend implementation/<channel>/poc.md with the live-operation and evaluation evidence needed to determine:
+
+- the observation period actually completed;
+- market evidence against each Step 7 market criterion;
+- capability and operational evidence against each Step 7 capability criterion;
+- incidents, pauses and bounded interventions;
+- any authorized iteration and its effect on the observation window;
+- the final POC evaluation and recommendation into Gateway 4.
+
+Detailed software-fix evidence remains in the product repository and is referenced rather than duplicated.
+
+### Completion criteria
+
+Step 10 is complete when:
+
+1. Step 9 was complete before the observation window began;
+2. the defined observation window has completed, or an explicit Step 7 stop rule has terminated it;
+3. every material Step 7 criterion has been evaluated from retained evidence;
+4. material incidents, pauses, fixes and iterations are recorded and their effect on experiment validity is understood;
+5. any software work performed during the window is traceable through the Development Operating Model;
+6. the POC has an explicit evidence-based evaluation suitable for Gateway 4.
 
 ## Gateway 4 — Productisation Decision
 
-Determine whether the combined commercial, technical and operational evidence supports progression to a production product.
+### Purpose
+
+Decide whether the POC evidence justifies progressing the proposition into production design.
+
+Gateway 4 evaluates the experiment that was actually run. It does not treat implementation effort already spent as evidence that productisation is justified.
+
+### Decision
+
+Use one of:
+
+- **Proceed to productisation** — the combined market, capability and operational evidence justifies Phase 5;
+- **Iterate POC** — the evidence supports one further bounded experiment before a production commitment can be assessed;
+- **Stop** — the evidence does not justify further implementation of the proposition.
+
+Record the decision and rationale in implementation/<channel>/poc.md.
+
+A decision to iterate returns to the appropriate POC definition/implementation step rather than bypassing the existing POC controls.
+
+### Completion criteria
+
+Gateway 4 is complete when the Step 10 evidence has been evaluated, the decision is explicit, and the authorized next step is recorded.
 
 ---
 
 # Phase 5 — Product, Commercial and Operational Design
 
+Phase 5 translates a successful POC into a production proposition without creating a second software-engineering methodology.
+
+The product repository remains authoritative for durable Product and Architecture definitions. The implementation methodology owns the commercial and service-operating decisions needed to determine whether production implementation should be committed.
+
+The Phase 5–7 implementation record is held in implementation/<channel>/productisation.md using the canonical productisation template. That artifact records methodology decisions and references to product-repository engineering evidence; it does not duplicate the durable Product Definition, Architecture Definition or change-specific engineering artifacts.
+
 ## Step 11 — Define the Production Product
 
-Translate the validated POC into a production product definition covering functionality, architecture, user experience, reliability and service behaviour.
+### Purpose
+
+Translate the validated POC proposition into the approved production product baseline that downstream production implementation will deliver.
+
+### Inputs
+
+Use:
+
+- Gateway 4 **Proceed to productisation** evidence;
+- the validated POC scope and Step 10 findings;
+- user, market, capability and operational evidence generated during the POC;
+- the current product-repository Product Definition and Architecture Definition.
+
+### Method
+
+Define the production product in the product repository under the Development Operating Model.
+
+Reconcile the durable Product Definition so that it describes the approved production scope, user-visible behaviour, capabilities, external contract, constraints and non-goals.
+
+Reconcile the durable Architecture Definition to the level required for the production commitment decision. Material architecture decisions must be explicit enough that downstream implementation can be planned safely; implementation-detail decisions may remain for the proportional change lifecycle.
+
+Do not create a duplicate production product specification inside the implementation artifact.
+
+### Required output
+
+Record in implementation/<channel>/productisation.md:
+
+- the product repository reference;
+- the approved Product Definition reference;
+- the approved Architecture Definition reference;
+- the material production-scope differences from the POC;
+- any unresolved product or architecture question that affects Gateway 5.
+
+### Completion criteria
+
+Step 11 is complete when the production Product Definition and Architecture Definition are sufficiently approved to support production commitment and no unresolved product/architecture question makes implementation scope materially indeterminate.
 
 ## Step 12 — Define the Commercial Model
 
-Define pricing, cost structure, expected usage economics and other commercial characteristics required for a sustainable paid service.
+### Purpose
 
-## Step 13 — Define the Production Operating Model
+Define the commercial model required for a sustainable paid production service.
 
-Identify how the live service must be operated after launch, including monitoring, failure detection, issue handling, customer feedback, corrective releases, external dependency changes and ongoing service maintenance.
+### Inputs
+
+Use the POC market evidence, measured POC costs/economics, current channel commercial mechanics and the production product scope from Step 11.
+
+### Required output
+
+Record in implementation/<channel>/productisation.md the production commercial model, including where material:
+
+- pricing and charging mechanism;
+- channel fees and payout mechanics;
+- expected unit economics and principal cost drivers;
+- usage assumptions needed to interpret sustainability;
+- material commercial constraints or account requirements;
+- commercial thresholds or guardrails that affect production operation.
+
+The methodology requires defensible assumptions and explicit uncertainty; it does not require false precision where private demand or revenue data remains unavailable.
+
+### Completion criteria
+
+Step 12 is complete when the proposed production pricing and charging model is actionable, the material cost/revenue mechanics are understood sufficiently for a commitment decision, and no unresolved commercial prerequisite prevents implementation.
+
+## Step 13 — Define the Production Service Operating Model
+
+### Purpose
+
+Define how the production service will be monitored, supported, maintained and changed after launch.
+
+This is the **service operating model**, not the SideGig Development Operating Model.
+
+### Inputs
+
+Use:
+
+- Step 10 operational evidence;
+- the production Product and Architecture definitions;
+- the Step 12 commercial model;
+- current channel monitoring, support and operational capabilities;
+- the Development Operating Model for the software-change and release path.
+
+### Required output
+
+Record in implementation/<channel>/productisation.md the material production operating requirements, including where relevant:
+
+- service health and failure detection;
+- data/result quality monitoring;
+- dependency-change detection;
+- cost, usage, revenue and charging visibility;
+- user/support intake and issue classification;
+- incident and pause rules;
+- routine maintenance expectations;
+- the path from an operational defect or requested product change into the GitHub Issue and Development Lifecycle;
+- evidence-retention and review cadence.
+
+Prefer channel-native capabilities where they are sufficient. Add custom operational infrastructure only where the production requirement justifies it.
+
+### Completion criteria
+
+Step 13 is complete when the live service can be operated through explicit monitoring, support, maintenance and change-management mechanisms and no material operational responsibility is left undefined.
 
 ## Gateway 5 — Production Commitment
 
-Confirm that the product, commercial model and required operating model are sufficiently understood to justify production implementation.
+### Purpose
+
+Decide whether the defined production product, commercial model and service operating model justify committing production implementation effort.
+
+### Inputs
+
+Use the completed Steps 11–13 and the Gateway 4 evidence.
+
+### Decision rule
+
+Gateway 5 is **Pass** when:
+
+- the production Product and Architecture definitions are sufficiently approved;
+- the commercial model is actionable and no material commercial blocker remains;
+- the service operating model is feasible and proportionate;
+- material production dependencies, costs and risks are understood sufficiently to implement;
+- no unresolved issue makes the production commitment unreasonable.
+
+A Pass authorizes production implementation under the Development Operating Model. A Fail records the blocking gap and the step to which work must return.
+
+### Required output
+
+Record the **Pass / Fail** decision, rationale, material conditions and authorized next step in implementation/<channel>/productisation.md.
 
 ---
 
 # Phase 6 — Production Implementation and Readiness
 
+Phase 6 builds the committed production product and proves that the release candidate and service-operating mechanisms are ready for launch.
+
+Software engineering in this phase is executed through the Development Operating Model. The implementation artifact records production-readiness evidence and stable references rather than duplicating Issues, design artifacts, tests, pull requests or CI records.
+
 ## Step 14 — Implement the Production Product
 
-Build the production version of the service with the functionality and technical characteristics required for public paid usage.
+### Purpose
+
+Implement the production scope authorized by Gateway 5 and integrate it into the product repository's development line.
+
+### Method
+
+Translate the approved production Product/Architecture baseline into GitHub Issues and release scope under the Development Operating Model.
+
+Each software change follows the proportional Development Lifecycle. Required durable-document changes, tests and CI evidence are part of the corresponding change.
+
+Do not promote the production release to the public production environment in this step. Step 14 ends with the intended production scope integrated and green on the development line, ready for release-candidate preparation.
+
+### Required output
+
+Record in implementation/<channel>/productisation.md:
+
+- the target production release/milestone;
+- references to the completed implementation scope;
+- the integrated dev candidate/reference;
+- any unresolved implementation blocker.
+
+### Completion criteria
+
+Step 14 is complete when all Gateway-5 production scope required for the initial release is integrated, required development validation is green, and the intended release scope can be selected as a release candidate.
 
 ## Step 15 — Implement Operational Processes
 
-Put in place the operational mechanisms and processes identified in the operating model so that the service can be monitored, supported, maintained and changed after launch.
+### Purpose
+
+Put in place the operational mechanisms required by Step 13 before launch readiness is assessed.
+
+### Method
+
+Implement the monitoring, alerting, support, cost/usage visibility, incident-handling and maintenance mechanisms that are required for the initial production service.
+
+Any software or version-controlled configuration change follows the Development Operating Model. Non-code channel/account/process configuration remains methodology evidence but must still be reproducible or documented sufficiently to operate the service.
+
+### Required output
+
+Record implementation evidence against the Step 13 operating requirements in implementation/<channel>/productisation.md.
+
+### Completion criteria
+
+Step 15 is complete when every operating requirement needed at launch is implemented or explicitly not applicable and no missing operational mechanism prevents readiness validation.
 
 ## Step 16 — Validate Technical Readiness
 
-Verify that the production service satisfies its defined functional, reliability, performance, integration, cost and technical quality requirements.
+### Purpose
+
+Prove that the exact production release candidate satisfies the material technical requirements before launch authorization.
+
+### Method
+
+Use the Development Operating Model's release-candidate and staging-validation path.
+
+Prepare the release candidate from a green dev state, promote it to the staging/pre-production environment and execute the technical validation material to the product. This includes the repository validation contract plus deployed checks such as critical end-to-end behaviour, integrations, runtime configuration, persistence, permissions, logging, metering or charging where applicable.
+
+A technical defect is resolved through the Development Operating Model release-fix path and revalidated.
+
+Step 16 does not authorize production promotion.
+
+### Required output
+
+Record in implementation/<channel>/productisation.md:
+
+- the exact release-candidate reference;
+- the staging deployment reference;
+- required automated and manual staging evidence;
+- technical-readiness result and blockers.
+
+### Completion criteria
+
+Step 16 is complete when the same candidate intended for launch has passed all material technical and staging checks and no unresolved technical blocker remains.
 
 ## Step 17 — Validate Operational Readiness
 
-Verify that failures, customer issues, dependency changes and other foreseeable operational events can be detected and handled through the implemented operating processes.
+### Purpose
+
+Verify that the Step 13 service operating model works against the production release candidate and launch environment.
+
+### Method
+
+Exercise the material operational paths that can be validated before launch, such as:
+
+- failure detection and diagnostic visibility;
+- alert and escalation paths;
+- data/result quality checks;
+- cost, usage and charging visibility;
+- user/support intake;
+- incident classification and corrective-change routing;
+- dependency-change response;
+- any required manual operational procedure.
+
+Where validation exposes a software defect, correct it through the Development Operating Model and repeat the affected readiness checks.
+
+### Required output
+
+Record the operational-readiness evidence, unresolved issues and final readiness result in implementation/<channel>/productisation.md.
+
+### Completion criteria
+
+Step 17 is complete when the material operational mechanisms required for initial live service have been demonstrated and no unresolved operating blocker remains.
 
 ## Gateway 6 — Launch Readiness
 
-Confirm technical readiness, operational readiness and commercial readiness before exposing the service to paying customers.
+### Purpose
+
+Authorize or block launch of the exact production release candidate.
+
+### Decision rule
+
+Gateway 6 is **Pass** only when:
+
+- Steps 14–17 are complete;
+- the exact release candidate has passed required staging validation;
+- the production commercial configuration is ready;
+- required channel/publication prerequisites are understood and executable;
+- required service-operating mechanisms are ready;
+- no known technical, operational or commercial blocker remains.
+
+A Pass authorizes Phase 7 preparation and production promotion. It does not permit replacing the validated release candidate with unvalidated application changes.
+
+### Required output
+
+Record the **Pass / Fail** decision, the authorized release candidate and any launch conditions in implementation/<channel>/productisation.md.
 
 ---
 
 # Phase 7 — Launch and Initial Operation
 
+Phase 7 prepares the customer-facing publication state, promotes the validated candidate into production, validates the live customer journey and confirms that the service operating model works under initial real usage.
+
 ## Step 18 — Prepare Channel Publication
 
-Complete the customer-facing channel configuration, documentation, schemas, examples, pricing and other publication requirements.
+### Purpose
+
+Complete the customer-facing and channel-specific configuration required to make the validated production candidate launchable.
+
+### Required output
+
+Record in implementation/<channel>/productisation.md the completion/evidence for material publication requirements, including where applicable:
+
+- listing metadata and positioning;
+- customer-facing documentation and examples;
+- input/output schemas or samples;
+- production pricing/charging configuration;
+- permissions, visibility and account requirements;
+- support/contact information;
+- any other channel-specific launch prerequisite.
+
+Version-controlled documentation or configuration changes follow the Development Operating Model and must not invalidate the candidate without revalidation.
+
+### Completion criteria
+
+Step 18 is complete when the channel publication state is ready to expose the Gateway-6-authorized candidate without an unresolved customer-facing, commercial or account prerequisite.
 
 ## Step 19 — Publish and Validate Go-Live
 
-Publish the monetised service and verify the complete live customer journey, including discovery, execution, API consumption, result delivery, charging and operational visibility.
+### Purpose
+
+Promote the Gateway-6-authorized release candidate to production, publish the service and verify the complete live customer journey.
+
+### Method
+
+Use the Development Operating Model's production-promotion path for the software release.
+
+The production state must correspond to the validated release candidate. Complete the explicit production promotion, immutable tag/GitHub Release and production deployment required by the operating model, then complete the channel publication action.
+
+Verify the live path that matters to a paying customer, including where applicable discovery, configuration, execution/API invocation, result delivery, charging and operational visibility.
+
+A launch defect that requires code or version-controlled configuration change follows the normal Development Operating Model repair/release path rather than being patched directly in production.
+
+### Required output
+
+Record in implementation/<channel>/productisation.md:
+
+- immutable production release reference;
+- channel publication reference;
+- live smoke/customer-journey validation evidence;
+- charging/monetisation evidence where material;
+- any launch blocker or corrective action.
+
+### Completion criteria
+
+Step 19 is complete when the production release is traceable, the channel publication is live, the intended customer execution/result-delivery path works, and no known launch defect prevents valid initial operation.
 
 ## Step 20 — Validate the Live Operating Model
 
-Confirm during initial live operation that the monitoring, support, maintenance and change processes function effectively against real service behaviour.
+### Purpose
+
+Confirm during initial live operation that the Step 13 service operating model functions against real service behaviour.
+
+### Method
+
+Operate the live service for a proportionate initial validation period and confirm that monitoring, support, maintenance, economics visibility and corrective-change routing work as designed.
+
+Software defects or changes discovered during this period enter the Development Operating Model through GitHub Issues and normal release handling.
+
+Step 20 is not an indefinite operations phase. It validates that the initial production operating model is functioning before the implementation methodology is considered complete.
+
+### Required output
+
+Record in implementation/<channel>/productisation.md:
+
+- the initial live-validation period or evidence boundary;
+- material operational events and how they were handled;
+- confirmation of service-health, support, economics and maintenance visibility;
+- any corrective releases or process changes;
+- the final implementation-completion decision.
+
+### Completion criteria
+
+Step 20 is complete when the live service has demonstrated a functioning service operating model under initial real usage and no unresolved issue prevents transition to normal ongoing operation.
 
 ## Implementation Complete
 
-Defines the point at which the initial implementation objective has been achieved: the service is live, monetised, technically stable and supported by a functioning operating model.
+The initial implementation objective is complete when:
+
+1. the production product is live and monetised;
+2. the deployed service is traceable to an immutable production release;
+3. the complete customer execution and charging path has been validated where applicable;
+4. the service operating model has been exercised successfully under initial live conditions;
+5. no unresolved technical, operational or commercial blocker prevents normal ongoing operation;
+6. the implementation artifacts contain the evidence required to reconstruct the methodology decisions and locate the authoritative engineering records in the product repository.
+
+Ongoing product evolution, defect correction and releases continue under the Development Operating Model, with future commercial/product decisions entering the appropriate implementation or research methodology where required.

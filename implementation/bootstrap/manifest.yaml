@@ -1,5 +1,5 @@
 schemaVersion: 2
-version: 2.0.0
+version: 2.0.1
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -28,12 +28,12 @@ templates:
     source: development/templates/feature-issue.md
     destination: feature-issue.md
     purpose: canonical feature Issue shape
-    sha256: 5F9C57240D855712F3AA7ABA963B8A9EB9488407FE83CF6572627B0B81E41D0B
+    sha256: DA9AD195980DFDE021F3F2168F8964FECF8A0639272D038BF01468B1A7EF854C
   - name: bug-issue
     source: development/templates/bug-issue.md
     destination: bug-issue.md
     purpose: canonical bug Issue shape
-    sha256: 3C18405F5CF4220ECAA7A8CC9791365AE663D45352E25D845EBF38205F7F2122
+    sha256: DFC3C58E0321C0BE94B98482F7B66DEA69D93F9D7CECA76E2CA1B31A53689F95
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
@@ -76,15 +76,15 @@ skills:
     order: 40
     source: implementation/skills/refine-issue/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: 36437E2DA25B27790784A377E3F076D61DA0826E7511F1009954ECEC17BB2584
+    version: 2.0.1
+    sha256: 0E358ADC3BB8FE74C7B19A9679466E3016BF75CA416373BB32A97D4434D9D81A
   - name: assess-change
     stage: shaping
     order: 50
     source: implementation/skills/assess-change/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: F224326CE632E00B1E284C6F1263AEC1E7600A96445823071E7DF3A0D9901CEB
+    version: 2.0.1
+    sha256: 7E4C5E74F6B9B457196B4A4880C90842CE3063AB992E8E204D6A0CDC890E9A2F
   - name: setup-change-workspace
     stage: setup
     order: 60

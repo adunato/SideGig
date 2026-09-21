@@ -427,30 +427,6 @@ The commitment decision uses the completed Step 7 definition and Step 8 operatin
 
 ## 9. POC Implementation
 
-### 9.1 Repository Creation
-
-**Purpose**
-
-Establish the dedicated product repository for the Google News POC in accordance with the SideGig Development Operating Model.
-
-**Repository decision**
-
-- Create one GitHub repository for the independently deployable Google News Actor/product.
-- Repository name: `google-news-search`.
-- Repository visibility: **Private**.
-- The repository is created empty, without GitHub-generated README, `.gitignore`, licence or other initial content.
-- The first repository commit will be created by the SideGig repository bootstrap process.
-- Product source code, tests, configuration and project-specific development artifacts will be maintained in this repository rather than in the SideGig repository.
-
-**Repository reference**
-
-<To be recorded after repository creation>
-
-**Status**
-
-Defined — not yet executed.
-
-
 *Methodology mapping: Phase 4, Step 9 — Implement the POC.*
 
 Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.
@@ -477,3 +453,52 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Step 9 blockers:** <None, or concise list>
 
+## 10. POC Operation and Evaluation
+
+*Methodology mapping: Phase 4, Step 10 — Operate, Evaluate and Iterate the POC.*
+
+Record the evidence generated during the live observation window and evaluate the POC against the Step 7 success, iteration and exit rules. Detailed software-change evidence remains in the product repository.
+
+**Observation start:** <YYYY-MM-DD or other explicit boundary>
+
+**Observation end:** <YYYY-MM-DD or stop-rule boundary>
+
+**Observed implementation reference:** <Release / deployment reference established in Step 9>
+
+### POC Evaluation Evidence
+
+| Evaluation area | Step 7 criterion / Step 8 requirement | Evidence / result | Outcome |
+|---|---|---|---|
+| <Market / capability / operational area> | <Criterion or requirement> | <Observed evidence> | <Pass / Fail / Inconclusive / Not applicable> |
+
+### Incidents, Interventions and Iterations
+
+| Event | Classification | Action / evidence | Effect on observation window |
+|---|---|---|---|
+| <Incident, fix or iteration> | <Observation only / Bounded fix / Experiment-changing iteration> | <Action and reference> | <None / Paused / Restarted / Other> |
+
+If no material incidents, interventions or iterations occurred, state **None**.
+
+### Step 10 Evaluation
+
+**POC evaluation:** <Success / Bounded iteration justified / Stop>
+
+**Evaluation rationale:** <Concise evidence-based conclusion against the Step 7 rules>
+
+### Step 10 Completion
+
+**Step 10 complete:** No
+
+**Step 10 blockers:** Step 9 not yet complete; observation window has not started.
+
+## 11. Gateway 4 — Productisation Decision
+
+*Methodology mapping: Phase 4, Gateway 4 — Productisation Decision.*
+
+Use the completed Step 10 evidence to decide whether the proposition should proceed beyond the POC.
+
+**Decision:** <Proceed to productisation / Iterate POC / Stop>
+
+**Rationale:** <Concise explanation based on the Step 10 evidence>
+
+**Authorized next step:** <Phase 5 productisation / return to the relevant POC step for one bounded iteration / stop further implementation>

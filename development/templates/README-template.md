@@ -26,7 +26,7 @@
 
 ## Usage
 
-<Describe the minimum developer-facing way to exercise the product locally. For an API, Actor, CLI or service, show the primary invocation path and point to platform/user documentation where appropriate. Do not duplicate full product documentation here.>
+<Describe the minimum developer-facing way to exercise the product locally. For an API, Actor, CLI or service, show the primary invocation path and point to platform/user documentation where appropriate. Do not duplicate the Product Definition.>
 
 ## Development
 
@@ -39,16 +39,20 @@ Run the complete repository validation suite with:
 Additional project commands:
 
 | Command | Purpose |
-|---|---|
+| --- | --- |
 | `<command>` | <Purpose> |
 
 <Remove the additional-command table if no other command materially helps development.>
 
+Repository-specific agent instructions are in [AGENTS.md](AGENTS.md).
+
 ## Project documentation
 
-- [High-Level Design](docs/hld.md) — authoritative system-level architecture and design.
-- [Implementation Plan](docs/implementation-plan.md) — authoritative implementation structure, sequencing, dependencies and validation approach.
+- [Product Definition](docs/product.md) — current approved product intent, scope, capabilities and externally meaningful behaviour.
+- [Architecture Definition](docs/architecture.md) — current approved technical architecture.
+
+Change-specific HLD, Implementation Plan and LLD artifacts are stored under `docs/changes/<issue-number>/` only when the SideGig Development Lifecycle requires them.
 
 ## Deployment
 
-<Identify the deployment target and the standard path used to promote and release the product. Keep this concise; detailed CI/CD behaviour belongs in repository workflow configuration and the SideGig Development Operating Model.>
+<Identify the deployment target and the standard release path in one or two sentences. Detailed branch, CI/CD and promotion rules belong in the SideGig Development Operating Model and repository workflow configuration.>

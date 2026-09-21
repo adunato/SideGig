@@ -1,61 +1,164 @@
-schemaVersion: 1
-version: 1.1.0
-description: Project-owned proportional change-delivery templates and Codex skills for SideGig.
-destinationRoot: .codex/skills
+schemaVersion: 2
+version: 2.0.0
+description: End-to-end agile agent skills and canonical project-local templates for SideGig.
+skillDestinationRoot: .codex/skills
+templateDestinationRoot: .codex/templates
 templates:
-  - path: implementation/templates/high-level-design.md
-    purpose: canonical optional high-level design structure
-  - path: implementation/templates/implementation-plan.md
-    purpose: canonical optional implementation plan structure
-  - path: implementation/templates/low-level-design.md
-    purpose: canonical optional low-level design structure
+  - name: readme
+    source: development/templates/README-template.md
+    destination: README-template.md
+    purpose: canonical repository README
+    sha256: 1483D3DC7C1C64825DFBBF4B64FF072B9A94F17AA361D8496D4227B9E2678339
+  - name: agents
+    source: development/templates/AGENTS-template.md
+    destination: AGENTS-template.md
+    purpose: canonical repository agent instructions
+    sha256: C209D4D38DF9369EB47127CF67E29A71DE5F4B04C8F78E577808C62F4B13007D
+  - name: product-definition
+    source: development/templates/product-definition.md
+    destination: product-definition.md
+    purpose: canonical durable Product Definition
+    sha256: 31FDE47AF86526EBD5305875F7BDA2991145FBD70D3BFD592E29FEB955FDCC43
+  - name: architecture-definition
+    source: development/templates/architecture-definition.md
+    destination: architecture-definition.md
+    purpose: canonical durable Architecture Definition
+    sha256: BA4A227FC0207D5D4BBE8A4049E713910F38F8A3154A2E7516A5690D340D15E1
+  - name: feature-issue
+    source: development/templates/feature-issue.md
+    destination: feature-issue.md
+    purpose: canonical feature Issue shape
+    sha256: 7A8916EF50A37A2F45F07C19A630BEC31625CA53228CA44DC8ADAE86425FA74B
+  - name: bug-issue
+    source: development/templates/bug-issue.md
+    destination: bug-issue.md
+    purpose: canonical bug Issue shape
+    sha256: CC593548C1F7A066BF13AC599EB79149DEF4776CE974E9236541CD005666ED3F
+  - name: high-level-design
+    source: implementation/templates/high-level-design.md
+    destination: high-level-design.md
+    purpose: canonical optional change HLD
+    sha256: 496E31DB46A82A44A5BB64D66C8944A4B8F271CB0664F94C7F239BA53F14D3FC
+  - name: implementation-plan
+    source: implementation/templates/implementation-plan.md
+    destination: implementation-plan.md
+    purpose: canonical optional implementation plan
+    sha256: A981C72CAF3C4D8357BE5A774CEB92CC4C16019230A75681728AE45267ABF2F4
+  - name: low-level-design
+    source: implementation/templates/low-level-design.md
+    destination: low-level-design.md
+    purpose: canonical optional LLD
+    sha256: 5A23E1F59F134703337635F46F4564A7CEB2572A47F08BEB6CA988C1EE1345B9
 skills:
+  - name: bootstrap-project
+    stage: bootstrap
+    order: 10
+    source: implementation/skills/bootstrap-project/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: 7C5539A9F0A836BE30A0342827961D512112FC0E1E262BF88F298D8B4F10FADE
+  - name: product-definition
+    stage: definition
+    order: 20
+    source: implementation/skills/product-definition/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: 052710F60F2DC6F46EFB77FE17C2C19155F963F2DD4D437E9D8215E3C4F83BCC
+  - name: architecture-definition
+    stage: definition
+    order: 30
+    source: implementation/skills/architecture-definition/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: 80459C326A90F867C0C9C9B483D91680C7CEAFEEDFEA3F60EE767422F9D27FD7
+  - name: refine-issue
+    stage: shaping
+    order: 40
+    source: implementation/skills/refine-issue/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: 718273EB25121D8CED736E54EC35DA6BBC7C09105524B3E8018F24D9C2C25BE1
+  - name: assess-change
+    stage: shaping
+    order: 50
+    source: implementation/skills/assess-change/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: E3CDFD1A927923771DE061CBB401278D5C296BDE373DD04356BA5D30C3FC7CA6
   - name: setup-change-workspace
     stage: setup
-    order: 10
+    order: 60
     source: implementation/skills/setup-change-workspace/SKILL.md
     dependencies: []
-    version: 1.1.0
+    version: 2.0.0
     sha256: 231C23C9FDBA1A0CC96F9EB5C09F59FCD39FE7EC83D91F2DB246F335F27FB8F2
   - name: high-level-design
     stage: design
-    order: 20
+    order: 70
     source: implementation/skills/high-level-design/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 1.1.0
-    sha256: 376DDCFC8B1C4D906B1468F107FBDAF2E52060C77DDB9A50BB5AF110A94C5E5C
+    version: 2.0.0
+    sha256: 8C12FF9DCAB9F718D49A030DA9F4101F64262C334040E23C1C601C5CE1FE6B48
   - name: implementation-plan
     stage: design
-    order: 30
+    order: 80
     source: implementation/skills/implementation-plan/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 1.1.0
-    sha256: 2B746CC0D1801A79CA63B9CA7B82FA5ECC70EC68BD1373830206B123EF75CBF9
+    version: 2.0.0
+    sha256: 4680405D2FE8212DFAF03DA1D5D7A14B939709602494D87F8E6C13295D2D13F3
   - name: low-level-design
     stage: design
-    order: 40
+    order: 90
     source: implementation/skills/low-level-design/SKILL.md
     dependencies: [implementation-plan]
-    version: 1.1.0
-    sha256: A10E2C33D0B80CEE8D205790EF0CDFF54A21FE120DA40AB0017CCBE125C03150
+    version: 2.0.0
+    sha256: D196671A5839C8064E1DA81F21019008F81FFA515D2EFB417ECFFF24984A5F63
   - name: development
     stage: implementation
-    order: 50
+    order: 100
     source: implementation/skills/development/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 1.1.0
+    version: 2.0.0
     sha256: D2B2499A77C2D375477BF9B59541E8ECBCAFA3131DAA0ABFC08F39CC7B2A3A12
   - name: validation
     stage: validation
-    order: 60
+    order: 110
     source: implementation/skills/validation/SKILL.md
     dependencies: [development]
-    version: 1.1.0
+    version: 2.0.0
     sha256: 1B87A7CCDD6B45E995BD60636123D8CCB970762A59BC67881D18D81248F690CA
+  - name: ci-diagnostics
+    stage: diagnostics
+    order: 120
+    source: implementation/skills/ci-diagnostics/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: AAFB0348F27BE700F85445AAE26BDB8124CCCD0F1373B805FBED06ACEAD4B996
   - name: merge-change
-    stage: closure
-    order: 70
+    stage: integration
+    order: 130
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
-    version: 1.1.0
+    version: 2.0.0
     sha256: AD5942F99F00706E0B393C2A6DA2A2A18327175E76CEBB7077383905A297AFD5
+  - name: prepare-release
+    stage: release
+    order: 140
+    source: implementation/skills/prepare-release/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: F34503896BC9E12D63A4A116F76BE27FF5D53F17FB968247503A57C4F09CE721
+  - name: staging-validation
+    stage: release
+    order: 150
+    source: implementation/skills/staging-validation/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: 00A061C520E588F12B5D959101FEBDF0AD579AA449944FAF3136ADDEBA3FEA22
+  - name: promote-release
+    stage: release
+    order: 160
+    source: implementation/skills/promote-release/SKILL.md
+    dependencies: []
+    version: 2.0.0
+    sha256: A7CA09A78BB86B4C9456D9979E27068692C8E237FCE4EF72089089EF2E797B93

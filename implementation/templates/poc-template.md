@@ -308,3 +308,53 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Step 9 blockers:** <None, or concise list>
 
+## 10. POC Operation and Evaluation
+
+*Methodology mapping: Phase 4, Step 10 — Operate, Evaluate and Iterate the POC.*
+
+Record the evidence generated during the live observation window and evaluate the POC against the Step 7 success, iteration and exit rules. Detailed software-change evidence remains in the product repository.
+
+**Observation start:** <YYYY-MM-DD or other explicit boundary>
+
+**Observation end:** <YYYY-MM-DD or stop-rule boundary>
+
+**Observed implementation reference:** <Release / deployment reference established in Step 9>
+
+### POC Evaluation Evidence
+
+| Evaluation area | Step 7 criterion / Step 8 requirement | Evidence / result | Outcome |
+|---|---|---|---|
+| <Market / capability / operational area> | <Criterion or requirement> | <Observed evidence> | <Pass / Fail / Inconclusive / Not applicable> |
+
+### Incidents, Interventions and Iterations
+
+| Event | Classification | Action / evidence | Effect on observation window |
+|---|---|---|---|
+| <Incident, fix or iteration> | <Observation only / Bounded fix / Experiment-changing iteration> | <Action and reference> | <None / Paused / Restarted / Other> |
+
+If no material incidents, interventions or iterations occurred, state **None**.
+
+### Step 10 Evaluation
+
+**POC evaluation:** <Success / Bounded iteration justified / Stop>
+
+**Evaluation rationale:** <Concise evidence-based conclusion against the Step 7 rules>
+
+### Step 10 Completion
+
+**Step 10 complete:** <Yes / No>
+
+**Step 10 blockers:** <None, or concise list>
+
+## 11. Gateway 4 — Productisation Decision
+
+*Methodology mapping: Phase 4, Gateway 4 — Productisation Decision.*
+
+Use the completed Step 10 evidence to decide whether the proposition should proceed beyond the POC.
+
+**Decision:** <Proceed to productisation / Iterate POC / Stop>
+
+**Rationale:** <Concise explanation based on the Step 10 evidence>
+
+**Authorized next step:** <Phase 5 productisation / return to the relevant POC step for one bounded iteration / stop further implementation>
+

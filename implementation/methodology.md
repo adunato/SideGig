@@ -105,13 +105,19 @@ The methodology and its core templates should remain reusable across API/microse
 
 Channel-specific extensions to the generic templates should be introduced only where a genuine implementation requirement cannot be represented cleanly by the common structure.
 
-## 12. Project-Owned Lifecycle Package and Bootstrap
+## 12. Project-Owned Agent Package and Bootstrap
 
-The change-delivery lifecycle is project-owned under `implementation/`. The canonical HLD, implementation-plan and LLD templates live under `implementation/templates/`; the corresponding project skills live under `implementation/skills/`; and `implementation/bootstrap/manifest.yaml` is the versioned manifest for repeatable bootstrap.
+The project-owned agent package is sourced from `implementation/` and `development/templates/`. Reusable skills live under `implementation/skills/`; change-design templates live under `implementation/templates/`; durable-project, Issue, README and AGENTS templates live under `development/templates/`; and `implementation/bootstrap/manifest.yaml` is the versioned package manifest.
 
-The manifest and source files are authoritative. `install-skills.ps1` requires an explicit destination project root, refuses to overwrite existing destination skill files, and installs only the declared project copies under `.codex/skills/`. It does not claim automatic Codex skill discovery. `verify-skills.ps1` validates declared source paths, reference templates, lifecycle ordering, dependencies, checksums and (when supplied) destination copies.
+The package is intentionally broader than the inner coding loop. It supports repository bootstrap, durable product and architecture definition, Issue refinement, proportional change assessment, change execution, CI diagnosis, integration, release preparation, staging validation and production promotion.
 
-The lifecycle package implements the proportional Development Lifecycle defined by the [SideGig Development Operating Model](../development/operating-model.md). The manifest order describes the normal stage order; skill dependencies describe minimum technical prerequisites and do not make optional HLD, Implementation Plan or LLD stages mandatory for every change. Structural validity remains distinct from substantive approval, cross-artifact traceability is required where artifacts exist, and templates, skills, manifest checksums and validators must be kept synchronized when their contracts change. The manifest order defines the permitted lifecycle sequence, not a requirement to execute every design skill: HLD, implementation planning and LLD are used only when the Development Operating Model requires them for the change.
+`install-skills.ps1` requires an explicit destination project root and installs the declared package copies under `.codex/skills/` and `.codex/templates/`. It refuses to overwrite existing installed package files. The installed templates remove any dependency on SideGig-repository-relative template paths inside a product repository.
+
+`verify-skills.ps1` validates declared source paths, destination paths, skill ordering/dependencies, template and skill checksums, and — when a destination is supplied — the installed copies of both skills and templates.
+
+The package implements the proportional Development Operating Model. Manifest order is organizational; dependencies express minimum technical prerequisites and do not force every optional stage. HLD, Implementation Plan and LLD remain conditional. Human scope/design approval, merge and promotion decisions remain explicit even where an agent prepares the corresponding artifact or GitHub action.
+
+Templates, skills, manifest checksums, installer/verifier logic and operating-model references must evolve together when their contracts change.
 
 ---
 

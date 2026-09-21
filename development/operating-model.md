@@ -410,7 +410,7 @@ Bug Issues are created using the [Bug Issue template](templates/bug-issue.md) an
 - relevant Product Definition or Architecture Definition context where material;
 - dependencies on other Issues, or `None`.
 
-Issues describe required outcomes and evidence, not implementation design. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature/bug intent into a development-ready Issue. The Development Lifecycle determines what design and planning artifacts are required to execute the Issue.
+Issues describe required outcomes and evidence, not implementation design. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature/bug intent into a development-ready Issue. Both canonical Issue templates include a `Development Lifecycle Assessment` section initialized to `Pending`. The Development Lifecycle determines what design and planning artifacts are required and the Assess Change step updates that section in the originating Issue.
 
 Work discovered outside the current Issue scope becomes a separate Issue rather than silently expanding the active change.
 
@@ -651,7 +651,7 @@ Determine proportionately which change-specific artifacts are required.
 
 Use the [Assess Change skill](../implementation/skills/assess-change/SKILL.md) when an agent performs this assessment.
 
-No separate classification document is created. Where an artifact is intentionally omitted, record the rationale concisely in the Issue, pull request or next required artifact.
+No separate classification document is created. Record the assessment outcome in the originating Issue's `Development Lifecycle Assessment` section. That section is the canonical record of the HLD and Implementation Plan decisions and rationale, LLD status, material risks, and the exact next lifecycle step.
 
 #### HLD decision
 

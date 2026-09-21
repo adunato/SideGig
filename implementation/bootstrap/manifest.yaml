@@ -8,47 +8,47 @@ templates:
     source: development/templates/README-template.md
     destination: README-template.md
     purpose: canonical repository README
-    sha256: 1483D3DC7C1C64825DFBBF4B64FF072B9A94F17AA361D8496D4227B9E2678339
+    sha256: 2BDB4AA17081432BB014B37B908D987D9059359CE1C0993665AEE026BDF28277
   - name: agents
     source: development/templates/AGENTS-template.md
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
-    sha256: C209D4D38DF9369EB47127CF67E29A71DE5F4B04C8F78E577808C62F4B13007D
+    sha256: BF06C827CCB5CD139E16BA362769A164DE06BFA189056E51F2380A00D9498026
   - name: product-definition
     source: development/templates/product-definition.md
     destination: product-definition.md
     purpose: canonical durable Product Definition
-    sha256: 31FDE47AF86526EBD5305875F7BDA2991145FBD70D3BFD592E29FEB955FDCC43
+    sha256: F4B7BE43472C62B2A8EB74847830CEE0A74B3ABF44C25DF024AF02941C40EE75
   - name: architecture-definition
     source: development/templates/architecture-definition.md
     destination: architecture-definition.md
     purpose: canonical durable Architecture Definition
-    sha256: BA4A227FC0207D5D4BBE8A4049E713910F38F8A3154A2E7516A5690D340D15E1
+    sha256: B0B242C1485DFB035943CC1136F095F3B0B821645834EDE72749C093D2F72329
   - name: feature-issue
     source: development/templates/feature-issue.md
     destination: feature-issue.md
     purpose: canonical feature Issue shape
-    sha256: 7A8916EF50A37A2F45F07C19A630BEC31625CA53228CA44DC8ADAE86425FA74B
+    sha256: 5F9C57240D855712F3AA7ABA963B8A9EB9488407FE83CF6572627B0B81E41D0B
   - name: bug-issue
     source: development/templates/bug-issue.md
     destination: bug-issue.md
     purpose: canonical bug Issue shape
-    sha256: CC593548C1F7A066BF13AC599EB79149DEF4776CE974E9236541CD005666ED3F
+    sha256: 3C18405F5CF4220ECAA7A8CC9791365AE663D45352E25D845EBF38205F7F2122
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
     purpose: canonical optional change HLD
-    sha256: 496E31DB46A82A44A5BB64D66C8944A4B8F271CB0664F94C7F239BA53F14D3FC
+    sha256: B4EF6E901D63680FD3F7FFC0BA59C0F29A8AEE83F566606CC6846E72AEE72B84
   - name: implementation-plan
     source: implementation/templates/implementation-plan.md
     destination: implementation-plan.md
     purpose: canonical optional implementation plan
-    sha256: A981C72CAF3C4D8357BE5A774CEB92CC4C16019230A75681728AE45267ABF2F4
+    sha256: A8F03A3C7AE836F42332F8AA7198A8CD1976A3854396A9F711F4DF3B7D09E7A9
   - name: low-level-design
     source: implementation/templates/low-level-design.md
     destination: low-level-design.md
     purpose: canonical optional LLD
-    sha256: 5A23E1F59F134703337635F46F4564A7CEB2572A47F08BEB6CA988C1EE1345B9
+    sha256: DA58C705C8C1BFDAAB8F020553D4A91B51D9C4522D7BC1DC67E3ACAACDCC971B
 skills:
   - name: bootstrap-project
     stage: bootstrap
@@ -56,109 +56,109 @@ skills:
     source: implementation/skills/bootstrap-project/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: 7C5539A9F0A836BE30A0342827961D512112FC0E1E262BF88F298D8B4F10FADE
+    sha256: 32BAC79504B9902EBA27281069C8941620532D34DF3CA4D1E628477A7CCB43F9
   - name: product-definition
     stage: definition
     order: 20
     source: implementation/skills/product-definition/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: 052710F60F2DC6F46EFB77FE17C2C19155F963F2DD4D437E9D8215E3C4F83BCC
+    sha256: 0880EBE090217DDCEEE3B347A7EEF2177C69B324CCB6FB6152978628B8371A6C
   - name: architecture-definition
     stage: definition
     order: 30
     source: implementation/skills/architecture-definition/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: 80459C326A90F867C0C9C9B483D91680C7CEAFEEDFEA3F60EE767422F9D27FD7
+    sha256: 8F04D797913EDA39E498E4C54D6438F3517A72043CA63CF3ADA32F6B08FF89F7
   - name: refine-issue
     stage: shaping
     order: 40
     source: implementation/skills/refine-issue/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: 718273EB25121D8CED736E54EC35DA6BBC7C09105524B3E8018F24D9C2C25BE1
+    sha256: 36437E2DA25B27790784A377E3F076D61DA0826E7511F1009954ECEC17BB2584
   - name: assess-change
     stage: shaping
     order: 50
     source: implementation/skills/assess-change/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: E3CDFD1A927923771DE061CBB401278D5C296BDE373DD04356BA5D30C3FC7CA6
+    sha256: F224326CE632E00B1E284C6F1263AEC1E7600A96445823071E7DF3A0D9901CEB
   - name: setup-change-workspace
     stage: setup
     order: 60
     source: implementation/skills/setup-change-workspace/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: 231C23C9FDBA1A0CC96F9EB5C09F59FCD39FE7EC83D91F2DB246F335F27FB8F2
+    sha256: A6CE1A918088B9EDA40C48741495ACF718193D38E034E2FEE6CABE71CCD58678
   - name: high-level-design
     stage: design
     order: 70
     source: implementation/skills/high-level-design/SKILL.md
     dependencies: [setup-change-workspace]
     version: 2.0.0
-    sha256: 8C12FF9DCAB9F718D49A030DA9F4101F64262C334040E23C1C601C5CE1FE6B48
+    sha256: E4A0F8E7072C6ADBCD7EEC67AAE66269C0BA1743C3B334C3EE99851C2687472E
   - name: implementation-plan
     stage: design
     order: 80
     source: implementation/skills/implementation-plan/SKILL.md
     dependencies: [setup-change-workspace]
     version: 2.0.0
-    sha256: 4680405D2FE8212DFAF03DA1D5D7A14B939709602494D87F8E6C13295D2D13F3
+    sha256: 7E066CD721AC05B9A94DCA0E150B25F93E8F392514648009654CE567C2F516E8
   - name: low-level-design
     stage: design
     order: 90
     source: implementation/skills/low-level-design/SKILL.md
     dependencies: [implementation-plan]
     version: 2.0.0
-    sha256: D196671A5839C8064E1DA81F21019008F81FFA515D2EFB417ECFFF24984A5F63
+    sha256: 92907C21BE720667F46B7AE9E2B8E6BCDA5C272B29A34F82111D3457F99095AE
   - name: development
     stage: implementation
     order: 100
     source: implementation/skills/development/SKILL.md
     dependencies: [setup-change-workspace]
     version: 2.0.0
-    sha256: D2B2499A77C2D375477BF9B59541E8ECBCAFA3131DAA0ABFC08F39CC7B2A3A12
+    sha256: 92D9D1E3D3544A7458CCC1902C1DAE11AD77AB714322A443C6BAF23A7F5A4239
   - name: validation
     stage: validation
     order: 110
     source: implementation/skills/validation/SKILL.md
     dependencies: [development]
     version: 2.0.0
-    sha256: 1B87A7CCDD6B45E995BD60636123D8CCB970762A59BC67881D18D81248F690CA
+    sha256: DEFBD56185AB258AA0DD108999DE41934DF4B48AA75271456F852EF44F7E8661
   - name: ci-diagnostics
     stage: diagnostics
     order: 120
     source: implementation/skills/ci-diagnostics/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: AAFB0348F27BE700F85445AAE26BDB8124CCCD0F1373B805FBED06ACEAD4B996
+    sha256: 537529A792B834B6242AA23B25068B7C62A38FC77DDD48F03206829C62830440
   - name: merge-change
     stage: integration
     order: 130
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
     version: 2.0.0
-    sha256: AD5942F99F00706E0B393C2A6DA2A2A18327175E76CEBB7077383905A297AFD5
+    sha256: A8E0F46291B247B83676AB2A63EAF1493905696D868DB8F271F79B084CB7F04A
   - name: prepare-release
     stage: release
     order: 140
     source: implementation/skills/prepare-release/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: F34503896BC9E12D63A4A116F76BE27FF5D53F17FB968247503A57C4F09CE721
+    sha256: 35614EA51FCCD932CA601769C8F0C870B2176B6AEAC08455087EB34441175851
   - name: staging-validation
     stage: release
     order: 150
     source: implementation/skills/staging-validation/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: 00A061C520E588F12B5D959101FEBDF0AD579AA449944FAF3136ADDEBA3FEA22
+    sha256: D5287B50D4B426FBDA7E1243091DAF8FC7F4D1FE422C0B5E2D67BFB377AB8A46
   - name: promote-release
     stage: release
     order: 160
     source: implementation/skills/promote-release/SKILL.md
     dependencies: []
     version: 2.0.0
-    sha256: A7CA09A78BB86B4C9456D9979E27068692C8E237FCE4EF72089089EF2E797B93
+    sha256: 0B25D5556ED289414599B4A9B4E9214542189F9ADC6789BA1468EED957EFAA84

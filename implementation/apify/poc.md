@@ -431,7 +431,7 @@ The commitment decision uses the completed Step 7 definition and Step 8 operatin
 
 Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.
 
-**Product repository:** Private GitHub repository [`adunato/google-news-actor-poc`](https://github.com/adunato/google-news-actor-poc), with local bootstrap repository at `C:\Users\danie\projects\google-news-actor-poc` and baseline commit `de05908a1cc001e4eb3d916e5b4c00e36fd51860`.
+**Product repository:** Public GitHub repository [`adunato/google-news-actor-poc`](https://github.com/adunato/google-news-actor-poc), with local bootstrap repository at `C:\Users\danie\projects\google-news-actor-poc` and baseline commit `de05908a1cc001e4eb3d916e5b4c00e36fd51860`.
 
 **Development/design evidence:** <Links to the project design and implementation-planning artifacts required by the SideGig Development Operating Model>
 

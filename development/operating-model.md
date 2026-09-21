@@ -53,7 +53,17 @@ docs/
 
 .codex/
   skills/
-    <installed SideGig lifecycle skills>
+    <installed SideGig agent skills>
+  templates/
+    README-template.md
+    AGENTS-template.md
+    product-definition.md
+    architecture-definition.md
+    feature-issue.md
+    bug-issue.md
+    high-level-design.md
+    implementation-plan.md
+    low-level-design.md
 
 <application source>
 <automated tests>
@@ -123,11 +133,15 @@ Every repository contains a root `AGENTS.md` created from the [AGENTS template](
 
 OpenAI Codex is the standard coding agent for SideGig software projects.
 
-Reusable lifecycle behaviour is implemented through the SideGig skills defined under `implementation/skills/` and installed into the product repository under:
+Reusable agent behaviour is implemented through the SideGig skills defined under `implementation/skills/` and installed into the product repository under:
 
 `.codex/skills/`
 
-Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
+Canonical templates needed by those skills are installed alongside them under:
+
+`.codex/templates/`
+
+The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, change execution, CI diagnosis, release preparation, staging validation and production promotion. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
 
 A project may extend `AGENTS.md` with genuine repository-specific instructions, but it should not restate the full Development Operating Model.
 
@@ -174,7 +188,7 @@ The bootstrap performs the following:
 6. create `docs/architecture.md` from the Architecture Definition template and populate the architecture known at project establishment;
 7. install the standard Feature and Bug Issue templates;
 8. establish the repository's canonical local validation command and supporting language/tool configuration;
-9. install the reusable SideGig lifecycle skills under `.codex/skills/` using the versioned lifecycle package;
+9. install the versioned SideGig agent package, including reusable skills under `.codex/skills/` and canonical project-local templates under `.codex/templates/`;
 10. install the CI validation workflow and any immediately required deployment workflow;
 11. commit the resulting bootstrap baseline;
 12. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
@@ -193,7 +207,7 @@ SideGig owns the canonical bootstrap inputs:
 - templates under `development/templates/`;
 - change-delivery templates under `implementation/templates/`;
 - lifecycle skills under `implementation/skills/`;
-- the versioned lifecycle-skill bootstrap package under `implementation/bootstrap/`.
+- the versioned agent-skill and template bootstrap package under `implementation/bootstrap/`.
 
 The product repository owns the instantiated outputs and all project-specific extension or configuration.
 
@@ -241,6 +255,8 @@ SideGig does not require separate roadmap, feature-specification or product-requ
 Create the initial Product Definition from the approved upstream context that authorized the product or POC, such as the selected POC definition, productisation decision or equivalent project evidence.
 
 The upstream source remains authoritative for the decision that created the product. The Product Definition translates that decision into the durable product-level specification needed by the software project rather than duplicating the supporting research.
+
+Use the [Product Definition skill](../implementation/skills/product-definition/SKILL.md) when an agent creates or reconciles the durable Product Definition.
 
 Set the Product Definition to **Approved** once it is sufficiently resolved to act as an input to architecture and change design. Material unresolved questions that affect product scope or behaviour keep it in **Draft**.
 
@@ -312,6 +328,8 @@ Do not turn the Architecture Definition into an exhaustive inventory of classes,
 Create the initial Architecture Definition from the approved [Product Definition template](templates/product-definition.md) and the technical context available when implementation of the product is first being established.
 
 The architecture should be proportional to the product. A small POC may have a correspondingly small architecture definition; the model does not require artificial components, layers or infrastructure merely to satisfy the template.
+
+Use the [Architecture Definition skill](../implementation/skills/architecture-definition/SKILL.md) when an agent creates or reconciles the durable Architecture Definition.
 
 Set the Architecture Definition to **Approved** once it is sufficiently resolved to act as the durable technical context for change design and implementation. Material unresolved questions that prevent safe implementation keep it in **Draft**.
 
@@ -390,7 +408,7 @@ Bug Issues are created using the [Bug Issue template](templates/bug-issue.md) an
 - relevant Product Definition or Architecture Definition context where material;
 - dependencies on other Issues, or `None`.
 
-Issues describe required outcomes and evidence, not implementation design. The Development Lifecycle determines what design and planning artifacts are required to execute the Issue.
+Issues describe required outcomes and evidence, not implementation design. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature/bug intent into a development-ready Issue. The Development Lifecycle determines what design and planning artifacts are required to execute the Issue.
 
 Work discovered outside the current Issue scope becomes a separate Issue rather than silently expanding the active change.
 
@@ -497,6 +515,8 @@ Once created:
 - release-only fixes are reconciled back into `dev` before the release branch is deleted.
 
 The release branch is temporary and is deleted after successful production release and reconciliation.
+
+Use the [Prepare Release skill](../implementation/skills/prepare-release/SKILL.md) when an agent verifies milestone scope, selects the green `dev` candidate, creates/prepares the release branch and prepares the staging promotion pull request. The skill does not perform the human promotion decision.
 
 ### Promotion to staging
 
@@ -627,6 +647,8 @@ Workspace creation does not require an HLD or implementation plan to exist first
 
 Determine proportionately which change-specific artifacts are required.
 
+Use the [Assess Change skill](../implementation/skills/assess-change/SKILL.md) when an agent performs this assessment.
+
 No separate classification document is created. Where an artifact is intentionally omitted, record the rationale concisely in the Issue, pull request or next required artifact.
 
 #### HLD decision
@@ -642,9 +664,9 @@ An HLD is normally required when the change:
 - introduces material security, reliability, performance, cost or compatibility risk;
 - has multiple credible design approaches whose choice should be resolved before implementation.
 
-Feature Issues will normally require an HLD.
+Issue type does not determine whether an HLD is required. A small feature may need no HLD, while a complex or high-risk bug may require one.
 
-A simple Bug Issue may omit the HLD when the expected behaviour is already clear, the correction is localized, the durable product and architecture remain unchanged, and no material design decision is needed.
+An Issue may omit the HLD when the required behaviour is clear, the correction/change is sufficiently localized, the durable product and architecture remain unchanged, and no material design decision is needed.
 
 Use the [High-Level Design template](../implementation/templates/high-level-design.md) and [High-Level Design skill](../implementation/skills/high-level-design/SKILL.md) when required.
 
@@ -662,7 +684,7 @@ An Implementation Plan is required when:
 
 An Implementation Plan may therefore be required even when no HLD is needed.
 
-A simple localized Bug Issue may omit both HLD and Implementation Plan.
+Any sufficiently simple, localized Issue may omit both HLD and Implementation Plan.
 
 Use the [Implementation Plan template](../implementation/templates/implementation-plan.md) and [Implementation Plan skill](../implementation/skills/implementation-plan/SKILL.md) when required.
 
@@ -809,6 +831,7 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 
 | Stage | Skill | Use |
 | --- | --- | --- |
+| Assessment | [assess-change](../implementation/skills/assess-change/SKILL.md) | Every development-ready Issue where an agent selects the proportional path |
 | Workspace | [setup-change-workspace](../implementation/skills/setup-change-workspace/SKILL.md) | Every implemented Issue |
 | Change design | [high-level-design](../implementation/skills/high-level-design/SKILL.md) | Only when HLD is required |
 | Implementation planning | [implementation-plan](../implementation/skills/implementation-plan/SKILL.md) | Only when a plan is required |
@@ -1022,6 +1045,8 @@ The pull request may add deterministic change-specific checks where they cannot 
 
 A required failure blocks merge into `dev`.
 
+Use the [CI Diagnostics skill](../implementation/skills/ci-diagnostics/SKILL.md) when an agent investigates failed CI, build or deployment checks. Diagnosis must classify and route the failure without weakening required controls.
+
 The pull request remains the evidence record linking:
 
 - the originating Issue;
@@ -1044,7 +1069,7 @@ A later failure on `dev` does not silently invalidate completed Issues, but it m
 
 ### 3. Release-candidate validation and staging deployment
 
-A pull request from `release/vMAJOR.MINOR.PATCH` to `staging` represents the proposed release candidate.
+A pull request from `release/vMAJOR.MINOR.PATCH` to `staging` represents the proposed release candidate. The [Prepare Release skill](../implementation/skills/prepare-release/SKILL.md) supports candidate preparation and staging-promotion setup.
 
 Before the promotion pull request can merge, CI validates the exact release-branch commit being proposed.
 
@@ -1083,11 +1108,15 @@ Manual validation is acceptable when the behaviour genuinely requires human obse
 
 Not every repository requires every category above. The Architecture Definition and relevant change/release context determine what is material.
 
+Use the [Staging Validation skill](../implementation/skills/staging-validation/SKILL.md) when an agent executes or coordinates this evidence.
+
 A failed required staging check blocks production promotion. Corrective software work follows the release-fix path defined by the GitHub Delivery Model and is revalidated through the applicable gates.
 
 ### 5. Production promotion and deployment
 
 After the release candidate has passed required staging validation, the active release branch may be proposed for promotion to `main`.
+
+Use the [Promote Release skill](../implementation/skills/promote-release/SKILL.md) when an agent prepares the production promotion and, after explicit human merge confirmation, completes tagging, GitHub Release, deployment verification and release cleanup.
 
 The production-promotion pull request must verify that the proposed production state corresponds to the validated release candidate.
 

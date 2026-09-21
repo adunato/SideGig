@@ -431,7 +431,9 @@ The commitment decision uses the completed Step 7 definition and Step 8 operatin
 
 Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.
 
-**Product repository:** Public GitHub repository [`adunato/google-news-actor-poc`](https://github.com/adunato/google-news-actor-poc), with local bootstrap repository at `C:\Users\danie\projects\google-news-actor-poc` and baseline commit `de05908a1cc001e4eb3d916e5b4c00e36fd51860`.
+**Product repository:** Public GitHub repository [`adunato/google-news-actor-poc`](https://github.com/adunato/google-news-actor-poc), with local bootstrap repository at `C:\Users\danie\projects\google-news-actor-poc` and current shared bootstrap commit `87f714b9b665745ae20b5c175bab079a285693df`.
+
+**Development project establishment evidence:** `dev`, `staging` and `main` are present, with `dev` as the default branch. Branch protections are active on all three permanent branches: pull requests are required with zero approvals, the successful `validate` check is required, and force pushes and branch deletion are blocked. Local `npm ci` and `npm run validate` passed; the canonical SideGig package verifier passed after manifest correction `7040106`; and the GitHub Actions [Validate run](https://github.com/adunato/google-news-actor-poc/actions/runs/35619873173) completed successfully.
 
 **Development/design evidence:** <Links to the project design and implementation-planning artifacts required by the SideGig Development Operating Model>
 

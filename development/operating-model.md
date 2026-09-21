@@ -176,6 +176,8 @@ Repository CI calls the same underlying validation contract used locally.
 
 Every new product repository is established through the standard SideGig bootstrap process.
 
+Use the [Bootstrap Project skill](../implementation/skills/bootstrap-project/SKILL.md) when an agent performs or assists with this setup.
+
 The bootstrap creates the initial repository baseline directly. It is infrastructure/setup work, not a product change, so SideGig does not create an artificial bootstrap Issue and pull request solely to establish the repository.
 
 The bootstrap performs the following:

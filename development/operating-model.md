@@ -43,6 +43,8 @@ docs/
       hld.md                  # only when required
       implementation-plan.md  # only when required
       low-level-design.md      # only when required
+  learnings/
+    <source>-<slug>.md         # only when a reusable learning is captured
 
 .github/
   ISSUE_TEMPLATE/
@@ -64,6 +66,7 @@ docs/
     high-level-design.md
     implementation-plan.md
     low-level-design.md
+    learning-record.md
 
 <application source>
 <automated tests>
@@ -72,7 +75,7 @@ docs/
 
 Only the durable and always-required elements are created unconditionally. Optional change artifacts and project-specific directories are created when the product or individual Issue requires them.
 
-The structure is conceptual rather than a requirement to create empty directories. For example, `docs/changes/` need not exist until the first Issue requires a change-specific design artifact.
+The structure is conceptual rather than a requirement to create empty directories. For example, `docs/changes/` need not exist until the first Issue requires a change-specific design artifact, and `docs/learnings/` need not exist until a reusable learning is captured.
 
 ### Durable project artifacts
 
@@ -103,6 +106,20 @@ The folder is keyed by the originating GitHub Issue number so the Issue remains 
 
 Change-specific artifacts remain in the repository after integration as evidence of the decision and implementation context for that change. They are historical change records and are not subsequently rewritten to describe the current overall product; the durable Product Definition and Architecture Definition serve that purpose.
 
+### Learning records
+
+Reusable lessons discovered during bootstrap, change delivery, release activity or product operation are captured under:
+
+`docs/learnings/<source>-<slug>.md`
+
+Use the [Learning Record template](templates/learning-record.md) and the [Capture Learning skill](../implementation/skills/capture-learning/SKILL.md).
+
+A learning record is warranted only when the observation is reusable beyond the immediate incident or exposes a meaningful product, operating-model, skill/template, tooling/CI or methodology lesson. Ordinary bugs, failed tests, transient environment failures and routine implementation corrections remain in their normal Issue/validation evidence unless they expose such a reusable lesson.
+
+Learning records are historical evidence. They do not replace the Product Definition, Architecture Definition, originating Issue, change-specific design artifacts or other authoritative lifecycle state.
+
+Product-specific lessons may be acted on locally through the normal Development Lifecycle. A lesson that may require a cross-project SideGig change is marked `SideGig review: Yes` and retained for separate review. Product-repository agents do not modify, reproduce or locally override the SideGig Development Operating Model or implementation methodology in response to such a lesson.
+
 ### README
 
 Every repository contains a root `README.md` created from the [README template](templates/README-template.md).
@@ -127,7 +144,8 @@ Every repository contains a root `AGENTS.md` created from the [AGENTS template](
 - the authoritative Issue/Product/Architecture context;
 - the canonical install, run and validation commands;
 - project-specific constraints;
-- the location of optional change artifacts;
+- the location of optional change artifacts and learning records;
+- the lightweight learning-capture rule;
 - Git and integration boundaries;
 - the requirement to use the SideGig Development Lifecycle proportionately.
 
@@ -141,7 +159,7 @@ Canonical templates needed by those skills are installed alongside them under:
 
 `.codex/templates/`
 
-The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, change execution, CI diagnosis, release preparation, staging validation and production promotion. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
+The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, change execution, CI diagnosis, release preparation, staging validation, production promotion and learning capture. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
 
 A project may extend `AGENTS.md` with genuine repository-specific instructions, but it should not restate the full Development Operating Model.
 
@@ -809,6 +827,20 @@ A release-fix Issue follows the same lifecycle but targets the active release br
 
 Coding agents may prepare the pull request and integration evidence but do not bypass CI/branch protection or perform their own human merge decision.
 
+### Learning capture and feedback
+
+Every lifecycle skill ends with a lightweight learning checkpoint. The checkpoint does not require a learning record to be created: the normal result is either one or more learning references or `Learnings: None`.
+
+Use the [Capture Learning skill](../implementation/skills/capture-learning/SKILL.md) when execution exposes a reusable lesson. The skill owns the capture threshold, classification and canonical record format.
+
+The feedback boundary is:
+
+`product-repository observation → local learning record → separate SideGig review → approved DOM / skill / template / tooling / methodology change`
+
+The product repository records what happened and why it may matter. It does not decide or apply a cross-project SideGig change. SideGig review determines whether the lesson should be promoted, deferred or rejected.
+
+Learning capture is not itself a release gate unless the underlying observation identifies an unresolved blocker under the existing lifecycle rules.
+
 ### Feature and bug paths
 
 The lifecycle is not two separate processes. Feature and Bug Issues use the same stages with different typical depth.
@@ -841,6 +873,7 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 | Development | [development](../implementation/skills/development/SKILL.md) | Every implemented Issue |
 | Validation | [validation](../implementation/skills/validation/SKILL.md) | Every implemented Issue |
 | Integration | [merge-change](../implementation/skills/merge-change/SKILL.md) | Every validated Issue |
+| Cross-cutting learning | [capture-learning](../implementation/skills/capture-learning/SKILL.md) | When any lifecycle stage exposes a reusable lesson |
 
 ### Completion
 
@@ -852,7 +885,8 @@ An implementation change is complete when:
 4. required Product Definition and Architecture Definition updates are included;
 5. required CI checks pass;
 6. the change is integrated into its target branch through the GitHub Delivery Model;
-7. the GitHub Issue is closed through the integrated change or an explicit recorded resolution.
+7. the GitHub Issue is closed through the integrated change or an explicit recorded resolution;
+8. the learning checkpoint is complete, with learning records referenced where created or `Learnings: None` recorded in the completion hand-off.
 
 Untracked implementation work is not allowed.
 

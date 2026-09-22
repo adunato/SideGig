@@ -61,21 +61,21 @@ skills:
     source: implementation/skills/bootstrap-project/SKILL.md
     dependencies: []
     version: 2.1.0
-    sha256: 5F9FB49D463F5F319451015392178EA7B1716C66FE7BC2ACEAA6479B210930F9
+    sha256: 9957EDEA5CE12BDCDCC156526AB876236C03AB89E9F6EABD096BADF4722A2969
   - name: product-definition
     stage: definition
     order: 20
     source: implementation/skills/product-definition/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: 0880EBE090217DDCEEE3B347A7EEF2177C69B324CCB6FB6152978628B8371A6C
+    version: 2.1.0
+    sha256: 5F9FB49D463F5F319451015392178EA7B1716C66FE7BC2ACEAA6479B210930F9
   - name: architecture-definition
     stage: definition
     order: 30
     source: implementation/skills/architecture-definition/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: 8F04D797913EDA39E498E4C54D6438F3517A72043CA63CF3ADA32F6B08FF89F7
+    version: 2.1.0
+    sha256: 1C3BA61AD1427577A9237E807DABDB2FFDDC2EBD9095F094DAAFD3E7BE9585CB
   - name: refine-issue
     stage: shaping
     order: 40
@@ -102,22 +102,22 @@ skills:
     order: 70
     source: implementation/skills/high-level-design/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 2.0.0
-    sha256: E4A0F8E7072C6ADBCD7EEC67AAE66269C0BA1743C3B334C3EE99851C2687472E
+    version: 2.1.0
+    sha256: 78071D561BFC3269BFF46DFCC37D811299E1F4E45891DEC1B55DC9C12E17AC74
   - name: implementation-plan
     stage: design
     order: 80
     source: implementation/skills/implementation-plan/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 2.0.0
-    sha256: 7E066CD721AC05B9A94DCA0E150B25F93E8F392514648009654CE567C2F516E8
+    version: 2.1.0
+    sha256: C3E95CA25E4FA2E9E3EB417FBA98211CF257C861941070CD77DE3ECD6EAB9E92
   - name: low-level-design
     stage: design
     order: 90
     source: implementation/skills/low-level-design/SKILL.md
     dependencies: [implementation-plan]
-    version: 2.0.0
-    sha256: 92907C21BE720667F46B7AE9E2B8E6BCDA5C272B29A34F82111D3457F99095AE
+    version: 2.1.0
+    sha256: EB803C1D03DC6564C83F69A7EDB463FA7AFAEFB86F2E1B6E1EAA6068160E5B76
   - name: development
     stage: implementation
     order: 100

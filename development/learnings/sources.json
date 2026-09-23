@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "repository": "adunato/google-news-actor-poc",
+      "branch": "dev",
+      "learningPath": "docs/learnings"
+    }
+  ]
+}

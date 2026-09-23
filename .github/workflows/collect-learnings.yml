@@ -1,0 +1,43 @@
+name: Collect SideGig learnings
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sidegig-learning-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out SideGig
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Collect registered product learnings
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SIDEGIG_LEARNING_TOKEN: ${{ secrets.SIDEGIG_LEARNING_TOKEN }}
+        run: python implementation/learning/collect_learnings.py
+
+      - name: Commit collected inbox evidence
+        run: |
+          if git diff --quiet -- development/learnings/inbox; then
+            echo "No new SideGig-review learnings."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add development/learnings/inbox
+          git commit -m "chore: collect SideGig learnings"
+          git pull --rebase origin main
+          git push origin HEAD:main

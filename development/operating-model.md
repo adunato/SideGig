@@ -120,6 +120,12 @@ Learning records are historical evidence. They do not replace the Product Defini
 
 Product-specific lessons may be acted on locally through the normal Development Lifecycle. A lesson that may require a cross-project SideGig change is marked `SideGig review: Yes` and retained for separate review. Product-repository agents do not modify, reproduce or locally override the SideGig Development Operating Model or implementation methodology in response to such a lesson.
 
+SideGig-review learning records must be portable evidence. The originating record includes a repository-qualified Learning ID, origin repository and stable source, lifecycle context, a self-contained description of the originating change/activity and constraints, the observation and concrete evidence, impact, local action, cross-project relevance and stable local references. It must not depend on unstated pull-request context, local filesystem paths or chat history.
+
+SideGig maintains a central learning queue under `development/learnings/`. Registered product repositories are scanned automatically after integration. Eligible `SideGig review: Yes` records are copied into `development/learnings/inbox/` and enriched with integration provenance that is only reliable after merge: origin branch/path, integrated commit, merged pull request when resolvable, collection timestamp and source-content hash. The originating product record remains authoritative evidence; the collected copy is the SideGig review queue.
+
+The learning collector may commit generated evidence directly to SideGig `main` only under `development/learnings/inbox/**`. This is a narrow evidence-ingestion exception to the normal human-merge rule. Changes to the Development Operating Model, methodology, skills, templates, tooling, processed-learning disposition or any other repository content continue through normal branches, validation, pull requests and explicit human merge decisions.
+
 ### README
 
 Every repository contains a root `README.md` created from the [README template](templates/README-template.md).

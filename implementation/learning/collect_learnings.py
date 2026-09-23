@@ -226,12 +226,21 @@ def collect_source(
         )
         raw = base64.b64decode(payload["content"])
         content = raw.decode("utf-8")
-        metadata = validate_record(content, repository, source_path)
-
-        if metadata["SideGig review"].strip().lower() != "yes":
+        review_flag = metadata_value(content, "SideGig review")
+        if review_flag is None:
+            raise ValueError(
+                f"{repository}/{source_path} is missing SideGig review metadata."
+            )
+        if review_flag.strip().lower() == "no":
             skipped += 1
             continue
+        if review_flag.strip().lower() != "yes":
+            raise ValueError(
+                f"{repository}/{source_path} has invalid SideGig review value "
+                f"{review_flag!r}."
+            )
 
+        metadata = validate_record(content, repository, source_path)
         source_hash = hashlib.sha256(raw).hexdigest().upper()
         learning_id = safe_name(metadata["Learning ID"])
         repo_folder = repository.replace("/", "--")

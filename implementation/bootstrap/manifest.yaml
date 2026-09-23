@@ -1,5 +1,5 @@
 schemaVersion: 2
-version: 2.1.0
+version: 2.2.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -13,7 +13,7 @@ templates:
     source: development/templates/AGENTS-template.md
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
-    sha256: 77509830C416A81B7A7F89EA09A76BBB42E9D7F4A12AEEF915182E16ACEE99C5
+    sha256: 8669A0308ADA04AAB71A382D6AA6828BA7897A4B257A33EFDC59B992C26ECA33
   - name: product-definition
     source: development/templates/product-definition.md
     destination: product-definition.md
@@ -38,7 +38,7 @@ templates:
     source: development/templates/learning-record.md
     destination: learning-record.md
     purpose: canonical reusable learning record
-    sha256: 7076ED4E48AA1029AB23D6B06EDEEA52E112D2203F84B0B3999CE1EF1C96C13D
+    sha256: 956D8495FB867153A06C6B3CD2328BF543FF3E5B026B9A9DA085FE78F81EA511
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
@@ -137,8 +137,8 @@ skills:
     order: 115
     source: implementation/skills/capture-learning/SKILL.md
     dependencies: []
-    version: 1.0.0
-    sha256: 4511DA8C7D5493E02CCEBA1BE088F536995E23A256198155BAA378AAEF7A9B90
+    version: 1.1.0
+    sha256: 73D66E408BEE144A3D6074C371761145B8FB5269828147A6F02817475F07244F
   - name: ci-diagnostics
     stage: diagnostics
     order: 120
@@ -151,8 +151,8 @@ skills:
     order: 130
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
-    version: 2.1.0
-    sha256: DE782942CB1EE6B2EF4F5A7FD8292D5D81DBC6389E73E88D14F754F11693C8BD
+    version: 2.2.0
+    sha256: 6C967E785DB6B1BBE81BB37E61F54C7C2E814D435522BA05FFBB302D60E58957
   - name: prepare-release
     stage: release
     order: 140

@@ -24,7 +24,6 @@ jobs:
 
       - name: Collect registered product learnings
         env:
-          GITHUB_TOKEN: ${{ github.token }}
           SIDEGIG_LEARNING_TOKEN: ${{ secrets.SIDEGIG_LEARNING_TOKEN }}
         run: python implementation/learning/collect_learnings.py
 

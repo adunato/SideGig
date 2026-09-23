@@ -18,10 +18,11 @@ The collected copy is evidence, not an authoritative replacement for the origina
 Add product repositories to `sources.json` with:
 
 - `repository` — `owner/repository`;
+- `access` — `public` or `private`;
 - `branch` — the integrated product branch to scan, normally `dev`;
 - `learningPath` — normally `docs/learnings`.
 
-The current collector can read public repositories with the SideGig workflow token. Before registering a private product repository, configure the SideGig Actions secret `SIDEGIG_LEARNING_TOKEN` with read access to the registered source repositories. Keep that credential read-only for product repositories; writes occur only in the SideGig repository through the workflow's own token.
+Public sources are read without repository credentials. Before registering a private product repository, configure the SideGig Actions secret `SIDEGIG_LEARNING_TOKEN` with read access to the registered private source repositories. Keep that credential read-only for product repositories; writes occur only in the SideGig repository through the workflow's own token.
 
 ## Automated-write boundary
 

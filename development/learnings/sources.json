@@ -2,6 +2,7 @@
   "sources": [
     {
       "repository": "adunato/google-news-actor-poc",
+      "access": "public",
       "branch": "dev",
       "learningPath": "docs/learnings"
     }

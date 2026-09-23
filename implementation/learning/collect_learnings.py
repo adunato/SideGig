@@ -308,13 +308,27 @@ def main() -> int:
     if not isinstance(sources, list) or not sources:
         raise ValueError("Learning source registry contains no sources.")
 
-    token = os.environ.get("SIDEGIG_LEARNING_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    private_token = os.environ.get("SIDEGIG_LEARNING_TOKEN")
     api_url = os.environ.get("GITHUB_API_URL", "https://api.github.com")
-    client = GithubClient(token, api_url)
 
     total_collected = 0
     total_skipped = 0
     for source in sources:
+        access = source.get("access", "private").strip().lower()
+        if access == "public":
+            client = GithubClient(None, api_url)
+        elif access == "private":
+            if not private_token:
+                raise ValueError(
+                    f"{source['repository']} is registered as private but "
+                    "SIDEGIG_LEARNING_TOKEN is not configured."
+                )
+            client = GithubClient(private_token, api_url)
+        else:
+            raise ValueError(
+                f"{source['repository']} has unsupported access mode {access!r}."
+            )
+
         collected, skipped = collect_source(
             client,
             source,

@@ -70,6 +70,9 @@ docs/
     learning-record.md
     learning-collection-dispatch.yml
 
+  tools/
+    provision-repository-secrets.ps1
+
 <application source>
 <automated tests>
 <project configuration>
@@ -218,11 +221,27 @@ The bootstrap performs the following:
 8. establish the repository's canonical local validation command and supporting language/tool configuration;
 9. install the versioned SideGig agent package, including reusable skills under `.codex/skills/` and canonical project-local templates under `.codex/templates/`;
 10. install the CI validation workflow, the standard SideGig learning-dispatch workflow, and any immediately required deployment workflow;
-11. configure `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` for immediate post-merge collector dispatch, or report the credential setup as an explicit remaining bootstrap action;
+11. use the installed `provision-repository-secrets` skill/tool to automatically create and verify `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` in the new repository; bootstrap is blocked if provisioning fails;
 12. commit the resulting bootstrap baseline;
 13. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
 14. create the standard `feature` and `bug` labels;
 15. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
+
+### Bootstrap credential prerequisite
+
+Automatic per-repository secret provisioning uses one reusable fine-grained GitHub credential scoped only to `adunato/SideGig` with `Actions: write`. Creating or rotating that credential is a one-time explicit security action by the project owner; it is not repeated for each product repository.
+
+On the standard Windows development workstation, initialize the credential once with:
+
+`implementation/bootstrap/initialize-dispatch-credential.ps1`
+
+The initializer stores only a Windows DPAPI-encrypted representation under:
+
+`%LOCALAPPDATA%\SideGig\bootstrap\collector-dispatch-token.dpapi`
+
+The plaintext token must never be committed, written into product documentation, or persisted in a repository. The installed package tool `.codex/tools/provision-repository-secrets.ps1` decrypts the local credential in memory, passes it to GitHub CLI through standard input, creates or updates the product repository Actions secret, verifies the secret exists, then clears the in-memory plaintext.
+
+A missing, expired or undecryptable bootstrap credential is a bootstrap blocker. The bootstrap must not silently succeed while leaving repository-secret setup for the user to remember later. Token rotation is performed once at workstation level, after which repositories can be reprovisioned by rerunning the standard provisioning tool.
 
 The Product Definition and Architecture Definition may initially be `Draft` where legitimate project decisions remain unresolved. They must reach the approval state required by Chapters 2 and 3 before downstream development depends on those unresolved areas.
 
@@ -236,7 +255,8 @@ SideGig owns the canonical bootstrap inputs:
 - templates under `development/templates/`;
 - change-delivery templates under `implementation/templates/`;
 - lifecycle skills under `implementation/skills/`;
-- the versioned agent-skill and template bootstrap package under `implementation/bootstrap/`.
+- the versioned agent-skill, template and bootstrap-tool package under `implementation/bootstrap/`;
+- the one-time local bootstrap credential initialization and automatic per-repository secret-provisioning utilities.
 
 The product repository owns the instantiated outputs and all project-specific extension or configuration.
 

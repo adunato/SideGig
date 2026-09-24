@@ -2,8 +2,13 @@ name: Collect SideGig learnings
 
 on:
   workflow_dispatch:
+    inputs:
+      source_repository:
+        description: Registered product repository to collect immediately after merge
+        required: false
+        type: string
   schedule:
-    - cron: '17 * * * *'
+    - cron: '17 3 * * *'
 
 permissions:
   contents: write
@@ -25,7 +30,13 @@ jobs:
       - name: Collect registered product learnings
         env:
           SIDEGIG_LEARNING_TOKEN: ${{ secrets.SIDEGIG_LEARNING_TOKEN }}
-        run: python implementation/learning/collect_learnings.py
+          SOURCE_REPOSITORY: ${{ inputs.source_repository }}
+        run: |
+          args=()
+          if [ -n "$SOURCE_REPOSITORY" ]; then
+            args+=(--source-repository "$SOURCE_REPOSITORY")
+          fi
+          python implementation/learning/collect_learnings.py "${args[@]}"
 
       - name: Commit collected inbox evidence
         run: |

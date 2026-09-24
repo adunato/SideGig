@@ -14,6 +14,21 @@ function Write-Phase([string] $Name) {
     Write-Output "[bootstrap] $Name"
 }
 
+function Get-CanonicalSha256([string] $Path) {
+    $text = [System.IO.File]::ReadAllText($Path)
+    $normalized = $text -replace "`r`n", "`n"
+    $normalized = $normalized -replace "`r", "`n"
+    $canonical = $normalized -replace "`n", "`r`n"
+    $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($canonical)
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        return -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') })
+    }
+    finally {
+        $sha.Dispose()
+    }
+}
+
 function Add-CurrentItem([string] $Section, $Current, [ref] $Templates, [ref] $Tools, [ref] $Skills) {
     if ($null -eq $Current) { return }
     if ($Section -eq 'templates') { $Templates.Value += [pscustomobject]$Current }
@@ -147,7 +162,7 @@ Write-Phase 'conflicts: none found'
 
 foreach ($file in $files) {
     Write-Phase "hash: checking $($file.Kind) $($file.Name)"
-    $hash = (Get-FileHash -LiteralPath $file.Source -Algorithm SHA256).Hash
+    $hash = (Get-CanonicalSha256 $file.Source)
     if ($hash -ne $file.Sha256.ToUpperInvariant()) {
         throw "Checksum mismatch for $($file.Kind) '$($file.Name)': expected $($file.Sha256), got $hash"
     }

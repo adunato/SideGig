@@ -449,6 +449,12 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Observation baseline captured:** <Yes / No>
 
+### Engineering Learning Review
+
+**Learning review completed:** <Yes / No>
+
+**Product-repository learning records requiring SideGig review:** <None, or stable references>
+
 ### Step 9 Completion
 
 **Step 9 complete:** No
@@ -480,6 +486,12 @@ Record the evidence generated during the live observation window and evaluate th
 | <Incident, fix or iteration> | <Observation only / Bounded fix / Experiment-changing iteration> | <Action and reference> | <None / Paused / Restarted / Other> |
 
 If no material incidents, interventions or iterations occurred, state **None**.
+
+### Observation Learning Review
+
+**Material learning records:** <None, or stable product-repository references>
+
+**Learning records requiring SideGig review:** <None, or stable references>
 
 ### Step 10 Evaluation
 

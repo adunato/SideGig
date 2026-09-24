@@ -28,6 +28,11 @@ jobs:
       - name: Install validator dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Validate learning collector
+        run: |
+          python -m py_compile implementation/learning/collect_learnings.py
+          python -c "import json; json.load(open('development/learnings/sources.json', encoding='utf-8'))"
+
       - name: Validate implementation documents
         run: |
           set -o pipefail

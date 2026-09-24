@@ -1,8 +1,9 @@
-schemaVersion: 2
-version: 2.3.0
+schemaVersion: 3
+version: 2.4.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
+toolDestinationRoot: .codex/tools
 templates:
   - name: readme
     source: development/templates/README-template.md
@@ -13,7 +14,7 @@ templates:
     source: development/templates/AGENTS-template.md
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
-    sha256: 49F7A809CCCDBEFF83172D1F28DE93F73EDFEE35C81959D372EC96A77027EC75
+    sha256: 65BF9BE012C20F7B91F17C1AD571811056D89636BB9449153A5D84B1341E6EDF
   - name: product-definition
     source: development/templates/product-definition.md
     destination: product-definition.md
@@ -59,14 +60,27 @@ templates:
     destination: low-level-design.md
     purpose: canonical optional LLD
     sha256: DA58C705C8C1BFDAAB8F020553D4A91B51D9C4522D7BC1DC67E3ACAACDCC971B
+tools:
+  - name: provision-repository-secrets
+    source: implementation/bootstrap/provision-repository-secrets.ps1
+    destination: provision-repository-secrets.ps1
+    purpose: automatic standard product-repository Actions secret provisioning
+    sha256: 65655B334E9227D74CE2D8302F097893F384E6745AD52D702D1B9914D6C2205D
 skills:
   - name: bootstrap-project
     stage: bootstrap
     order: 10
     source: implementation/skills/bootstrap-project/SKILL.md
     dependencies: []
-    version: 2.2.0
-    sha256: 425CF0BC336FB25A2049ADCE16A80396A7F961ABE97C9FC91D3EA8C0F197D3B4
+    version: 2.3.0
+    sha256: CABDF8B0B0D57E1289C9919A679391F5D82845A115BAFE9EF5C5424A31E1D700
+  - name: provision-repository-secrets
+    stage: bootstrap
+    order: 15
+    source: implementation/skills/provision-repository-secrets/SKILL.md
+    dependencies: []
+    version: 1.0.0
+    sha256: 58558D77D22781E1C6026D0CFCA9B7CC84321A63175F156036B9F9DA0B15100E
   - name: product-definition
     stage: definition
     order: 20

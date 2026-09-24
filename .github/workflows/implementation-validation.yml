@@ -28,6 +28,22 @@ jobs:
       - name: Install validator dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Validate bootstrap PowerShell and package manifest
+        shell: pwsh
+        run: |
+          $allErrors = @()
+          Get-ChildItem implementation/bootstrap/*.ps1 | ForEach-Object {
+            $tokens = $null
+            $parseErrors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$parseErrors) | Out-Null
+            $allErrors += $parseErrors
+          }
+          if ($allErrors.Count -gt 0) {
+            $allErrors | ForEach-Object { Write-Error $_.Message }
+            throw "Bootstrap PowerShell syntax validation failed."
+          }
+          ./implementation/bootstrap/verify-skills.ps1
+
       - name: Validate learning collector
         run: |
           python -m py_compile implementation/learning/collect_learnings.py

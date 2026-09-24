@@ -40,7 +40,7 @@ jobs:
 
       - name: Commit collected inbox evidence
         run: |
-          if git diff --quiet -- development/learnings/inbox; then
+          if [ -z "$(git status --porcelain -- development/learnings/inbox)" ]; then
             echo "No new SideGig-review learnings."
             exit 0
           fi

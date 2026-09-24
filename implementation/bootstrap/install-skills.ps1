@@ -14,15 +14,25 @@ function Write-Phase([string] $Name) {
     Write-Output "[bootstrap] $Name"
 }
 
-function Get-CanonicalSha256([string] $Path) {
+function Test-ExpectedSha256([string] $Path, [string] $Expected) {
     $text = [System.IO.File]::ReadAllText($Path)
     $normalized = $text -replace "`r`n", "`n"
     $normalized = $normalized -replace "`r", "`n"
-    $canonical = $normalized -replace "`n", "`r`n"
-    $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($canonical)
+    $variants = @(
+        $normalized,
+        ($normalized -replace "`n", "`r`n")
+    )
     $sha = [System.Security.Cryptography.SHA256]::Create()
     try {
-        return -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') })
+        foreach ($variant in $variants) {
+            $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($variant)
+            $actual = -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') })
+            if ($actual.ToUpperInvariant() -eq $Expected.ToUpperInvariant()) {
+                return $true
+            }
+            $sha.Initialize()
+        }
+        return $false
     }
     finally {
         $sha.Dispose()
@@ -162,9 +172,8 @@ Write-Phase 'conflicts: none found'
 
 foreach ($file in $files) {
     Write-Phase "hash: checking $($file.Kind) $($file.Name)"
-    $hash = (Get-CanonicalSha256 $file.Source)
-    if ($hash -ne $file.Sha256.ToUpperInvariant()) {
-        throw "Checksum mismatch for $($file.Kind) '$($file.Name)': expected $($file.Sha256), got $hash"
+    if (-not (Test-ExpectedSha256 $file.Source $file.Sha256)) {
+        throw "Checksum mismatch for $($file.Kind) '$($file.Name)' after LF/CRLF normalization: expected $($file.Sha256)"
     }
 }
 Write-Phase 'hash: all checks passed'

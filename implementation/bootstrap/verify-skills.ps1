@@ -7,6 +7,21 @@ param(
 $ErrorActionPreference = 'Stop'
 if (-not $Manifest) { $Manifest = Join-Path $PSScriptRoot 'manifest.yaml' }
 
+function Get-CanonicalSha256([string] $Path) {
+    $text = [System.IO.File]::ReadAllText($Path)
+    $normalized = $text -replace "`r`n", "`n"
+    $normalized = $normalized -replace "`r", "`n"
+    $canonical = $normalized -replace "`n", "`r`n"
+    $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($canonical)
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        return -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') })
+    }
+    finally {
+        $sha.Dispose()
+    }
+}
+
 function Add-CurrentItem([string] $Section, $Current, [ref] $Templates, [ref] $Tools, [ref] $Skills) {
     if ($null -eq $Current) { return }
     if ($Section -eq 'templates') { $Templates.Value += [pscustomobject]$Current }
@@ -101,7 +116,7 @@ foreach ($template in $manifestData.Templates) {
     }
     $source = Join-Path $root $template.source
     if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Missing template source: $($template.source)" }
-    $actual = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
+    $actual = (Get-CanonicalSha256 $source)
     if ($actual -ne $template.sha256.ToUpperInvariant()) { throw "Template checksum mismatch: $($template.name)" }
 }
 
@@ -111,7 +126,7 @@ foreach ($tool in $manifestData.Tools) {
     }
     $source = Join-Path $root $tool.source
     if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Missing tool source: $($tool.source)" }
-    $actual = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
+    $actual = (Get-CanonicalSha256 $source)
     if ($actual -ne $tool.sha256.ToUpperInvariant()) { throw "Tool checksum mismatch: $($tool.name)" }
 }
 
@@ -119,7 +134,7 @@ foreach ($skill in $manifestData.Skills) {
     if (-not $skill.source -or -not $skill.sha256) { throw "Incomplete skill declaration: $($skill.name)" }
     $source = Join-Path $root $skill.source
     if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Missing skill source: $($skill.source)" }
-    $actual = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
+    $actual = (Get-CanonicalSha256 $source)
     if ($actual -ne $skill.sha256.ToUpperInvariant()) { throw "Skill checksum mismatch: $($skill.name)" }
     foreach ($dependency in @($skill.dependencies)) {
         if ($skillNames -notcontains $dependency) { throw "Unknown dependency '$dependency' for $($skill.name)." }
@@ -132,21 +147,21 @@ if ($Destination) {
     foreach ($template in $manifestData.Templates) {
         $target = Join-Path (Join-Path $destinationRoot $manifestData.TemplateDestinationRoot) $template.destination
         if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Destination is missing template: $target" }
-        $actual = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+        $actual = (Get-CanonicalSha256 $target)
         if ($actual -ne $template.sha256.ToUpperInvariant()) { throw "Destination template checksum mismatch: $target" }
     }
 
     foreach ($tool in $manifestData.Tools) {
         $target = Join-Path (Join-Path $destinationRoot $manifestData.ToolDestinationRoot) $tool.destination
         if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Destination is missing tool: $target" }
-        $actual = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+        $actual = (Get-CanonicalSha256 $target)
         if ($actual -ne $tool.sha256.ToUpperInvariant()) { throw "Destination tool checksum mismatch: $target" }
     }
 
     foreach ($skill in $manifestData.Skills) {
         $target = Join-Path (Join-Path (Join-Path $destinationRoot $manifestData.SkillDestinationRoot) $skill.name) 'SKILL.md'
         if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Destination is missing skill: $target" }
-        $actual = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+        $actual = (Get-CanonicalSha256 $target)
         if ($actual -ne $skill.sha256.ToUpperInvariant()) { throw "Destination skill checksum mismatch: $target" }
     }
 }

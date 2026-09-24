@@ -7,15 +7,25 @@ param(
 $ErrorActionPreference = 'Stop'
 if (-not $Manifest) { $Manifest = Join-Path $PSScriptRoot 'manifest.yaml' }
 
-function Get-CanonicalSha256([string] $Path) {
+function Test-ExpectedSha256([string] $Path, [string] $Expected) {
     $text = [System.IO.File]::ReadAllText($Path)
     $normalized = $text -replace "`r`n", "`n"
     $normalized = $normalized -replace "`r", "`n"
-    $canonical = $normalized -replace "`n", "`r`n"
-    $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($canonical)
+    $variants = @(
+        $normalized,
+        ($normalized -replace "`n", "`r`n")
+    )
     $sha = [System.Security.Cryptography.SHA256]::Create()
     try {
-        return -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') })
+        foreach ($variant in $variants) {
+            $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($variant)
+            $actual = -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') })
+            if ($actual.ToUpperInvariant() -eq $Expected.ToUpperInvariant()) {
+                return $true
+            }
+            $sha.Initialize()
+        }
+        return $false
     }
     finally {
         $sha.Dispose()
@@ -116,8 +126,7 @@ foreach ($template in $manifestData.Templates) {
     }
     $source = Join-Path $root $template.source
     if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Missing template source: $($template.source)" }
-    $actual = (Get-CanonicalSha256 $source)
-    if ($actual -ne $template.sha256.ToUpperInvariant()) { throw "Template checksum mismatch: $($template.name)" }
+    if (-not (Test-ExpectedSha256 $source $template.sha256)) { throw "Template checksum mismatch: $($template.name)" }
 }
 
 foreach ($tool in $manifestData.Tools) {
@@ -126,16 +135,14 @@ foreach ($tool in $manifestData.Tools) {
     }
     $source = Join-Path $root $tool.source
     if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Missing tool source: $($tool.source)" }
-    $actual = (Get-CanonicalSha256 $source)
-    if ($actual -ne $tool.sha256.ToUpperInvariant()) { throw "Tool checksum mismatch: $($tool.name)" }
+    if (-not (Test-ExpectedSha256 $source $tool.sha256)) { throw "Tool checksum mismatch: $($tool.name)" }
 }
 
 foreach ($skill in $manifestData.Skills) {
     if (-not $skill.source -or -not $skill.sha256) { throw "Incomplete skill declaration: $($skill.name)" }
     $source = Join-Path $root $skill.source
     if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Missing skill source: $($skill.source)" }
-    $actual = (Get-CanonicalSha256 $source)
-    if ($actual -ne $skill.sha256.ToUpperInvariant()) { throw "Skill checksum mismatch: $($skill.name)" }
+    if (-not (Test-ExpectedSha256 $source $skill.sha256)) { throw "Skill checksum mismatch: $($skill.name)" }
     foreach ($dependency in @($skill.dependencies)) {
         if ($skillNames -notcontains $dependency) { throw "Unknown dependency '$dependency' for $($skill.name)." }
     }
@@ -147,22 +154,19 @@ if ($Destination) {
     foreach ($template in $manifestData.Templates) {
         $target = Join-Path (Join-Path $destinationRoot $manifestData.TemplateDestinationRoot) $template.destination
         if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Destination is missing template: $target" }
-        $actual = (Get-CanonicalSha256 $target)
-        if ($actual -ne $template.sha256.ToUpperInvariant()) { throw "Destination template checksum mismatch: $target" }
+        if (-not (Test-ExpectedSha256 $target $template.sha256)) { throw "Destination template checksum mismatch: $target" }
     }
 
     foreach ($tool in $manifestData.Tools) {
         $target = Join-Path (Join-Path $destinationRoot $manifestData.ToolDestinationRoot) $tool.destination
         if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Destination is missing tool: $target" }
-        $actual = (Get-CanonicalSha256 $target)
-        if ($actual -ne $tool.sha256.ToUpperInvariant()) { throw "Destination tool checksum mismatch: $target" }
+        if (-not (Test-ExpectedSha256 $target $tool.sha256)) { throw "Destination tool checksum mismatch: $target" }
     }
 
     foreach ($skill in $manifestData.Skills) {
         $target = Join-Path (Join-Path (Join-Path $destinationRoot $manifestData.SkillDestinationRoot) $skill.name) 'SKILL.md'
         if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Destination is missing skill: $target" }
-        $actual = (Get-CanonicalSha256 $target)
-        if ($actual -ne $skill.sha256.ToUpperInvariant()) { throw "Destination skill checksum mismatch: $target" }
+        if (-not (Test-ExpectedSha256 $target $skill.sha256)) { throw "Destination skill checksum mismatch: $target" }
     }
 }
 

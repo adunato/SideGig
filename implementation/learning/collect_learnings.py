@@ -300,6 +300,10 @@ def main() -> int:
         default="development/learnings/processed",
         help="Location of already processed learnings used for idempotency.",
     )
+    parser.add_argument(
+        "--source-repository",
+        help="Collect only the named registered repository, e.g. owner/repository.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -307,6 +311,18 @@ def main() -> int:
     sources = registry.get("sources", [])
     if not isinstance(sources, list) or not sources:
         raise ValueError("Learning source registry contains no sources.")
+
+    if args.source_repository:
+        requested = args.source_repository.strip().lower()
+        sources = [
+            source
+            for source in sources
+            if source.get("repository", "").strip().lower() == requested
+        ]
+        if not sources:
+            raise ValueError(
+                f"{args.source_repository} is not registered as a SideGig learning source."
+            )
 
     private_token = os.environ.get("SIDEGIG_LEARNING_TOKEN")
     api_url = os.environ.get("GITHUB_API_URL", "https://api.github.com")

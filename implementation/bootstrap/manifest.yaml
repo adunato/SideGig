@@ -1,5 +1,5 @@
 schemaVersion: 2
-version: 2.2.0
+version: 2.3.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -13,7 +13,7 @@ templates:
     source: development/templates/AGENTS-template.md
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
-    sha256: 8669A0308ADA04AAB71A382D6AA6828BA7897A4B257A33EFDC59B992C26ECA33
+    sha256: 49F7A809CCCDBEFF83172D1F28DE93F73EDFEE35C81959D372EC96A77027EC75
   - name: product-definition
     source: development/templates/product-definition.md
     destination: product-definition.md
@@ -39,6 +39,11 @@ templates:
     destination: learning-record.md
     purpose: canonical reusable learning record
     sha256: 956D8495FB867153A06C6B3CD2328BF543FF3E5B026B9A9DA085FE78F81EA511
+  - name: learning-collection-dispatch
+    source: development/templates/learning-collection-dispatch.yml
+    destination: learning-collection-dispatch.yml
+    purpose: canonical post-merge SideGig learning collector dispatch workflow
+    sha256: E5E001084BF0DC2D3553A4440C0873B9BCC5EDA08166AACBD6B3BCF9E5FF0778
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
@@ -60,8 +65,8 @@ skills:
     order: 10
     source: implementation/skills/bootstrap-project/SKILL.md
     dependencies: []
-    version: 2.1.0
-    sha256: 1F2AE6B3E3D7391E7DC3C3DB98C43BB6BCA4B682586AAC6DB2E9C0992EF2800F
+    version: 2.2.0
+    sha256: 425CF0BC336FB25A2049ADCE16A80396A7F961ABE97C9FC91D3EA8C0F197D3B4
   - name: product-definition
     stage: definition
     order: 20
@@ -151,8 +156,8 @@ skills:
     order: 130
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
-    version: 2.2.0
-    sha256: 6C967E785DB6B1BBE81BB37E61F54C7C2E814D435522BA05FFBB302D60E58957
+    version: 2.3.0
+    sha256: F54BD91A5F24D4BA634143A059464364F460EAE083771C7827E297DED7608AFE
   - name: prepare-release
     stage: release
     order: 140

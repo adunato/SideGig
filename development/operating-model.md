@@ -129,7 +129,30 @@ SideGig-review learning records must be portable evidence. The originating recor
 
 SideGig maintains a central learning queue under `development/learnings/`. After a pull request is merged to a product repository's `dev` branch, the product's standard `.github/workflows/sidegig-learning-dispatch.yml` workflow immediately dispatches the SideGig collector for that registered repository. Eligible `SideGig review: Yes` records are copied into `development/learnings/inbox/` and enriched with integration provenance that is only reliable after merge: origin branch/path, integrated commit, merged pull request when resolvable, collection timestamp and source-content hash. A low-frequency scheduled all-source scan exists only as recovery if an event dispatch is missed or fails. The originating product record remains authoritative evidence; the collected copy is the SideGig review queue.
 
-The learning collector may commit generated evidence directly to SideGig `main` only under `development/learnings/inbox/**`. This is a narrow evidence-ingestion exception to the normal human-merge rule. Changes to the Development Operating Model, methodology, skills, templates, tooling, processed-learning disposition or any other repository content continue through normal branches, validation, pull requests and explicit human merge decisions.
+Central learning review uses the [Review Learnings skill](../implementation/skills/review-learnings/SKILL.md). This is a SideGig-central governance skill and is intentionally not installed into product repositories through the bootstrap package.
+
+The queue has three distinct responsibilities:
+
+- `development/learnings/inbox/` contains collected evidence for which no final SideGig disposition has been integrated;
+- `development/learnings/processed/` contains evidence for which SideGig has made and integrated a disposition decision;
+- a SideGig GitHub Issue is the execution tracker whenever the disposition requires work.
+
+Reviewing a learning does not itself implement a change. The reviewer reads related inbox records together, checks existing open and closed SideGig Issues and recent integrated changes, groups records that support the same outcome, and assigns one of the following final dispositions:
+
+- **Action** — a new SideGig Issue is warranted and is created;
+- **Existing action** — an existing open SideGig Issue already represents the required outcome;
+- **Already addressed** — the required SideGig change is already integrated;
+- **No action** — the evidence was considered but does not justify a SideGig change.
+
+If evidence is insufficient for a responsible decision, the record remains in `inbox/`; unresolved evidence is not moved merely to empty the queue.
+
+A warranted action that will not be implemented immediately still receives a GitHub Issue and remains open. Scheduling, prioritization and execution state belong to the normal Issue lifecycle rather than a separate learning-status mechanism. Multiple related learnings may reference the same Issue when they support one coherent SideGig outcome.
+
+For every decided record, preserve the complete collected evidence and append a `## SideGig review` section recording the review date, disposition, linked SideGig Issue where applicable, related SideGig evidence, rationale and any grouped Learning IDs. The record is then moved to the corresponding path under `processed/`.
+
+A learning-generated Issue is a normal SideGig change Issue. It records the source Learning IDs and central paths, origin evidence, reusable problem, required outcome, likely affected central assets and observable acceptance criteria. It then follows the existing `refine-issue`, `assess-change`, proportional design/development/validation and merge lifecycle. The learning record does not track implementation progress after the Issue exists.
+
+The learning collector may commit generated evidence directly to SideGig `main` only under `development/learnings/inbox/**`. This is a narrow evidence-ingestion exception to the normal human-merge rule. Inbox-to-processed moves, review metadata, GitHub Issue creation and any changes to the Development Operating Model, methodology, skills, templates or tooling follow the normal SideGig governance boundary. Repository changes use a branch, validation, pull request and explicit human merge decision.
 
 ### README
 

@@ -51,6 +51,7 @@ docs/
     feature.md
     bug.md
   workflows/
+    sidegig-learning-dispatch.yml
     <project-specific CI/CD workflows>
 
 .codex/
@@ -67,6 +68,7 @@ docs/
     implementation-plan.md
     low-level-design.md
     learning-record.md
+    learning-collection-dispatch.yml
 
 <application source>
 <automated tests>
@@ -122,7 +124,7 @@ Product-specific lessons may be acted on locally through the normal Development 
 
 SideGig-review learning records must be portable evidence. The originating record includes a repository-qualified Learning ID, origin repository and stable source, lifecycle context, a self-contained description of the originating change/activity and constraints, the observation and concrete evidence, impact, local action, cross-project relevance and stable local references. It must not depend on unstated pull-request context, local filesystem paths or chat history.
 
-SideGig maintains a central learning queue under `development/learnings/`. Registered product repositories are scanned automatically after integration. Eligible `SideGig review: Yes` records are copied into `development/learnings/inbox/` and enriched with integration provenance that is only reliable after merge: origin branch/path, integrated commit, merged pull request when resolvable, collection timestamp and source-content hash. The originating product record remains authoritative evidence; the collected copy is the SideGig review queue.
+SideGig maintains a central learning queue under `development/learnings/`. After a pull request is merged to a product repository's `dev` branch, the product's standard `.github/workflows/sidegig-learning-dispatch.yml` workflow immediately dispatches the SideGig collector for that registered repository. Eligible `SideGig review: Yes` records are copied into `development/learnings/inbox/` and enriched with integration provenance that is only reliable after merge: origin branch/path, integrated commit, merged pull request when resolvable, collection timestamp and source-content hash. A low-frequency scheduled all-source scan exists only as recovery if an event dispatch is missed or fails. The originating product record remains authoritative evidence; the collected copy is the SideGig review queue.
 
 The learning collector may commit generated evidence directly to SideGig `main` only under `development/learnings/inbox/**`. This is a narrow evidence-ingestion exception to the normal human-merge rule. Changes to the Development Operating Model, methodology, skills, templates, tooling, processed-learning disposition or any other repository content continue through normal branches, validation, pull requests and explicit human merge decisions.
 
@@ -215,11 +217,12 @@ The bootstrap performs the following:
 7. install the standard Feature and Bug Issue templates;
 8. establish the repository's canonical local validation command and supporting language/tool configuration;
 9. install the versioned SideGig agent package, including reusable skills under `.codex/skills/` and canonical project-local templates under `.codex/templates/`;
-10. install the CI validation workflow and any immediately required deployment workflow;
-11. commit the resulting bootstrap baseline;
-12. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
-13. create the standard `feature` and `bug` labels;
-14. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
+10. install the CI validation workflow, the standard SideGig learning-dispatch workflow, and any immediately required deployment workflow;
+11. configure `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` for immediate post-merge collector dispatch, or report the credential setup as an explicit remaining bootstrap action;
+12. commit the resulting bootstrap baseline;
+13. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
+14. create the standard `feature` and `bug` labels;
+15. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
 
 The Product Definition and Architecture Definition may initially be `Draft` where legitimate project decisions remain unresolved. They must reach the approval state required by Chapters 2 and 3 before downstream development depends on those unresolved areas.
 

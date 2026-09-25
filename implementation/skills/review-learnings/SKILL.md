@@ -75,33 +75,30 @@ Do not combine unrelated changes merely because they were reviewed together.
 
 ## Learning-action Issue contract
 
-For every new `Action` Issue, create a normal SideGig GitHub Issue with a concise outcome-oriented title. The body must contain:
+Every new `Action` Issue must use the normal canonical SideGig Issue shape. Do **not** invent a separate learning-specific Issue format.
 
-### Source learnings
+Choose the appropriate canonical template:
 
-List each Learning ID and its central inbox path, plus the origin repository and source activity.
+- `development/templates/feature-issue.md` for a new or changed SideGig capability, convention, operating-model rule, skill/template/tooling behaviour or other improvement;
+- `development/templates/bug-issue.md` when the learning demonstrates that existing intended SideGig behaviour is defective and the Issue is to restore that intended behaviour.
 
-### Problem
+The Issue must satisfy the normal `refine-issue` contract at creation time where the evidence is sufficient: behavioural objective/expected outcome, observable acceptance criteria, relevant Product/Architecture context or `None`, and dependencies or `None`.
 
-State the reusable problem exposed by the evidence. Do not merely repeat the observation text.
+Preserve the canonical `Development Lifecycle Assessment` section exactly as part of the Issue body. Leave all assessment values as `Pending` when the Issue is created. The `assess-change` skill is the only step that decides whether HLD or an Implementation Plan is required and what happens with LLD.
 
-### Required outcome
+Add learning provenance as an additional `## Source Learnings` section without replacing or renaming canonical template sections. That section must list:
 
-State what must become true in SideGig. Keep this at outcome/acceptance level; detailed implementation design belongs to the normal lifecycle.
+- each Learning ID;
+- the final central evidence path under `development/learnings/processed/` (or the planned processed path when the review PR has not yet merged);
+- origin repository;
+- origin source activity;
+- concise evidence context where needed.
 
-### Affected central assets
+Do not use the temporary `inbox/` path as the durable Issue reference, because a decided learning moves to `processed/`.
 
-Identify likely operating-model, methodology, skill, template, bootstrap or tooling surfaces. This list may be refined later.
+Do not add implementation design, affected-file prescriptions, libraries, algorithms or patch instructions to the Issue unless they are already approved constraints. Likely affected central assets may be described only when useful as context, not as a substitute for the canonical lifecycle assessment.
 
-### Acceptance criteria
-
-Define observable criteria sufficient for the Issue to enter the normal SideGig Development Lifecycle.
-
-### Evidence
-
-Link the central learning records and relevant origin references.
-
-The Issue should not prescribe an implementation prematurely. After creation it follows the existing `refine-issue`, `assess-change`, design/development/validation and merge lifecycle as applicable.
+After creation, a development-ready learning-generated Issue proceeds to `assess-change`. If it is not yet development-ready, use `refine-issue` first rather than compensating for missing requirements during assessment.
 
 ## Processed record contract
 

@@ -44,17 +44,11 @@ Several learning records may support one coherent SideGig Issue. Review related 
 
 A learning-generated SideGig Issue is a normal execution Issue, not a special parallel workflow.
 
-Its body records:
+Create it from the canonical SideGig Feature or Bug Issue template. Preserve the canonical sections, including the `Development Lifecycle Assessment` block with its initial `Pending` values. Add learning provenance in a separate `Source Learnings` section rather than replacing the normal Issue shape.
 
-- source Learning IDs and central learning paths;
-- origin repository/activity;
-- the reusable problem;
-- the required SideGig outcome;
-- likely affected central assets;
-- acceptance criteria;
-- evidence links.
+Where the evidence is sufficient, create the Issue already satisfying the `refine-issue` contract: behavioural objective/expected outcome, observable acceptance criteria, Product/Architecture context or `None`, and dependencies or `None`. The next lifecycle step is then `assess-change`, which alone decides whether HLD and/or an Implementation Plan are required and records the LLD status.
 
-After creation, the Issue enters the same `refine-issue` → `assess-change` → proportional design/development/validation → pull request flow as any other SideGig change.
+Use the final `processed/` learning path as the durable central evidence reference, even while the review PR that performs the move is still awaiting merge.
 
 A warranted action that is not being implemented immediately still receives an Issue and remains open. Scheduling or deferral belongs to normal Issue prioritization rather than a separate learning status.
 

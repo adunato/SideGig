@@ -7,3 +7,4 @@
 /implementation/bootstrap/provision-repository-secrets.ps1 text eol=lf
 /implementation/bootstrap/check-powershell-format.ps1 text eol=lf
 /implementation/bootstrap/PSScriptAnalyzer.version text eol=lf
+/development/templates/product.gitattributes text eol=lf

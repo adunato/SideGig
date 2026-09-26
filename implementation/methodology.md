@@ -308,6 +308,36 @@ All Phase 2 steps update the same `implementation/<channel>/poc.md` artifact. Th
 
 The current specific-opportunity demand-validation revision is identified in the artifact metadata as **`POC methodology revision: Demand validation v1`**. Existing POC artifacts created before this revision may remain on the legacy structure until they are deliberately reassessed. Any new POC artifact, or any legacy artifact being reassessed under the current methodology, must use the current revision marker and satisfy the associated Step 4–10 controls.
 
+
+### POC lineage, supersession and legacy continuation
+
+`implementation/<channel>/poc.md` is always the **current commercial POC artifact** for the channel. It records the proposition that is presently authorized by the latest Gateway 2 decision.
+
+If a reassessment changes the selected proposition after material definition or implementation work has already occurred, do not rewrite the old experiment as though it had never existed. Preserve it under:
+
+`implementation/<channel>/legacy/<poc-slug>.md`
+
+The legacy artifact preserves the previously approved selection, definition, implementation evidence and learning history. The current `poc.md` then continues with the newly selected proposition.
+
+A superseded POC may be allowed to continue for **operational or capability learning only** when:
+
+- meaningful implementation already exists;
+- the remaining work is small relative to starting a new experiment;
+- deployment, publication, billing, monitoring, support or other channel mechanics can still generate reusable evidence;
+- continuation does not require material feature expansion or create a misleading market experiment.
+
+Legacy continuation is deliberately narrower than normal Step 9–10 execution:
+
+- the superseded POC is **not** a current market-demand experiment;
+- usage, revenue or other market signals from that continuation do not validate the new Gateway 2 proposition;
+- the legacy POC cannot proceed to productisation on the basis of operational continuation alone;
+- work should normally be limited to completing already-started scope, bounded defects, deployment/configuration and evidence capture;
+- reusable engineering and operational lessons must still flow through the normal product-repository and SideGig learning mechanisms.
+
+Append the canonical **Legacy POC Continuation** structure to the preserved artifact before further legacy work is treated as authorized. Record the continuation purpose, permitted scope, operational evidence, learning references and explicit closeout.
+
+The product repository belonging to a legacy POC is retained as historical/operational evidence. Whether a newly selected POC reuses that repository, modifies it, or starts in a new repository is a later design/delta decision after the new Step 7 definition; it is not implied by Gateway 2.
+
 ## Step 3 — Select the POC Opportunity Area
 
 ### Purpose

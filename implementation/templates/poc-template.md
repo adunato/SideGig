@@ -237,6 +237,10 @@ Define the smallest credible commercial experiment that can test the selected op
 
 ### Success and Exit Criteria
 
+| Dimension | Criterion | Threshold / decision rule |
+|---|---|---|
+| <Market / Capability> | <Observable criterion> | <Success threshold or decision rule> |
+
 #### Market Test Cards
 
 Translate the material market assumptions and Step 6 demand forecast into precommitted tests before observation begins.
@@ -244,10 +248,6 @@ Translate the material market assumptions and Step 6 demand forecast into precom
 | Test ID | Hypothesis | Experiment | Measure | Precommitted threshold | Demand-case reference |
 |---|---|---|---|---|---|
 | <M1> | <Specific behavioural hypothesis> | <How the POC exposes it> | <Observable metric> | <Threshold decided before observation> | <Step 6 forecast metric / assumption / market-engagement hypothesis> |
-
-| Dimension | Criterion | Threshold / decision rule |
-|---|---|---|
-| <Market / Capability> | <Observable criterion> | <Success threshold or decision rule> |
 
 **POC success rule:** <Combined rule for successful POC evidence>
 
@@ -371,6 +371,10 @@ Record the evidence generated during the live observation window and evaluate th
 
 ### POC Evaluation Evidence
 
+| Evaluation area | Step 7 criterion / Step 8 requirement | Evidence / result | Outcome |
+|---|---|---|---|
+| <Market / capability / operational area> | <Criterion or requirement> | <Observed evidence> | <Pass / Fail / Inconclusive / Not applicable> |
+
 #### Demand Forecast Evaluation
 
 Compare the precommitted demand expectations with observed behaviour. Do not revise the forecast retrospectively.
@@ -378,10 +382,6 @@ Compare the precommitted demand expectations with observed behaviour. Do not rev
 | Test / forecast metric | Expected range / threshold | Observed result | Variance / interpretation | Outcome |
 |---|---|---|---|---|
 | <M1 / metric> | <Step 6/7 expectation> | <Observed evidence> | <Difference and plausible interpretation> | <Supported / Weakened / Inconclusive> |
-
-| Evaluation area | Step 7 criterion / Step 8 requirement | Evidence / result | Outcome |
-|---|---|---|---|
-| <Market / capability / operational area> | <Criterion or requirement> | <Observed evidence> | <Pass / Fail / Inconclusive / Not applicable> |
 
 ### Incidents, Interventions and Iterations
 

@@ -3,8 +3,11 @@
 - **Channel:** [Apify Store](../../research/channels/apify/overview.md)
 - **Prerequisite validation:** [Apify Prerequisites Validation Test](prerequisites-validation.md)
 - **Research methodology:** [Research Methodology](../../research/methodology.md)
+- **POC methodology revision:** Demand validation v1
+- **POC artifact role:** Current
+- **POC lineage predecessor:** [Google News metadata POC](legacy/google-news-metadata-poc.md)
 - **Phase 2 start date:** 2026-09-17
-- **Phase 3 definition date:** 2026-09-18
+- **Phase 3 definition date:** 2026-09-26
 
 ## 1. POC Opportunity Area Selection
 
@@ -58,20 +61,31 @@ Reuse the existing research scores. Higher = more demanding.
 
 Research the selected opportunity area below the area level and establish a credible landscape of concrete commercial propositions before selection.
 
-**Specific research date:** 2026-09-17
+**Specific research date:** 2026-09-26
 
-The scan combined the existing News/media case studies with a fresh review of current Apify Store products, recent entrants and community evidence. Existing Actors are used as evidence for demand spaces, entrant traction, competition and capability requirements; they are not treated as product specifications to clone.
+The reassessment preserves the six previously identified candidate spaces but re-runs the commercial question under the current demand-validation method. Current Apify Store evidence was rechecked, including established products, recent entrants, issue histories and products published during September 2026. Existing Actors are evidence for buyer behaviour, substitution and entrant traction; they are not specifications to clone.
 
 ### Candidate Landscape
 
 | Candidate opportunity | Buyer problem / use case | Target buyer | Commercial outcome / value | Demand / usage evidence | Alternatives / competition | Differentiation / unresolved need | Data / source / delivery model | Capability / cost implications | Evidence links |
 |---|---|---|---|---|---|---|---|---|---|
-| Google News search API | Buyers need structured Google News search/headline data without manually operating the Google News UI or maintaining their own parser. | Developers, researchers, PR/marketing teams, aggregators, AI/data workflows. | Query-driven article metadata with title, source, date, snippet and URL through API/dataset delivery. | Data Xplorer currently shows about 1.8K total users / 460 MAU; EasyApi about 2.2K / 267 MAU; SolidCode, a newer entrant, about 102 / 26 MAU. | Many mature and recent Google News Actors compete primarily on price, filters, speed and reliability. | Demand is proven but extraction is commoditised; a POC would test whether a clean low-cost implementation can still acquire usage in a crowded space. | Public Google News search/RSS surfaces; HTTP parsing; query/date/locale controls; Apify API/dataset. | Low technical and cost floor; main burden is source compatibility, query semantics and maintaining reliable output. | [Data Xplorer](https://apify.com/data_xplorer/google-news-scraper-fast), [EasyApi](https://apify.com/easyapi/google-news-scraper), [SolidCode](https://apify.com/solidcode/google-news-scraper), [EasyApi case study](../../research/channels/apify/case-studies/google-news-scraper-easyapi.md) |
-| Google News canonical-link and full-text enrichment | Buyers using Google News need the real publisher URL and optionally clean article text rather than wrapped Google links and metadata-only feed records. | Researchers, media-monitoring teams, RAG/AI pipelines, analysts and automation builders. | Search results enriched with resolved canonical publisher URLs and optional clean article body/metadata. | Crawler Bros currently shows about 199 users / 58 MAU at roughly $4/1K results; community users repeatedly report Google News redirect links and limited RSS metadata as workflow blockers. | Some Google News Actors already resolve direct URLs or add full text; generic article extractors are substitutes after URL resolution. | Canonical-link resolution addresses a specific recurring pain point; full text adds value for filtering, summarisation and RAG but increases publisher variability. | Google News search/RSS plus redirect/canonical resolution and optional publisher-page extraction. | Moderate rather than low complexity: metadata remains cheap, but arbitrary publisher pages add parsing failures, retries and occasional browser/fallback requirements. | [Crawler Bros](https://apify.com/crawlerbros/google-news-scraper), [Xtracto](https://apify.com/xtracto/google-news-scraper), [article-extraction pain discussion](https://www.reddit.com/r/webscraping/comments/1qqz3rt/tired_of_google_rss_scraping/), [recent RSS enrichment discussion](https://www.reddit.com/r/webscraping/comments/1w8sq6f/google_news_rss_alternative/) |
-| RSS/Atom normalization API | Buyers already have feed URLs but want many RSS/Atom feeds normalised into one stable schema and API/dataset without operating ingestion code. | Developers, analysts, journalists, marketers, AI/RAG pipelines and automation users. | Very low-cost multi-feed parsing, normalisation, scheduling and structured delivery. | Automation Lab has about 147 total users / 40 MAU after roughly six months. Several very recent RSS entrants exist but currently show only about 1 MAU each. | Free libraries, DIY cron/n8n workflows and many inexpensive RSS Actors create strong substitution pressure. | The value is convenience, batching, error handling and Apify-native scheduling/API rather than unique data. | Customer-supplied public RSS/Atom/RDF feeds; standards-based HTTP/XML parsing and normalized dataset rows. | Lowest capability profile in the candidate set: no browser, proxy, proprietary data or source-specific connectors are intrinsic. | [Automation Lab](https://apify.com/automation-lab/rss-feed-reader), [Automation Lab case study](../../research/channels/apify/case-studies/rss-feed-reader-automation-lab.md), [Rowfeed](https://apify.com/rowfeed/rss-feed-reader) |
-| Stateful keyword / brand news monitor | Buyers want only new mentions of a company, competitor or topic over time rather than repeatedly pulling full search result sets. | PR/comms teams, small agencies, founders, marketers and competitive-intelligence users. | Scheduled keyword monitoring with deduplication, new-item state and webhook/dataset delivery. | Brand/media monitoring is a well-established off-platform use case, but dedicated Apify monitoring Actors currently show only about 1–3 users/MAU; generic Google News Actors capture much of the underlying demand. | Google Alerts, Talkwalker alerts, enterprise monitoring tools and scheduled Google News Actors are substitutes. | A programmable low-cost monitor could improve on manual/free alerts, but channel-specific willingness to pay for the stateful layer is not yet demonstrated. | Google News/RSS queries plus persistent state, deduplication and scheduled incremental delivery. | Still lightweight; adds state/change logic and monitoring semantics but little data-access or cash cost. | [HarvestLab monitor](https://apify.com/harvestlab/news-monitor), [Google News Monitor](https://apify.com/sthiven_r/google-news-monitor), [affordable monitoring discussion](https://www.reddit.com/r/BrandingPRMarketing/comments/1ne2e6n/best_affordable_media_monitoring_options/) |
-| Multi-source topic news aggregator with deduplication | Buyers want one clean topic feed across several public news sources rather than managing each feed/search separately and reviewing duplicates. | Researchers, analysts, niche publishers, AI briefing workflows and content teams. | Combined topic feed with normalized records and duplicate reduction. | Current dedicated Apify aggregators/monitors are mostly very new and show around 1 MAU; adjacent RSS and Google News utilities have stronger demand but do not prove the combined proposition directly. | DIY RSS aggregation, feed readers, Google News itself and generic automation tools are strong substitutes. | Cross-source normalization and duplicate handling solve a real workflow problem, but the incremental paid value over simpler utilities is not yet demonstrated on Apify. | Multiple RSS/Google News feeds; normalization, deduplication and structured output. | Low-medium complexity; mostly lightweight HTTP/feed processing with additional identity/deduplication logic. | [AgenticTools aggregator](https://apify.com/agentictools/news-aggregator), [News Monitor](https://apify.com/jedii_123/news-monitor), [news aggregation discussion](https://www.reddit.com/r/webscraping/comments/1igt3qi/scraping_of_news/) |
-| News sentiment and event-clustering intelligence | Buyers want article streams converted into higher-level signals such as sentiment, entities or grouped coverage of the same event. | PR/communications, finance/research teams, competitive intelligence and AI workflows. | Higher-value interpreted news signals rather than raw article rows. | Current direct Apify products remain very early: sentiment/event products reviewed show roughly 0–2 MAU. | Enterprise media-intelligence tools, LLM workflows and external news-intelligence APIs compete strongly. | Potential value is higher, but specific Store demand is not yet established and enrichment risks becoming more expensive than the first POC needs to be. | News search/feed inputs plus NLP/LLM or external intelligence APIs, clustering and aggregation. | Highest candidate capability burden due classification quality, external API/LLM cost, event matching and richer operating logic. | [News & Media Monitor](https://apify.com/akozaruk/newsapi-ai-scraper), [News Sentiment Analyzer](https://apify.com/junipr/news-sentiment-analyzer), [News Sentiment Mini](https://apify.com/publicmoney/sentiment-mini) |
+| Google News metadata search API | Buyers need structured Google News search/headline data without manually operating the Google News UI or maintaining basic feed parsing. | Developers, researchers, PR/marketing teams, aggregators and AI/data workflows. | Query-driven article metadata through an Apify API/dataset. | Category demand is strong: Data Xplorer shows about 1.8K total users / 460 MAU and EasyApi about 2.4K / 230 MAU. However, recent low-cost entrants are much smaller: SolidCode about 102 / 26 MAU, Fetch Cat about 18 / 12 MAU, while two Actors published within the last week currently show only about 1 MAU each. | Many mature and recent Google News Actors now provide near-identical metadata at roughly $0.30-$5/1K results; several also resolve publisher URLs. | The unresolved issue is no longer whether Google News data is useful; it is why a buyer would choose another metadata-only Actor. Price/reliability alone are weakly differentiated and increasingly crowded. | Public Google News RSS/search surfaces; lightweight HTTP parsing; query/date/locale controls; Apify API/dataset. | Low technical and cost floor, but low build complexity also lowers entry barriers and increases substitution. | [Data Xplorer](https://apify.com/data_xplorer/google-news-scraper-fast), [EasyApi](https://apify.com/easyapi/google-news-scraper), [SolidCode](https://apify.com/solidcode/google-news-scraper), [Fetch Cat](https://apify.com/fetch_cat/google-news-scraper), [Plainfetch](https://apify.com/plainfetch/google-news-scraper), [Chorelet](https://apify.com/chorelet/google-news-scraper) |
+| Google News enriched search API — real publisher URLs + optional full text | Buyers need Google News discovery that can be handed directly into research, monitoring or AI workflows without Google redirect URLs and without separately orchestrating article extraction. | Researchers, media-monitoring teams, RAG/AI pipelines, analysts and automation builders. | Search results with resolved publisher URLs plus optional readable article text/metadata in one Actor. | Crawler Bros now shows about 466 total users / 104 MAU after roughly six months; Memo23 about 74 / 42 MAU after roughly three months. Several new September entrants explicitly make real publisher URLs their primary value proposition. | Existing enriched Google News Actors, metadata Actors combined with a separate article extractor, DIY URL-resolution code and external news APIs. | Integrated resolved URLs remove a concrete downstream failure mode; optional full text removes an additional pipeline step. The unresolved question is whether a new entrant can still earn attention now that this differentiation is becoming more common. | Google News RSS/search plus publisher-URL resolution and optional publisher-page extraction. | Moderate complexity: real-URL resolution is bounded; full-text extraction adds publisher variability, partial failures and additional requests but can remain optional/fail-soft. | [Crawler Bros](https://apify.com/crawlerbros/google-news-scraper), [Memo23](https://apify.com/memo23/google-news-scraper), [Chorelet](https://apify.com/chorelet/google-news-scraper), [Dami Studio](https://apify.com/dami_studio/google-news-scraper), [EasyApi broken-URL issue](https://apify.com/easyapi/google-news-scraper/issues/results-have-a-broke-obnNdrySgPcTUbdXg) |
+| RSS/Atom normalization API | Buyers already have feed URLs but want RSS/Atom feeds normalized into one stable schema and API/dataset without operating ingestion code. | Developers, analysts, journalists, marketers, AI/RAG pipelines and automation users. | Low-cost multi-feed parsing, normalization, batching and structured delivery. | Automation Lab currently shows about 147 total users / 40 MAU after roughly six months. | Free libraries, DIY cron/n8n workflows, feed readers and several inexpensive RSS Actors. | Apify-native batching, error isolation, scheduling and stable output reduce operational glue, but the underlying parsing problem is easy to solve elsewhere. | Customer-supplied public RSS/Atom/RDF feeds; standards-based HTTP/XML parsing and normalized dataset rows. | Minimal capability burden and very low variable cost. | [Automation Lab RSS Feed Reader](https://apify.com/automation-lab/rss-feed-reader), [case study](../../research/channels/apify/case-studies/rss-feed-reader-automation-lab.md) |
+| Stateful keyword / brand news monitor | Buyers want only new mentions of a company, competitor or topic over time rather than repeatedly pulling full search result sets. | PR/comms teams, small agencies, founders, marketers and competitive-intelligence users. | Scheduled keyword monitoring with state, deduplication and incremental delivery/alerts. | Off-platform monitoring demand is established, but direct Store traction remains weak: HarvestLab's monitor shows only a handful of users and Google News Monitor products commonly show around 1 MAU. | Google Alerts, enterprise media-monitoring tools and scheduled generic Google News Actors. | Programmable state/new-only delivery could be useful, but Apify-specific willingness to pay for the monitoring layer remains unproven. | Google News/RSS queries plus persistent state, deduplication and scheduled incremental delivery. | Low-medium complexity; state and notification correctness add modest operating burden. | [HarvestLab](https://apify.com/harvestlab/news-monitor), [Google News Monitor](https://apify.com/sthiven_r/google-news-monitor) |
+| Multi-source topic news aggregator with deduplication | Buyers want one clean topic feed across several public news sources rather than managing each feed/search separately. | Researchers, analysts, niche publishers, AI briefing workflows and content teams. | Combined topic feed with normalized records and duplicate reduction. | Dedicated current Apify aggregators reviewed remain around 0-1 MAU; adjacent RSS/Google News demand is stronger but does not directly validate the combined proposition. | DIY RSS aggregation, feed readers, Google News itself and generic automation tools. | Cross-source normalization/deduplication is useful, but incremental paid value over simple composition is not demonstrated. | Multiple RSS/Google News feeds; normalization, deduplication and structured output. | Low-medium complexity and low cost. | [News Monitor](https://apify.com/jedii_123/news-monitor), [News Aggregator](https://apify.com/ayeeyee/news-aggregator), [Master News Aggregator](https://apify.com/smart_tech_resources/master-news-aggregator) |
+| News sentiment and event-clustering intelligence | Buyers want article streams converted into higher-level signals such as sentiment, entities, grouped events or executive summaries. | PR/communications, finance/research teams, competitive intelligence and AI workflows. | Higher-value interpreted news signals rather than raw article rows. | Direct Store evidence remains sparse; current enrichment/monitoring products typically show only a handful of active users despite ambitious positioning. | LLM workflows, enterprise media-intelligence tools and external news/intelligence APIs. | Higher theoretical buyer value, but Store-specific demand is not yet demonstrated and quality/cost burdens are materially higher. | News feeds/search plus NLP/LLM or external APIs, clustering and aggregation. | Highest capability burden in the candidate set due quality evaluation, model/API cost and richer operating logic. | [HarvestLab monitor](https://apify.com/harvestlab/news-monitor), [existing News/media research](../../research/channels/apify/overview.md) |
+
+#### Candidate Demand Evidence
+
+| Candidate opportunity | Customer job / outcome | Current alternative / workaround | Reason-to-buy hypothesis | Supporting evidence | Contrary / disconfirming evidence | Evidence links |
+|---|---|---|---|---|---|---|
+| Google News metadata search API | Turn a Google News query into structured rows usable by software. | Google News UI/RSS, DIY parsing, or one of many existing Apify Google News Actors. | A buyer will choose a new metadata Actor because it is cheaper, simpler or more reliable. | The category has large active usage and several lower-cost entrants have acquired some users. | There are many near-exact substitutes; resolved publisher URLs are increasingly expected; very recent metadata entrants have little early usage. The evidence proves category demand much more strongly than it proves a reason to choose this proposition. | [Data Xplorer](https://apify.com/data_xplorer/google-news-scraper-fast), [SolidCode](https://apify.com/solidcode/google-news-scraper), [Plainfetch](https://apify.com/plainfetch/google-news-scraper) |
+| Google News enriched search API — real publisher URLs + optional full text | Discover relevant Google News coverage and pass usable publisher URLs/content directly into downstream monitoring, RAG or analysis. | Metadata Actor plus separate URL-resolution/article extraction; DIY decoder/extractor; existing enriched Actors. | A one-step Actor that reliably resolves publisher URLs and optionally returns article text removes meaningful integration work and is preferable to metadata-only output. | Crawler Bros and Memo23 have strong recent-entrant usage; several new Actors lead with real publisher URLs as the primary differentiator; Google redirect/broken-link handling is an explicit product/issue theme. | The feature is becoming more common, so it is not a permanent moat; full-text extraction is incomplete on paywalled/blocked sites and raises cost/operational complexity. | [Crawler Bros](https://apify.com/crawlerbros/google-news-scraper), [Memo23](https://apify.com/memo23/google-news-scraper), [Chorelet](https://apify.com/chorelet/google-news-scraper), [EasyApi broken-URL issue](https://apify.com/easyapi/google-news-scraper/issues/results-have-a-broke-obnNdrySgPcTUbdXg) |
+| RSS/Atom normalization API | Convert heterogeneous feeds into stable machine-readable rows without maintaining feed-ingestion code. | Feed libraries, n8n/Make workflows, feed readers or direct XML parsing. | Apify-native normalization, batching and error handling are convenient enough to justify paid use. | Automation Lab has about 40 MAU and 147 total users. | The problem is easy to solve with free libraries and automation tools; direct revenue depth is likely modest. | [Automation Lab](https://apify.com/automation-lab/rss-feed-reader) |
+| Stateful keyword / brand news monitor | Receive only new relevant mentions over time with minimal repeated processing. | Google Alerts, enterprise monitoring products, or scheduled generic Google News runs plus user-managed state. | A low-cost programmable monitor is more useful than generic alerts or manually managed state. | Monitoring is a well-established buyer job and multiple Store products attempt it. | Dedicated Apify monitors currently have negligible traction, so the paid Store demand is not demonstrated. | [HarvestLab](https://apify.com/harvestlab/news-monitor), [Google News Monitor](https://apify.com/sthiven_r/google-news-monitor) |
+| Multi-source topic news aggregator with deduplication | Get a single normalized topic feed without configuring each source separately. | Feed readers, n8n/Make, Google News, or custom RSS composition. | Cross-source normalization and deduplication save enough integration work to justify a dedicated Actor. | The job is common in research/briefing workflows and is technically straightforward. | Dedicated Store products reviewed remain around 0-1 MAU; easy DIY composition is a strong substitute. | [News Monitor](https://apify.com/jedii_123/news-monitor), [News Aggregator](https://apify.com/ayeeyee/news-aggregator) |
+| News sentiment and event-clustering intelligence | Convert raw news into interpreted signals that reduce analyst reading/triage. | LLM prompts/pipelines, external intelligence APIs and enterprise monitoring platforms. | Turnkey structured intelligence saves enough analytical work to support premium usage. | The underlying buyer outcome has obvious value and many external products target it. | Direct Apify usage is sparse; quality expectations, model cost and domain specificity make the value difficult to establish cheaply. | [HarvestLab](https://apify.com/harvestlab/news-monitor), [existing News/media research](../../research/channels/apify/overview.md) |
 
 ### Step 4 Completion
 
@@ -83,44 +97,44 @@ The scan combined the existing News/media case studies with a fresh review of cu
 
 *Methodology mapping: Phase 2, Step 5 — Assess and Shortlist POC Opportunities.*
 
-Assess each Step 4 candidate using the same market-attractiveness and capability dimensions used by the Research Methodology, but at the specific-opportunity level.
+The existing ten-dimension assessment was rechecked against the refreshed demand evidence. Scores are changed only where the stronger proposition-level evidence materially changes the conclusion.
 
 ### Market Attractiveness Assessment
 
-Higher score = more attractive. For **Competitive pressure**, higher means lower/more favourable pressure, consistent with the Research Methodology.
+Higher score = more attractive. For **Competitive pressure**, higher means lower/more favourable pressure.
 
 | Candidate opportunity | Dimension | Score (1-5) | Confidence | Evidence / rationale |
 |---|---|---:|---|---|
-| Google News search API | Paying demand | 5 | High | Multiple paid Actors have hundreds of MAU; Data Xplorer is about 460 MAU and EasyApi about 267 MAU. |
-| Google News search API | Opportunity density | 4 | High | Search, monitoring, aggregation, research, PR, SEO and downstream AI workflows all consume the same structured result layer. |
-| Google News search API | New-entrant attainability | 4 | High | SolidCode reached about 26 MAU and Crawler Bros about 58 MAU despite mature incumbents. |
-| Google News search API | Revenue potential | 4 | Medium | Public prices span roughly sub-$1 to $5/1K results with substantial active usage, but actual paid result volume is private. |
-| Google News search API | Competitive pressure | 2 | High | Many mature and new near-substitutes make basic metadata extraction highly competitive. |
-| Google News canonical-link and full-text enrichment | Paying demand | 4 | High | Crawler Bros has about 58 MAU at premium pricing and enriched/direct-link features also appear in other Google News products. |
-| Google News canonical-link and full-text enrichment | Opportunity density | 4 | High | Canonical links/full text support monitoring, RAG, research, briefing, classification and summarisation workflows. |
-| Google News canonical-link and full-text enrichment | New-entrant attainability | 4 | High | Crawler Bros is a relatively recent entrant with meaningful active usage. |
-| Google News canonical-link and full-text enrichment | Revenue potential | 4 | Medium | Enrichment supports materially higher per-result prices than commodity RSS parsing, although paid volume is unknown. |
-| Google News canonical-link and full-text enrichment | Competitive pressure | 3 | Medium | Fewer products deliver robust enrichment than metadata-only search, but several Actors and generic extractors already compete. |
-| RSS/Atom normalization API | Paying demand | 3 | High | Automation Lab has about 40 MAU; demand is real but materially smaller than Google News search. |
-| RSS/Atom normalization API | Opportunity density | 4 | Medium | News, blogs, podcasts, changelogs, monitoring and AI ingestion all use feed normalization, though some usage lies outside News/media. |
-| RSS/Atom normalization API | New-entrant attainability | 3 | Medium | Automation Lab gained usage quickly, but several newer entrants remain around 1 MAU. |
-| RSS/Atom normalization API | Revenue potential | 2 | Medium | Public pricing is extremely low and existing case estimates indicate modest absolute spend unless run volume is high. |
-| RSS/Atom normalization API | Competitive pressure | 2 | High | Free libraries, DIY workflows and numerous low-cost Actors create strong substitution pressure. |
-| Stateful keyword / brand news monitor | Paying demand | 3 | Medium | The underlying monitoring need is established, but dedicated Apify monitors currently show very little direct usage. |
-| Stateful keyword / brand news monitor | Opportunity density | 4 | Medium | Brand, competitor, executive, topic, regulatory and event monitoring provide many recurring queries. |
-| Stateful keyword / brand news monitor | New-entrant attainability | 2 | Medium | Current dedicated recent entrants have not yet demonstrated meaningful Apify traction. |
-| Stateful keyword / brand news monitor | Revenue potential | 3 | Low | Monitoring is commercially valuable off-platform, but Apify-specific willingness to pay for the stateful layer is not established. |
-| Stateful keyword / brand news monitor | Competitive pressure | 3 | Medium | Free Google Alerts and enterprise suites are strong substitutes, but a low-cost programmable niche remains plausible. |
-| Multi-source topic news aggregator with deduplication | Paying demand | 2 | Medium | Dedicated current Apify aggregators show only about 1 MAU; stronger adjacent utility demand is not direct proof. |
-| Multi-source topic news aggregator with deduplication | Opportunity density | 4 | Medium | Many topic/industry monitoring and briefing workflows need aggregation and deduplication. |
-| Multi-source topic news aggregator with deduplication | New-entrant attainability | 2 | Medium | Recent dedicated entrants reviewed have not yet shown meaningful traction. |
-| Multi-source topic news aggregator with deduplication | Revenue potential | 2 | Low | The proposition competes with free feed readers and aggregation workflows, limiting evidence of paid depth. |
-| Multi-source topic news aggregator with deduplication | Competitive pressure | 3 | Medium | No dominant Apify incumbent, but substitutes are abundant and easy to assemble. |
-| News sentiment and event-clustering intelligence | Paying demand | 2 | Medium | Direct current Apify products reviewed show approximately 0–2 MAU. |
-| News sentiment and event-clustering intelligence | Opportunity density | 3 | Medium | PR, finance, research and intelligence workflows can use these signals, but each requires more domain-specific interpretation. |
-| News sentiment and event-clustering intelligence | New-entrant attainability | 2 | Medium | Recent entrants have not yet demonstrated meaningful Store traction. |
-| News sentiment and event-clustering intelligence | Revenue potential | 3 | Low | Higher-value intelligence could support premium pricing, but observed Store usage is too sparse to validate depth. |
-| News sentiment and event-clustering intelligence | Competitive pressure | 3 | Medium | Many external APIs, LLM workflows and enterprise tools compete, though direct Apify supply remains immature. |
+| Google News metadata search API | Paying demand | 5 | High | Established Google News Actors still show hundreds of MAU. |
+| Google News metadata search API | Opportunity density | 4 | High | Monitoring, research, aggregation, SEO and AI workflows all consume structured news results. |
+| Google News metadata search API | New-entrant attainability | 3 | Medium | Some recent entrants gain users, but current very-new metadata products remain near 1 MAU and the strongest newer Actors increasingly include richer URL/content features. |
+| Google News metadata search API | Revenue potential | 4 | Medium | Paid usage exists across a broad price range, but paid result volumes are private. |
+| Google News metadata search API | Competitive pressure | 1 | High | Supply is now extremely dense and near-exact substitutes are available at very low prices. |
+| Google News enriched search API — real publisher URLs + optional full text | Paying demand | 4 | High | Crawler Bros (~104 MAU) and Memo23 (~42 MAU) provide direct behavioural evidence for enriched Google News output. |
+| Google News enriched search API — real publisher URLs + optional full text | Opportunity density | 4 | High | Resolved URLs/full text support monitoring, RAG, research, briefing, classification and summarisation workflows. |
+| Google News enriched search API — real publisher URLs + optional full text | New-entrant attainability | 4 | High | Multiple products launched within roughly 3-6 months have acquired meaningful active usage, although outcomes vary widely. |
+| Google News enriched search API — real publisher URLs + optional full text | Revenue potential | 4 | Medium | Enrichment supports roughly $1-$3+/1K pricing in current products, but paid volume remains private. |
+| Google News enriched search API — real publisher URLs + optional full text | Competitive pressure | 2 | High | Enrichment is less commoditised than metadata-only extraction but is rapidly becoming a standard differentiator. |
+| RSS/Atom normalization API | Paying demand | 3 | High | Automation Lab has about 40 MAU; paid utility exists but is materially smaller than Google News. |
+| RSS/Atom normalization API | Opportunity density | 4 | Medium | News, blogs, podcasts, changelogs and AI ingestion all use feed normalization. |
+| RSS/Atom normalization API | New-entrant attainability | 3 | Medium | One recent product has meaningful usage while other newer entrants remain small. |
+| RSS/Atom normalization API | Revenue potential | 2 | Medium | Strong free/DIY substitution constrains likely spend. |
+| RSS/Atom normalization API | Competitive pressure | 2 | High | Free libraries and workflow tools are strong substitutes. |
+| Stateful keyword / brand news monitor | Paying demand | 3 | Medium | Underlying monitoring demand is established, but direct Apify usage remains weak. |
+| Stateful keyword / brand news monitor | Opportunity density | 4 | Medium | Brand, competitor, topic and event monitoring provide many recurring queries. |
+| Stateful keyword / brand news monitor | New-entrant attainability | 2 | Medium | Current dedicated entrants have not demonstrated meaningful traction. |
+| Stateful keyword / brand news monitor | Revenue potential | 3 | Low | Off-platform willingness to pay is clear, but Apify-specific depth is not. |
+| Stateful keyword / brand news monitor | Competitive pressure | 3 | Medium | Google Alerts and enterprise suites are strong substitutes, with a plausible programmable niche. |
+| Multi-source topic news aggregator with deduplication | Paying demand | 2 | Medium | Dedicated Apify aggregators reviewed remain around 0-1 MAU. |
+| Multi-source topic news aggregator with deduplication | Opportunity density | 4 | Medium | Many briefing/monitoring workflows need aggregation and deduplication. |
+| Multi-source topic news aggregator with deduplication | New-entrant attainability | 2 | Medium | Recent dedicated entrants have not shown meaningful traction. |
+| Multi-source topic news aggregator with deduplication | Revenue potential | 2 | Low | Easy DIY composition limits evidence of paid depth. |
+| Multi-source topic news aggregator with deduplication | Competitive pressure | 3 | Medium | Direct Store competition is limited, but substitutes are abundant. |
+| News sentiment and event-clustering intelligence | Paying demand | 2 | Medium | Direct Store traction remains minimal. |
+| News sentiment and event-clustering intelligence | Opportunity density | 3 | Medium | PR, finance, research and intelligence workflows can use these signals. |
+| News sentiment and event-clustering intelligence | New-entrant attainability | 2 | Medium | Recent entrants have not demonstrated meaningful Store traction. |
+| News sentiment and event-clustering intelligence | Revenue potential | 3 | Low | Premium value is plausible but unproven in this channel. |
+| News sentiment and event-clustering intelligence | Competitive pressure | 3 | Medium | External APIs, enterprise tools and generic LLM workflows compete strongly. |
 
 ### Capability Assessment
 
@@ -128,52 +142,61 @@ Higher score = more demanding.
 
 | Candidate opportunity | Dimension | Score (1-5) | Confidence | Evidence / rationale |
 |---|---|---:|---|---|
-| Google News search API | Technical complexity | 2 | High | Lightweight HTTP/RSS/search parsing, filters and normalization are sufficient for a credible POC. |
-| Google News search API | Domain expertise | 2 | High | Requires query, locale, recency and news-result knowledge but no specialist domain expertise. |
-| Google News search API | Data / resource access | 1 | High | Public Google News surfaces; no proprietary dataset or customer credentials are intrinsic. |
-| Google News search API | Operating complexity | 2 | Medium | Source behaviour can change and mature products report occasional failures, but there is one main source and no enrichment chain. |
-| Google News search API | Cost intensity | 1 | High | HTTP/feed-based extraction can run without proprietary data or intrinsic proxy spend. |
-| Google News canonical-link and full-text enrichment | Technical complexity | 3 | High | URL resolution plus arbitrary publisher extraction adds parsing/fallback logic beyond Google News metadata. |
-| Google News canonical-link and full-text enrichment | Domain expertise | 2 | High | News/query and article-content knowledge is sufficient; no scarce domain expertise is required. |
-| Google News canonical-link and full-text enrichment | Data / resource access | 1 | High | Google News and publisher pages are public inputs; no licensed dataset is intrinsic. |
-| Google News canonical-link and full-text enrichment | Operating complexity | 3 | High | Publisher variability and partial extraction failures create a broader maintenance surface. |
-| Google News canonical-link and full-text enrichment | Cost intensity | 2 | Medium | Extra page fetches/retries increase compute/network cost and difficult publishers may require heavier fallbacks. |
-| RSS/Atom normalization API | Technical complexity | 1 | High | Standards-based feed retrieval, parsing and normalization are bounded and straightforward. |
-| RSS/Atom normalization API | Domain expertise | 1 | High | General RSS/Atom and data-normalization knowledge is sufficient. |
-| RSS/Atom normalization API | Data / resource access | 1 | High | Customer-supplied public feed URLs; no special access is needed. |
-| RSS/Atom normalization API | Operating complexity | 1 | High | One generic parser handles many sources; maintenance centres on malformed feeds and protocol edge cases. |
-| RSS/Atom normalization API | Cost intensity | 1 | High | Lightweight HTTP/XML work with no intrinsic proxy, browser, licence or enrichment cost. |
-| Stateful keyword / brand news monitor | Technical complexity | 2 | High | Adds state, deduplication and scheduling to otherwise lightweight Google News/RSS collection. |
-| Stateful keyword / brand news monitor | Domain expertise | 2 | Medium | Needs monitoring semantics and query design but no scarce specialist expertise. |
-| Stateful keyword / brand news monitor | Data / resource access | 1 | High | Public news/search feeds and Apify state/storage are sufficient for a minimal product. |
-| Stateful keyword / brand news monitor | Operating complexity | 2 | Medium | Stateful checkpoints and notification correctness add modest operating burden. |
-| Stateful keyword / brand news monitor | Cost intensity | 1 | High | Scheduled HTTP collection and state storage can remain inexpensive. |
-| Multi-source topic news aggregator with deduplication | Technical complexity | 2 | High | Multiple feeds plus schema normalization and duplicate detection are still technically bounded. |
-| Multi-source topic news aggregator with deduplication | Domain expertise | 2 | Medium | Requires topic/query and deduplication decisions but little specialist knowledge. |
+| Google News metadata search API | Technical complexity | 2 | High | Lightweight HTTP/RSS/search parsing, filters and normalization are sufficient. |
+| Google News metadata search API | Domain expertise | 2 | High | Requires query, locale, recency and news-result knowledge but no specialist domain expertise. |
+| Google News metadata search API | Data / resource access | 1 | High | Public Google News surfaces; no proprietary dataset or customer credentials are intrinsic. |
+| Google News metadata search API | Operating complexity | 2 | Medium | Source behaviour can change, but there is one main source and no enrichment chain. |
+| Google News metadata search API | Cost intensity | 1 | High | HTTP/feed extraction can run without proprietary data or intrinsic proxy spend. |
+| Google News enriched search API — real publisher URLs + optional full text | Technical complexity | 3 | High | URL resolution plus optional publisher extraction adds parsing/fallback logic beyond metadata-only search. |
+| Google News enriched search API — real publisher URLs + optional full text | Domain expertise | 2 | High | News/query and article-content knowledge is sufficient. |
+| Google News enriched search API — real publisher URLs + optional full text | Data / resource access | 1 | High | Google News and publisher pages are public inputs; no licensed dataset is intrinsic. |
+| Google News enriched search API — real publisher URLs + optional full text | Operating complexity | 3 | High | Publisher variability and partial extraction failures create a broader maintenance surface. |
+| Google News enriched search API — real publisher URLs + optional full text | Cost intensity | 2 | Medium | Extra page fetches/retries increase compute/network cost and some publishers may require heavier fallbacks. |
+| RSS/Atom normalization API | Technical complexity | 1 | High | Standards-based feed retrieval, parsing and normalization are bounded. |
+| RSS/Atom normalization API | Domain expertise | 1 | High | General feed/data-normalization knowledge is sufficient. |
+| RSS/Atom normalization API | Data / resource access | 1 | High | Customer-supplied public feeds require no special access. |
+| RSS/Atom normalization API | Operating complexity | 1 | High | Maintenance centres on malformed feeds and protocol edge cases. |
+| RSS/Atom normalization API | Cost intensity | 1 | High | Lightweight HTTP/XML work has no intrinsic proxy/licence cost. |
+| Stateful keyword / brand news monitor | Technical complexity | 2 | High | Adds state, deduplication and scheduling to lightweight collection. |
+| Stateful keyword / brand news monitor | Domain expertise | 2 | Medium | Needs monitoring semantics and query design. |
+| Stateful keyword / brand news monitor | Data / resource access | 1 | High | Public feeds/search plus Apify storage are sufficient. |
+| Stateful keyword / brand news monitor | Operating complexity | 2 | Medium | Stateful checkpoints and notification correctness add modest burden. |
+| Stateful keyword / brand news monitor | Cost intensity | 1 | High | Scheduled HTTP collection remains inexpensive. |
+| Multi-source topic news aggregator with deduplication | Technical complexity | 2 | High | Multiple feeds plus normalization/deduplication are bounded. |
+| Multi-source topic news aggregator with deduplication | Domain expertise | 2 | Medium | Requires topic/query and duplicate decisions but little specialist knowledge. |
 | Multi-source topic news aggregator with deduplication | Data / resource access | 1 | High | Public feeds/search surfaces are sufficient. |
-| Multi-source topic news aggregator with deduplication | Operating complexity | 2 | Medium | More sources create partial failures and feed changes, but no heavy anti-bot stack is intrinsic. |
-| Multi-source topic news aggregator with deduplication | Cost intensity | 1 | High | Primarily lightweight HTTP, parsing and dataset work. |
-| News sentiment and event-clustering intelligence | Technical complexity | 3 | Medium | Classification, clustering and evidence aggregation materially expand product logic. |
-| News sentiment and event-clustering intelligence | Domain expertise | 3 | Medium | Useful interpretation requires stronger understanding of sentiment, entity/event semantics and buyer workflows. |
-| News sentiment and event-clustering intelligence | Data / resource access | 2 | Medium | Can use public news data, but richer products may rely on external news or model APIs. |
-| News sentiment and event-clustering intelligence | Operating complexity | 3 | Medium | Model/API dependencies, quality evaluation and clustering errors require more monitoring. |
-| News sentiment and event-clustering intelligence | Cost intensity | 3 | Medium | External API or LLM inference can become a material variable cost. |
+| Multi-source topic news aggregator with deduplication | Operating complexity | 2 | Medium | Multiple sources create partial-failure handling. |
+| Multi-source topic news aggregator with deduplication | Cost intensity | 1 | High | Primarily lightweight HTTP and parsing. |
+| News sentiment and event-clustering intelligence | Technical complexity | 3 | Medium | Classification/clustering materially expand product logic. |
+| News sentiment and event-clustering intelligence | Domain expertise | 3 | Medium | Useful interpretation requires stronger semantic/domain judgement. |
+| News sentiment and event-clustering intelligence | Data / resource access | 2 | Medium | Richer products may rely on model/news APIs. |
+| News sentiment and event-clustering intelligence | Operating complexity | 3 | Medium | Model quality and dependency behaviour require more monitoring. |
+| News sentiment and event-clustering intelligence | Cost intensity | 3 | Medium | Model/API inference can become a material variable cost. |
 
 ### Shortlist
 
-Use only:
-
-- **Shortlisted** — remains a credible POC candidate;
-- **Excluded** — not suitable for this POC cycle based on the evidence.
-
 | Candidate opportunity | Market evidence potential | POC capability suitability | Decision | Rationale |
 |---|---|---|---|---|
-| Google News search API | High: multiple incumbents have hundreds of MAU and recent entrants show meaningful traction. | High: representative POC can remain HTTP-based, low-cost and operationally bounded. | Shortlisted | Strongest direct market signal and still a low-capability experiment; main negative is heavy commodity competition. |
-| Google News canonical-link and full-text enrichment | High-medium: a recent enriched entrant has meaningful MAU and community evidence identifies redirect/full-text pain directly. | Medium-high: still inexpensive, but publisher extraction makes the POC materially more complex than metadata-only search. | Shortlisted | Provides clearer differentiation and tests a documented buyer pain while remaining small enough for a first POC. |
-| RSS/Atom normalization API | Medium: about 40 MAU demonstrates paid utility, though revenue depth is much lower than Google News search. | Very high: lowest technical, operating and cost profile in the candidate set. | Shortlisted | Clears the minimum market-signal bar and is the simplest representative experiment; low revenue depth and strong DIY substitution are the main risks. |
-| Stateful keyword / brand news monitor | Medium-low: monitoring demand exists, but dedicated Apify products have not yet shown meaningful traction. | High: stateful monitoring remains cheap and technically bounded. | Excluded | Specific channel demand is too weak to justify preferring it over the simpler opportunities with stronger direct usage evidence. |
-| Multi-source topic news aggregator with deduplication | Low-medium: current dedicated products have little direct usage. | High: technically manageable and inexpensive. | Excluded | Attractive capability profile is not enough; candidate-specific market evidence is currently too sparse for an informative first POC. |
-| News sentiment and event-clustering intelligence | Low-medium: current Store traction is minimal despite plausible off-platform value. | Low-medium: model/API dependencies make it the heaviest News/media candidate. | Excluded | Weak direct market evidence and substantially higher capability/cost burden make it a poor first POC relative to the shortlisted alternatives. |
+| Google News metadata search API | Category demand is high, but proposition-specific reason-to-buy evidence is weak. | Very high: technically cheap and bounded. | Excluded | Under the new method, low implementation cost cannot substitute for a reason to buy. A new metadata-only Actor is surrounded by cheaper/richer substitutes and the critical reason-to-buy precondition is not adequately supported. |
+| Google News enriched search API — real publisher URLs + optional full text | High-medium: multiple recent enriched entrants show meaningful active usage and direct links solve an identifiable workflow problem. | Medium-high: still inexpensive enough for a POC, with optional full text providing a bounded richer layer. | Shortlisted | This is the strongest combination of observable entrant behaviour and a concrete buyer improvement over metadata-only output. |
+| RSS/Atom normalization API | Medium: about 40 MAU proves real utility but likely revenue depth is lower. | Very high: simplest and cheapest candidate. | Shortlisted | Clears the evidence bar and provides a defensible convenience proposition, though free substitution and revenue depth remain material risks. |
+| Stateful keyword / brand news monitor | Medium-low: underlying need is real but direct Store traction is weak. | High. | Excluded | Critical Apify-specific demand precondition remains weakly evidenced. |
+| Multi-source topic news aggregator with deduplication | Low-medium. | High. | Excluded | Candidate-specific paid demand remains too weak despite easy implementation. |
+| News sentiment and event-clustering intelligence | Low-medium. | Low-medium. | Excluded | Direct demand evidence is weak while implementation/quality burden is materially higher. |
+
+#### Critical Assumption Stress Test
+
+| Candidate opportunity | Assumption ID | Assumption | Classification | Importance | Evidence grade | Supporting / contrary evidence | Disposition |
+|---|---|---|---|---|---|---|---|
+| Google News metadata search API | M1 | Buyers will choose another metadata-only Google News Actor because price/reliability/usability are sufficient differentiation. | Precondition | Critical | E1 | Strong category demand exists, but direct differentiation evidence is weak; numerous low-price/richer substitutes and very-low-traction new entrants cut against the assumption. | Blocking |
+| Google News enriched search API — real publisher URLs + optional full text | E1 | Resolved publisher URLs and integrated optional article text solve enough downstream integration pain to influence Actor choice. | Precondition | Critical | E3 | Crawler Bros (~104 MAU) and Memo23 (~42 MAU) are close behavioural analogues; several new products explicitly sell real URLs as their headline benefit. The feature is becoming common, which limits durability but not current relevance. | Supported |
+| Google News enriched search API — real publisher URLs + optional full text | E2 | A new entrant with this proposition can attract observable users despite increasing competition. | POC test | Critical | E3 | Recent enriched entrants demonstrate attainable usage, but outcomes range from ~1 MAU to >100 MAU and launch-month distribution is not publicly observable. | Test in POC |
+| Google News enriched search API — real publisher URLs + optional full text | E3 | Real-URL resolution can be reliable and optional full-text extraction can fail softly without making the product operationally heavy. | POC test | Material | E2 | Multiple Actors advertise pure-HTTP/no-proxy or best-effort approaches, but publisher/paywall variability and partial body retrieval are explicitly documented. | Test in POC |
+| RSS/Atom normalization API | R1 | Buyers value Apify-native feed normalization/batching enough to use a paid Actor instead of free libraries/workflows. | Precondition | Critical | E3 | Automation Lab's ~40 MAU is direct close-analogue behaviour. Free substitutes remain abundant. | Supported |
+| RSS/Atom normalization API | R2 | A new RSS normalization entrant can acquire enough usage to make a first POC informative. | POC test | Critical | E2 | One recent product has meaningful usage, while several newer products remain near 1 MAU. Evidence supports experimentation but not a strong forecast. | Test in POC |
+| Stateful keyword / brand news monitor | N1 | Apify buyers will pay/use a dedicated stateful monitor instead of scheduling a generic search Actor or using Google Alerts. | Precondition | Critical | E1 | Off-platform need is clear, but direct Store products remain at only a handful of users. | Blocking |
+| Multi-source topic news aggregator with deduplication | A1 | Cross-source aggregation/deduplication is valuable enough on Apify to beat easy DIY composition. | Precondition | Critical | E1 | Adjacent demand exists, but direct aggregator products reviewed remain around 0-1 MAU. | Blocking |
+| News sentiment and event-clustering intelligence | S1 | Apify buyers will pay for a generic interpreted-news layer without a more specific vertical/workflow proposition. | Precondition | Critical | E1 | External market value is plausible, but direct Store traction remains sparse and generic LLM/API substitutes are strong. | Blocking |
 
 ### Step 5 Completion
 
@@ -185,38 +208,52 @@ Use only:
 
 *Methodology mapping: Phase 2, Step 6 — Select the POC Opportunity.*
 
-Select one concrete proposition from the Step 5 shortlist using the completed market-attractiveness and capability assessments. Do not introduce a new scoring model.
+The refreshed selection is made only from candidates that passed the Step 5 assumption stress test.
 
 ### Shortlist Comparison
 
-Use only:
-
-- **Selected** — chosen for Phase 3 POC definition and design;
-- **Deferred** — remains viable but is not the selected POC opportunity.
-
 | Candidate opportunity | Market-attractiveness summary | Capability-requirements summary | Expected POC evidence | POC complexity / cost | Decision |
 |---|---|---|---|---|---|
-| Google News search API | Very strong direct demand and entrant evidence; market dimensions 5/4/4/4/2, with competition the main weakness. | Low burden: 2/2/1/2/1; public source, lightweight HTTP/RSS extraction and no intrinsic licensed-data or proxy requirement. | Whether a clean, reliable, competitively priced new entrant can acquire measurable usage in a crowded but proven demand space; whether lightweight source handling remains reliable and cheap in practice. | Low. A representative POC can remain one-source, HTTP-based and inexpensive while still exercising query, locale, recency, normalization and source-reliability requirements. | Selected |
-| Google News canonical-link and full-text enrichment | Strong evidence and clearer differentiation; market dimensions 4/4/4/4/3 with meaningful recent-entrant traction. | Moderate burden: 3/2/1/3/2; publisher-page variability materially expands build and operating complexity. | Whether buyers value canonical links/full text enough to support differentiated usage and whether heterogeneous publisher extraction can remain reliable at low cost. | Low-medium. Still feasible as a POC, but it adds publisher extraction, retries and fallback behaviour that are not required to test the core Google News market. | Deferred |
-| RSS/Atom normalization API | Real but materially weaker demand/revenue depth; market dimensions 3/4/3/2/2. | Minimal burden: 1/1/1/1/1; standards-based parsing with the lowest cost and maintenance profile. | Whether convenience and normalization alone produce enough paid usage despite abundant free/DIY substitutes. | Very low, but the weaker demand and revenue evidence make the resulting commercial test less informative than Google News search. | Deferred |
+| Google News enriched search API — real publisher URLs + optional full text | Strong current behavioural evidence from recent entrants; clearer buyer improvement than metadata-only output; market dimensions 4/4/4/4/2. | Moderate burden: 3/2/1/3/2. Real-URL resolution remains bounded; optional full text adds variability but can fail softly. | Whether a newly published enriched Google News Actor can attract users and paid/repeat behaviour; whether resolved URLs/full text can remain reliable and inexpensive enough for a small product. | Low-medium. Still suitable for a bounded first POC, but materially richer than the current metadata-only implementation. | Selected |
+| RSS/Atom normalization API | Real but smaller direct demand; market dimensions 3/4/3/2/2. | Minimal burden: 1/1/1/1/1. | Whether convenience/normalization alone can overcome free/DIY substitution and produce observable paid usage. | Very low. | Deferred |
 
 ### Selected Opportunity
 
-**Selected opportunity:** Google News search API
+**Selected opportunity:** Google News enriched search API — real publisher URLs + optional full text
 
-**Buyer problem:** Buyers need structured Google News search and headline data without manually operating the Google News interface or maintaining their own extraction and normalization code.
+**Buyer problem:** Buyers can retrieve Google News headlines relatively easily, but Google News redirect URLs and the need to separately resolve/fetch publisher pages create additional integration steps before articles can be used reliably in monitoring, RAG, research or downstream analysis.
 
-**Target user:** Developers, researchers, PR/marketing teams, news/content aggregators and AI/data workflows that consume current news-search results programmatically.
+**Target user:** Developers, researchers, media-monitoring/PR users and AI/data workflows that need Google News discovery in a directly consumable downstream form.
 
-**Core value proposition:** A low-friction, low-cost Apify API/dataset that converts Google News queries into reliable structured article metadata with useful query, locale and recency controls.
+**Core value proposition:** An Apify-native Google News search API that returns structured metadata plus resolved publisher URLs, with optional best-effort article text, so a buyer can move from query to usable publisher-level data without assembling multiple tools.
 
-**Market assumptions to test:** Google News search has enough active paid demand for a new entrant to acquire measurable usage despite heavy competition; reliability, usability and competitive pricing are sufficient differentiators for a simple entrant; the breadth of monitoring, research, aggregation and AI workflows produces enough repeat usage to make the market signal observable during a small POC.
+**Market assumptions to test:** Resolved publisher URLs materially improve the buyer workflow; a new entrant can still acquire measurable usage despite a growing number of enriched competitors; optional full-text capability increases usefulness without needing to be perfect for every publisher; some observed usage converts into repeat and paid behaviour.
 
-**Capability assumptions to test:** A commercially credible Google News search product can be implemented with lightweight HTTP/RSS-style extraction and normalization; useful query, locale and recency semantics can be supported without proprietary data or intrinsic proxy spend; source changes and occasional failures can be handled with a bounded operating burden; direct execution costs remain low enough for usage-based pricing.
+**Capability assumptions to test:** Publisher URL resolution can be implemented with a bounded, primarily HTTP-based method; unresolved links can fail softly without invalidating the run; optional full-text extraction can return useful coverage while tolerating paywalls/blocked publishers; the additional requests and fallbacks remain operationally and economically proportionate.
 
-**Selection rationale:** Google News search provides the strongest balance for the first POC. It has the strongest direct demand evidence in the shortlist and recent entrants demonstrate attainability, while its capability profile remains low. Canonical-link/full-text enrichment offers clearer differentiation but adds materially more technical and operating complexity without stronger overall market evidence. RSS normalization is simpler still, but its paying-demand and revenue evidence are substantially weaker. Google News search therefore gives the smallest low-cost experiment with the highest probability of producing meaningful market feedback while still testing real source-reliability and operating assumptions.
+**Selection rationale:** The new demand-validation method changes the result. The previous metadata-only Google News selection had strong category demand but no sufficiently evidenced reason for buyers to choose another near-identical Actor. The enriched proposition has materially stronger proposition-specific evidence: recent Actors that resolve publisher URLs and/or return article bodies have acquired meaningful usage, and the redirect/broken-link problem is explicitly visible in competitor positioning and issue history. RSS normalization remains a credible lower-complexity alternative, but its demand/revenue depth is weaker. The enriched Google News proposition therefore provides the strongest evidence-backed reason to buy while remaining small enough for a bounded POC.
 
-**Selection date:** 2026-09-17
+**Selection date:** 2026-09-26
+
+#### Selected Opportunity Demand Case
+
+**Customer / job:** A developer, analyst or monitoring/AI workflow needs to search Google News and immediately pass usable publisher-level article data into another process.
+
+**Current alternative / workaround:** Use Google News RSS or a metadata-only Actor, then separately resolve Google redirect links and, when required, run another article-extraction step; alternatively use one of the existing enriched Google News Actors.
+
+**Reason to buy / choose:** A single Actor that combines Google News discovery with dependable publisher-URL resolution and optional fail-soft article text reduces orchestration, avoids unusable Google redirect links and produces data closer to the buyer's downstream task. The POC must still test whether execution quality, pricing and usability are good enough to win usage against existing enriched Actors.
+
+**Reference-class basis:** Recent enriched Google News entrants provide the closest observable reference class. Crawler Bros (about six months old) currently shows roughly 466 total users / 104 MAU; Memo23 (about three months) roughly 74 / 42 MAU. Outcomes are not uniformly strong: Dami Studio, also around three months old, shows only about 4 total users / 1 MAU, while Chorelet, published about five days ago, shows about 2 total users / 1 MAU. This wide dispersion supports a deliberately broad launch forecast rather than assuming the successful entrants are representative.
+
+**Market engagement hypothesis:** During the first 30 days of a public paid listing, a credible enriched Google News Actor should attract approximately **6 independent external users in the base case**, with a plausible range of roughly **2-15**, and should produce at least some repeat execution and approximately one paid-plan user if the proposition has real commercial pull.
+
+#### Demand Forecast
+
+| Metric | Observation window | Low | Base | High | Reference-class / derivation | Confidence |
+|---|---|---:|---:|---:|---|---|
+| Independent external users | First 30 days | 2 | 6 | 15 | Very-new enriched entrants show ~1 MAU within the first week; 3-6 month outcomes range from ~1 to >100 MAU. The base deliberately reflects early-stage acquisition rather than mature MAU. | Low |
+| Successful external runs beyond one initial run per new user | First 30 days | 0 | 4 | 12 | Repeat-run behaviour is not public for reference Actors; range is anchored to the expectation that only a subset of initial users will repeat. | Low |
+| External paid-plan users generating positive creator revenue | First 30 days | 0 | 1 | 3 | Public Actor pages do not disclose paid conversion. Established paid pricing and active usage show monetisation is possible, but launch conversion is unknown. | Low |
 
 ### Step 6 Completion
 
@@ -228,60 +265,66 @@ Use only:
 
 **Decision:** Pass
 
-**Rationale:** Steps 3–6 are complete and traceable to the research evidence. News & media intelligence was selected as the proportionate first POC area, six specific propositions were researched and assessed, and Google News search API was selected from the evidence-based shortlist. The proposition has strong enough market evidence to support an informative POC while remaining simple, inexpensive and representative of the material capability assumptions to be tested. No unresolved blocker prevents progression to Phase 3 POC definition and design.
+**Rationale:** Steps 3–6 are complete under **Demand validation v1**. News & media intelligence remains the selected opportunity area, but the specific opportunity has changed. The metadata-only Google News proposition is excluded because its critical reason-to-buy precondition is supported only by weak proposition-specific evidence despite strong category demand. The selected enriched Google News proposition has an explicit customer job and current alternative, E3 close-analogue evidence supporting the reason-to-buy precondition, no Blocking/Rejected critical assumption, and a low/base/high 30-day demand forecast. Remaining uncertainty — entrant acquisition, repeat use, paid conversion and fail-soft enrichment reliability — is appropriate for a bounded POC to test rather than a reason to reject the proposition before implementation.
 
-A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, and no unresolved blocker preventing Phase 3.
+The Gateway 2 **Pass does not validate the existing Phase 3/4 Google News metadata POC definition or implementation**. Those downstream artifacts were created for the superseded metadata-only proposition and must be explicitly reassessed before implementation or observation continues.
+
+A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, no unresolved blocker preventing Phase 3, no Blocking/Rejected critical assumption for the selected candidate, and a substantive reason-to-buy, reference-class demand forecast and quantified market-engagement hypothesis.
 
 ## 6. POC Definition
 
 *Methodology mapping: Phase 3, Step 7 — Define the POC.*
 
-The selected proposition remains the **Google News search API** from Step 6. This definition deliberately keeps the experiment at metadata-search level so that the POC tests the selected proposition rather than drifting into the deferred canonical-link/full-text opportunity.
+Define the smallest credible commercial experiment that can test the selected opportunity's market and capability assumptions. Production architecture, production pricing and production operating requirements remain outside this step.
 
 ### Experiment Definition
 
-**POC objective:** Determine whether a new, low-cost Google News metadata Actor can acquire measurable real-user usage on Apify while remaining technically reliable, operationally bounded and economically viable using lightweight Google News feed access.
+**POC objective:** Determine whether a new Apify Google News Actor that returns **resolved publisher URLs by default** and offers **optional best-effort full article text** can attract observable external usage, repeat use and at least some paid demand while remaining technically reliable, operationally bounded and economically viable without mandatory browser automation, residential proxies or paid external data APIs.
 
-**Primary POC user:** Developers, automation builders and researchers who need self-service structured Google News search results through an Apify Actor, dataset and API rather than a consumer news interface.
+**Primary POC user:** Developers, researchers, media-monitoring/PR users and AI/data workflows that need Google News discovery in a form that can be passed directly into downstream processing without separately resolving Google redirect URLs.
 
-**Experiment mode:** Public paid Apify Store POC. The Actor will be discoverable and runnable by external users and will use pay-per-event charging. It is an experimental Store product rather than a production-readiness commitment; later production gateways still govern hardening, final pricing and production launch.
+**Experiment mode:** Public paid Apify Store POC. External users can discover and run the Actor through Apify UI/API and receive results through the default dataset. The experiment tests a real commercial proposition but does not imply production readiness or final production pricing.
 
-**Observation window:** 30 consecutive days beginning when the POC is publicly listed with monetisation active. The window may end early only for a material capability failure that meets the exit rule.
+**Observation window:** 30 consecutive days beginning only after the Actor is publicly listed, charging is active, the launch baseline has been captured and all Gateway 3 pre-observation requirements are closed.
 
-**POC commercial parameter:** Temporary POC price of **$1.00 per 1,000 dataset results** ($0.001 per result), plus Apify's default `apify-actor-start` synthetic event at its standard price where applicable. This matches the low end of current Google News Store pricing closely enough to avoid testing an obvious price disadvantage. It is an experiment parameter, not the Step 12 production commercial model.
+**POC commercial parameter:** Temporary pay-per-event pricing of **$2.00 per 1,000 delivered article records with resolved publisher URL attempts**, plus **$2.00 per 1,000 successful full-text enrichments** when full text is requested. Failed full-text extraction is not charged as a full-text event. This keeps the experiment within the current enriched-Google-News price range rather than testing an obvious price disadvantage. Current reference products span roughly $1-$3 per 1,000 article results, with optional/full-text enrichment commonly adding further usage charges.
 
 ### Functional Scope
 
 | Scope item | Status | Definition / rationale |
 |---|---|---|
-| Query-driven Google News search | In scope | Execute one or more user-supplied Google News search expressions and return structured metadata. This is the core selected proposition. |
-| Multiple queries per run | In scope | Support up to 20 queries in one run so the POC is useful for automation without turning into a large-scale crawling product. |
-| Locale control | In scope | Allow language and country/edition selection so the POC exercises the localisation requirement identified in Phase 2. |
-| Recency control | In scope | Allow a small set of common recency windows to test useful current-news search semantics. |
-| Per-query result limit | In scope | Allow 1–100 results per query, reflecting the practical Google News feed boundary rather than adding pagination mechanisms. |
-| Cross-query deduplication | In scope | Optional deduplication prevents obvious repeated records in multi-query runs while remaining lightweight. |
-| Apify dataset/API delivery | In scope | Store normalized records in the default dataset and expose them through normal Apify API, export and integration mechanisms. |
-| Input and output schemas | In scope | Define native Apify schemas so the Actor is self-describing in Console/API and suitable for programmatic use. |
-| Public Store README sufficient for POC use | In scope | Provide concise usage, field and limitation documentation required for an external user to run the experiment. |
-| Canonical publisher-article URL resolution | Out of scope | Explicitly deferred in Step 6. It would move the POC toward the separate canonical-link enrichment proposition. |
-| Full article-body extraction | Out of scope | Explicitly deferred because arbitrary publisher extraction materially increases technical and operating complexity. |
-| Images / media extraction | Out of scope | Not required to test the selected metadata-search proposition. |
-| Browser-based Google News scraping | Out of scope | The POC tests whether lightweight HTTP/feed access is sufficient; browser automation would invalidate that capability assumption. |
-| Residential proxy dependency | Out of scope | The selected capability hypothesis assumes no intrinsic residential-proxy spend. If it becomes necessary, that is evidence against the hypothesis rather than an automatic scope expansion. |
-| Stateful monitoring / alerting | Out of scope | This is the separate stateful news-monitor proposition excluded in Step 5. Users may still use Apify's generic scheduling/webhook capabilities externally. |
-| Sentiment, clustering or AI enrichment | Out of scope | Separate higher-complexity proposition excluded in Step 5. |
-| Multi-source news aggregation | Out of scope | The POC intentionally remains a single-source Google News experiment. |
+| Query-driven Google News search | In scope | Execute user-supplied Google News search expressions and return structured article results. |
+| Multiple queries per run | In scope | Support 1-20 queries in one run so the Actor is useful for automation while remaining bounded. |
+| Locale control | In scope | Support language and country/edition controls required for realistic Google News use. |
+| Recency control | In scope | Support a bounded set of common recency windows sufficient for current-news workflows. |
+| Per-query result limit | In scope | Support 1-100 Google News results per query; the POC does not add time-slicing or pagination mechanisms to exceed the normal feed boundary. |
+| Cross-query deduplication | In scope | Remove obvious duplicate records across queries while retaining the first matching-query context. |
+| Publisher URL resolution | In scope | Attempt to resolve every Google News article link to the real publisher URL. This is the core differentiated capability selected at Gateway 2. |
+| Resolution status/fallback | In scope | Preserve the Google News URL and explicit resolution status when a publisher URL cannot be resolved; individual resolution failure must not fail the whole run. |
+| Optional full-text extraction | In scope | When requested, make a bounded HTTP fetch of the resolved publisher page and attempt readable article-text extraction. Failure is recorded per row and is not fatal to the run. |
+| Full-text status | In scope | Return an explicit success/failure status and reason so downstream users can distinguish unavailable text from successful enrichment. |
+| Apify dataset/API delivery | In scope | Store normalized records in the default dataset and expose them through standard Apify API/export mechanisms. |
+| Input/output schemas and concise Store README | In scope | Make the Actor self-describing and runnable by an external user without separate setup assistance. |
+| Browser-rendered article extraction | Out of scope | The POC tests whether useful full-text coverage can be achieved with bounded HTTP extraction. Browser automation would materially change capability and cost assumptions. |
+| Paywall bypass | Out of scope | Paywalled content remains unavailable; the Actor records extraction failure rather than attempting circumvention. |
+| Residential proxy dependency | Out of scope | The selected proposition assumes no mandatory residential-proxy spend. If it becomes necessary, that is evidence against the capability hypothesis. |
+| Paid external extraction/news API | Out of scope | No mandatory third-party paid data or article-extraction service may be introduced during this POC. |
+| Stateful monitoring / only-new mode | Out of scope | This remains a separate proposition and would change the market experiment. |
+| Multi-source news aggregation | Out of scope | The POC remains Google News-specific. |
+| Sentiment, entities, clustering or AI summarisation | Out of scope | These are separate higher-complexity value layers and are not required to test the selected proposition. |
 
 ### Inputs
 
 | Input | Required | Type / allowed values | Default / bound | Purpose |
 |---|---|---|---|---|
-| `queries` | Yes | Array of non-empty strings | 1–20 queries | Defines the Google News search expressions to execute. Native Google News search operators may be passed through as part of the query. |
-| `maxItemsPerQuery` | No | Integer | Default 20; min 1; max 100 | Bounds output and cost while allowing realistic search workloads. |
-| `language` | No | Locale string supported by the POC | Default `en-US` | Selects the language edition used for the Google News request. |
-| `country` | No | Two-letter country/edition code supported by the POC | Default `US` | Selects the regional Google News edition. |
-| `dateRange` | No | `any`, `1h`, `6h`, `1d`, `7d`, `30d` | Default `7d` | Provides a bounded, user-friendly recency control without introducing arbitrary pagination/history logic. |
-| `dedupe` | No | Boolean | Default `true` | Removes duplicate Google News records returned across multiple queries while preserving the first matching query context. |
+| `queries` | Yes | Array of non-empty strings | 1-20 queries | Defines Google News searches; native Google News operators may be passed through. |
+| `maxItemsPerQuery` | No | Integer | Default 20; min 1; max 100 | Bounds output, run duration and POC cost. |
+| `language` | No | Supported locale/language string | Default `en-GB` | Selects the Google News language context. |
+| `country` | No | Supported two-letter country/edition code | Default `GB` | Selects the regional Google News edition. |
+| `dateRange` | No | `any`, `1h`, `6h`, `1d`, `7d`, `30d` | Default `7d` | Provides bounded recency control. |
+| `dedupe` | No | Boolean | Default `true` | Removes repeated articles across queries. |
+| `resolvePublisherUrls` | No | Boolean | Default `true` | Enables the core publisher-URL resolution capability; may be disabled for diagnostic comparison. |
+| `includeFullText` | No | Boolean | Default `false` | Requests best-effort full-text extraction after publisher URL resolution. |
 
 ### Outputs
 
@@ -289,48 +332,59 @@ The selected proposition remains the **Google News search API** from Step 6. Thi
 |---|---|---|
 | `query` | Yes | Search expression that produced the record. |
 | `title` | Yes | Article headline returned by Google News. |
-| `sourceName` | Yes | Publisher/source name supplied by the feed. |
-| `sourceUrl` | No | Publisher/source URL supplied by Google News where available; this is not guaranteed to be the canonical article URL. |
-| `googleNewsUrl` | Yes | Google News article/feed URL for the result. |
-| `publishedAt` | Yes | Publication timestamp normalized to ISO 8601 where the source timestamp is valid. |
-| `descriptionText` | No | Plain-text description/snippet derived from the feed when available. |
-| `guid` | No | Google News feed identifier where supplied, useful for deduplication and traceability. |
-| `position` | Yes | 1-based position of the item within the result set for its query before cross-query deduplication. |
-| `language` | Yes | Language edition requested for the run. |
-| `country` | Yes | Country/edition requested for the run. |
-| `scrapedAt` | Yes | ISO 8601 timestamp recording when the POC collected the record. |
+| `sourceName` | Yes | Publisher/source name supplied by Google News. |
+| `publishedAt` | Yes | Publication timestamp supplied by Google News, normalized where possible. |
+| `snippet` | No | Google News summary/snippet where available. |
+| `googleNewsUrl` | Yes | Original Google News article URL retained as provenance/fallback. |
+| `publisherUrl` | No | Resolved real publisher article URL when resolution succeeds. |
+| `urlResolved` | Yes | Boolean indicating whether publisher URL resolution succeeded. |
+| `urlResolutionStatus` | Yes | Machine-readable status/reason for resolution success or failure. |
+| `publisherDomain` | No | Domain derived from the resolved publisher URL where available. |
+| `articleText` | No | Readable article body when `includeFullText=true` and extraction succeeds. |
+| `fullTextStatus` | No | Explicit success/failure/not-requested status for full-text enrichment. |
+| `wordCount` | No | Word count for successfully extracted article text. |
+| `scrapedAt` | Yes | Timestamp at which the POC produced the record. |
 
 ### Dependencies and Constraints
 
 | Dependency / constraint | POC implication | Boundary / response |
 |---|---|---|
-| Public Google News feed/search behaviour | The POC depends on an upstream interface that Google may change, throttle or vary without notice. | Use lightweight direct HTTP/feed access first. Measure failures and source changes rather than hiding them behind a heavier browser implementation. |
-| Approximate 100-result feed ceiling per query | A single query cannot be treated as an exhaustive or deeply paginated historical search. | Cap `maxItemsPerQuery` at 100 and document that the POC returns the feed results Google exposes, not guaranteed complete coverage. |
-| Google-controlled query, locale and recency semantics | Result composition and ranking are controlled upstream and can vary by edition/time. | Validate that requested controls are applied consistently; do not claim deterministic ranking or complete market coverage. |
-| Google News redirect/article links | Metadata feeds may expose Google News links rather than canonical publisher article URLs. | Return the Google News URL and source metadata only. Canonical-link resolution remains explicitly out of scope. |
-| Variable or missing snippets/source metadata | Some feed records may omit non-core metadata or provide truncated descriptions. | Required fields are limited to the stable core; optional fields remain nullable. |
-| Apify Actor runtime, dataset, API and Store | The POC relies on Apify for execution, storage, discoverability, charging and usage visibility. | Use native Actor input/output schemas, default dataset and PPE mechanisms rather than external infrastructure. |
-| Apify pay-per-event economics | Creator revenue is reduced by Apify's platform share and underlying platform costs remain the creator's cost. | Measure actual run cost and creator revenue during the POC; production pricing is deferred to Step 12. |
-| No proprietary data or paid external API | The selected capability profile assumes public-source access and minimal variable cost. | Introducing a mandatory paid data/API dependency is a material capability change and triggers the exit/iteration rules rather than silently expanding scope. |
+| Google News result/feed availability | Search results, locale behaviour and recency semantics depend on Google News. | Treat source change or feed unavailability as dependency evidence; do not add browser scraping merely to preserve the experiment. |
+| Google News publisher-link encoding / redirect behaviour | The core differentiated capability depends on reliably resolving Google links. | Measure resolution success explicitly. Preserve the Google URL and fail per row rather than failing the run. |
+| Publisher-page variability | Optional article text may be blocked, paywalled, JavaScript-rendered or structurally unusual. | Full text is best-effort and fail-soft. No paywall bypass or browser fallback is introduced during the POC. |
+| Google News per-query result ceiling | A query commonly exposes a bounded result set rather than arbitrary pagination. | Keep the POC at 100 results/query maximum; exceeding this through date slicing is outside scope. |
+| Apify runtime/dataset/API | Execution, storage, delivery, charging and monitoring depend on Apify channel mechanics. | Step 8 must map each market/capability criterion to observable Apify evidence before Gateway 3. |
+| External resource cost | The hypothesis assumes lightweight HTTP execution with no mandatory proxy or paid extraction dependency. | If a mandatory heavy dependency is required for the core proposition, treat it as capability evidence against the POC rather than silently expanding scope. |
 
 ### Success and Exit Criteria
 
 | Dimension | Criterion | Threshold / decision rule |
 |---|---|---|
-| Market | Independent external users | **Success:** at least 10 distinct non-owner users during the 30-day observation window. |
-| Market | Repeat-use signal | **Success:** at least 3 successful external runs occur beyond the one-run-per-new-user baseline during the observation window, demonstrating usage beyond pure first trials. |
-| Market | Monetised demand | **Success:** at least one external paid-plan usage produces positive creator revenue during the observation window. |
-| Capability | Run reliability | **Success:** at least 95% of valid-input POC runs complete successfully, excluding clearly attributable Apify-wide outages. |
-| Capability | Core record completeness | **Success:** at least 98% of returned records contain valid `title`, `sourceName`, `googleNewsUrl` and `publishedAt` values. |
-| Capability | Query / locale / recency behaviour | **Success:** the acceptance matrix defined during implementation passes for all supported controls, with no systematic mismatch that makes a control misleading. |
-| Capability | Lightweight access assumption | **Success:** normal operation does not require browser automation, a paid external data API or mandatory residential-proxy usage. |
-| Capability | Unit economics | **Success:** measured Apify platform cost across representative paid runs remains at or below 40% of net creator revenue generated by those runs at the temporary POC price. |
+| Market | Independent external users | **Success:** at least 6 distinct non-owner external users during the 30-day window. **Bounded-iteration zone:** 2-5. **Exit signal:** fewer than 2. |
+| Market | Repeat-use signal | At least 4 successful external runs beyond a one-initial-run-per-new-user baseline during the 30-day window. |
+| Market | Paid demand | At least 1 external paid-plan user generates positive creator revenue during the 30-day window. |
+| Capability | Valid-input run reliability | At least 95% of valid-input POC runs succeed without Actor/source failure. |
+| Capability | Core metadata completeness | At least 98% of returned records contain `title`, `sourceName`, `publishedAt`, `googleNewsUrl`, `urlResolved` and `urlResolutionStatus`. |
+| Capability | Publisher URL resolution | At least 95% of returned Google News article rows resolve to a syntactically valid non-Google publisher URL across the defined representative validation sample. |
+| Capability | Full-text usefulness | With full text requested, at least 50% of a representative mixed-publisher sample yields non-empty readable `articleText`; every failure must remain row-level/fail-soft rather than failing the run. |
+| Capability | Lightweight dependency model | Core search + URL-resolution functionality operates without mandatory browser automation, residential proxies or paid external data/extraction APIs. |
+| Capability | Unit economics | Representative paid runs generate positive creator margin and platform/direct execution cost remains no more than 40% of net creator revenue under the temporary POC price. |
 
-**POC success rule:** The POC is successful when all five capability criteria pass and all three market criteria are met within the 30-day observation window. This provides evidence that both the selected market and capability assumptions survived a real commercial experiment.
+#### Market Test Cards
 
-**Bounded iteration rule:** One bounded iteration is justified when the capability criteria pass but market evidence is partial — specifically, at least 5 distinct external users are observed but one or more of the 10-user, repeat-use-signal or monetised-demand thresholds are missed — or when one capability criterion narrowly misses because of a specific fix that does not change the proposition or introduce an excluded dependency. The iteration must have an explicit hypothesis and remain within the Step 7 functional boundary.
+Translate the material market assumptions and Step 6 demand forecast into precommitted tests before observation begins.
 
-**Exit / stop rule:** Stop the POC without further implementation expansion when, after the 30-day window, fewer than 5 distinct external users are observed; or when the core proposition cannot meet the reliability/completeness criteria without browser automation, a mandatory paid external data source or residential-proxy dependence; or when representative unit economics materially exceed the 40% cost threshold and cannot be corrected within the existing scope. A failure caused by the selected proposition should return to Gateway 4 evidence assessment rather than being hidden by adding deferred features.
+| Test ID | Hypothesis | Experiment | Measure | Precommitted threshold | Demand-case reference |
+|---|---|---|---|---|---|
+| M1 | A new enriched Google News Actor can attract observable external users despite increasing competition. | Publish the bounded paid Actor for 30 consecutive days without experiment-changing feature or pricing changes. | Distinct non-owner external users acquired during the window. | **>=6** for success; **2-5** supports bounded iteration; **<2** is evidence against continuing this proposition. | Step 6 independent-user forecast: low 2 / base 6 / high 15. |
+| M2 | The proposition produces behaviour beyond one-off trial usage. | Observe successful external runs during the same unchanged 30-day experiment. | Successful external runs beyond one initial run per new external user. | **>=4** additional successful runs. | Step 6 repeat-run forecast: low 0 / base 4 / high 12. |
+| M3 | Some users value the proposition enough to generate paid usage. | Run the public Actor with temporary POC charging active for the entire observation window. | External paid-plan users producing positive creator revenue. | **>=1** paid external user. | Step 6 paid-user forecast: low 0 / base 1 / high 3. |
+
+**POC success rule:** Market success requires M1 at or above the base forecast (**>=6 external users**), M2 at or above the base forecast (**>=4 additional successful runs**) and M3 at or above the base forecast (**>=1 paid external user**). Capability success requires all capability criteria above to pass. Meeting these criteria supports progression to Gateway 4 evaluation; it does not itself authorize productisation.
+
+**Bounded iteration rule:** One bounded iteration may be justified when at least **2 external users** are observed and the proposition shows some engagement or paid signal, but one or more base market thresholds are missed; or when a capability criterion narrowly misses because of a fixable implementation defect that does not change the selected proposition, mandatory dependency model or temporary commercial parameters. Any material buyer-facing feature expansion, change from optional/fail-soft full text to a heavier extraction proposition, or material pricing/distribution change requires redefining the experiment rather than treating it as a bounded fix.
+
+**Exit / stop rule:** Stop this POC without further implementation expansion when fewer than **2 external users** are observed after the full 30-day window; when no credible reason remains to expect external acquisition after the bounded iteration rule is considered; when publisher-URL resolution cannot meet the defined criterion without a materially heavier dependency model; when optional full-text extraction cannot provide useful fail-soft coverage without materially changing the proposition; or when representative paid economics remain structurally negative / above the cost threshold after implementation defects are excluded.
 
 ### Step 7 Completion
 
@@ -342,88 +396,63 @@ The selected proposition remains the **Google News search API** from Step 6. Thi
 
 *Methodology mapping: Phase 3, Step 8 — Define POC Operational Requirements.*
 
-The operational design is intentionally lightweight. Apify already exposes run statuses, logs, resource usage, cost information, built-in Actor monitoring, dataset-field alerts and Actor Analytics. Those native capabilities are sufficient for this POC; no separate monitoring service or production support stack is required.
+Define only the operating capabilities needed to observe, protect and evaluate the bounded POC. Prefer native channel monitoring and analytics over production-grade custom infrastructure.
 
-**Operational evidence basis:** [Apify Actor monitoring](https://docs.apify.com/actors/running/monitoring); [Actor Analytics and monetisation](https://docs.apify.com/actors/publishing/monetize); [Actor run API](https://docs.apify.com/api/v2/actors-actor-runs); [Pay-per-event pricing](https://docs.apify.com/actors/publishing/monetize/pay-per-event).
-
-The Step 7 repeat-use criterion has been expressed as an aggregate **repeat-use signal** rather than "three identifiable repeat users". Apify exposes unique-user counts and owner-excluded public run statistics, but the documented operational interfaces do not require per-user identity analysis to evaluate the experiment. The revised measure preserves the intended question — whether usage extends beyond first trials — while making the criterion reproducible from channel-native evidence.
+**Operational evidence basis:** <Links or references to the channel monitoring, analytics, run/log and charging evidence used to define these requirements>
 
 ### Operational Requirements
 
 | Operational concern | Signal / evidence | Mechanism | Trigger / review rule | Required response |
 |---|---|---|---|---|
-| Run health / reliability | Run terminal status, success-rate statistics, run logs and status message | Apify built-in monitoring plus run details/API | Review every `FAILED` or `TIMED-OUT` run. A user-initiated/spending-limit `ABORTED` run is classified separately. Pause if three consecutive valid-input runs fail for an Actor/source reason or if observed valid-input success drops below 90% before the final 95% evaluation threshold. | Inspect logs and input, classify platform/user/Actor/source cause, record whether the run counts toward reliability, and make only an in-scope fix. Resume after the failure mode is demonstrably cleared. |
-| Core result completeness | Presence of `title`, `sourceName`, `googleNewsUrl` and `publishedAt` across dataset rows | Dataset schema/field statistics and periodic dataset sampling | Investigate any alert or sample showing completeness below the Step 7 98% threshold or a systematic malformed-field pattern. | Inspect affected records and source response; correct normalization/parser defects within scope. Do not add canonical-link/full-text extraction as a remedy. |
-| Google News dependency health | Successful parsing, non-malformed feed response, normal result structure and supported locale/recency behaviour | User-run evidence plus a small owner-run canary using a broad query; run logs | Canary once daily during the observation window. Investigate any canary parser failure or systematic control mismatch. | Confirm whether Google behaviour changed. Apply a bounded parser/query-semantics fix if possible; pause if lightweight feed access is no longer sufficient. |
-| Run duration / abnormal resource use | Duration, compute units, external transfer and run usage | Run detail/API and Actor Analytics | Review an obvious step-change from the implementation baseline or repeated abnormal resource usage; no arbitrary production SLA is imposed. | Identify retries, loops or unexpected response growth. Correct bounded defects; do not add heavier infrastructure simply to mask source behaviour. |
-| POC unit economics | Revenue, platform cost, profit and cost per 1,000 results | Actor Analytics; finalized run usage/charged-event data for representative paid runs | Review after the first paid external run, then as part of each periodic review. Investigate any negative-profit paid run or repeated evidence that platform cost is above 40% of net creator revenue. | Check compute/data usage and charging configuration. Correct implementation inefficiency if possible within scope; repeated structural failure against the 40% criterion triggers pause/exit assessment rather than silent repricing. |
-| Charging / user spend limits | Charged event counts, run status and max-charge behaviour | PPE synthetic dataset-item/start events, run pricing information and logs | Any evidence of output being produced without the intended event charge, charging without an accessible result, or failure to terminate cleanly at a spending limit. | Treat as a blocking billing defect; pause public execution until corrected and verified. |
-| New-user market signal | Change in Actor unique-user statistics from the launch baseline | Actor Stats / Actor Analytics user-growth metrics | Snapshot at public launch; review periodically; final delta at day 30 is the authoritative Step 7 user measure. | No operational intervention merely because growth is weak. Record the evidence; demand failure is evaluated through the Step 7/Step 10 decision rules. |
-| Repeat-use signal | Owner-excluded successful public runs compared with the new-user delta | Public Actor run statistics plus launch/final Actor Stats | At final evaluation, require at least three successful external runs beyond the one-run-per-new-user baseline. Periodic review is informational only. | Record the signal. Do not change functionality or pricing simply to manufacture repeat usage during the same observation window. |
-| Monetised demand | Paid/free user analytics, revenue and profit | Actor Analytics | Review periodically and at day 30. Success requires positive creator revenue from at least one external paid-plan usage. | Record result. A lack of paid usage is market evidence, not an operational defect. |
-| User-reported defects | Store issues, shared debug runs and directly exposed Actor feedback | Apify Actor Analytics/debug evidence and Store issue mechanisms | Review at least twice weekly and whenever Apify surfaces a shared debug run or issue. | Fix reproducible in-scope defects. Record feature requests separately; do not expand the Step 7 proposition during the same observation window. |
+| <Run health / data quality / dependency / economics / market evidence / user issue> | <Metric or evidence> | <Native monitoring, analytics, logs, API, manual review, etc.> | <Threshold, event or review rule> | <Action required> |
 
 ### Operating Cadence and Evidence
 
 | Activity | Cadence / trigger | Evidence retained |
 |---|---|---|
-| Launch baseline | Immediately before the public 30-day window begins | Actor Stats (`totalUsers`, relevant public run counters), pricing configuration, default build/version and Step 7 scope; this baseline makes subsequent user/run deltas reproducible. |
-| Automated operational monitoring | Continuous through Apify built-in monitoring | Run-status alerts and dataset-field alerts linked to the relevant run/dataset evidence. |
-| Dependency canary | Once daily during the observation window | Owner-run ID, status and any exception/control failure. Owner activity is kept separate from external market evidence. |
-| Early economics check | First paid external run | Finalized run usage/cost and charged-event evidence after run statistics have settled. |
-| Periodic POC review | Twice weekly during the observation window | Actor Analytics snapshot/export covering users, runs, success rate, revenue, costs, profit and cost per 1,000 results; open operational issues and interventions. |
-| Material incident review | Whenever a pause trigger or material defect occurs | Run IDs, logs, classification, corrective action, verification run and whether the observation window remains valid. |
-| End-of-window snapshot | At the end of day 30 before any experiment-changing modification | Actor Analytics JSON export where available, Actor Stats, public run statistics, revenue/cost/profit evidence and the run/data-quality evidence needed to evaluate all Step 7 criteria. |
+| <Monitoring or review activity> | <When it happens> | <Evidence source retained for Step 10 evaluation> |
 
 ### Intervention Boundaries
 
-**Bounded operational intervention:** Parser/normalization corrections, query/locale/recency implementation fixes, retry/backoff corrections, logging improvements, schema implementation corrections, billing-defect fixes and documentation clarifications may be made where they preserve the Google News metadata-search proposition, Step 7 scope, temporary price and lightweight-access assumption. Every material fix during the observation window must be recorded with the affected runs and verification evidence.
+**Bounded operational intervention:** <Changes that may be made without changing the experiment>
 
-**Experiment-change rule:** Adding canonical-link or full-text enrichment, browser scraping, residential-proxy dependence, a paid external data/API dependency, stateful monitoring, additional news sources, AI enrichment, a material pricing change or another buyer-facing scope change is not routine operations. It requires an explicit bounded-iteration or gateway decision. If the change can materially affect user acquisition, repeat use or willingness to pay, the 30-day market observation window restarts for the changed experiment.
+**Experiment-change rule:** <Changes that require a deliberate iteration decision and possibly a new observation window>
 
-**Pause rule:** Pause the public POC when a billing defect could mischarge users; when three consecutive valid-input runs fail for an Actor/source reason; when required-field quality is systematically below the 98% criterion; when lightweight Google News access is materially broken; or when repeated paid runs show structurally negative economics / platform cost above the Step 7 threshold. Resume only after the issue is corrected within scope and verified.
+**Pause rule:** <Conditions that require the POC to be paused while the issue is investigated>
 
 ### Step 8 Completion
 
-**Step 8 complete:** Yes
+**Step 8 complete:** <Yes / No>
 
-**Step 8 blockers:** None
+**Step 8 blockers:** <None, or concise list>
 
 ## 8. Gateway 3 — POC Commitment
 
 *Methodology mapping: Phase 3, Gateway 3 — POC Commitment.*
 
-The commitment decision uses the completed Step 7 definition and Step 8 operating requirements. Current Apify documentation was rechecked because the POC is explicitly public and paid: public Store publication requires completed display information, monetisation, sample output, output schema and permissions; monetisation setup requires billing/payment details; identity verification is required for payout eligibility.
+Assess whether the defined POC is sufficiently bounded, measurable, operationally manageable and feasible to justify implementation.
 
 ### Commitment Assessment
 
+Use only **Ready**, **Action before observation**, **Blocked**, or **Not applicable**.
+
 | Commitment dimension | Evidence / assessment | Status | Required action / condition |
 |---|---|---|---|
-| Definition readiness | Step 7 defines the Google News metadata-search proposition, public paid experiment mode, 30-day boundary, functional scope, input/output schema, dependencies and explicit success/iteration/exit rules. No material product-definition decision needs to be invented during implementation. | Ready | None. |
-| Evidence readiness | Market evidence is defined through external-user growth, aggregate repeat-use signal and monetised demand; capability evidence covers reliability, field completeness, supported controls, lightweight-access assumptions and unit economics. Step 8 maps each material measure to observable Apify evidence. | Ready | None. |
-| Operational manageability | Step 8 uses native Apify monitoring, logs, dataset evidence and Actor Analytics with bounded intervention and pause rules. No separate production monitoring stack is required. | Ready | None. |
-| Implementation proportionality | The POC remains one-source, metadata-only and HTTP/feed based. Canonical-link resolution, full text, browsers, residential proxies, paid external APIs, stateful monitoring, AI enrichment and multi-source aggregation remain excluded. | Ready | None. |
-| Prerequisite feasibility | Phase 1 proved local/hosted Actor execution, API invocation, logs and cost visibility. The additional requirements created by the public paid POC — Store publication fields and billing/payment/monetisation setup — are standard Apify configuration steps and do not block starting the code implementation. | Action before observation | Complete the recorded pre-observation items before the 30-day public paid window begins. |
-| Risk and cost containment | The experiment has a bounded 30-day window, temporary $1/1,000-result price, small scope, no intrinsic paid data/proxy dependency, reliability and economics thresholds, and explicit pause/exit rules. The existing $5 account usage ceiling provides an additional development guardrail and can be reconsidered only deliberately if POC testing requires it. | Ready | Preserve the Step 7/8 scope and guardrails during implementation. |
+| <Definition readiness / Evidence readiness / Operational manageability / Implementation proportionality / Prerequisite feasibility / Risk and cost containment> | <Evidence-based assessment> | <Ready / Action before observation / Blocked / Not applicable> | <None or action> |
 
 ### Pre-Observation Requirements
 
 | Requirement | Why required | Required by | Status | Action |
 |---|---|---|---|---|
-| Public Store publication configuration | Apify requires display information, description/logo, sample output, output schema and Actor permissions before Store publication. | Before public observation window | Action before observation | Complete the Publishing-tab requirements and verify the public Store page. |
-| POC README / user documentation | External users need sufficient instructions, input/output definitions and limitations for the market experiment to be interpretable. | Before public observation window | Action before observation | Publish the concise POC README already included in Step 7 scope. |
-| Billing and payment details | Apify requires billing/payment details before Actor monetisation can be configured. | Before paid observation window | Action before observation | Complete account billing/payment details in Apify Console. |
-| Temporary PPE configuration | The Step 7 experiment requires the temporary per-result charging model to be active and testable. | Before paid observation window | Action before observation | Configure PPE at the Step 7 temporary price, verify the dataset-result event and spending-limit behaviour, and confirm a paid test run charges correctly before opening the window. |
-| Creator identity verification | Required for payout eligibility, but not documented as a prerequisite to begin implementation or define the paid Actor experiment. | Before payout | Not applicable | Complete KYC before withdrawing creator earnings; it does not block Step 9 or the commitment decision. |
-| Launch baseline capture | Step 8 requires a reproducible baseline for user/run deltas and later Step 10 evaluation. | Immediately before day 1 | Action before observation | Capture Actor Stats, pricing/build version and relevant public-run counters before opening the 30-day window. |
+| <Requirement> | <Reason> | <Before public/paid observation window, or more specific point> | <Ready / Action before observation / Not applicable> | <Action or None> |
 
-**Gateway 3 decision:** Pass
+**Gateway 3 decision:** <Pass / Fail>
 
-**Gateway 3 commitment:** Commit to POC implementation
+**Gateway 3 commitment:** <Commit to POC implementation / Do not commit>
 
-**Gateway 3 rationale:** Steps 7 and 8 define a small, reversible and measurable commercial experiment whose technical path has already been validated at channel level. The selected Google News POC remains materially simpler than the deferred alternatives, all market and capability criteria have observable evidence paths, and the operating requirements are lightweight enough for a side-project experiment. No implementation blocker remains. The only outstanding items are normal Store publication and monetisation setup that are required before public paid observation, not before coding begins.
+**Gateway 3 rationale:** <Why the completed definition, operations and prerequisites do or do not justify implementation>
 
-**Authorized next step:** Step 9 — Implement the POC. Step 9 must also close the Action-before-observation requirements above before the 30-day public paid observation window is started.
+**Authorized next step:** <Step 9 — Implement the POC, or the blocking work required before reconsideration>
 
 ## 9. POC Implementation
 
@@ -431,9 +460,7 @@ The commitment decision uses the completed Step 7 definition and Step 8 operatin
 
 Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.
 
-**Product repository:** Public GitHub repository [`adunato/google-news-actor-poc`](https://github.com/adunato/google-news-actor-poc), with local bootstrap repository at `C:\Users\danie\projects\google-news-actor-poc` and current shared bootstrap commit `87f714b9b665745ae20b5c175bab079a285693df`.
-
-**Development project establishment evidence:** `dev`, `staging` and `main` are present, with `dev` as the default branch. Branch protections are active on all three permanent branches: pull requests are required with zero approvals, the successful `validate` check is required, and force pushes and branch deletion are blocked. Local `npm ci` and `npm run validate` passed; the canonical SideGig package verifier passed after manifest correction `7040106`; and the GitHub Actions [Validate run](https://github.com/adunato/google-news-actor-poc/actions/runs/35619873173) completed successfully.
+**Product repository:** <Repository URL or reference>
 
 **Development/design evidence:** <Links to the project design and implementation-planning artifacts required by the SideGig Development Operating Model>
 
@@ -457,7 +484,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 ### Step 9 Completion
 
-**Step 9 complete:** No
+**Step 9 complete:** <Yes / No>
 
 **Step 9 blockers:** <None, or concise list>
 
@@ -478,6 +505,14 @@ Record the evidence generated during the live observation window and evaluate th
 | Evaluation area | Step 7 criterion / Step 8 requirement | Evidence / result | Outcome |
 |---|---|---|---|
 | <Market / capability / operational area> | <Criterion or requirement> | <Observed evidence> | <Pass / Fail / Inconclusive / Not applicable> |
+
+#### Demand Forecast Evaluation
+
+Compare the precommitted demand expectations with observed behaviour. Do not revise the forecast retrospectively.
+
+| Test / forecast metric | Expected range / threshold | Observed result | Variance / interpretation | Outcome |
+|---|---|---|---|---|
+| <M1 / metric> | <Step 6/7 expectation> | <Observed evidence> | <Difference and plausible interpretation> | <Supported / Weakened / Inconclusive> |
 
 ### Incidents, Interventions and Iterations
 
@@ -501,9 +536,9 @@ If no material incidents, interventions or iterations occurred, state **None**.
 
 ### Step 10 Completion
 
-**Step 10 complete:** No
+**Step 10 complete:** <Yes / No>
 
-**Step 10 blockers:** Step 9 not yet complete; observation window has not started.
+**Step 10 blockers:** <None, or concise list>
 
 ## 11. Gateway 4 — Productisation Decision
 
@@ -516,3 +551,4 @@ Use the completed Step 10 evidence to decide whether the proposition should proc
 **Rationale:** <Concise explanation based on the Step 10 evidence>
 
 **Authorized next step:** <Phase 5 productisation / return to the relevant POC step for one bounded iteration / stop further implementation>
+

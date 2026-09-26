@@ -394,6 +394,8 @@ Research the selected opportunity area at a finer level to identify concrete com
 
 The Research Methodology establishes attractiveness and capability requirements at opportunity-area level. Step 4 moves below that boundary. It must therefore perform structured specific-opportunity research rather than deriving a product idea from a small number of anecdotes or from implementation convenience.
 
+Step 4 uses a lightweight adaptation of established customer-value methods such as **Jobs-to-be-Done / Value Proposition Canvas**. The objective is not to create a separate canvas artifact. It is to force the research to explain the customer's job, the current alternative and the reason the proposed offering would be chosen.
+
 ### Discovery method
 
 Establish the candidate landscape before assessing or selecting individual propositions.
@@ -420,11 +422,36 @@ For each concrete candidate opportunity, record at minimum:
 - the principal data, source or delivery model;
 - material capability or cost implications visible at this stage.
 
+In addition, record a **candidate demand-evidence view** containing:
+
+- the customer's job or outcome being pursued;
+- the current alternative or workaround actually available to that customer;
+- the **reason-to-buy hypothesis** — why the customer would choose this proposition over the current alternative or a close competitor;
+- the strongest supporting evidence for that hypothesis;
+- contrary or disconfirming evidence that could indicate that the problem is weak, the alternative is already adequate, the claimed differentiation is unimportant, or similar entrants have failed.
+
+The reason-to-buy statement is a hypothesis until supported by evidence. Do not restate product features as buyer value without showing why the feature matters relative to an existing alternative.
+
+### Evidence discipline
+
+Specific-opportunity research must actively test the candidate rather than build a persuasive case for it.
+
+For each candidate:
+
+1. distinguish directly observed evidence from inference;
+2. search deliberately for evidence against the proposed customer problem, differentiation and entrant opportunity;
+3. prefer observed marketplace behaviour and close analogues over general statements of interest;
+4. preserve uncertainty where evidence is sparse rather than manufacturing precision;
+5. do not treat the existence of competitors as proof that this specific proposition will attract demand;
+6. do not treat implementation simplicity as evidence of commercial value.
+
 This step discovers and describes the candidate set. It does not yet choose the POC or define its detailed implementation scope.
 
 ### Required output
 
 Add the specific-opportunity research and candidate set to `implementation/<channel>/poc.md`, preserving links to the evidence used.
+
+For artifacts using the current demand-validation revision, also complete the candidate demand-evidence structure defined by the canonical POC template.
 
 ### Completion criteria
 
@@ -434,7 +461,9 @@ Step 4 is complete when:
 2. the main relevant sources have been investigated sufficiently to establish a credible candidate landscape;
 3. candidates are concrete commercial propositions rather than broad opportunity-area labels or implementation technologies;
 4. each candidate has evidence covering the buyer problem, market signal, competitive context and material capability implications;
-5. the candidate set is broad enough to support comparative assessment rather than merely documenting a preselected idea.
+5. the candidate set is broad enough to support comparative assessment rather than merely documenting a preselected idea;
+6. for current-revision artifacts, each material candidate has an explicit current alternative, reason-to-buy hypothesis, supporting evidence and contrary/disconfirming evidence;
+7. material uncertainty is recorded rather than converted into an unsupported positive conclusion.
 
 ## Step 5 — Assess and Shortlist POC Opportunities
 
@@ -474,12 +503,50 @@ Record a **1–5 score**, confidence and evidence/rationale for each dimension u
 
 The assessment should consider both the minimum credible POC and the extent to which that implementation remains representative of the real opportunity. A proposition should not appear artificially attractive merely because the POC removes the elements that create its actual commercial or operating value.
 
+#### Critical-assumption stress test
+
+For artifacts using the current demand-validation revision, identify and stress-test the assumptions that materially determine whether each candidate is worth testing.
+
+This is a lightweight adaptation of **assumption mapping** and **Test Card** practice. It exists to prevent the researcher — particularly an AI agent — from turning open-ended questions into self-confirming narrative.
+
+Classify each assumption as:
+
+- **Precondition** — must have enough supporting evidence before the candidate can reasonably be selected for implementation; or
+- **POC test** — uncertainty that may legitimately remain unresolved because the bounded POC is specifically intended to test it.
+
+Record importance as:
+
+- **Critical** — failure would materially undermine the commercial proposition or make the POC uninformative; or
+- **Material** — important to interpretation but not individually fatal to proceeding.
+
+Use the following evidence grades:
+
+- **E0 — Assertion:** no substantive external evidence; primarily conjecture.
+- **E1 — Indirect / isolated:** one weak proxy, isolated anecdote or materially indirect signal.
+- **E2 — Repeated qualitative / convergent:** multiple independent sources or qualitatively consistent evidence support the assumption, but direct behavioural proof is limited.
+- **E3 — Close behavioural analogue:** observed usage, purchasing or comparable marketplace behaviour from a sufficiently close reference class.
+- **E4 — Direct behavioural / transactional:** direct usage, purchasing or equivalent behavioural evidence for substantially the same proposition and target market.
+
+Record supporting and contrary evidence together. Evidence grade reflects the strongest defensible overall evidence after considering both.
+
+Use one of these dispositions:
+
+- **Supported** — sufficiently evidenced to proceed and not a primary POC uncertainty;
+- **Test in POC** — credible enough to justify experimentation but intentionally unresolved;
+- **Blocking** — insufficient evidence for a critical precondition; candidate cannot be shortlisted until resolved;
+- **Rejected** — evidence materially contradicts the assumption and undermines the candidate.
+
+A **Critical Precondition** supported only by E0 or E1 evidence is not sufficient for shortlisting. By contrast, a **Critical POC test** may remain uncertain at E1 or E2 where the experiment is inexpensive, the hypothesis is observable and the POC exists specifically to resolve that uncertainty.
+
+Do not raise evidence requirements merely to eliminate uncertainty before experimentation. The objective is to distinguish uncertainty that should block implementation from uncertainty that the POC should test.
+
 ### Shortlisting criteria
 
-The shortlist should contain opportunities that satisfy both of the following conditions:
+The shortlist should contain opportunities that satisfy all of the following conditions:
 
 - **Market evidence potential:** sufficient paying demand, opportunity density and entrant attainability to make meaningful usage or buyer feedback plausible at POC scale, with credible longer-term revenue potential and competitive positioning.
 - **POC capability suitability:** technical, domain, resource, operating and cost requirements that can be exercised through a bounded, simple and inexpensive implementation without making the experiment unrepresentative.
+- **Assumption quality:** no unresolved **Blocking** or **Rejected** critical assumption remains for the candidate, and critical preconditions have at least E2 evidence.
 
 Do not create a third composite POC score unless the methodology is explicitly revised to define one. The market and capability assessments should remain visible separately so the trade-off is explicit.
 
@@ -490,7 +557,8 @@ Record in `implementation/<channel>/poc.md`:
 - the specific-opportunity market-attractiveness assessments;
 - the specific-opportunity capability assessments;
 - the resulting shortlist;
-- the evidence-based reason each shortlisted candidate remains suitable for a POC and why excluded candidates were not carried forward.
+- the evidence-based reason each shortlisted candidate remains suitable for a POC and why excluded candidates were not carried forward;
+- for current-revision artifacts, the critical-assumption stress test with classifications, evidence grades, contrary evidence and dispositions.
 
 ### Completion criteria
 
@@ -501,7 +569,9 @@ Step 5 is complete when:
 3. opportunity-area evidence has not been substituted for candidate-specific evidence where the distinction matters;
 4. candidates unlikely to generate meaningful market feedback at POC scale are excluded;
 5. candidates whose representative POC would be disproportionately complex, expensive or operationally heavy are excluded;
-6. a small evidence-based shortlist remains for final selection.
+6. a small evidence-based shortlist remains for final selection;
+7. for current-revision artifacts, every shortlisted candidate has at least one Critical assumption recorded;
+8. no shortlisted candidate retains a Blocking or Rejected critical assumption or a Critical Precondition supported only by E0/E1 evidence.
 
 ## Step 6 — Select the POC Opportunity
 
@@ -510,6 +580,8 @@ Step 5 is complete when:
 Select one concrete commercial proposition from the Step 5 shortlist to carry into POC definition and design.
 
 The selection should favour the **smallest and least expensive credible experiment** that can still generate useful evidence about both specific market attractiveness and the capability requirements of delivering the proposition.
+
+For artifacts using the current demand-validation revision, Step 6 must also establish an explicit **Selected Opportunity Demand Case**. The purpose is to move from “this market looks attractive” to “this proposition has an evidenced reason to be chosen and this is the level of demand we expect the POC to observe.”
 
 ### Selection method
 
@@ -521,9 +593,27 @@ The final decision should consider:
 - likelihood that a POC can generate enough real usage or buyer feedback to test those assumptions;
 - overall capability burden, particularly technical complexity, operating complexity and cost intensity;
 - whether the bounded POC will exercise the material data/resource and operating requirements of the real proposition;
-- whether the experiment can be kept sufficiently small, inexpensive and reversible for a first implementation cycle.
+- whether the experiment can be kept sufficiently small, inexpensive and reversible for a first implementation cycle;
+- for current-revision artifacts, the candidate's critical-assumption profile, reason-to-buy evidence and expected demand relative to close reference classes.
 
 The highest-market candidate is not automatically selected if it requires a disproportionately heavy POC. The lowest-capability candidate is not automatically selected if it is unlikely to generate enough market evidence to be informative.
+
+### Selected Opportunity Demand Case
+
+For current-revision artifacts, record:
+
+1. **Customer / job** — the sufficiently specific customer and the job, problem or outcome being pursued.
+2. **Current alternative / workaround** — what that customer can realistically use or do today.
+3. **Reason to buy / choose** — why the selected proposition is expected to be preferred over that alternative.
+4. **Reference-class basis** — the closest observable comparable products, entrants or behaviours used to calibrate expected demand.
+5. **Demand forecast** — low/base/high expectations for the material market signals over an explicit observation window.
+6. **Market-engagement hypothesis** — a concise, quantified statement of the behaviour expected if the commercial hypothesis is valid.
+
+Use a **bottom-up reference-class forecast** wherever close marketplace evidence exists. Prefer recent entrant behaviour and close substitutes over generic market-size estimates. Low/base/high scenarios should reflect evidence uncertainty rather than arbitrary percentages around a single guess.
+
+Where an observable denominator exists, the market-engagement hypothesis may use a pretotyping-style form such as **X% of Y will do Z within T**. Where the channel does not expose a defensible denominator, use count- or value-based behavioural expectations instead. Do not invent a denominator merely to fit the formula.
+
+The forecast is not required to be precise. It must be explicit, evidence-linked and useful enough that Step 10 can compare expected with observed behaviour.
 
 ### Required output
 
@@ -533,7 +623,8 @@ Record in `implementation/<channel>/poc.md`:
 - its Step 5 market-attractiveness and capability assessment;
 - the buyer problem, target user and core value proposition at the level already established by the research;
 - the rationale for selection over the other shortlisted candidates;
-- the market and capability assumptions that the subsequent POC should be capable of testing.
+- the market and capability assumptions that the subsequent POC should be capable of testing;
+- for current-revision artifacts, the Selected Opportunity Demand Case, demand forecast and quantified market-engagement hypothesis.
 
 Detailed POC scope, implementation design and success/exit criteria are defined in Phase 3, not in this step.
 
@@ -547,7 +638,10 @@ Step 6 is complete when:
 4. its representative POC can reasonably be kept simple and inexpensive;
 5. the candidate is capable of exercising the material capability assumptions that need to be tested;
 6. the rationale explicitly explains the trade-off between market attractiveness and capability requirements;
-7. no unresolved evidence gap prevents the opportunity from being developed into a POC definition.
+7. no unresolved evidence gap prevents the opportunity from being developed into a POC definition;
+8. for current-revision artifacts, the customer/job, current alternative and reason-to-buy hypothesis are explicit;
+9. for current-revision artifacts, a low/base/high demand forecast is recorded against at least one observable market metric using an explicit reference-class basis;
+10. for current-revision artifacts, a quantified market-engagement hypothesis is recorded and is capable of being tested by a bounded POC.
 
 ## Gateway 2 — POC Opportunity Selected
 
@@ -555,7 +649,16 @@ Confirm that one specific opportunity has been selected through the full Phase 2
 
 A **Pass** decision requires a completed opportunity-area selection, specific-opportunity research, candidate assessment/shortlisting and final opportunity selection. Gateway 2 confirms the opportunity to develop further; it does not commit the project to building the POC.
 
----
+For artifacts using the current demand-validation revision, a Pass additionally requires:
+
+- an explicit customer/job, current alternative and reason-to-buy hypothesis;
+- a completed critical-assumption stress test for the selected candidate;
+- no unresolved Blocking/Rejected critical assumption and no Critical Precondition supported only by E0/E1 evidence;
+- an evidence-linked low/base/high demand forecast using a stated reference class;
+- a quantified market-engagement hypothesis;
+- unresolved uncertainty that is appropriate for a bounded POC to test rather than uncertainty that invalidates the proposition before implementation.
+
+Gateway 2 must not pass merely because the selected idea is technically easy, sits inside an attractive opportunity area or resembles a successful incumbent.
 
 # Phase 3 — POC Definition and Design
 
@@ -576,12 +679,15 @@ The POC must remain the smallest credible implementation that can test both dime
 1. whether the selected proposition can generate observable real-user market evidence; and
 2. whether the material capability assumptions remain valid when the proposition is implemented and exposed under realistic conditions.
 
+For current-revision artifacts, market thresholds must be traceable to the Step 6 Demand Case rather than invented independently during POC definition.
+
 ### Inputs
 
 Use:
 
 - the completed `implementation/<channel>/poc.md` Phase 2 sections and Gateway 2 decision;
 - the selected opportunity's buyer problem, target user, value proposition, market assumptions and capability assumptions;
+- for current-revision artifacts, the selected opportunity Demand Case, critical assumptions, reference-class forecast and market-engagement hypothesis;
 - relevant research and case-study evidence already linked from Phase 2;
 - Phase 1 implementation evidence where it constrains the POC;
 - current channel documentation where implementation or monetisation mechanics must be verified.
@@ -628,13 +734,30 @@ Explicitly identify constraints that affect the validity of the experiment, such
 
 Do not solve these constraints pre-emptively with heavier production mechanisms unless the selected proposition genuinely requires them. The POC should expose whether such mechanisms become necessary.
 
+#### Market Test Cards
+
+For current-revision artifacts, convert the material market assumptions carried from Steps 5–6 into precommitted **Market Test Cards**.
+
+For each market test record:
+
+- **Test ID**
+- **Hypothesis** — the specific behaviour believed to be true;
+- **Experiment** — how the bounded POC exposes the hypothesis to real behaviour;
+- **Measure** — the observable metric;
+- **Precommitted threshold** — the result that will count as sufficient evidence before observation begins;
+- **Demand-case reference** — the Step 6 forecast metric, assumption or market-engagement hypothesis from which the threshold is derived.
+
+The threshold should normally be derived from the Step 6 low/base/high forecast or quantified market-engagement hypothesis. If the experimental threshold differs materially from that forecast, record the reason explicitly rather than silently changing the bar.
+
+A Test Card is not passed because the proposition sounds plausible. It is evaluated only from the observation evidence generated by the defined experiment.
+
 #### Success and exit criteria
 
 Define observable criteria before implementation begins.
 
 Criteria must cover both:
 
-- **market evidence**, such as independent users, repeat use, paid use, buyer feedback or another observable signal appropriate to the channel; and
+- **market evidence**, represented by the Market Test Cards for current-revision artifacts and by equivalent explicit market criteria for legacy artifacts; and
 - **capability evidence**, such as functional correctness, run reliability, dependency behaviour, resource requirements and unit-cost behaviour.
 
 Use explicit thresholds where a threshold is meaningful. Define what constitutes:
@@ -653,6 +776,7 @@ Extend `implementation/<channel>/poc.md` using the canonical POC template with a
 - in-scope and out-of-scope functionality;
 - user-visible inputs and outputs;
 - dependencies and constraints;
+- for current-revision artifacts, the Market Test Cards and their Step 6 demand-case references;
 - market and capability success criteria;
 - iteration and exit criteria;
 - the Step 7 completion decision.
@@ -668,8 +792,9 @@ Step 7 is complete when:
 5. material user inputs and outputs are defined sufficiently for implementation and acceptance testing;
 6. material dependencies and constraints are explicit;
 7. success criteria cover both market evidence and capability evidence with observable measures;
-8. bounded-iteration and exit criteria are defined;
-9. no unresolved definition gap prevents Step 8 from determining the operational requirements needed to run the POC.
+8. for current-revision artifacts, at least one substantive Market Test Card is defined and every market-test threshold is traceable to the Step 6 Demand Case or has an explicit reason for divergence;
+9. bounded-iteration and exit criteria are defined;
+10. no unresolved definition gap prevents Step 8 from determining the operational requirements needed to run the POC.
 
 ## Step 8 — Define POC Operational Requirements
 
@@ -691,7 +816,7 @@ Use:
 - Phase 1 evidence about the channel's available run, log, usage and cost visibility;
 - current channel documentation for monitoring, analytics, charging and operational controls where those mechanics may have changed.
 
-If a Step 7 criterion cannot be measured reliably with the available channel evidence, refine the criterion to the closest observable measure before Step 8 is considered complete. The change must preserve the intent of the criterion rather than making success easier.
+If a Step 7 criterion cannot be measured reliably with the available channel evidence, refine the criterion to the closest observable measure before Step 8 is considered complete. The change must preserve the intent of the criterion rather than making success easier. For current-revision artifacts, every Market Test Card must have an identified observable evidence source, and any measurement-driven change to the metric or threshold must preserve traceability to the Step 6 Demand Case.
 
 ### Operational-requirements method
 
@@ -754,7 +879,7 @@ Extend `implementation/<channel>/poc.md` using the canonical POC template with a
 Step 8 is complete when:
 
 1. Step 7 is complete and the POC boundary is stable enough to operate;
-2. every material Step 7 market and capability criterion has an identified observable evidence source;
+2. every material Step 7 market and capability criterion has an identified observable evidence source, including every current-revision Market Test Card;
 3. run health, result quality, dependency behaviour and cost/economic behaviour are covered where material;
 4. the market signals required to evaluate the POC are measurable using identified channel evidence;
 5. material operational triggers have a defined response;
@@ -792,7 +917,7 @@ Do not reopen market opportunity selection at this gateway unless Steps 7–8 re
 Assess the following dimensions explicitly:
 
 1. **Definition readiness** — scope, inputs, outputs, dependencies, constraints and experiment boundary are clear enough to implement without material product-definition decisions being left to the coding phase.
-2. **Evidence readiness** — the market and capability hypotheses have observable success, iteration and exit criteria.
+2. **Evidence readiness** — the market and capability hypotheses have observable success, iteration and exit criteria; for current-revision artifacts, Market Test Cards are precommitted and traceable to the Step 6 Demand Case.
 3. **Operational manageability** — the monitoring, evidence capture, intervention and pause rules are proportionate and feasible.
 4. **Implementation proportionality** — the implementation remains sufficiently small, inexpensive and reversible for a POC.
 5. **Prerequisite feasibility** — technical, platform and commercial prerequisites needed for implementation or the later observation window are either ready or have a concrete feasible action.
@@ -823,6 +948,7 @@ Gateway 3 is **Pass** when:
 - no commitment-assessment item is **Blocked**;
 - the POC remains bounded and proportionate;
 - all material success/exit evidence is observable;
+- for current-revision artifacts, the Step 6 Demand Case and Step 7 Market Test Cards remain traceable and measurable;
 - any **Action before observation** item is explicitly recorded, feasible and has a clear completion point;
 - there is no unresolved prerequisite, cost or operating issue that makes implementation unjustified.
 
@@ -985,12 +1111,15 @@ Run the deployed POC under the Step 7 experiment conditions, collect the Step 8 
 
 Step 10 owns the live observation window. It does not silently convert the POC into a production product.
 
+For current-revision artifacts, Step 10 must evaluate **forecast versus actual behaviour**, not only whether a threshold was passed.
+
 ### Inputs
 
 Use:
 
 - the completed Step 9 implementation evidence and deployed release reference;
-- the Step 7 POC scope, experiment mode, success criteria, bounded-iteration rule and exit rule;
+- the Step 7 POC scope, experiment mode, Market Test Cards, success criteria, bounded-iteration rule and exit rule;
+- the Step 6 Demand Case and demand forecast for current-revision artifacts;
 - the Step 8 monitoring, evidence-capture, intervention and pause rules;
 - the launch baseline captured at the end of Step 9.
 
@@ -1010,11 +1139,25 @@ An experiment-changing iteration must be explicitly authorized under the Step 7 
 
 Continue using the Development Operating Model learning mechanism during live operation. Capture reusable lessons revealed by incidents, bounded fixes, deployment behaviour, monitoring or operational interaction in the product repository, and mark cross-project candidates for later SideGig review.
 
+#### Demand forecast evaluation
+
+For current-revision artifacts, compare each material Step 6 forecast / Step 7 market test with the observed result.
+
+Record:
+
+- the expected low/base/high range or precommitted threshold;
+- the observed result;
+- the variance and plausible interpretation;
+- whether the evidence supports, weakens or leaves the underlying hypothesis inconclusive.
+
+Do not rewrite the forecast after observing the result. Unexpected outcomes should be explained as learning, not normalized into the original expectation.
+
 ### Required output
 
-Extend implementation/<channel>/poc.md with the live-operation and evaluation evidence needed to determine:
+Extend `implementation/<channel>/poc.md` with the live-operation and evaluation evidence needed to determine:
 
 - the observation period actually completed;
+- for current-revision artifacts, forecast-versus-actual results for the material demand metrics and Market Test Cards;
 - market evidence against each Step 7 market criterion;
 - capability and operational evidence against each Step 7 capability criterion;
 - incidents, pauses and bounded interventions;
@@ -1031,10 +1174,11 @@ Step 10 is complete when:
 1. Step 9 was complete before the observation window began;
 2. the defined observation window has completed, or an explicit Step 7 stop rule has terminated it;
 3. every material Step 7 criterion has been evaluated from retained evidence;
-4. material incidents, pauses, fixes and iterations are recorded and their effect on experiment validity is understood;
-5. any software work performed during the window is traceable through the Development Operating Model;
-6. material reusable lessons observed during the window have been captured through the product-repository learning mechanism or explicitly determined not to require a learning record;
-7. the POC has an explicit evidence-based evaluation suitable for Gateway 4.
+4. for current-revision artifacts, each material demand forecast / Market Test Card has an explicit observed result and interpretation without retrospective threshold changes;
+5. material incidents, pauses, fixes and iterations are recorded and their effect on experiment validity is understood;
+6. any software work performed during the window is traceable through the Development Operating Model;
+7. material reusable lessons observed during the window have been captured through the product-repository learning mechanism or explicitly determined not to require a learning record;
+8. the POC has an explicit evidence-based evaluation suitable for Gateway 4.
 
 ## Gateway 4 — Productisation Decision
 

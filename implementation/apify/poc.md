@@ -497,7 +497,7 @@ Use only **Ready**, **Action before observation**, **Blocked**, or **Not applica
 
 Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.
 
-### Pre-Bootstrap Implementation Preparation
+**Pre-Bootstrap Implementation Preparation**
 
 **Repository decision:** Create a new independently deployable product repository rather than evolve the legacy metadata POC repository.
 

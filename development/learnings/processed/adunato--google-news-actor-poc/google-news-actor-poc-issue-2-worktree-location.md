@@ -82,3 +82,17 @@ This record does not prescribe a cross-project standard or apply one here.
 - `AGENTS.md`
 - `.codex/skills/setup-change-workspace/SKILL.md`
 - `.worktrees/issue-2`
+
+## SideGig review
+
+**Reviewed at:** 2026-09-24
+
+**Disposition:** Action
+
+**SideGig Issue:** #8 (https://github.com/adunato/SideGig/issues/8)
+
+**Related SideGig evidence:** None
+
+**Rationale:** The evidence exposes an ambiguity in the current workspace standard: branch/isolation behaviour is defined but filesystem placement is not. No existing SideGig Issue or integrated standard resolves it, so a central workspace-convention change is warranted.
+
+**Grouped with:** None

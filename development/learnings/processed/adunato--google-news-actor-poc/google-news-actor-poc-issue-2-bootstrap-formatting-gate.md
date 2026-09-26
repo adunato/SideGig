@@ -92,3 +92,17 @@ repository does not prescribe or apply that cross-project change.
 - `.github/workflows/ci.yml`
 - `tsconfig.json`
 - `eslint.config.js`
+
+## SideGig review
+
+**Reviewed at:** 2026-09-24
+
+**Disposition:** Action
+
+**SideGig Issue:** #7 (https://github.com/adunato/SideGig/issues/7)
+
+**Related SideGig evidence:** None
+
+**Rationale:** The evidence demonstrates a reusable bootstrap/quality defect that is not covered by an existing SideGig Issue or already-integrated standard. A central change is warranted to make formatter-clean bootstrap output part of the reproducible repository baseline.
+
+**Grouped with:** None

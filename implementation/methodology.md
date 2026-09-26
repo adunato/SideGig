@@ -662,6 +662,8 @@ For artifacts using the current demand-validation revision, a Pass additionally 
 
 Gateway 2 must not pass merely because the selected idea is technically easy, sits inside an attractive opportunity area or resembles a successful incumbent.
 
+---
+
 # Phase 3 — POC Definition and Design
 
 Phase 3 expands the selected opportunity into a structured POC definition that can support an implementation decision. The buyer problem, target user and core proposition established during Phase 2 become inputs rather than being rediscovered from scratch.

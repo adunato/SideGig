@@ -666,7 +666,7 @@ Gateway 2 must not pass merely because the selected idea is technically easy, si
 
 Phase 3 expands the selected opportunity into a structured POC definition that can support an implementation decision. The buyer problem, target user and core proposition established during Phase 2 become inputs rather than being rediscovered from scratch.
 
-**Steps 7 and 8, Gateway 3 and Step 9 are defined and may be executed. Step 10, Gateway 4 and the later phases remain directional placeholders until they are explicitly developed using the methodology-definition process above.**
+**Phase 3 defines Steps 7 and 8 and Gateway 3. Phase 4 owns POC implementation, live evaluation and the productisation decision through Gateway 4; the later phases govern production design, readiness and launch.**
 
 ## Step 7 — Define the POC
 

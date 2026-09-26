@@ -27,6 +27,8 @@ Canonical product-repository skills under `implementation/skills/` are package s
 
 Normal SideGig repository changes branch from the current `main` state and return to `main` through a pull request and explicit human merge. Product-repository `dev`, `staging`, release-branch and promotion rules do not apply to SideGig. The learning collector's documented direct-write exception remains limited to generated evidence under `development/learnings/inbox/**`.
 
+New SideGig change worktrees use `<primary-checkout>/.worktrees/issue-<number>/`. Resolve the primary checkout from `git worktree list --porcelain`, so the location is stable even when setup starts in a linked worktree. An already suitable worktree outside this location may be adopted in place; do not move or replace existing worktrees automatically. The root `.gitignore` excludes `/.worktrees/`, and product bootstrap adds that entry idempotently while preserving existing ignore rules. Remove an issue worktree only after a human confirms integration to the intended target, the worktree is clean, and the local branch HEAD matches the integrated pull request head SHA. This SHA check also handles squash merging while ensuring no later local commits are lost. Never force-remove a worktree; preserve it and the branch when any check fails.
+
 
 ### Repository identity
 
@@ -712,6 +714,8 @@ A normal change is based on `dev`. A release-fix Issue is based on the active re
 
 Create or adopt the Issue-specific branch/worktree before change-specific design or implementation begins.
 
+For a new worktree, resolve the primary checkout using `git worktree list --porcelain` and use `<primary-checkout>/.worktrees/issue-<issue-number>/`. This is a location convention only; choose the base branch and branch name using this repository's GitHub Delivery Model. If a suitable worktree already exists elsewhere, adopt it without moving it and report the location exception. If the canonical target path exists but is not the suitable registered worktree for this Issue, stop and preserve it.
+
 Use the [Setup Change Workspace skill](../implementation/skills/setup-change-workspace/SKILL.md).
 
 The workspace must:
@@ -882,7 +886,7 @@ For a normal change:
 6. pass the required CI checks;
 7. review the complete diff and acceptance-criteria evidence;
 8. perform the explicit human merge;
-9. confirm integration before deleting the change branch/worktree.
+9. confirm the human-approved integration, verify the clean worktree and local branch HEAD match the integrated pull request head SHA, then remove the worktree and branch. Preserve both when any check fails; do not force-remove the worktree.
 
 A release-fix Issue follows the same lifecycle but targets the active release branch and is later reconciled into `dev` according to the GitHub Delivery Model.
 

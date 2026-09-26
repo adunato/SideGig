@@ -40,6 +40,7 @@ Do not silently expand the scope of an existing GitHub Issue.
 
 - `main` is the SideGig integration branch.
 - Normal repository changes start from current `main` on an isolated change branch.
+- New SideGig change worktrees are placed at `<primary-checkout>/.worktrees/issue-<number>/`. Resolve the primary checkout with `git worktree list --porcelain`, including when starting from a linked worktree. Adopt a suitable existing worktree in place; do not move it automatically.
 - Normal pull requests target `main`.
 - SideGig does not require `dev` or `staging` branches.
 - Do not apply the product-repository release/promotion model to SideGig.

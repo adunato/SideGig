@@ -14,6 +14,33 @@ function Write-Phase([string] $Name) {
     Write-Output "[bootstrap] $Name"
 }
 
+function Assert-Utf8Gitignore([string] $Path) {
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { return }
+
+    $bytes = [System.IO.File]::ReadAllBytes($Path)
+    $offset = 0
+    if ($bytes.Length -ge 4 -and (($bytes[0] -eq 0xFF -and $bytes[1] -eq 0xFE -and $bytes[2] -eq 0x00 -and $bytes[3] -eq 0x00) -or ($bytes[0] -eq 0x00 -and $bytes[1] -eq 0x00 -and $bytes[2] -eq 0xFE -and $bytes[3] -eq 0xFF))) {
+        throw "Unsupported .gitignore encoding at '$Path'. Expected UTF-8 (with or without BOM); no package files or .gitignore entries were changed."
+    }
+    if ($bytes.Length -ge 2 -and (($bytes[0] -eq 0xFF -and $bytes[1] -eq 0xFE) -or ($bytes[0] -eq 0xFE -and $bytes[1] -eq 0xFF))) {
+        throw "Unsupported .gitignore encoding at '$Path'. Expected UTF-8 (with or without BOM); no package files or .gitignore entries were changed."
+    }
+    if ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF) {
+        $offset = 3
+    }
+    if ($bytes -contains 0) {
+        throw "Unsupported .gitignore encoding at '$Path'. Expected UTF-8 (with or without BOM); no package files or .gitignore entries were changed."
+    }
+
+    $utf8 = [System.Text.UTF8Encoding]::new($false, $true)
+    try {
+        $null = $utf8.GetString($bytes, $offset, $bytes.Length - $offset)
+    }
+    catch [System.Text.DecoderFallbackException] {
+        throw "Unsupported .gitignore encoding at '$Path'. Expected UTF-8 (with or without BOM); no package files or .gitignore entries were changed."
+    }
+}
+
 function Test-ExpectedSha256([string] $Path, [string] $Expected) {
     $text = [System.IO.File]::ReadAllText($Path)
     $normalized = $text -replace "`r`n", "`n"
@@ -103,18 +130,19 @@ function Read-Manifest([string] $Path) {
     if ($tools.Count -eq 0) { throw 'Manifest contains no tools.' }
 
     return [pscustomobject]@{
-        SkillDestinationRoot = $skillRootMatch.Groups[1].Value
+        SkillDestinationRoot    = $skillRootMatch.Groups[1].Value
         TemplateDestinationRoot = $templateRootMatch.Groups[1].Value
-        ToolDestinationRoot = $toolRootMatch.Groups[1].Value
-        Skills = $skills
-        Templates = $templates
-        Tools = $tools
+        ToolDestinationRoot     = $toolRootMatch.Groups[1].Value
+        Skills                  = $skills
+        Templates               = $templates
+        Tools                   = $tools
     }
 }
 
 Write-Phase 'paths: resolving repository and destination'
 $root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../..')).Path
 $destinationRoot = (Resolve-Path -LiteralPath $Destination).Path
+Assert-Utf8Gitignore (Join-Path $destinationRoot '.gitignore')
 $manifestData = Read-Manifest $Manifest
 
 $files = @()
@@ -124,8 +152,8 @@ foreach ($template in $manifestData.Templates) {
         throw "Incomplete template declaration: $($template.name)"
     }
     $files += [pscustomobject]@{
-        Kind = 'template'
-        Name = $template.name
+        Kind   = 'template'
+        Name   = $template.name
         Source = Join-Path $root $template.source
         Target = Join-Path (Join-Path $destinationRoot $manifestData.TemplateDestinationRoot) $template.destination
         Sha256 = $template.sha256
@@ -137,8 +165,8 @@ foreach ($tool in $manifestData.Tools) {
         throw "Incomplete tool declaration: $($tool.name)"
     }
     $files += [pscustomobject]@{
-        Kind = 'tool'
-        Name = $tool.name
+        Kind   = 'tool'
+        Name   = $tool.name
         Source = Join-Path $root $tool.source
         Target = Join-Path (Join-Path $destinationRoot $manifestData.ToolDestinationRoot) $tool.destination
         Sha256 = $tool.sha256
@@ -148,8 +176,8 @@ foreach ($tool in $manifestData.Tools) {
 foreach ($skill in $manifestData.Skills) {
     if (-not $skill.source -or -not $skill.sha256) { throw "Incomplete skill declaration: $($skill.name)" }
     $files += [pscustomobject]@{
-        Kind = 'skill'
-        Name = $skill.name
+        Kind   = 'skill'
+        Name   = $skill.name
         Source = Join-Path $root $skill.source
         Target = Join-Path (Join-Path (Join-Path $destinationRoot $manifestData.SkillDestinationRoot) $skill.name) 'SKILL.md'
         Sha256 = $skill.sha256
@@ -184,6 +212,28 @@ foreach ($file in $files) {
         New-Item -ItemType Directory -Path $folder -Force | Out-Null
         Copy-Item -LiteralPath $file.Source -Destination $file.Target -Force:$false
         Write-Phase "copy: installed $($file.Kind) $($file.Name)"
+    }
+}
+
+$gitignorePath = Join-Path $destinationRoot '.gitignore'
+$worktreeIgnoreRule = '/.worktrees/'
+if ($PSCmdlet.ShouldProcess($gitignorePath, 'Ensure the repository-local worktree directory is ignored')) {
+    if (Test-Path -LiteralPath $gitignorePath -PathType Leaf) {
+        $gitignoreText = [System.IO.File]::ReadAllText($gitignorePath)
+        $gitignoreLines = $gitignoreText -split "\r?\n"
+        if ($gitignoreLines -cnotcontains $worktreeIgnoreRule) {
+            $newline = if ($gitignoreText.Contains("`r`n")) { "`r`n" } else { "`n" }
+            $separator = if ($gitignoreText.Length -gt 0 -and -not $gitignoreText.EndsWith("`n")) { $newline } else { '' }
+            [System.IO.File]::AppendAllText($gitignorePath, "$separator$worktreeIgnoreRule$newline", [System.Text.UTF8Encoding]::new($false))
+            Write-Phase 'gitignore: added root .worktrees exclusion'
+        }
+        else {
+            Write-Phase 'gitignore: root .worktrees exclusion already present'
+        }
+    }
+    else {
+        [System.IO.File]::WriteAllText($gitignorePath, "$worktreeIgnoreRule`n", [System.Text.UTF8Encoding]::new($false))
+        Write-Phase 'gitignore: created root .gitignore with .worktrees exclusion'
     }
 }
 

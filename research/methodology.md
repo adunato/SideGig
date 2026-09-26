@@ -649,6 +649,8 @@ The methodology currently covers:
 
 **Channel classes → Channels → selected channels → Opportunity areas → selected opportunity areas → Representative case studies → Opportunity-area synthesis and capability requirements**
 
-It defines two selection gateways, community research at both channel and opportunity-area scope, channel-level capability prerequisites, case-study selection and execution, and the market/commercial and capability synthesis that follows. The next specific-opportunity selection process has not yet been defined.
+It defines two selection gateways, community research at both channel and opportunity-area scope, channel-level capability prerequisites, case-study selection and execution, and the market/commercial and capability synthesis that follows.
+
+Specific product/POC opportunity selection begins after this research boundary and is defined by [../implementation/methodology.md](../implementation/methodology.md). That implementation methodology consumes the opportunity-area research and capability evidence rather than extending the research taxonomy with a second, competing selection process.
 
 Personal capability fit is outside the current methodology boundary.

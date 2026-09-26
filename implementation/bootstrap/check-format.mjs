@@ -15,8 +15,10 @@ const POWERSHELL_FORMATTER_VERSION = path.join(ROOT, 'implementation/bootstrap/P
 const manifest = fs.readFileSync(MANIFEST, 'utf8');
 const sources = [...manifest.matchAll(/^\s+source:\s*(\S+)\s*$/gm)].map((match) => match[1]);
 const prettierExtensions = new Set(['.md', '.yaml', '.yml', '.json', '.js', '.mjs', '.cjs']);
+const rawLfExtensions = new Set(['.gitattributes']);
 const prettierSources = [];
 const powershellSources = [];
+const rawLfSources = [];
 
 if (sources.length === 0) {
   throw new Error(`No installable sources found in ${path.relative(ROOT, MANIFEST)}.`);
@@ -26,6 +28,7 @@ for (const source of sources) {
   const extension = path.extname(source).toLowerCase();
   if (prettierExtensions.has(extension)) prettierSources.push(source);
   else if (extension === '.ps1') powershellSources.push(source);
+  else if (rawLfExtensions.has(extension)) rawLfSources.push(source);
   else throw new Error(`No configured bootstrap formatter for ${extension || '(no extension)'}: ${source}.`);
 
   const absolutePath = path.resolve(ROOT, source);
@@ -57,6 +60,17 @@ if (prettierSources.length > 0) {
     throw new Error('Prettier is not installed. Run npm ci before checking bootstrap formatting.');
   }
   run(process.execPath, [PRETTIER, mode, '--config', CONFIG, ...prettierSources], 'Prettier');
+}
+
+for (const source of rawLfSources) {
+  const absolutePath = path.resolve(ROOT, source);
+  const text = fs.readFileSync(absolutePath, 'utf8');
+  if (text.includes('\r')) {
+    throw new Error(`Bootstrap raw-text source must use LF line endings: ${source}.`);
+  }
+  if (!text.endsWith('\n')) {
+    throw new Error(`Bootstrap raw-text source must end with a newline: ${source}.`);
+  }
 }
 
 if (powershellSources.length > 0) {

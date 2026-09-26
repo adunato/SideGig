@@ -2,6 +2,12 @@
 
 The SideGig bootstrap package establishes the standard agent, template, workflow and tooling baseline for product repositories.
 
+## Change worktrees
+
+New Issue worktrees are placed at `<primary-checkout>/.worktrees/issue-<number>/`. Setup resolves the primary checkout with `git worktree list --porcelain`, including when invoked from a linked worktree. Existing suitable worktrees outside that location may be adopted in place; bootstrap and setup do not move existing worktrees.
+
+When installing the package, `install-skills.ps1` ensures the repository-root `.gitignore` contains `/.worktrees/`. It appends this rule without replacing existing entries and does not append it again when already present.
+
 ## One-time workstation credential
 
 Product repositories use a post-merge workflow to dispatch the central SideGig learning collector. That workflow needs the repository Actions secret `SIDEGIG_COLLECTOR_DISPATCH_TOKEN`.

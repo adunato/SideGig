@@ -1014,6 +1014,11 @@ function main() {
     poc: parseMarkdown(TEMPLATE_PATHS.poc),
   };
 
+  const pocTemplateValidation = validatePoc(TEMPLATE_PATHS.poc, templates.poc, templates.poc);
+  for (const error of pocTemplateValidation.errors) {
+    canonicalErrors.push(`Canonical POC template: ${error}`);
+  }
+
   let files = walk(IMPLEMENTATION).filter((file) => file.endsWith('.md') && classify(file));
   if (args.paths.length) {
     const requested = new Set(args.paths.map((item) => rel(path.resolve(ROOT, item))));

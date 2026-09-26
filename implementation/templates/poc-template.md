@@ -191,7 +191,7 @@ Use only:
 
 **Rationale:** <Why the Phase 2 evidence does or does not justify carrying the selected opportunity into POC definition and design>
 
-A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, and no unresolved blocker preventing Phase 3.
+A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, no unresolved blocker preventing Phase 3, no Blocking/Rejected critical assumption for the selected candidate, and a substantive reason-to-buy, reference-class demand forecast and quantified market-engagement hypothesis.
 
 ## 6. POC Definition
 

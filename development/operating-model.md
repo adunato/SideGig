@@ -1055,6 +1055,10 @@ Project-specific validation may extend this command with additional deterministi
 
 The command must return a non-zero exit status when a required check fails.
 
+In the SideGig repository, `format:bootstrap:check` formats manifest-listed Markdown, YAML, JSON and JavaScript sources with the locked Prettier dependency. PowerShell sources use the PSScriptAnalyzer version pinned in `implementation/bootstrap/PSScriptAnalyzer.version`. CI installs that module before validation. Local validation requires `pwsh` or Windows PowerShell plus that PSScriptAnalyzer version; read the pinned version and install it with `Install-Module -Name PSScriptAnalyzer -RequiredVersion $version -Scope CurrentUser`.
+
+Bootstrap runs the target repository's configured formatter check against all generated and installed artifacts after they have been created, then runs the canonical validation command. Formatting or validation failures block bootstrap completion and must be corrected before the repository is reported as ready.
+
 ### Validation-stage expectations
 
 The Validation stage uses the repository validation contract as the baseline regression check, then adds the change-specific evidence required by the Issue and any applicable HLD / Implementation Plan / LLD.

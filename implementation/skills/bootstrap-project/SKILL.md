@@ -19,6 +19,7 @@ Create or populate, as applicable:
 - `.github/workflows/sidegig-learning-dispatch.yml` from `.codex/templates/learning-collection-dispatch.yml`;
 - the project source/test/configuration baseline;
 - the canonical local validation command and required language/tool configuration;
+- formatter configuration and a formatter check for the generated and installed artifacts;
 - the project-appropriate CI validation workflow and any deployment workflow already required by the known architecture.
 
 The learning-dispatch workflow is standard SideGig repository infrastructure. It runs when a pull request is merged to `dev` and immediately dispatches the central SideGig learning collector.
@@ -32,6 +33,8 @@ Preserve the operating-model branch model: create `dev`, `staging`, and `main` f
 Do not invent unresolved product or architecture decisions merely to finish bootstrap. Durable documents may remain `Draft` where the operating model permits it, with unresolved decisions made explicit.
 
 Do not bypass GitHub permissions or silently weaken branch protection, CI, or secret handling because an automated setup step is inconvenient.
+
+After creating and installing all bootstrap artifacts, run the target repository's configured formatter check against those artifacts, followed by its canonical validation command. The canonical validation command must include formatting verification where the project supports it. A formatter or validation failure blocks bootstrap completion and must be corrected before reporting success.
 
 ## Completion contract
 

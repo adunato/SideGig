@@ -4,8 +4,10 @@
 - **Prerequisite validation:** [Apify Prerequisites Validation Test](prerequisites-validation.md)
 - **Research methodology:** [Research Methodology](../../research/methodology.md)
 - **POC methodology revision:** Demand validation v1
+- **POC artifact role:** Current
+- **POC lineage predecessor:** [Google News metadata POC](legacy/google-news-metadata-poc.md)
 - **Phase 2 start date:** 2026-09-17
-- **Phase 3 definition date:** 2026-09-18
+- **Phase 3 definition date:** Not started
 
 ## 1. POC Opportunity Area Selection
 
@@ -273,204 +275,133 @@ A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be S
 
 *Methodology mapping: Phase 3, Step 7 — Define the POC.*
 
-> **Reassessment status:** The content below is the legacy Step 7 definition for the superseded metadata-only proposition. Gateway 2 was re-run on 2026-09-26 and selected **Google News enriched search API — real publisher URLs + optional full text**. Step 7 has not yet been redefined under Demand validation v1 and the legacy thresholds below are not current authorization for implementation or observation.
+**Current status:** Not yet defined. Gateway 2 selected **Google News enriched search API — real publisher URLs + optional full text** on 2026-09-26. Step 7 will define the bounded experiment before any implementation/delta decision is made.
+
+Define the smallest credible commercial experiment that can test the selected opportunity's market and capability assumptions. Production architecture, production pricing and production operating requirements remain outside this step.
 
 ### Experiment Definition
 
-**POC objective:** Determine whether a new, low-cost Google News metadata Actor can acquire measurable real-user usage on Apify while remaining technically reliable, operationally bounded and economically viable using lightweight Google News feed access.
+**POC objective:** <What evidence this experiment is intended to generate>
 
-**Primary POC user:** Developers, automation builders and researchers who need self-service structured Google News search results through an Apify Actor, dataset and API rather than a consumer news interface.
+**Primary POC user:** <Primary user within the Step 6 target-user definition>
 
-**Experiment mode:** Public paid Apify Store POC. The Actor will be discoverable and runnable by external users and will use pay-per-event charging. It is an experimental Store product rather than a production-readiness commitment; later production gateways still govern hardening, final pricing and production launch.
+**Experiment mode:** <Private / invited / public; free / paid; relevant distribution boundary>
 
-**Observation window:** 30 consecutive days beginning when the POC is publicly listed with monetisation active. The window may end early only for a material capability failure that meets the exit rule.
+**Observation window:** <Explicit duration or other evaluation boundary>
 
-**POC commercial parameter:** Temporary POC price of **$1.00 per 1,000 dataset results** ($0.001 per result), plus Apify's default `apify-actor-start` synthetic event at its standard price where applicable. This matches the low end of current Google News Store pricing closely enough to avoid testing an obvious price disadvantage. It is an experiment parameter, not the Step 12 production commercial model.
+**POC commercial parameter:** <Temporary POC pricing/charging parameter if required for the experiment, or Not applicable>
 
 ### Functional Scope
 
 | Scope item | Status | Definition / rationale |
 |---|---|---|
-| Query-driven Google News search | In scope | Execute one or more user-supplied Google News search expressions and return structured metadata. This is the core selected proposition. |
-| Multiple queries per run | In scope | Support up to 20 queries in one run so the POC is useful for automation without turning into a large-scale crawling product. |
-| Locale control | In scope | Allow language and country/edition selection so the POC exercises the localisation requirement identified in Phase 2. |
-| Recency control | In scope | Allow a small set of common recency windows to test useful current-news search semantics. |
-| Per-query result limit | In scope | Allow 1–100 results per query, reflecting the practical Google News feed boundary rather than adding pagination mechanisms. |
-| Cross-query deduplication | In scope | Optional deduplication prevents obvious repeated records in multi-query runs while remaining lightweight. |
-| Apify dataset/API delivery | In scope | Store normalized records in the default dataset and expose them through normal Apify API, export and integration mechanisms. |
-| Input and output schemas | In scope | Define native Apify schemas so the Actor is self-describing in Console/API and suitable for programmatic use. |
-| Public Store README sufficient for POC use | In scope | Provide concise usage, field and limitation documentation required for an external user to run the experiment. |
-| Canonical publisher-article URL resolution | Out of scope | Explicitly deferred in Step 6. It would move the POC toward the separate canonical-link enrichment proposition. |
-| Full article-body extraction | Out of scope | Explicitly deferred because arbitrary publisher extraction materially increases technical and operating complexity. |
-| Images / media extraction | Out of scope | Not required to test the selected metadata-search proposition. |
-| Browser-based Google News scraping | Out of scope | The POC tests whether lightweight HTTP/feed access is sufficient; browser automation would invalidate that capability assumption. |
-| Residential proxy dependency | Out of scope | The selected capability hypothesis assumes no intrinsic residential-proxy spend. If it becomes necessary, that is evidence against the hypothesis rather than an automatic scope expansion. |
-| Stateful monitoring / alerting | Out of scope | This is the separate stateful news-monitor proposition excluded in Step 5. Users may still use Apify's generic scheduling/webhook capabilities externally. |
-| Sentiment, clustering or AI enrichment | Out of scope | Separate higher-complexity proposition excluded in Step 5. |
-| Multi-source news aggregation | Out of scope | The POC intentionally remains a single-source Google News experiment. |
+| <Function or boundary> | <In scope / Out of scope> | <What is included or deliberately excluded and why> |
 
 ### Inputs
 
 | Input | Required | Type / allowed values | Default / bound | Purpose |
 |---|---|---|---|---|
-| `queries` | Yes | Array of non-empty strings | 1–20 queries | Defines the Google News search expressions to execute. Native Google News search operators may be passed through as part of the query. |
-| `maxItemsPerQuery` | No | Integer | Default 20; min 1; max 100 | Bounds output and cost while allowing realistic search workloads. |
-| `language` | No | Locale string supported by the POC | Default `en-US` | Selects the language edition used for the Google News request. |
-| `country` | No | Two-letter country/edition code supported by the POC | Default `US` | Selects the regional Google News edition. |
-| `dateRange` | No | `any`, `1h`, `6h`, `1d`, `7d`, `30d` | Default `7d` | Provides a bounded, user-friendly recency control without introducing arbitrary pagination/history logic. |
-| `dedupe` | No | Boolean | Default `true` | Removes duplicate Google News records returned across multiple queries while preserving the first matching query context. |
+| <Input> | <Yes / No> | <Type / values> | <Default / bound> | <Why the POC needs it> |
 
 ### Outputs
 
 | Output | Required | Definition |
 |---|---|---|
-| `query` | Yes | Search expression that produced the record. |
-| `title` | Yes | Article headline returned by Google News. |
-| `sourceName` | Yes | Publisher/source name supplied by the feed. |
-| `sourceUrl` | No | Publisher/source URL supplied by Google News where available; this is not guaranteed to be the canonical article URL. |
-| `googleNewsUrl` | Yes | Google News article/feed URL for the result. |
-| `publishedAt` | Yes | Publication timestamp normalized to ISO 8601 where the source timestamp is valid. |
-| `descriptionText` | No | Plain-text description/snippet derived from the feed when available. |
-| `guid` | No | Google News feed identifier where supplied, useful for deduplication and traceability. |
-| `position` | Yes | 1-based position of the item within the result set for its query before cross-query deduplication. |
-| `language` | Yes | Language edition requested for the run. |
-| `country` | Yes | Country/edition requested for the run. |
-| `scrapedAt` | Yes | ISO 8601 timestamp recording when the POC collected the record. |
+| <Field or output object> | <Yes / No> | <Meaning and expected form> |
 
 ### Dependencies and Constraints
 
 | Dependency / constraint | POC implication | Boundary / response |
 |---|---|---|
-| Public Google News feed/search behaviour | The POC depends on an upstream interface that Google may change, throttle or vary without notice. | Use lightweight direct HTTP/feed access first. Measure failures and source changes rather than hiding them behind a heavier browser implementation. |
-| Approximate 100-result feed ceiling per query | A single query cannot be treated as an exhaustive or deeply paginated historical search. | Cap `maxItemsPerQuery` at 100 and document that the POC returns the feed results Google exposes, not guaranteed complete coverage. |
-| Google-controlled query, locale and recency semantics | Result composition and ranking are controlled upstream and can vary by edition/time. | Validate that requested controls are applied consistently; do not claim deterministic ranking or complete market coverage. |
-| Google News redirect/article links | Metadata feeds may expose Google News links rather than canonical publisher article URLs. | Return the Google News URL and source metadata only. Canonical-link resolution remains explicitly out of scope. |
-| Variable or missing snippets/source metadata | Some feed records may omit non-core metadata or provide truncated descriptions. | Required fields are limited to the stable core; optional fields remain nullable. |
-| Apify Actor runtime, dataset, API and Store | The POC relies on Apify for execution, storage, discoverability, charging and usage visibility. | Use native Actor input/output schemas, default dataset and PPE mechanisms rather than external infrastructure. |
-| Apify pay-per-event economics | Creator revenue is reduced by Apify's platform share and underlying platform costs remain the creator's cost. | Measure actual run cost and creator revenue during the POC; production pricing is deferred to Step 12. |
-| No proprietary data or paid external API | The selected capability profile assumes public-source access and minimal variable cost. | Introducing a mandatory paid data/API dependency is a material capability change and triggers the exit/iteration rules rather than silently expanding scope. |
+| <Dependency or constraint> | <Why it matters> | <What the POC assumes, measures or deliberately does not solve> |
 
 ### Success and Exit Criteria
 
 | Dimension | Criterion | Threshold / decision rule |
 |---|---|---|
-| Market | Independent external users | **Success:** at least 10 distinct non-owner users during the 30-day observation window. |
-| Market | Repeat-use signal | **Success:** at least 3 successful external runs occur beyond the one-run-per-new-user baseline during the observation window, demonstrating usage beyond pure first trials. |
-| Market | Monetised demand | **Success:** at least one external paid-plan usage produces positive creator revenue during the observation window. |
-| Capability | Run reliability | **Success:** at least 95% of valid-input POC runs complete successfully, excluding clearly attributable Apify-wide outages. |
-| Capability | Core record completeness | **Success:** at least 98% of returned records contain valid `title`, `sourceName`, `googleNewsUrl` and `publishedAt` values. |
-| Capability | Query / locale / recency behaviour | **Success:** the acceptance matrix defined during implementation passes for all supported controls, with no systematic mismatch that makes a control misleading. |
-| Capability | Lightweight access assumption | **Success:** normal operation does not require browser automation, a paid external data API or mandatory residential-proxy usage. |
-| Capability | Unit economics | **Success:** measured Apify platform cost across representative paid runs remains at or below 40% of net creator revenue generated by those runs at the temporary POC price. |
+| <Market / Capability> | <Observable criterion> | <Success threshold or decision rule> |
 
 #### Market Test Cards
 
+Translate the material market assumptions and Step 6 demand forecast into precommitted tests before observation begins.
+
 | Test ID | Hypothesis | Experiment | Measure | Precommitted threshold | Demand-case reference |
 |---|---|---|---|---|---|
-| <Pending Step 7 reassessment> | <Pending> | <Pending> | <Pending> | <Pending> | <Pending> |
+| <M1> | <Specific behavioural hypothesis> | <How the POC exposes it> | <Observable metric> | <Threshold decided before observation> | <Step 6 forecast metric / assumption / market-engagement hypothesis> |
 
-**POC success rule:** The POC is successful when all five capability criteria pass and all three market criteria are met within the 30-day observation window. This provides evidence that both the selected market and capability assumptions survived a real commercial experiment.
+**POC success rule:** <Combined rule for successful POC evidence>
 
-**Bounded iteration rule:** One bounded iteration is justified when the capability criteria pass but market evidence is partial — specifically, at least 5 distinct external users are observed but one or more of the 10-user, repeat-use-signal or monetised-demand thresholds are missed — or when one capability criterion narrowly misses because of a specific fix that does not change the proposition or introduce an excluded dependency. The iteration must have an explicit hypothesis and remain within the Step 7 functional boundary.
+**Bounded iteration rule:** <When limited iteration is justified without changing the selected proposition>
 
-**Exit / stop rule:** Stop the POC without further implementation expansion when, after the 30-day window, fewer than 5 distinct external users are observed; or when the core proposition cannot meet the reliability/completeness criteria without browser automation, a mandatory paid external data source or residential-proxy dependence; or when representative unit economics materially exceed the 40% cost threshold and cannot be corrected within the existing scope. A failure caused by the selected proposition should return to Gateway 4 evidence assessment rather than being hidden by adding deferred features.
+**Exit / stop rule:** <When further POC work is not justified>
 
 ### Step 7 Completion
 
-**Step 7 complete:** No
+**Step 7 complete:** <Yes / No>
 
-**Step 7 blockers:** Gateway 2 was re-run on 2026-09-26 and selected a materially richer proposition. Step 7 must be redefined from the new Demand Case before Phase 3 can be treated as current.
+**Step 7 blockers:** <None, or concise list>
 
 ## 7. POC Operational Requirements
 
 *Methodology mapping: Phase 3, Step 8 — Define POC Operational Requirements.*
 
-> **Reassessment status:** The operational requirements below were designed for the superseded metadata-only Step 7 definition. They are retained as legacy evidence but must be reconciled after the new Step 7 is defined.
+Define only the operating capabilities needed to observe, protect and evaluate the bounded POC. Prefer native channel monitoring and analytics over production-grade custom infrastructure.
 
-The operational design is intentionally lightweight. Apify already exposes run statuses, logs, resource usage, cost information, built-in Actor monitoring, dataset-field alerts and Actor Analytics. Those native capabilities are sufficient for this POC; no separate monitoring service or production support stack is required.
-
-**Operational evidence basis:** [Apify Actor monitoring](https://docs.apify.com/actors/running/monitoring); [Actor Analytics and monetisation](https://docs.apify.com/actors/publishing/monetize); [Actor run API](https://docs.apify.com/api/v2/actors-actor-runs); [Pay-per-event pricing](https://docs.apify.com/actors/publishing/monetize/pay-per-event).
-
-The Step 7 repeat-use criterion has been expressed as an aggregate **repeat-use signal** rather than "three identifiable repeat users". Apify exposes unique-user counts and owner-excluded public run statistics, but the documented operational interfaces do not require per-user identity analysis to evaluate the experiment. The revised measure preserves the intended question — whether usage extends beyond first trials — while making the criterion reproducible from channel-native evidence.
+**Operational evidence basis:** <Links or references to the channel monitoring, analytics, run/log and charging evidence used to define these requirements>
 
 ### Operational Requirements
 
 | Operational concern | Signal / evidence | Mechanism | Trigger / review rule | Required response |
 |---|---|---|---|---|
-| Run health / reliability | Run terminal status, success-rate statistics, run logs and status message | Apify built-in monitoring plus run details/API | Review every `FAILED` or `TIMED-OUT` run. A user-initiated/spending-limit `ABORTED` run is classified separately. Pause if three consecutive valid-input runs fail for an Actor/source reason or if observed valid-input success drops below 90% before the final 95% evaluation threshold. | Inspect logs and input, classify platform/user/Actor/source cause, record whether the run counts toward reliability, and make only an in-scope fix. Resume after the failure mode is demonstrably cleared. |
-| Core result completeness | Presence of `title`, `sourceName`, `googleNewsUrl` and `publishedAt` across dataset rows | Dataset schema/field statistics and periodic dataset sampling | Investigate any alert or sample showing completeness below the Step 7 98% threshold or a systematic malformed-field pattern. | Inspect affected records and source response; correct normalization/parser defects within scope. Do not add canonical-link/full-text extraction as a remedy. |
-| Google News dependency health | Successful parsing, non-malformed feed response, normal result structure and supported locale/recency behaviour | User-run evidence plus a small owner-run canary using a broad query; run logs | Canary once daily during the observation window. Investigate any canary parser failure or systematic control mismatch. | Confirm whether Google behaviour changed. Apply a bounded parser/query-semantics fix if possible; pause if lightweight feed access is no longer sufficient. |
-| Run duration / abnormal resource use | Duration, compute units, external transfer and run usage | Run detail/API and Actor Analytics | Review an obvious step-change from the implementation baseline or repeated abnormal resource usage; no arbitrary production SLA is imposed. | Identify retries, loops or unexpected response growth. Correct bounded defects; do not add heavier infrastructure simply to mask source behaviour. |
-| POC unit economics | Revenue, platform cost, profit and cost per 1,000 results | Actor Analytics; finalized run usage/charged-event data for representative paid runs | Review after the first paid external run, then as part of each periodic review. Investigate any negative-profit paid run or repeated evidence that platform cost is above 40% of net creator revenue. | Check compute/data usage and charging configuration. Correct implementation inefficiency if possible within scope; repeated structural failure against the 40% criterion triggers pause/exit assessment rather than silent repricing. |
-| Charging / user spend limits | Charged event counts, run status and max-charge behaviour | PPE synthetic dataset-item/start events, run pricing information and logs | Any evidence of output being produced without the intended event charge, charging without an accessible result, or failure to terminate cleanly at a spending limit. | Treat as a blocking billing defect; pause public execution until corrected and verified. |
-| New-user market signal | Change in Actor unique-user statistics from the launch baseline | Actor Stats / Actor Analytics user-growth metrics | Snapshot at public launch; review periodically; final delta at day 30 is the authoritative Step 7 user measure. | No operational intervention merely because growth is weak. Record the evidence; demand failure is evaluated through the Step 7/Step 10 decision rules. |
-| Repeat-use signal | Owner-excluded successful public runs compared with the new-user delta | Public Actor run statistics plus launch/final Actor Stats | At final evaluation, require at least three successful external runs beyond the one-run-per-new-user baseline. Periodic review is informational only. | Record the signal. Do not change functionality or pricing simply to manufacture repeat usage during the same observation window. |
-| Monetised demand | Paid/free user analytics, revenue and profit | Actor Analytics | Review periodically and at day 30. Success requires positive creator revenue from at least one external paid-plan usage. | Record result. A lack of paid usage is market evidence, not an operational defect. |
-| User-reported defects | Store issues, shared debug runs and directly exposed Actor feedback | Apify Actor Analytics/debug evidence and Store issue mechanisms | Review at least twice weekly and whenever Apify surfaces a shared debug run or issue. | Fix reproducible in-scope defects. Record feature requests separately; do not expand the Step 7 proposition during the same observation window. |
+| <Run health / data quality / dependency / economics / market evidence / user issue> | <Metric or evidence> | <Native monitoring, analytics, logs, API, manual review, etc.> | <Threshold, event or review rule> | <Action required> |
 
 ### Operating Cadence and Evidence
 
 | Activity | Cadence / trigger | Evidence retained |
 |---|---|---|
-| Launch baseline | Immediately before the public 30-day window begins | Actor Stats (`totalUsers`, relevant public run counters), pricing configuration, default build/version and Step 7 scope; this baseline makes subsequent user/run deltas reproducible. |
-| Automated operational monitoring | Continuous through Apify built-in monitoring | Run-status alerts and dataset-field alerts linked to the relevant run/dataset evidence. |
-| Dependency canary | Once daily during the observation window | Owner-run ID, status and any exception/control failure. Owner activity is kept separate from external market evidence. |
-| Early economics check | First paid external run | Finalized run usage/cost and charged-event evidence after run statistics have settled. |
-| Periodic POC review | Twice weekly during the observation window | Actor Analytics snapshot/export covering users, runs, success rate, revenue, costs, profit and cost per 1,000 results; open operational issues and interventions. |
-| Material incident review | Whenever a pause trigger or material defect occurs | Run IDs, logs, classification, corrective action, verification run and whether the observation window remains valid. |
-| End-of-window snapshot | At the end of day 30 before any experiment-changing modification | Actor Analytics JSON export where available, Actor Stats, public run statistics, revenue/cost/profit evidence and the run/data-quality evidence needed to evaluate all Step 7 criteria. |
+| <Monitoring or review activity> | <When it happens> | <Evidence source retained for Step 10 evaluation> |
 
 ### Intervention Boundaries
 
-**Bounded operational intervention:** Parser/normalization corrections, query/locale/recency implementation fixes, retry/backoff corrections, logging improvements, schema implementation corrections, billing-defect fixes and documentation clarifications may be made where they preserve the Google News metadata-search proposition, Step 7 scope, temporary price and lightweight-access assumption. Every material fix during the observation window must be recorded with the affected runs and verification evidence.
+**Bounded operational intervention:** <Changes that may be made without changing the experiment>
 
-**Experiment-change rule:** Adding canonical-link or full-text enrichment, browser scraping, residential-proxy dependence, a paid external data/API dependency, stateful monitoring, additional news sources, AI enrichment, a material pricing change or another buyer-facing scope change is not routine operations. It requires an explicit bounded-iteration or gateway decision. If the change can materially affect user acquisition, repeat use or willingness to pay, the 30-day market observation window restarts for the changed experiment.
+**Experiment-change rule:** <Changes that require a deliberate iteration decision and possibly a new observation window>
 
-**Pause rule:** Pause the public POC when a billing defect could mischarge users; when three consecutive valid-input runs fail for an Actor/source reason; when required-field quality is systematically below the 98% criterion; when lightweight Google News access is materially broken; or when repeated paid runs show structurally negative economics / platform cost above the Step 7 threshold. Resume only after the issue is corrected within scope and verified.
+**Pause rule:** <Conditions that require the POC to be paused while the issue is investigated>
 
 ### Step 8 Completion
 
-**Step 8 complete:** No
+**Step 8 complete:** <Yes / No>
 
-**Step 8 blockers:** Step 7 has not yet been redefined for the selected enriched Google News proposition; Step 8 must be reconciled afterwards.
+**Step 8 blockers:** <None, or concise list>
 
 ## 8. Gateway 3 — POC Commitment
 
 *Methodology mapping: Phase 3, Gateway 3 — POC Commitment.*
 
-> **Reassessment status:** Gateway 3 is no longer current because Gateway 2 selected a different proposition on 2026-09-26. The legacy commitment assessment below is retained only for traceability.
-
-The commitment decision previously used the completed Step 7 definition and Step 8 operating requirements. Current Apify documentation was rechecked because the POC is explicitly public and paid: public Store publication requires completed display information, monetisation, sample output, output schema and permissions; monetisation setup requires billing/payment details; identity verification is required for payout eligibility.
+Assess whether the defined POC is sufficiently bounded, measurable, operationally manageable and feasible to justify implementation.
 
 ### Commitment Assessment
 
+Use only **Ready**, **Action before observation**, **Blocked**, or **Not applicable**.
+
 | Commitment dimension | Evidence / assessment | Status | Required action / condition |
 |---|---|---|---|
-| Definition readiness | Step 7 defines the Google News metadata-search proposition, public paid experiment mode, 30-day boundary, functional scope, input/output schema, dependencies and explicit success/iteration/exit rules. No material product-definition decision needs to be invented during implementation. | Ready | None. |
-| Evidence readiness | Market evidence is defined through external-user growth, aggregate repeat-use signal and monetised demand; capability evidence covers reliability, field completeness, supported controls, lightweight-access assumptions and unit economics. Step 8 maps each material measure to observable Apify evidence. | Ready | None. |
-| Operational manageability | Step 8 uses native Apify monitoring, logs, dataset evidence and Actor Analytics with bounded intervention and pause rules. No separate production monitoring stack is required. | Ready | None. |
-| Implementation proportionality | The POC remains one-source, metadata-only and HTTP/feed based. Canonical-link resolution, full text, browsers, residential proxies, paid external APIs, stateful monitoring, AI enrichment and multi-source aggregation remain excluded. | Ready | None. |
-| Prerequisite feasibility | Phase 1 proved local/hosted Actor execution, API invocation, logs and cost visibility. The additional requirements created by the public paid POC — Store publication fields and billing/payment/monetisation setup — are standard Apify configuration steps and do not block starting the code implementation. | Action before observation | Complete the recorded pre-observation items before the 30-day public paid window begins. |
-| Risk and cost containment | The experiment has a bounded 30-day window, temporary $1/1,000-result price, small scope, no intrinsic paid data/proxy dependency, reliability and economics thresholds, and explicit pause/exit rules. The existing $5 account usage ceiling provides an additional development guardrail and can be reconsidered only deliberately if POC testing requires it. | Ready | Preserve the Step 7/8 scope and guardrails during implementation. |
+| <Definition readiness / Evidence readiness / Operational manageability / Implementation proportionality / Prerequisite feasibility / Risk and cost containment> | <Evidence-based assessment> | <Ready / Action before observation / Blocked / Not applicable> | <None or action> |
 
 ### Pre-Observation Requirements
 
 | Requirement | Why required | Required by | Status | Action |
 |---|---|---|---|---|
-| Public Store publication configuration | Apify requires display information, description/logo, sample output, output schema and Actor permissions before Store publication. | Before public observation window | Action before observation | Complete the Publishing-tab requirements and verify the public Store page. |
-| POC README / user documentation | External users need sufficient instructions, input/output definitions and limitations for the market experiment to be interpretable. | Before public observation window | Action before observation | Publish the concise POC README already included in Step 7 scope. |
-| Billing and payment details | Apify requires billing/payment details before Actor monetisation can be configured. | Before paid observation window | Action before observation | Complete account billing/payment details in Apify Console. |
-| Temporary PPE configuration | The Step 7 experiment requires the temporary per-result charging model to be active and testable. | Before paid observation window | Action before observation | Configure PPE at the Step 7 temporary price, verify the dataset-result event and spending-limit behaviour, and confirm a paid test run charges correctly before opening the window. |
-| Creator identity verification | Required for payout eligibility, but not documented as a prerequisite to begin implementation or define the paid Actor experiment. | Before payout | Not applicable | Complete KYC before withdrawing creator earnings; it does not block Step 9 or the commitment decision. |
-| Launch baseline capture | Step 8 requires a reproducible baseline for user/run deltas and later Step 10 evaluation. | Immediately before day 1 | Action before observation | Capture Actor Stats, pricing/build version and relevant public-run counters before opening the 30-day window. |
+| <Requirement> | <Reason> | <Before public/paid observation window, or more specific point> | <Ready / Action before observation / Not applicable> | <Action or None> |
 
-**Gateway 3 decision:** Fail
+**Gateway 3 decision:** <Pass / Fail>
 
-**Gateway 3 commitment:** Do not commit
+**Gateway 3 commitment:** <Commit to POC implementation / Do not commit>
 
-**Gateway 3 rationale:** The previous Gateway 3 Pass applied to the metadata-only proposition selected on 2026-09-17. Gateway 2 has now selected a different enriched proposition. Until Steps 7 and 8 are re-run against that proposition, definition readiness and evidence readiness are not established under the current methodology.
+**Gateway 3 rationale:** <Why the completed definition, operations and prerequisites do or do not justify implementation>
 
-**Authorized next step:** Re-run Step 7 — Define the POC for the enriched Google News proposition, then reconcile Step 8 and reconsider Gateway 3.
+**Authorized next step:** <Step 9 — Implement the POC, or the blocking work required before reconsideration>
 
 ## 9. POC Implementation
 
@@ -478,9 +409,7 @@ The commitment decision previously used the completed Step 7 definition and Step
 
 Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.
 
-**Product repository:** Public GitHub repository [`adunato/google-news-actor-poc`](https://github.com/adunato/google-news-actor-poc), with local bootstrap repository at `C:\Users\danie\projects\google-news-actor-poc` and current shared bootstrap commit `87f714b9b665745ae20b5c175bab079a285693df`.
-
-**Development project establishment evidence:** `dev`, `staging` and `main` are present, with `dev` as the default branch. Branch protections are active on all three permanent branches: pull requests are required with zero approvals, the successful `validate` check is required, and force pushes and branch deletion are blocked. Local `npm ci` and `npm run validate` passed; the canonical SideGig package verifier passed after manifest correction `7040106`; and the GitHub Actions [Validate run](https://github.com/adunato/google-news-actor-poc/actions/runs/35619873173) completed successfully.
+**Product repository:** <Repository URL or reference>
 
 **Development/design evidence:** <Links to the project design and implementation-planning artifacts required by the SideGig Development Operating Model>
 
@@ -504,7 +433,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 ### Step 9 Completion
 
-**Step 9 complete:** No
+**Step 9 complete:** <Yes / No>
 
 **Step 9 blockers:** <None, or concise list>
 
@@ -528,9 +457,11 @@ Record the evidence generated during the live observation window and evaluate th
 
 #### Demand Forecast Evaluation
 
+Compare the precommitted demand expectations with observed behaviour. Do not revise the forecast retrospectively.
+
 | Test / forecast metric | Expected range / threshold | Observed result | Variance / interpretation | Outcome |
 |---|---|---|---|---|
-| <Pending Step 7/Step 10 execution> | <Pending> | <Pending> | <Pending> | <Pending> |
+| <M1 / metric> | <Step 6/7 expectation> | <Observed evidence> | <Difference and plausible interpretation> | <Supported / Weakened / Inconclusive> |
 
 ### Incidents, Interventions and Iterations
 
@@ -554,9 +485,9 @@ If no material incidents, interventions or iterations occurred, state **None**.
 
 ### Step 10 Completion
 
-**Step 10 complete:** No
+**Step 10 complete:** <Yes / No>
 
-**Step 10 blockers:** Step 9 not yet complete; observation window has not started.
+**Step 10 blockers:** <None, or concise list>
 
 ## 11. Gateway 4 — Productisation Decision
 
@@ -569,3 +500,4 @@ Use the completed Step 10 evidence to decide whether the proposition should proc
 **Rationale:** <Concise explanation based on the Step 10 evidence>
 
 **Authorized next step:** <Phase 5 productisation / return to the relevant POC step for one bounded iteration / stop further implementation>
+

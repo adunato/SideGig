@@ -452,7 +452,9 @@ Apify Actor Analytics provides user-growth, paid/free-user, revenue, cost, profi
 
 *Methodology mapping: Phase 3, Gateway 3 — POC Commitment.*
 
-Assess whether the defined POC is sufficiently bounded, measurable, operationally manageable and feasible to justify implementation.
+The commitment decision uses the completed Step 7 enriched-Google-News experiment definition, the completed Step 8 operational requirements, the Phase 1 Apify prerequisite validation and current Apify publication/monetisation requirements.
+
+Current Apify documentation confirms that Store publication requires completed display information, monetisation, sample output, output schema and Actor permissions. Pay-per-event monetisation requires billing/payment details before configuration. Identity verification is required for payout eligibility; it is not required to begin implementation. The existing Phase 1 validation already proves local development, deployment, hosted execution, authenticated API invocation, structured dataset retrieval, logs and run-level usage/cost visibility.
 
 ### Commitment Assessment
 
@@ -460,21 +462,34 @@ Use only **Ready**, **Action before observation**, **Blocked**, or **Not applica
 
 | Commitment dimension | Evidence / assessment | Status | Required action / condition |
 |---|---|---|---|
-| <Definition readiness / Evidence readiness / Operational manageability / Implementation proportionality / Prerequisite feasibility / Risk and cost containment> | <Evidence-based assessment> | <Ready / Action before observation / Blocked / Not applicable> | <None or action> |
+| Definition readiness | Step 7 defines the enriched Google News proposition, public paid experiment, 30-day boundary, exact in/out scope, input/output contract, dependencies, temporary pricing, Market Test Cards and success/iteration/exit rules. Publisher URL resolution is explicitly core; full text is optional/fail-soft; heavy extraction mechanisms remain excluded. No material buyer/product-definition decision needs to be invented during coding. | Ready | None. |
+| Evidence readiness | M1-M3 are precommitted and trace directly to the Step 6 demand forecast. Capability criteria cover run reliability, metadata completeness, publisher-URL resolution, optional full-text usefulness, dependency model and unit economics. Step 8 maps every criterion to reproducible Apify-native evidence or a fixed owner-run validation sample. | Ready | None. |
+| Operational manageability | Step 8 uses native Apify monitoring/analytics plus a daily owner canary and twice-weekly fixed capability sample. Bounded fixes, experiment-changing changes and pause conditions are explicit. No custom production monitoring stack is required. | Ready | None. |
+| Implementation proportionality | The POC remains one source and primarily HTTP-based. URL resolution plus optional fail-soft full text is materially richer than the legacy metadata Actor but remains bounded. Browser rendering, residential proxies, paid extraction/news APIs, multi-source aggregation, stateful monitoring and AI enrichment are excluded. The implementation is reversible and suitable for a POC-sized project. | Ready | None. |
+| Prerequisite feasibility | Phase 1 proved the Apify development/deployment/API/log/cost path. Public Store listing and PPE monetisation introduce normal account/configuration requirements that are documented and feasible. No external proprietary data, proxy account or paid API is required by the selected design. | Action before observation | Complete Store/publication and monetisation prerequisites before opening the public paid observation window. |
+| Risk and cost containment | The POC has bounded functionality, a 30-day window, explicit charging/economics criteria, fail-soft publisher handling and pause rules. The existing account-level $5 platform-usage ceiling is useful during development but could prematurely stop a public observation window if retained unchanged. | Action before observation | Before launch, estimate expected POC platform usage from implementation/capability runs and deliberately retain, raise or replace the current $5 account limit with a guardrail that protects spend without invalidating the 30-day experiment. |
 
 ### Pre-Observation Requirements
 
 | Requirement | Why required | Required by | Status | Action |
 |---|---|---|---|---|
-| <Requirement> | <Reason> | <Before public/paid observation window, or more specific point> | <Ready / Action before observation / Not applicable> | <Action or None> |
+| Public Store publication configuration | Apify requires display information, description/logo, monetisation, sample output, output schema and Actor permissions for Store publication. | Before public observation window | Action before observation | Complete the Publishing-tab requirements and verify the public Store page. |
+| POC README / user documentation | External users must understand the query inputs, publisher-URL behaviour, optional full-text semantics, charging model and known limitations for the experiment to be interpretable. | Before public observation window | Action before observation | Publish concise Store-facing documentation aligned to Step 7. |
+| Billing and payment details | Apify requires billing/payment details before Actor monetisation can be configured. | Before paid observation window | Action before observation | Complete billing/payment details in Apify Console. |
+| Temporary PPE configuration | The experiment depends on the Step 7 temporary prices and separate article/full-text events. | Before paid observation window | Action before observation | Configure the Step 7 PPE events/prices, primary event and platform-cost treatment; verify the effective configuration before launch. |
+| Charging / spending-limit verification | A billing defect would invalidate the paid experiment and could mischarge users. | Before paid observation window | Action before observation | Run controlled pre-launch tests covering result charges, successful-full-text charges, non-charge on failed full text, accessible outputs and user max-total-charge behaviour. |
+| Account usage guardrail review | The existing $5 monthly account usage ceiling may be too restrictive for a public 30-day enriched POC and could create artificial run failures. | Before public observation window | Action before observation | Estimate likely platform cost from Step 9 validation runs and set an explicit observation-window guardrail high enough not to invalidate normal external usage while remaining financially bounded. |
+| Actor permissions review | Publication requires permissions to be defined, and the POC should not request broader access than necessary. | Before public observation window | Action before observation | Confirm the minimum permission level needed by the implementation and publication configuration. |
+| Launch baseline capture | Step 8 requires a reproducible baseline for user/run/revenue deltas and later M1-M3 evaluation. | Immediately before day 1 | Action before observation | Capture Actor/build reference, `totalUsers`, public run counters, Analytics snapshot, pricing configuration and Step 7 scope version before external traffic begins. |
+| Creator identity verification (KYC) | Required for payout eligibility and for optional agentic-payment eligibility, but not required to begin Step 9 implementation. | Before payout; before relying on agentic-payment distribution | Not applicable | Complete KYC before withdrawing earnings or deliberately relying on agentic-payment discovery. It does not block Step 9 or the standard public paid observation window. |
 
-**Gateway 3 decision:** <Pass / Fail>
+**Gateway 3 decision:** Pass
 
-**Gateway 3 commitment:** <Commit to POC implementation / Do not commit>
+**Gateway 3 commitment:** Commit to POC implementation
 
-**Gateway 3 rationale:** <Why the completed definition, operations and prerequisites do or do not justify implementation>
+**Gateway 3 rationale:** The selected enriched Google News POC is now sufficiently defined, measurable and operationally bounded to justify implementation. Step 7 fixes the proposition and experiment conditions; Step 8 makes every material market and capability criterion observable; Phase 1 already demonstrates the core Apify development/deployment/runtime evidence path; and no mandatory heavy dependency or unresolved technical prerequisite exists. The remaining Store, account, charging and launch-baseline items are feasible configuration/verification work that must be closed during Step 9 before the public paid observation window starts, but they do not justify delaying implementation.
 
-**Authorized next step:** <Step 9 — Implement the POC, or the blocking work required before reconsideration>
+**Authorized next step:** Step 9 — Implement the POC. Step 9 begins with implementation establishment and a deliberate delta/repository decision against the legacy metadata Actor, then implements the Step 7 enriched scope. The public paid 30-day observation window must not start until every **Action before observation** item above is closed.
 
 ## 9. POC Implementation
 

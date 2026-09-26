@@ -306,6 +306,8 @@ Phase 2 reuses the terminology, scoring direction and evidence discipline of the
 
 All Phase 2 steps update the same `implementation/<channel>/poc.md` artifact. The canonical template for that artifact must be aligned to this methodology before Phase 2 execution is treated as valid.
 
+The current specific-opportunity demand-validation revision is identified in the artifact metadata as **`POC methodology revision: Demand validation v1`**. Existing POC artifacts created before this revision may remain on the legacy structure until they are deliberately reassessed. Any new POC artifact, or any legacy artifact being reassessed under the current methodology, must use the current revision marker and satisfy the associated Step 4–10 controls.
+
 ## Step 3 — Select the POC Opportunity Area
 
 ### Purpose

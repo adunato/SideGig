@@ -1,5 +1,5 @@
 schemaVersion: 3
-version: 2.5.0
+version: 2.6.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -15,6 +15,11 @@ templates:
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
     sha256: A46DB5B8E9189C3C7BE027C6C810EE5630FB01520DEB642C9D113760ABBA97A8
+  - name: product-gitattributes
+    source: development/templates/product.gitattributes
+    destination: product.gitattributes
+    purpose: canonical cross-platform product repository line-ending policy
+    sha256: 959D248A6BF1AB25E1A1278EBCF48D93FA973E034D404BA7A4E392B575E5FBC1
   - name: product-definition
     source: development/templates/product-definition.md
     destination: product-definition.md
@@ -72,8 +77,8 @@ skills:
     order: 10
     source: implementation/skills/bootstrap-project/SKILL.md
     dependencies: []
-    version: 2.3.0
-    sha256: 8BCB76FE2B20D3A0540569993EBC93D0C661E2405EFDD5272BD4150D6D38D8A2
+    version: 2.4.0
+    sha256: ADEFA7DD466B5DAAE37E10739F004598642461ADE6FB8B733DB18C9AC84F715A
   - name: provision-repository-secrets
     stage: bootstrap
     order: 15

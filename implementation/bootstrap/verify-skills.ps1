@@ -168,6 +168,19 @@ if ($Destination) {
         if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Destination is missing skill: $target" }
         if (-not (Test-ExpectedSha256 $target $skill.sha256)) { throw "Destination skill checksum mismatch: $target" }
     }
+
+    $productGitAttributesPath = Join-Path $destinationRoot '.gitattributes'
+    $productGitAttributesRule = '* text=auto eol=lf'
+    if (-not (Test-Path -LiteralPath $productGitAttributesPath -PathType Leaf)) {
+        throw "Destination is missing canonical product .gitattributes: $productGitAttributesPath"
+    }
+    $productGitAttributesText = [System.IO.File]::ReadAllText($productGitAttributesPath)
+    $normalizedProductGitAttributes = $productGitAttributesText -replace "`r`n", "`n"
+    $normalizedProductGitAttributes = $normalizedProductGitAttributes -replace "`r", "`n"
+    $productGitAttributesLines = $normalizedProductGitAttributes -split "`n"
+    if ($productGitAttributesLines -cnotcontains $productGitAttributesRule) {
+        throw "Destination .gitattributes is missing canonical SideGig line-ending rule: $productGitAttributesRule"
+    }
 }
 
-Write-Output "Verified $($manifestData.Skills.Count) skills, $($manifestData.Templates.Count) templates, and $($manifestData.Tools.Count) tools, source checksums, skill order/dependencies, and destination package copies where supplied."
+Write-Output "Verified $($manifestData.Skills.Count) skills, $($manifestData.Templates.Count) templates, and $($manifestData.Tools.Count) tools, source checksums, skill order/dependencies, canonical product line-ending policy, and destination package copies where supplied."

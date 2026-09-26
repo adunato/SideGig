@@ -105,7 +105,7 @@ Higher score = more attractive. For **Competitive pressure**, higher means lower
 |---|---|---:|---|---|
 | Google News metadata search API | Paying demand | 5 | High | Established Google News Actors still show hundreds of MAU. |
 | Google News metadata search API | Opportunity density | 4 | High | Monitoring, research, aggregation, SEO and AI workflows all consume structured news results. |
-| Google News metadata search API | New-entrant attainability | 3 | Medium-High | Some recent entrants gain users, but current very-new metadata products remain near 1 MAU and the strongest newer Actors increasingly include richer URL/content features. |
+| Google News metadata search API | New-entrant attainability | 3 | Medium | Some recent entrants gain users, but current very-new metadata products remain near 1 MAU and the strongest newer Actors increasingly include richer URL/content features. |
 | Google News metadata search API | Revenue potential | 4 | Medium | Paid usage exists across a broad price range, but paid result volumes are private. |
 | Google News metadata search API | Competitive pressure | 1 | High | Supply is now extremely dense and near-exact substitutes are available at very low prices. |
 | Google News enriched search API — real publisher URLs + optional full text | Paying demand | 4 | High | Crawler Bros (~104 MAU) and Memo23 (~42 MAU) provide direct behavioural evidence for enriched Google News output. |
@@ -249,7 +249,7 @@ The refreshed selection is made only from candidates that passed the Step 5 assu
 
 | Metric | Observation window | Low | Base | High | Reference-class / derivation | Confidence |
 |---|---|---:|---:|---:|---|---|
-| Independent external users | First 30 days | 2 | 6 | 15 | Very-new enriched entrants show ~1 MAU within the first week; 3-6 month outcomes range from ~1 to >100 MAU. The base deliberately reflects early-stage acquisition rather than mature MAU. | Medium-Low |
+| Independent external users | First 30 days | 2 | 6 | 15 | Very-new enriched entrants show ~1 MAU within the first week; 3-6 month outcomes range from ~1 to >100 MAU. The base deliberately reflects early-stage acquisition rather than mature MAU. | Low |
 | Successful external runs beyond one initial run per new user | First 30 days | 0 | 4 | 12 | Repeat-run behaviour is not public for reference Actors; range is anchored to the expectation that only a subset of initial users will repeat. | Low |
 | External paid-plan users generating positive creator revenue | First 30 days | 0 | 1 | 3 | Public Actor pages do not disclose paid conversion. Established paid pricing and active usage show monetisation is possible, but launch conversion is unknown. | Low |
 

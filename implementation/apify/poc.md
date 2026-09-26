@@ -497,33 +497,58 @@ Use only **Ready**, **Action before observation**, **Blocked**, or **Not applica
 
 Record only the evidence required to establish that the implemented POC is deployed and ready for the Step 10 observation window. Detailed engineering artifacts remain in the product repository.
 
-**Product repository:** <Repository URL or reference>
+### Pre-Bootstrap Implementation Preparation
 
-**Development/design evidence:** <Links to the project design and implementation-planning artifacts required by the SideGig Development Operating Model>
+**Repository decision:** Create a new independently deployable product repository rather than evolve the legacy metadata POC repository.
 
-**Deployed implementation reference:** <Commit / version / build / deployment identifier>
+**Planned repository:** `adunato/google-news-enriched-actor-poc` — **not yet created**
+
+**Preparation handoff:** [Enriched Google News POC — Repository Bootstrap Handoff](enriched-poc-bootstrap-handoff.md)
+
+**Legacy implementation reference:** `adunato/google-news-actor-poc` development baseline `51f89df7c21cb40787fbc84c1658c96ebdf5c8b3`, including the merged final development Issue #6 packaging/Store-documentation work.
+
+**Reuse decision:** Reuse the proven Google News request/parser/orchestration and Apify runtime patterns selectively after bootstrap through normal Issue-centred implementation. Do not clone or rename the legacy repository. Regenerate repository infrastructure, SideGig skills/templates, CI/controls and durable Product/Architecture definitions from the canonical SideGig bootstrap. Publisher URL resolution, optional full-text extraction, enriched output/status contracts, temporary enriched PPE configuration and Step 8 experiment evidence are new work.
+
+**Bootstrap readiness:** Ready. Repository identity, ownership boundary, selective-reuse strategy, upstream POC inputs, initial Product/Architecture intent and bootstrap preflight are documented.
+
+**Deliberate hold before repository establishment:** The new repository will not be created until the legacy metadata POC completes its authorized Apify deployment/operational continuation and any reusable deployment, Store, monetisation, monitoring or release lessons have been reviewed. This pause does not reopen Gateway 3 and is not an implementation blocker.
+
+**Exact resume action:** After legacy closeout learning review, reconcile any accepted lessons into SideGig/current handoff as necessary, then execute the standard `bootstrap-project` process to create `adunato/google-news-enriched-actor-poc`.
+
+**Product repository:** Not created — deliberately stopped immediately before repository establishment.
+
+**Development/design evidence:** Pre-bootstrap evidence is the current Step 7 definition, Step 8 operational requirements, Gateway 3 Pass and the [repository bootstrap handoff](enriched-poc-bootstrap-handoff.md). Product-repository `docs/product.md`, `docs/architecture.md` and change-specific artifacts do not exist yet and must be created/managed by the Development Operating Model after repository establishment.
+
+**Deployed implementation reference:** Not applicable — implementation has not started.
 
 ### Implementation and Validation Evidence
 
 | Implementation area | Requirement source | Evidence / reference | Status |
 |---|---|---|---|
-| <Functional scope / inputs and outputs / dependencies / operational evidence / deployment / charging or other relevant area> | <Step 7 / Step 8 / Gateway 3 requirement> | <Test, CI, run, deployment or configuration evidence> | <Pass / Fail / Not applicable> |
+| POC implementation boundary | Step 7 / Gateway 3 | Step 7 complete; Gateway 3 Pass | Pass |
+| Operational evidence design | Step 8 | Step 8 complete with market/capability evidence sources, cadence and pause/intervention rules | Pass |
+| Repository and reuse decision | Step 9 project establishment preparation | [Bootstrap handoff](enriched-poc-bootstrap-handoff.md) | Pass |
+| Legacy implementation baseline | Step 9 reuse assessment | `adunato/google-news-actor-poc@51f89df7c21cb40787fbc84c1658c96ebdf5c8b3` | Pass |
+| New product repository establishment | Development Operating Model | Deliberately deferred until legacy deployment/learning closeout | Not applicable |
+| Product implementation / validation | Step 7 / Step 8 | Cannot begin before repository establishment | Not applicable |
+| Apify deployment / observation release | Step 9 | Cannot begin before implementation | Not applicable |
 
-**Pre-observation requirements closed:** <Yes / No>
+**Pre-observation requirements closed:** No
 
-**Observation baseline captured:** <Yes / No>
+**Observation baseline captured:** No
 
 ### Engineering Learning Review
 
-**Learning review completed:** <Yes / No>
+**Learning review completed:** No — the deliberate pre-bootstrap hold exists specifically to complete the legacy POC deployment/operational learning cycle first.
 
-**Product-repository learning records requiring SideGig review:** <None, or stable references>
+**Product-repository learning records requiring SideGig review:** Not applicable for the new enriched POC until its repository exists. Legacy metadata POC learning records remain governed by the legacy continuation artifact.
 
 ### Step 9 Completion
 
-**Step 9 complete:** <Yes / No>
+**Step 9 complete:** No
 
-**Step 9 blockers:** <None, or concise list>
+**Step 9 blockers:** No defect or feasibility blocker. Step 9 is deliberately paused immediately before new repository establishment pending completion and review of the legacy metadata POC deployment/operational continuation.
+
 
 ## 10. POC Operation and Evaluation
 

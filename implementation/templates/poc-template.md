@@ -3,6 +3,7 @@
 - **Channel:** <Channel name and link to research overview>
 - **Prerequisite validation:** <Link to completed prerequisites-validation artifact>
 - **Research methodology:** <Link to research/methodology.md>
+- **POC methodology revision:** Demand validation v1
 - **Phase 2 start date:** <YYYY-MM-DD>
 - **Phase 3 definition date:** <YYYY-MM-DD>
 
@@ -64,6 +65,14 @@ Existing marketplace products, Actors and competitors are **evidence sources** f
 |---|---|---|---|---|---|---|---|---|---|
 | <Concrete proposition> | <Problem or workflow> | <Buyer> | <Outcome> | <Specific evidence> | <Alternatives> | <Gap or differentiation> | <How value is produced/delivered> | <Material implications> | <Sources> |
 
+#### Candidate Demand Evidence
+
+For each material candidate, explicitly test the customer-value logic rather than assuming that category demand transfers to the proposition.
+
+| Candidate opportunity | Customer job / outcome | Current alternative / workaround | Reason-to-buy hypothesis | Supporting evidence | Contrary / disconfirming evidence | Evidence links |
+|---|---|---|---|---|---|---|
+| <Candidate> | <What the customer is trying to accomplish> | <What they use/do today> | <Why this proposition should be chosen instead> | <Observed supporting evidence> | <Evidence against the hypothesis, adequate substitutes, failed entrants or other negative signals> | <Sources> |
+
 ### Step 4 Completion
 
 **Step 4 complete:** <Yes / No>
@@ -102,6 +111,14 @@ Use only:
 | Candidate opportunity | Market evidence potential | POC capability suitability | Decision | Rationale |
 |---|---|---|---|---|
 | <Candidate> | <Likelihood of meaningful market signal at POC scale> | <Whether a representative POC can remain simple and inexpensive> | <Shortlisted / Excluded> | <Evidence-based rationale> |
+
+#### Critical Assumption Stress Test
+
+Use **Precondition** for assumptions that need enough evidence before implementation and **POC test** for uncertainty the bounded experiment is intended to resolve. Evidence grades are E0 Assertion, E1 Indirect/isolated, E2 Repeated/convergent, E3 Close behavioural analogue, E4 Direct behavioural/transactional.
+
+| Candidate opportunity | Assumption ID | Assumption | Classification | Importance | Evidence grade | Supporting / contrary evidence | Disposition |
+|---|---|---|---|---|---|---|---|
+| <Candidate> | <A1> | <Material assumption> | <Precondition / POC test> | <Critical / Material> | <E0 / E1 / E2 / E3 / E4> | <Concise evidence including contrary evidence> | <Supported / Test in POC / Blocking / Rejected> |
 
 ### Step 5 Completion
 
@@ -144,6 +161,24 @@ Use only:
 
 **Selection date:** <YYYY-MM-DD>
 
+#### Selected Opportunity Demand Case
+
+**Customer / job:** <Specific customer and job/problem/outcome>
+
+**Current alternative / workaround:** <What the customer can realistically use or do today>
+
+**Reason to buy / choose:** <Why the selected proposition should be preferred over the current alternative or close competitors>
+
+**Reference-class basis:** <Closest observable products, recent entrants or behaviours used to calibrate expected demand>
+
+**Market engagement hypothesis:** <Quantified behavioural expectation over an explicit observation window; use X% of Y will do Z when a defensible denominator exists, otherwise use count/value-based expectations>
+
+#### Demand Forecast
+
+| Metric | Observation window | Low | Base | High | Reference-class / derivation | Confidence |
+|---|---|---:|---:|---:|---|---|
+| <Observable market metric> | <e.g. 30 days> | <Low expectation> | <Base expectation> | <High expectation> | <Analogue evidence and derivation> | <High / Medium / Low> |
+
 ### Step 6 Completion
 
 **Step 6 complete:** <Yes / No>
@@ -156,7 +191,7 @@ Use only:
 
 **Rationale:** <Why the Phase 2 evidence does or does not justify carrying the selected opportunity into POC definition and design>
 
-A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, and no unresolved blocker preventing Phase 3.
+A Pass requires Steps 3–6 to be complete, exactly one Step 6 candidate to be Selected, no unresolved blocker preventing Phase 3, no Blocking/Rejected critical assumption for the selected candidate, and a substantive reason-to-buy, reference-class demand forecast and quantified market-engagement hypothesis.
 
 ## 6. POC Definition
 
@@ -205,6 +240,14 @@ Define the smallest credible commercial experiment that can test the selected op
 | Dimension | Criterion | Threshold / decision rule |
 |---|---|---|
 | <Market / Capability> | <Observable criterion> | <Success threshold or decision rule> |
+
+#### Market Test Cards
+
+Translate the material market assumptions and Step 6 demand forecast into precommitted tests before observation begins.
+
+| Test ID | Hypothesis | Experiment | Measure | Precommitted threshold | Demand-case reference |
+|---|---|---|---|---|---|
+| <M1> | <Specific behavioural hypothesis> | <How the POC exposes it> | <Observable metric> | <Threshold decided before observation> | <Step 6 forecast metric / assumption / market-engagement hypothesis> |
 
 **POC success rule:** <Combined rule for successful POC evidence>
 
@@ -331,6 +374,14 @@ Record the evidence generated during the live observation window and evaluate th
 | Evaluation area | Step 7 criterion / Step 8 requirement | Evidence / result | Outcome |
 |---|---|---|---|
 | <Market / capability / operational area> | <Criterion or requirement> | <Observed evidence> | <Pass / Fail / Inconclusive / Not applicable> |
+
+#### Demand Forecast Evaluation
+
+Compare the precommitted demand expectations with observed behaviour. Do not revise the forecast retrospectively.
+
+| Test / forecast metric | Expected range / threshold | Observed result | Variance / interpretation | Outcome |
+|---|---|---|---|---|
+| <M1 / metric> | <Step 6/7 expectation> | <Observed evidence> | <Difference and plausible interpretation> | <Supported / Weakened / Inconclusive> |
 
 ### Incidents, Interventions and Iterations
 

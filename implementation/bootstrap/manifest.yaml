@@ -1,8 +1,9 @@
-schemaVersion: 2
-version: 2.0.0
+schemaVersion: 3
+version: 2.4.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
+toolDestinationRoot: .codex/tools
 templates:
   - name: readme
     source: development/templates/README-template.md
@@ -13,7 +14,7 @@ templates:
     source: development/templates/AGENTS-template.md
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
-    sha256: C209D4D38DF9369EB47127CF67E29A71DE5F4B04C8F78E577808C62F4B13007D
+    sha256: A46DB5B8E9189C3C7BE027C6C810EE5630FB01520DEB642C9D113760ABBA97A8
   - name: product-definition
     source: development/templates/product-definition.md
     destination: product-definition.md
@@ -28,12 +29,22 @@ templates:
     source: development/templates/feature-issue.md
     destination: feature-issue.md
     purpose: canonical feature Issue shape
-    sha256: 7A8916EF50A37A2F45F07C19A630BEC31625CA53228CA44DC8ADAE86425FA74B
+    sha256: DA9AD195980DFDE021F3F2168F8964FECF8A0639272D038BF01468B1A7EF854C
   - name: bug-issue
     source: development/templates/bug-issue.md
     destination: bug-issue.md
     purpose: canonical bug Issue shape
-    sha256: CC593548C1F7A066BF13AC599EB79149DEF4776CE974E9236541CD005666ED3F
+    sha256: DFC3C58E0321C0BE94B98482F7B66DEA69D93F9D7CECA76E2CA1B31A53689F95
+  - name: learning-record
+    source: development/templates/learning-record.md
+    destination: learning-record.md
+    purpose: canonical reusable learning record
+    sha256: 956D8495FB867153A06C6B3CD2328BF543FF3E5B026B9A9DA085FE78F81EA511
+  - name: learning-collection-dispatch
+    source: development/templates/learning-collection-dispatch.yml
+    destination: learning-collection-dispatch.yml
+    purpose: canonical post-merge SideGig learning collector dispatch workflow
+    sha256: E5E001084BF0DC2D3553A4440C0873B9BCC5EDA08166AACBD6B3BCF9E5FF0778
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
@@ -49,116 +60,136 @@ templates:
     destination: low-level-design.md
     purpose: canonical optional LLD
     sha256: 8035E649EEDDB8233DB96380B6D4EAE0A7C6DB15EFE26ADFE4640028C5C4033C
+tools:
+  - name: provision-repository-secrets
+    source: implementation/bootstrap/provision-repository-secrets.ps1
+    destination: provision-repository-secrets.ps1
+    purpose: automatic standard product-repository Actions secret provisioning
+    sha256: DF2EDB9509AC87907136FD4F9A9872C73900C316F7D4298EF6CE7E80DD836985
 skills:
   - name: bootstrap-project
     stage: bootstrap
     order: 10
     source: implementation/skills/bootstrap-project/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: C29DFC7B1E81BB5BF670A281163EDE4EC18C9B8DBDFCBB9E98E6D8FCB4B616D2
+    version: 2.3.0
+    sha256: 8BCB76FE2B20D3A0540569993EBC93D0C661E2405EFDD5272BD4150D6D38D8A2
+  - name: provision-repository-secrets
+    stage: bootstrap
+    order: 15
+    source: implementation/skills/provision-repository-secrets/SKILL.md
+    dependencies: []
+    version: 1.0.0
+    sha256: 4815FF1F63C8A4F87A570308679592ED9B136DB4AD0D3C91BB1F2765E766A2D1
   - name: product-definition
     stage: definition
     order: 20
     source: implementation/skills/product-definition/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: 052710F60F2DC6F46EFB77FE17C2C19155F963F2DD4D437E9D8215E3C4F83BCC
+    version: 2.1.0
+    sha256: 3973A3674DA0E3FB5C23D04757ABEC88CE9A71DABF979E580C37FC6AF51D9CCD
   - name: architecture-definition
     stage: definition
     order: 30
     source: implementation/skills/architecture-definition/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: 80459C326A90F867C0C9C9B483D91680C7CEAFEEDFEA3F60EE767422F9D27FD7
+    version: 2.1.0
+    sha256: 9AA0F33E9A401806AE7955600D10DA8C5917808EE62DE1D3F0A6666B40558F0D
   - name: refine-issue
     stage: shaping
     order: 40
     source: implementation/skills/refine-issue/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: 718273EB25121D8CED736E54EC35DA6BBC7C09105524B3E8018F24D9C2C25BE1
+    version: 2.1.0
+    sha256: 3510A36CF5CB9411E3F30613D75E6353676D801FE36E5C4BD16F42C41DED4152
   - name: assess-change
     stage: shaping
     order: 50
     source: implementation/skills/assess-change/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: E3CDFD1A927923771DE061CBB401278D5C296BDE373DD04356BA5D30C3FC7CA6
+    version: 2.1.0
+    sha256: 595742A8EDCD54A3C7B9A941CEDCDB35A28CAC6571E8CAC11C82574E1A1E5346
   - name: setup-change-workspace
     stage: setup
     order: 60
     source: implementation/skills/setup-change-workspace/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: 231C23C9FDBA1A0CC96F9EB5C09F59FCD39FE7EC83D91F2DB246F335F27FB8F2
+    version: 2.1.0
+    sha256: 7CEB1A88BB9D3DBF69CBDF27A70B5AF6D1E68C06585D0C8E942081D5E08BD15C
   - name: high-level-design
     stage: design
     order: 70
     source: implementation/skills/high-level-design/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 2.0.0
-    sha256: 8C12FF9DCAB9F718D49A030DA9F4101F64262C334040E23C1C601C5CE1FE6B48
+    version: 2.1.0
+    sha256: A726D4BBE39578194FC4DEAB61278DD549E0D097AB1AC930558CDF0FD4BBF927
   - name: implementation-plan
     stage: design
     order: 80
     source: implementation/skills/implementation-plan/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 2.0.0
-    sha256: 4680405D2FE8212DFAF03DA1D5D7A14B939709602494D87F8E6C13295D2D13F3
+    version: 2.1.0
+    sha256: F1A5BCE6E725885DFE283638FE0385FF28AF63519BA2784AABE02C25EE338A34
   - name: low-level-design
     stage: design
     order: 90
     source: implementation/skills/low-level-design/SKILL.md
     dependencies: [implementation-plan]
-    version: 2.0.0
-    sha256: D196671A5839C8064E1DA81F21019008F81FFA515D2EFB417ECFFF24984A5F63
+    version: 2.1.0
+    sha256: 4E30B0C1068A9D69F27126AC63F27DF3A1807D9805B609B62638AC476D6B89AE
   - name: development
     stage: implementation
     order: 100
     source: implementation/skills/development/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 2.0.0
-    sha256: D2B2499A77C2D375477BF9B59541E8ECBCAFA3131DAA0ABFC08F39CC7B2A3A12
+    version: 2.1.0
+    sha256: 8F9C74C941085D4A586ADAE2A4A87B53D90FB8918E2DCEDF7493D436FF5C4E68
   - name: validation
     stage: validation
     order: 110
     source: implementation/skills/validation/SKILL.md
     dependencies: [development]
-    version: 2.0.0
-    sha256: 1B87A7CCDD6B45E995BD60636123D8CCB970762A59BC67881D18D81248F690CA
+    version: 2.1.0
+    sha256: 897E74F98FD67493A3EFDBC514CFD09C88BFCA638743F44292E225A1BF45BD2E
+  - name: capture-learning
+    stage: learning
+    order: 115
+    source: implementation/skills/capture-learning/SKILL.md
+    dependencies: []
+    version: 1.1.0
+    sha256: 73D66E408BEE144A3D6074C371761145B8FB5269828147A6F02817475F07244F
   - name: ci-diagnostics
     stage: diagnostics
     order: 120
     source: implementation/skills/ci-diagnostics/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: AAFB0348F27BE700F85445AAE26BDB8124CCCD0F1373B805FBED06ACEAD4B996
+    version: 2.1.0
+    sha256: 5EEF3A3419B34D66B098B84BA1E36CB89768DC59B23EF95CAC9411EA664025D3
   - name: merge-change
     stage: integration
     order: 130
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
-    version: 2.0.0
-    sha256: AD5942F99F00706E0B393C2A6DA2A2A18327175E76CEBB7077383905A297AFD5
+    version: 2.3.0
+    sha256: F54BD91A5F24D4BA634143A059464364F460EAE083771C7827E297DED7608AFE
   - name: prepare-release
     stage: release
     order: 140
     source: implementation/skills/prepare-release/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: F34503896BC9E12D63A4A116F76BE27FF5D53F17FB968247503A57C4F09CE721
+    version: 2.1.0
+    sha256: ADD562FE1D9FB96160EF7261B715BFD349AE58BA1E88B9411BC58CF761363F83
   - name: staging-validation
     stage: release
     order: 150
     source: implementation/skills/staging-validation/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: 00A061C520E588F12B5D959101FEBDF0AD579AA449944FAF3136ADDEBA3FEA22
+    version: 2.1.0
+    sha256: DD1724E06177B10F95884C60E8E8F4ACE58914A53F525670C13376E701378894
   - name: promote-release
     stage: release
     order: 160
     source: implementation/skills/promote-release/SKILL.md
     dependencies: []
-    version: 2.0.0
-    sha256: A7CA09A78BB86B4C9456D9979E27068692C8E237FCE4EF72089089EF2E797B93
+    version: 2.1.0
+    sha256: 3C1EDE3C3002D6AA6BA2ACBB233761582848F35B22E069D84C56A454ACEF5792

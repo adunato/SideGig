@@ -42,12 +42,16 @@ The boundary is governed by the following rules:
 3. Implementation artifacts record the methodology decision, required cross-project evidence and stable references needed to establish step completion. They do not duplicate detailed engineering artifacts from the product repository.
 4. Initial creation of a product repository uses the operating model's bootstrap process. Normal software changes after bootstrap are Issue-driven and follow the Development Lifecycle.
 5. Channel configuration, commercial decisions, market evidence and operating-process definitions that are not software-engineering state remain owned by the implementation methodology and its artifacts. Version-controlled software or configuration changes still follow the Development Operating Model.
-6. If implementation exposes a reusable engineering-process gap, correct the Development Operating Model rather than embedding a project-specific replacement process in this methodology.
+6. If implementation exposes a reusable engineering-process gap, capture it in the product repository using the Development Operating Model learning mechanism and mark it for SideGig review. Any cross-project correction to the Development Operating Model, canonical skills/templates, shared tooling convention or this methodology is made separately in SideGig rather than from the product repository.
 7. Active implementations consume the current Development Operating Model unless a documented project-specific exception is genuinely required.
 
 This gives the lifecycle a one-way delegation model:
 
 Implementation methodology outcome → Development Operating Model execution → product-repository evidence → implementation methodology completion evidence
+
+Reusable engineering feedback follows a separate return path:
+
+product-repository learning → SideGig review → approved cross-project change
 
 The implementation methodology may therefore require a software outcome without prescribing branches, pull-request mechanics, design-document depth, CI jobs or release commands. Those details are resolved by the Development Operating Model and the product repository.
 
@@ -883,7 +887,7 @@ All software engineering required by Step 9 is performed according to the curren
 
 The product repository is therefore authoritative for the engineering execution of the POC. implementation/<channel>/poc.md records only the references and cross-project evidence needed to determine whether Step 9 is complete and the observation window may begin.
 
-Where Step 9 exposes a reusable gap in the Development Operating Model, update that operating model separately rather than embedding an alternative engineering process in this methodology.
+Where Step 9 exposes a reusable product or engineering lesson, capture it in the product repository using the Development Operating Model learning mechanism. Lessons that may require a cross-project change are marked for separate SideGig review; the POC repository does not update or recreate the SideGig operating model.
 
 ### Implementation method
 
@@ -935,6 +939,12 @@ Capture the baseline evidence defined in Step 8 immediately before the live obse
 
 Do not begin counting the observation window until Step 9 has been recorded as complete.
 
+#### 7. Review implementation learnings
+
+Before closing Step 9, review the learning records captured in the product repository during bootstrap, implementation, validation and release preparation.
+
+Confirm which records, if any, require SideGig review and retain stable references to them. SideGig-level promotion is a separate activity and does not block Step 9 unless the underlying observation is itself an unresolved implementation or observation-readiness blocker.
+
 ### Required output
 
 Extend `implementation/<channel>/poc.md` using the canonical POC template with a POC Implementation section containing:
@@ -945,6 +955,7 @@ Extend `implementation/<channel>/poc.md` using the canonical POC template with a
 - concise technical implementation and validation evidence;
 - confirmation that the Gateway 3 pre-observation requirements are closed;
 - confirmation that the Step 8 observation baseline has been captured;
+- the engineering learning review result and references to any product-repository learning records requiring SideGig review;
 - the Step 9 completion decision and any blockers.
 
 Detailed design, issue history, source code, tests and CI records remain in the product repository and should be linked rather than duplicated in the implementation artifact.
@@ -963,7 +974,8 @@ Step 9 is complete when:
 8. every Gateway 3 **Action before observation** item has been closed or made explicitly **Not applicable**;
 9. the Step 8 baseline required for later evaluation has been captured;
 10. no unresolved implementation defect or configuration issue prevents valid live observation;
-11. the artifact explicitly records Step 9 as complete and ready to proceed to Step 10.
+11. the engineering learning review has been completed and any learning records requiring SideGig review are referenced;
+12. the artifact explicitly records Step 9 as complete and ready to proceed to Step 10.
 
 ## Step 10 — Operate, Evaluate and Iterate the POC
 
@@ -996,6 +1008,8 @@ Any software correction or iteration is implemented through the Development Oper
 
 An experiment-changing iteration must be explicitly authorized under the Step 7 bounded-iteration rule and must restart or redefine the observation window where the evidence conditions materially change.
 
+Continue using the Development Operating Model learning mechanism during live operation. Capture reusable lessons revealed by incidents, bounded fixes, deployment behaviour, monitoring or operational interaction in the product repository, and mark cross-project candidates for later SideGig review.
+
 ### Required output
 
 Extend implementation/<channel>/poc.md with the live-operation and evaluation evidence needed to determine:
@@ -1005,6 +1019,7 @@ Extend implementation/<channel>/poc.md with the live-operation and evaluation ev
 - capability and operational evidence against each Step 7 capability criterion;
 - incidents, pauses and bounded interventions;
 - any authorized iteration and its effect on the observation window;
+- references to material product-repository learning records captured during the observation window, including any requiring SideGig review;
 - the final POC evaluation and recommendation into Gateway 4.
 
 Detailed software-fix evidence remains in the product repository and is referenced rather than duplicated.
@@ -1018,7 +1033,8 @@ Step 10 is complete when:
 3. every material Step 7 criterion has been evaluated from retained evidence;
 4. material incidents, pauses, fixes and iterations are recorded and their effect on experiment validity is understood;
 5. any software work performed during the window is traceable through the Development Operating Model;
-6. the POC has an explicit evidence-based evaluation suitable for Gateway 4.
+6. material reusable lessons observed during the window have been captured through the product-repository learning mechanism or explicitly determined not to require a learning record;
+7. the POC has an explicit evidence-based evaluation suitable for Gateway 4.
 
 ## Gateway 4 — Productisation Decision
 

@@ -43,12 +43,15 @@ docs/
       hld.md                  # only when required
       implementation-plan.md  # only when required
       low-level-design.md      # only when required
+  learnings/
+    <source>-<slug>.md         # only when a reusable learning is captured
 
 .github/
   ISSUE_TEMPLATE/
     feature.md
     bug.md
   workflows/
+    sidegig-learning-dispatch.yml
     <project-specific CI/CD workflows>
 
 .codex/
@@ -64,6 +67,11 @@ docs/
     high-level-design.md
     implementation-plan.md
     low-level-design.md
+    learning-record.md
+    learning-collection-dispatch.yml
+
+  tools/
+    provision-repository-secrets.ps1
 
 <application source>
 <automated tests>
@@ -72,7 +80,7 @@ docs/
 
 Only the durable and always-required elements are created unconditionally. Optional change artifacts and project-specific directories are created when the product or individual Issue requires them.
 
-The structure is conceptual rather than a requirement to create empty directories. For example, `docs/changes/` need not exist until the first Issue requires a change-specific design artifact.
+The structure is conceptual rather than a requirement to create empty directories. For example, `docs/changes/` need not exist until the first Issue requires a change-specific design artifact, and `docs/learnings/` need not exist until a reusable learning is captured.
 
 ### Durable project artifacts
 
@@ -103,6 +111,49 @@ The folder is keyed by the originating GitHub Issue number so the Issue remains 
 
 Change-specific artifacts remain in the repository after integration as evidence of the decision and implementation context for that change. They are historical change records and are not subsequently rewritten to describe the current overall product; the durable Product Definition and Architecture Definition serve that purpose.
 
+### Learning records
+
+Reusable lessons discovered during bootstrap, change delivery, release activity or product operation are captured under:
+
+`docs/learnings/<source>-<slug>.md`
+
+Use the [Learning Record template](templates/learning-record.md) and the [Capture Learning skill](../implementation/skills/capture-learning/SKILL.md).
+
+A learning record is warranted only when the observation is reusable beyond the immediate incident or exposes a meaningful product, operating-model, skill/template, tooling/CI or methodology lesson. Ordinary bugs, failed tests, transient environment failures and routine implementation corrections remain in their normal Issue/validation evidence unless they expose such a reusable lesson.
+
+Learning records are historical evidence. They do not replace the Product Definition, Architecture Definition, originating Issue, change-specific design artifacts or other authoritative lifecycle state.
+
+Product-specific lessons may be acted on locally through the normal Development Lifecycle. A lesson that may require a cross-project SideGig change is marked `SideGig review: Yes` and retained for separate review. Product-repository agents do not modify, reproduce or locally override the SideGig Development Operating Model or implementation methodology in response to such a lesson.
+
+SideGig-review learning records must be portable evidence. The originating record includes a repository-qualified Learning ID, origin repository and stable source, lifecycle context, a self-contained description of the originating change/activity and constraints, the observation and concrete evidence, impact, local action, cross-project relevance and stable local references. It must not depend on unstated pull-request context, local filesystem paths or chat history.
+
+SideGig maintains a central learning queue under `development/learnings/`. After a pull request is merged to a product repository's `dev` branch, the product's standard `.github/workflows/sidegig-learning-dispatch.yml` workflow immediately dispatches the SideGig collector for that registered repository. Eligible `SideGig review: Yes` records are copied into `development/learnings/inbox/` and enriched with integration provenance that is only reliable after merge: origin branch/path, integrated commit, merged pull request when resolvable, collection timestamp and source-content hash. A low-frequency scheduled all-source scan exists only as recovery if an event dispatch is missed or fails. The originating product record remains authoritative evidence; the collected copy is the SideGig review queue.
+
+Central learning review uses the [Review Learnings skill](../implementation/skills/review-learnings/SKILL.md). This is a SideGig-central governance skill and is intentionally not installed into product repositories through the bootstrap package.
+
+The queue has three distinct responsibilities:
+
+- `development/learnings/inbox/` contains collected evidence for which no final SideGig disposition has been integrated;
+- `development/learnings/processed/` contains evidence for which SideGig has made and integrated a disposition decision;
+- a SideGig GitHub Issue is the execution tracker whenever the disposition requires work.
+
+Reviewing a learning does not itself implement a change. The reviewer reads related inbox records together, checks existing open and closed SideGig Issues and recent integrated changes, groups records that support the same outcome, and assigns one of the following final dispositions:
+
+- **Action** — a new SideGig Issue is warranted and is created;
+- **Existing action** — an existing open SideGig Issue already represents the required outcome;
+- **Already addressed** — the required SideGig change is already integrated;
+- **No action** — the evidence was considered but does not justify a SideGig change.
+
+If evidence is insufficient for a responsible decision, the record remains in `inbox/`; unresolved evidence is not moved merely to empty the queue.
+
+A warranted action that will not be implemented immediately still receives a GitHub Issue and remains open. Scheduling, prioritization and execution state belong to the normal Issue lifecycle rather than a separate learning-status mechanism. Multiple related learnings may reference the same Issue when they support one coherent SideGig outcome.
+
+For every decided record, preserve the complete collected evidence and append a `## SideGig review` section recording the review date, disposition, linked SideGig Issue where applicable, related SideGig evidence, rationale and any grouped Learning IDs. The record is then moved to the corresponding path under `processed/`.
+
+A learning-generated Issue is a normal SideGig change Issue and uses the canonical Feature or Bug Issue template. Learning provenance is added as a separate `Source Learnings` section without replacing the normal template structure. The canonical `Development Lifecycle Assessment` section remains present with `Pending` values until `assess-change` explicitly determines whether HLD and/or an Implementation Plan are required and records the downstream LLD status. Where learning evidence is sufficient, the Issue is created already satisfying the `refine-issue` contract; otherwise it returns to refinement before assessment. Durable central evidence references use the final `processed/` path. The learning record does not track implementation progress after the Issue exists.
+
+The learning collector may commit generated evidence directly to SideGig `main` only under `development/learnings/inbox/**`. This is a narrow evidence-ingestion exception to the normal human-merge rule. Inbox-to-processed moves, review metadata, GitHub Issue creation and any changes to the Development Operating Model, methodology, skills, templates or tooling follow the normal SideGig governance boundary. Repository changes use a branch, validation, pull request and explicit human merge decision.
+
 ### README
 
 Every repository contains a root `README.md` created from the [README template](templates/README-template.md).
@@ -127,7 +178,8 @@ Every repository contains a root `AGENTS.md` created from the [AGENTS template](
 - the authoritative Issue/Product/Architecture context;
 - the canonical install, run and validation commands;
 - project-specific constraints;
-- the location of optional change artifacts;
+- the location of optional change artifacts and learning records;
+- the lightweight learning-capture rule;
 - Git and integration boundaries;
 - the requirement to use the SideGig Development Lifecycle proportionately.
 
@@ -141,7 +193,7 @@ Canonical templates needed by those skills are installed alongside them under:
 
 `.codex/templates/`
 
-The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, change execution, CI diagnosis, release preparation, staging validation and production promotion. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
+The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, change execution, CI diagnosis, release preparation, staging validation, production promotion and learning capture. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
 
 A project may extend `AGENTS.md` with genuine repository-specific instructions, but it should not restate the full Development Operating Model.
 
@@ -191,11 +243,28 @@ The bootstrap performs the following:
 7. install the standard Feature and Bug Issue templates;
 8. establish the repository's canonical local validation command and supporting language/tool configuration;
 9. install the versioned SideGig agent package, including reusable skills under `.codex/skills/` and canonical project-local templates under `.codex/templates/`;
-10. install the CI validation workflow and any immediately required deployment workflow;
-11. commit the resulting bootstrap baseline;
-12. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
-13. create the standard `feature` and `bug` labels;
-14. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
+10. install the CI validation workflow, the standard SideGig learning-dispatch workflow, and any immediately required deployment workflow;
+11. use the installed `provision-repository-secrets` skill/tool to automatically create and verify `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` in the new repository; bootstrap is blocked if provisioning fails;
+12. commit the resulting bootstrap baseline;
+13. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
+14. create the standard `feature` and `bug` labels;
+15. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
+
+### Bootstrap credential prerequisite
+
+Automatic per-repository secret provisioning uses one reusable fine-grained GitHub credential scoped only to `adunato/SideGig` with `Actions: write`. Creating or rotating that credential is a one-time explicit security action by the project owner; it is not repeated for each product repository.
+
+On the standard Windows development workstation, initialize the credential once with:
+
+`implementation/bootstrap/initialize-dispatch-credential.ps1`
+
+The initializer stores only a Windows DPAPI-encrypted representation under:
+
+`%LOCALAPPDATA%\SideGig\bootstrap\collector-dispatch-token.dpapi`
+
+The plaintext token must never be committed, written into product documentation, or persisted in a repository. The installed package tool `.codex/tools/provision-repository-secrets.ps1` decrypts the local credential in memory, passes it to GitHub CLI through standard input, creates or updates the product repository Actions secret, verifies the secret exists, then clears the in-memory plaintext.
+
+A missing, expired or undecryptable bootstrap credential is a bootstrap blocker. The bootstrap must not silently succeed while leaving repository-secret setup for the user to remember later. Token rotation is performed once at workstation level, after which repositories can be reprovisioned by rerunning the standard provisioning tool.
 
 The Product Definition and Architecture Definition may initially be `Draft` where legitimate project decisions remain unresolved. They must reach the approval state required by Chapters 2 and 3 before downstream development depends on those unresolved areas.
 
@@ -209,7 +278,8 @@ SideGig owns the canonical bootstrap inputs:
 - templates under `development/templates/`;
 - change-delivery templates under `implementation/templates/`;
 - lifecycle skills under `implementation/skills/`;
-- the versioned agent-skill and template bootstrap package under `implementation/bootstrap/`.
+- the versioned agent-skill, template and bootstrap-tool package under `implementation/bootstrap/`;
+- the one-time local bootstrap credential initialization and automatic per-repository secret-provisioning utilities.
 
 The product repository owns the instantiated outputs and all project-specific extension or configuration.
 
@@ -410,7 +480,7 @@ Bug Issues are created using the [Bug Issue template](templates/bug-issue.md) an
 - relevant Product Definition or Architecture Definition context where material;
 - dependencies on other Issues, or `None`.
 
-Issues describe required outcomes and evidence, not implementation design. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature/bug intent into a development-ready Issue. The Development Lifecycle determines what design and planning artifacts are required to execute the Issue.
+Issues describe required outcomes and evidence, not implementation design. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature/bug intent into a development-ready Issue. Both canonical Issue templates include a `Development Lifecycle Assessment` section initialized to `Pending`. The Development Lifecycle determines what design and planning artifacts are required and the Assess Change step updates that section in the originating Issue.
 
 Work discovered outside the current Issue scope becomes a separate Issue rather than silently expanding the active change.
 
@@ -651,7 +721,7 @@ Determine proportionately which change-specific artifacts are required.
 
 Use the [Assess Change skill](../implementation/skills/assess-change/SKILL.md) when an agent performs this assessment.
 
-No separate classification document is created. Where an artifact is intentionally omitted, record the rationale concisely in the Issue, pull request or next required artifact.
+No separate classification document is created. Record the assessment outcome in the originating Issue's `Development Lifecycle Assessment` section. That section is the canonical record of the HLD and Implementation Plan decisions and rationale, LLD status, material risks, and the exact next lifecycle step.
 
 #### HLD decision
 
@@ -809,6 +879,20 @@ A release-fix Issue follows the same lifecycle but targets the active release br
 
 Coding agents may prepare the pull request and integration evidence but do not bypass CI/branch protection or perform their own human merge decision.
 
+### Learning capture and feedback
+
+Every lifecycle skill ends with a lightweight learning checkpoint. The checkpoint does not require a learning record to be created: the normal result is either one or more learning references or `Learnings: None`.
+
+Use the [Capture Learning skill](../implementation/skills/capture-learning/SKILL.md) when execution exposes a reusable lesson. The skill owns the capture threshold, classification and canonical record format.
+
+The feedback boundary is:
+
+`product-repository observation → local learning record → separate SideGig review → approved DOM / skill / template / tooling / methodology change`
+
+The product repository records what happened and why it may matter. It does not decide or apply a cross-project SideGig change. SideGig review determines whether the lesson should be promoted, deferred or rejected.
+
+Learning capture is not itself a release gate unless the underlying observation identifies an unresolved blocker under the existing lifecycle rules.
+
 ### Feature and bug paths
 
 The lifecycle is not two separate processes. Feature and Bug Issues use the same stages with different typical depth.
@@ -841,6 +925,7 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 | Development | [development](../implementation/skills/development/SKILL.md) | Every implemented Issue |
 | Validation | [validation](../implementation/skills/validation/SKILL.md) | Every implemented Issue |
 | Integration | [merge-change](../implementation/skills/merge-change/SKILL.md) | Every validated Issue |
+| Cross-cutting learning | [capture-learning](../implementation/skills/capture-learning/SKILL.md) | When any lifecycle stage exposes a reusable lesson |
 
 ### Completion
 
@@ -852,7 +937,8 @@ An implementation change is complete when:
 4. required Product Definition and Architecture Definition updates are included;
 5. required CI checks pass;
 6. the change is integrated into its target branch through the GitHub Delivery Model;
-7. the GitHub Issue is closed through the integrated change or an explicit recorded resolution.
+7. the GitHub Issue is closed through the integrated change or an explicit recorded resolution;
+8. the learning checkpoint is complete, with learning records referenced where created or `Learnings: None` recorded in the completion hand-off.
 
 Untracked implementation work is not allowed.
 
@@ -968,6 +1054,8 @@ The complete validation command runs the repository-applicable checks for:
 Project-specific validation may extend this command with additional deterministic local checks when they materially protect the product.
 
 The command must return a non-zero exit status when a required check fails.
+
+In the SideGig repository, `format:bootstrap:check` formats manifest-listed Markdown, YAML, JSON and JavaScript sources with the locked Prettier dependency. PowerShell sources use the PSScriptAnalyzer version pinned in `implementation/bootstrap/PSScriptAnalyzer.version`. CI installs that module before validation. Local validation requires `pwsh` or Windows PowerShell plus that PSScriptAnalyzer version; read the pinned version and install it with `Install-Module -Name PSScriptAnalyzer -RequiredVersion $version -Scope CurrentUser`.
 
 Bootstrap runs the target repository's configured formatter check against all generated and installed artifacts after they have been created, then runs the canonical validation command. Formatting or validation failures block bootstrap completion and must be corrected before the repository is reported as ready.
 

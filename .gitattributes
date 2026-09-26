@@ -1,5 +1,9 @@
 /development/templates/*.md text eol=lf
+/development/templates/*.yml text eol=lf
 /implementation/templates/high-level-design.md text eol=lf
 /implementation/templates/implementation-plan.md text eol=lf
 /implementation/templates/low-level-design.md text eol=lf
 /implementation/skills/**/SKILL.md text eol=lf
+/implementation/bootstrap/provision-repository-secrets.ps1 text eol=lf
+/implementation/bootstrap/check-powershell-format.ps1 text eol=lf
+/implementation/bootstrap/PSScriptAnalyzer.version text eol=lf

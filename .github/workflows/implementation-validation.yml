@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'implementation/**'
-      - 'scripts/implementation-validator.mjs'
-      - 'package.json'
-      - 'package-lock.json'
-      - '.github/workflows/implementation-validation.yml'
+      - "implementation/**"
+      - "scripts/implementation-validator.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/implementation-validation.yml"
 
 permissions:
   contents: read
@@ -23,10 +23,38 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install validator dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
+
+      - name: Install pinned PowerShell formatter
+        shell: pwsh
+        run: |
+          $version = (Get-Content implementation/bootstrap/PSScriptAnalyzer.version -Raw).Trim()
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name PSScriptAnalyzer -Repository PSGallery -RequiredVersion $version -Scope CurrentUser -Force -Confirm:$false
+
+      - name: Validate bootstrap PowerShell and package manifest
+        shell: pwsh
+        run: |
+          $allErrors = @()
+          Get-ChildItem implementation/bootstrap/*.ps1 | ForEach-Object {
+            $tokens = $null
+            $parseErrors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$parseErrors) | Out-Null
+            $allErrors += $parseErrors
+          }
+          if ($allErrors.Count -gt 0) {
+            $allErrors | ForEach-Object { Write-Error $_.Message }
+            throw "Bootstrap PowerShell syntax validation failed."
+          }
+          ./implementation/bootstrap/verify-skills.ps1
+
+      - name: Validate learning collector
+        run: |
+          python -m py_compile implementation/learning/collect_learnings.py
+          python -c "import json; json.load(open('development/learnings/sources.json', encoding='utf-8'))"
 
       - name: Validate implementation documents
         run: |

@@ -1,0 +1,53 @@
+name: Collect SideGig learnings
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_repository:
+        description: Registered product repository to collect immediately after merge
+        required: false
+        type: string
+  schedule:
+    - cron: '17 3 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sidegig-learning-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out SideGig
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Collect registered product learnings
+        env:
+          SIDEGIG_LEARNING_TOKEN: ${{ secrets.SIDEGIG_LEARNING_TOKEN }}
+          SOURCE_REPOSITORY: ${{ inputs.source_repository }}
+        run: |
+          args=()
+          if [ -n "$SOURCE_REPOSITORY" ]; then
+            args+=(--source-repository "$SOURCE_REPOSITORY")
+          fi
+          python implementation/learning/collect_learnings.py "${args[@]}"
+
+      - name: Commit collected inbox evidence
+        run: |
+          if [ -z "$(git status --porcelain -- development/learnings/inbox)" ]; then
+            echo "No new SideGig-review learnings."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add development/learnings/inbox
+          git commit -m "chore: collect SideGig learnings"
+          git pull --rebase origin main
+          git push origin HEAD:main

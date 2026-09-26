@@ -14,9 +14,35 @@ function Write-Phase([string] $Name) {
     Write-Output "[bootstrap] $Name"
 }
 
-function Add-CurrentItem([string] $Section, $Current, [ref] $Templates, [ref] $Skills) {
+function Test-ExpectedSha256([string] $Path, [string] $Expected) {
+    $text = [System.IO.File]::ReadAllText($Path)
+    $normalized = $text -replace "`r`n", "`n"
+    $normalized = $normalized -replace "`r", "`n"
+    $variants = @(
+        $normalized,
+        ($normalized -replace "`n", "`r`n")
+    )
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        foreach ($variant in $variants) {
+            $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($variant)
+            $actual = -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') })
+            if ($actual.ToUpperInvariant() -eq $Expected.ToUpperInvariant()) {
+                return $true
+            }
+            $sha.Initialize()
+        }
+        return $false
+    }
+    finally {
+        $sha.Dispose()
+    }
+}
+
+function Add-CurrentItem([string] $Section, $Current, [ref] $Templates, [ref] $Tools, [ref] $Skills) {
     if ($null -eq $Current) { return }
     if ($Section -eq 'templates') { $Templates.Value += [pscustomobject]$Current }
+    elseif ($Section -eq 'tools') { $Tools.Value += [pscustomobject]$Current }
     elseif ($Section -eq 'skills') { $Skills.Value += [pscustomobject]$Current }
 }
 
@@ -29,24 +55,32 @@ function Read-Manifest([string] $Path) {
 
     $skillRootMatch = [regex]::Match($text, '(?m)^skillDestinationRoot:\s*(\S+)\s*$')
     $templateRootMatch = [regex]::Match($text, '(?m)^templateDestinationRoot:\s*(\S+)\s*$')
-    if (-not $skillRootMatch.Success -or -not $templateRootMatch.Success) { throw 'Manifest is missing destination roots.' }
+    $toolRootMatch = [regex]::Match($text, '(?m)^toolDestinationRoot:\s*(\S+)\s*$')
+    if (-not $skillRootMatch.Success -or -not $templateRootMatch.Success -or -not $toolRootMatch.Success) {
+        throw 'Manifest is missing destination roots.'
+    }
 
     $templates = @()
+    $tools = @()
     $skills = @()
     $section = $null
     $current = $null
 
     foreach ($line in ($text -split "\r?\n")) {
         if ($line -match '^templates:\s*$') {
-            Add-CurrentItem $section $current ([ref]$templates) ([ref]$skills)
+            Add-CurrentItem $section $current ([ref]$templates) ([ref]$tools) ([ref]$skills)
             $section = 'templates'; $current = $null; continue
         }
+        if ($line -match '^tools:\s*$') {
+            Add-CurrentItem $section $current ([ref]$templates) ([ref]$tools) ([ref]$skills)
+            $section = 'tools'; $current = $null; continue
+        }
         if ($line -match '^skills:\s*$') {
-            Add-CurrentItem $section $current ([ref]$templates) ([ref]$skills)
+            Add-CurrentItem $section $current ([ref]$templates) ([ref]$tools) ([ref]$skills)
             $section = 'skills'; $current = $null; continue
         }
         if ($line -match '^\s*- name:\s*(\S+)') {
-            Add-CurrentItem $section $current ([ref]$templates) ([ref]$skills)
+            Add-CurrentItem $section $current ([ref]$templates) ([ref]$tools) ([ref]$skills)
             $current = [ordered]@{ name = $Matches[1] }
             continue
         }
@@ -62,21 +96,24 @@ function Read-Manifest([string] $Path) {
         }
         if ($line -match '^\s+sha256:\s*(\S+)') { $current.sha256 = $Matches[1]; continue }
     }
-    Add-CurrentItem $section $current ([ref]$templates) ([ref]$skills)
+    Add-CurrentItem $section $current ([ref]$templates) ([ref]$tools) ([ref]$skills)
 
     if ($skills.Count -eq 0) { throw 'Manifest contains no skills.' }
     if ($templates.Count -eq 0) { throw 'Manifest contains no templates.' }
+    if ($tools.Count -eq 0) { throw 'Manifest contains no tools.' }
 
     return [pscustomobject]@{
         SkillDestinationRoot = $skillRootMatch.Groups[1].Value
         TemplateDestinationRoot = $templateRootMatch.Groups[1].Value
+        ToolDestinationRoot = $toolRootMatch.Groups[1].Value
         Skills = $skills
         Templates = $templates
+        Tools = $tools
     }
 }
 
 Write-Phase 'paths: resolving repository and destination'
-$root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
+$root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../..')).Path
 $destinationRoot = (Resolve-Path -LiteralPath $Destination).Path
 $manifestData = Read-Manifest $Manifest
 
@@ -95,6 +132,19 @@ foreach ($template in $manifestData.Templates) {
     }
 }
 
+foreach ($tool in $manifestData.Tools) {
+    if (-not $tool.source -or -not $tool.destination -or -not $tool.sha256) {
+        throw "Incomplete tool declaration: $($tool.name)"
+    }
+    $files += [pscustomobject]@{
+        Kind = 'tool'
+        Name = $tool.name
+        Source = Join-Path $root $tool.source
+        Target = Join-Path (Join-Path $destinationRoot $manifestData.ToolDestinationRoot) $tool.destination
+        Sha256 = $tool.sha256
+    }
+}
+
 foreach ($skill in $manifestData.Skills) {
     if (-not $skill.source -or -not $skill.sha256) { throw "Incomplete skill declaration: $($skill.name)" }
     $files += [pscustomobject]@{
@@ -109,18 +159,21 @@ foreach ($skill in $manifestData.Skills) {
 Write-Phase "sources: resolved $($files.Count) package files"
 
 foreach ($file in $files) {
-    if (-not (Test-Path -LiteralPath $file.Source -PathType Leaf)) { throw "Declared source does not exist: $($file.Source)" }
+    if (-not (Test-Path -LiteralPath $file.Source -PathType Leaf)) {
+        throw "Declared source does not exist: $($file.Source)"
+    }
 }
 
 $conflicts = @($files | Where-Object { Test-Path -LiteralPath $_.Target -PathType Leaf })
-if ($conflicts.Count -gt 0) { throw "Refusing to overwrite installed package files: $($conflicts.Target -join ', ')" }
+if ($conflicts.Count -gt 0) {
+    throw "Refusing to overwrite installed package files: $($conflicts.Target -join ', ')"
+}
 Write-Phase 'conflicts: none found'
 
 foreach ($file in $files) {
     Write-Phase "hash: checking $($file.Kind) $($file.Name)"
-    $hash = (Get-FileHash -LiteralPath $file.Source -Algorithm SHA256).Hash
-    if ($hash -ne $file.Sha256.ToUpperInvariant()) {
-        throw "Checksum mismatch for $($file.Kind) '$($file.Name)': expected $($file.Sha256), got $hash"
+    if (-not (Test-ExpectedSha256 $file.Source $file.Sha256)) {
+        throw "Checksum mismatch for $($file.Kind) '$($file.Name)' after LF/CRLF normalization: expected $($file.Sha256)"
     }
 }
 Write-Phase 'hash: all checks passed'
@@ -135,4 +188,4 @@ foreach ($file in $files) {
 }
 
 Write-Phase 'complete'
-Write-Output "Installed $($manifestData.Skills.Count) skills and $($manifestData.Templates.Count) templates."
+Write-Output "Installed $($manifestData.Skills.Count) skills, $($manifestData.Templates.Count) templates, and $($manifestData.Tools.Count) tools."

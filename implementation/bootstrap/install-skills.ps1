@@ -206,6 +206,26 @@ foreach ($file in $files) {
 }
 Write-Phase 'hash: all checks passed'
 
+$productGitAttributesSource = Join-Path $root 'development/templates/product.gitattributes'
+$productGitAttributesPath = Join-Path $destinationRoot '.gitattributes'
+$productGitAttributesRule = '* text=auto eol=lf'
+if ($PSCmdlet.ShouldProcess($productGitAttributesPath, 'Ensure the canonical product line-ending policy')) {
+    if (Test-Path -LiteralPath $productGitAttributesPath -PathType Leaf) {
+        $productGitAttributesText = [System.IO.File]::ReadAllText($productGitAttributesPath)
+        $normalizedProductGitAttributes = $productGitAttributesText -replace "`r`n", "`n"
+        $normalizedProductGitAttributes = $normalizedProductGitAttributes -replace "`r", "`n"
+        $productGitAttributesLines = $normalizedProductGitAttributes -split "`n"
+        if ($productGitAttributesLines -cnotcontains $productGitAttributesRule) {
+            throw "Existing .gitattributes does not contain the canonical SideGig line-ending rule '$productGitAttributesRule'. Refusing to overwrite product-specific attributes; reconcile the file explicitly before bootstrap."
+        }
+        Write-Phase 'gitattributes: canonical LF rule already present'
+    }
+    else {
+        Copy-Item -LiteralPath $productGitAttributesSource -Destination $productGitAttributesPath -Force:$false
+        Write-Phase 'gitattributes: installed canonical LF policy'
+    }
+}
+
 foreach ($file in $files) {
     $folder = Split-Path -Parent $file.Target
     if ($PSCmdlet.ShouldProcess($file.Target, "Install SideGig $($file.Kind)")) {

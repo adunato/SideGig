@@ -27,7 +27,7 @@ Do not use the learning file itself to track implementation progress. Once an Is
 
 ## Review dispositions
 
-Use `implementation/skills/review-learnings/SKILL.md` for central review.
+Use `.codex/skills/review-learnings/SKILL.md` for central review.
 
 A decided learning is recorded as one of:
 

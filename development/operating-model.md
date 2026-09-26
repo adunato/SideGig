@@ -19,6 +19,15 @@ The SideGig repository is the authoritative home for the cross-project operating
 
 SideGig does not use a shared product monorepo by default.
 
+### SideGig central repository agent layer
+
+The central SideGig repository is not a product repository and does not use the product delivery branch model. Repository-local agent instructions live in the root `AGENTS.md`, with SideGig-specific runtime skills under `.codex/skills/`.
+
+Canonical product-repository skills under `implementation/skills/` are package source assets owned by SideGig and deployed into product repositories by the bootstrap manifest and installer. They are not runtime instructions for agents working on the SideGig repository itself.
+
+Normal SideGig repository changes branch from the current `main` state and return to `main` through a pull request and explicit human merge. Product-repository `dev`, `staging`, release-branch and promotion rules do not apply to SideGig. The learning collector's documented direct-write exception remains limited to generated evidence under `development/learnings/inbox/**`.
+
+
 ### Repository identity
 
 - Repository names use lowercase kebab-case.
@@ -129,7 +138,7 @@ SideGig-review learning records must be portable evidence. The originating recor
 
 SideGig maintains a central learning queue under `development/learnings/`. After a pull request is merged to a product repository's `dev` branch, the product's standard `.github/workflows/sidegig-learning-dispatch.yml` workflow immediately dispatches the SideGig collector for that registered repository. Eligible `SideGig review: Yes` records are copied into `development/learnings/inbox/` and enriched with integration provenance that is only reliable after merge: origin branch/path, integrated commit, merged pull request when resolvable, collection timestamp and source-content hash. A low-frequency scheduled all-source scan exists only as recovery if an event dispatch is missed or fails. The originating product record remains authoritative evidence; the collected copy is the SideGig review queue.
 
-Central learning review uses the [Review Learnings skill](../implementation/skills/review-learnings/SKILL.md). This is a SideGig-central governance skill and is intentionally not installed into product repositories through the bootstrap package.
+Central learning review uses the [Review Learnings skill](../.codex/skills/review-learnings/SKILL.md). This is a SideGig-central governance skill and is intentionally not installed into product repositories through the bootstrap package.
 
 The queue has three distinct responsibilities:
 
@@ -171,7 +180,7 @@ The README does not duplicate product requirements, architecture, change design 
 
 ### AGENTS.md and agentic framework
 
-Every repository contains a root `AGENTS.md` created from the [AGENTS template](templates/AGENTS-template.md).
+Every product repository contains a root `AGENTS.md` created from the [AGENTS template](templates/AGENTS-template.md).
 
 `AGENTS.md` is the repository-specific operating entry point for coding agents. It identifies:
 

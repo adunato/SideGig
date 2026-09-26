@@ -13,6 +13,7 @@ Create or populate, as applicable:
 
 - `README.md` from `.codex/templates/README-template.md`;
 - `AGENTS.md` from `.codex/templates/AGENTS-template.md`;
+- repository-root `.gitattributes` from `.codex/templates/product.gitattributes`, establishing `* text=auto eol=lf` before normal development begins;
 - `docs/product.md` from `.codex/templates/product-definition.md`;
 - `docs/architecture.md` from `.codex/templates/architecture-definition.md`;
 - `.github/ISSUE_TEMPLATE/feature.md` and `bug.md`;
@@ -21,6 +22,8 @@ Create or populate, as applicable:
 - the canonical local validation command and required language/tool configuration;
 - formatter configuration and a formatter check for the generated and installed artifacts;
 - the project-appropriate CI validation workflow and any deployment workflow already required by the known architecture.
+
+The product `.gitattributes` baseline is standard SideGig repository infrastructure. It normalizes text checkouts to LF so formatter and validation behaviour is stable across Windows and Linux. The package installer creates it when absent. If an existing `.gitattributes` does not already contain the canonical `* text=auto eol=lf` rule, bootstrap must stop and require explicit reconciliation rather than overwrite product-specific attributes.
 
 The learning-dispatch workflow is standard SideGig repository infrastructure. It runs when a pull request is merged to `dev` and immediately dispatches the central SideGig learning collector.
 

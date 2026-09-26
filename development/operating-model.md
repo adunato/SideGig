@@ -969,6 +969,8 @@ Project-specific validation may extend this command with additional deterministi
 
 The command must return a non-zero exit status when a required check fails.
 
+Bootstrap runs the target repository's configured formatter check against all generated and installed artifacts after they have been created, then runs the canonical validation command. Formatting or validation failures block bootstrap completion and must be corrected before the repository is reported as ready.
+
 ### Validation-stage expectations
 
 The Validation stage uses the repository validation contract as the baseline regression check, then adds the change-specific evidence required by the Issue and any applicable HLD / Implementation Plan / LLD.

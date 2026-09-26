@@ -5,7 +5,8 @@
   "scripts": {
     "validate": "npm run validate:research && npm run validate:implementation",
     "validate:research": "node scripts/research-validator.mjs",
-    "validate:implementation": "node scripts/implementation-validator.mjs",
+    "validate:implementation": "npm run format:bootstrap:check && node scripts/implementation-validator.mjs",
+    "format:bootstrap:check": "node implementation/bootstrap/check-format.mjs",
     "report:research": "node scripts/research-report.mjs",
     "dashboard:research": "node scripts/research-dashboard-view.mjs && node scripts/research-dashboard-polish.mjs && node scripts/research-dashboard-capability-scores.mjs",
     "verify:implementation-skills": "powershell -NoProfile -ExecutionPolicy Bypass -File implementation/bootstrap/verify-skills.ps1"
@@ -14,5 +15,8 @@
     "remark-gfm": "4.0.1",
     "remark-parse": "11.0.0",
     "unified": "11.0.5"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
   }
 }

@@ -4,6 +4,8 @@
 - **Prerequisite validation:** <Link to completed prerequisites-validation artifact>
 - **Research methodology:** <Link to research/methodology.md>
 - **POC methodology revision:** Demand validation v1
+- **POC artifact role:** Current
+- **POC lineage predecessor:** <None, or link to superseded legacy POC artifact>
 - **Phase 2 start date:** <YYYY-MM-DD>
 - **Phase 3 definition date:** <YYYY-MM-DD>
 

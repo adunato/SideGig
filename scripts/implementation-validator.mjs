@@ -15,6 +15,7 @@ const TEMPLATE_PATHS = {
   prerequisites: path.join(TEMPLATE_DIR, 'prerequisites-template.md'),
   prerequisitesValidation: path.join(TEMPLATE_DIR, 'prerequisites-validation-template.md'),
   poc: path.join(TEMPLATE_DIR, 'poc-template.md'),
+  legacyPocContinuation: path.join(TEMPLATE_DIR, 'legacy-poc-continuation-template.md'),
 };
 
 const REQUIRED_CANONICAL_FILES = [
@@ -31,12 +32,13 @@ const GATEWAY_DECISIONS = new Set(['Pass', 'Fail']);
 const COMMITMENT_STATUSES = new Set(['Ready', 'Action before observation', 'Blocked', 'Not applicable']);
 const CONFIDENCE_VALUES = new Set(['High', 'Medium', 'Low']);
 const POC_DEMAND_VALIDATION_REVISION = 'Demand validation v1';
-const LEGACY_POC_FILES = new Set(['implementation/apify/poc.md']);
 const ASSUMPTION_CLASSIFICATIONS = new Set(['Precondition', 'POC test']);
 const ASSUMPTION_IMPORTANCE = new Set(['Critical', 'Material']);
 const EVIDENCE_GRADES = new Set(['E0', 'E1', 'E2', 'E3', 'E4']);
 const ASSUMPTION_DISPOSITIONS = new Set(['Supported', 'Test in POC', 'Blocking', 'Rejected']);
 const FORECAST_OUTCOMES = new Set(['Supported', 'Weakened', 'Inconclusive']);
+const LEGACY_OPERATION_STATUSES = new Set(['Pass', 'Fail', 'Pending', 'Not applicable']);
+const LEGACY_OPERATIONAL_OUTCOMES = new Set(['Operational validation complete', 'Incomplete', 'Stopped']);
 
 const MARKET_DIMENSIONS = new Set([
   'Paying demand',
@@ -300,14 +302,24 @@ function validatePoc(file, doc, template) {
   compareTemplateHeadings(result, doc.ast, template, 3, 'H3');
   validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Research methodology', 'Phase 2 start date', 'Phase 3 definition date']);
 
+  const pocArtifactRole = metadataValue(doc.raw, 'POC artifact role');
+  const pocLineagePredecessor = metadataValue(doc.raw, 'POC lineage predecessor');
+
   const demandValidationRevision = metadataValue(doc.raw, 'POC methodology revision');
   const usesDemandValidation = demandValidationRevision === POC_DEMAND_VALIDATION_REVISION;
-  const relativePocPath = rel(file);
   if (demandValidationRevision && demandValidationRevision !== POC_DEMAND_VALIDATION_REVISION) {
     result.errors.push(`Unsupported POC methodology revision "${demandValidationRevision}".`);
   }
-  if (!demandValidationRevision && !LEGACY_POC_FILES.has(relativePocPath)) {
-    result.errors.push(`POC artifact must declare POC methodology revision: ${POC_DEMAND_VALIDATION_REVISION}.`);
+  if (!demandValidationRevision) {
+    result.errors.push(`Current POC artifact must declare POC methodology revision: ${POC_DEMAND_VALIDATION_REVISION}.`);
+  }
+  if (!pocArtifactRole) {
+    result.errors.push('Missing metadata field: POC artifact role.');
+  } else if (!isPlaceholder(pocArtifactRole) && pocArtifactRole !== 'Current') {
+    result.errors.push('Current POC artifact must record POC artifact role: Current.');
+  }
+  if (!pocLineagePredecessor) {
+    result.errors.push('Missing metadata field: POC lineage predecessor.');
   }
 
   const researchMethodology = metadataValue(doc.raw, 'Research methodology');
@@ -880,6 +892,97 @@ function validatePoc(file, doc, template) {
     gateway3Decision,
     step9Complete: step9['Step 9 complete'],
     pocMethodologyRevision: demandValidationRevision ?? 'legacy',
+    pocArtifactRole: pocArtifactRole ?? null,
+    pocLineagePredecessor: pocLineagePredecessor ?? null,
+  };
+
+  addIncompletePlaceholders(result, doc.raw);
+  return result;
+}
+
+function validateLegacyPoc(file, doc) {
+  const result = baseResult(file, 'legacy-poc');
+
+  validateMetadata(result, doc.raw, [
+    'Legacy POC status',
+    'Superseded by',
+    'Supersession date',
+    'Continuation purpose',
+    'Product repository',
+  ]);
+
+  const legacyStatus = metadataValue(doc.raw, 'Legacy POC status');
+  if (legacyStatus && !isPlaceholder(legacyStatus) && legacyStatus !== 'Superseded — operational continuation') {
+    result.errors.push('Legacy POC status must be "Superseded — operational continuation".');
+  }
+
+  const continuationHeading = firstHeading(doc.ast, 2, '12. Legacy Continuation and Closeout');
+  if (!continuationHeading) {
+    result.errors.push('Missing H2 section: 12. Legacy Continuation and Closeout.');
+  }
+
+  const fields = validateRequiredFields(result, doc.raw, [
+    'Legacy continuation authorized',
+    'Legacy continuation scope',
+    'Commercial interpretation',
+    'Deployment / operational objective',
+    'Legacy completion',
+    'Operational outcome',
+    'Commercial outcome',
+    'Legacy blockers',
+    'Closeout date',
+  ]);
+
+  validateCompleteField(result, fields['Legacy continuation authorized'], 'Legacy continuation authorized');
+  validateCompleteField(result, fields['Legacy completion'], 'Legacy completion');
+
+  const operationalOutcome = fields['Operational outcome'];
+  if (operationalOutcome && !isPlaceholder(operationalOutcome) && !LEGACY_OPERATIONAL_OUTCOMES.has(operationalOutcome)) {
+    result.errors.push(`Legacy Operational outcome has invalid value "${operationalOutcome}".`);
+  }
+
+  const commercialOutcome = fields['Commercial outcome'];
+  if (commercialOutcome && !isPlaceholder(commercialOutcome) && commercialOutcome !== 'Superseded — not evaluated for productisation') {
+    result.errors.push('Legacy Commercial outcome must remain "Superseded — not evaluated for productisation".');
+  }
+
+  const evidenceHeading = firstHeading(doc.ast, 3, 'Operational Completion Evidence');
+  const evidenceRows = validateTableShape(
+    result,
+    firstTableInSection(doc.ast, evidenceHeading),
+    ['Area', 'Evidence / result', 'Status', 'Learning / follow-up'],
+    'Legacy operational completion evidence',
+  );
+
+  for (const row of evidenceRows) {
+    const status = row[2]?.trim();
+    if (status && !isPlaceholder(status) && !LEGACY_OPERATION_STATUSES.has(status)) {
+      result.errors.push(`Legacy operational completion evidence contains invalid status "${status}".`);
+    }
+  }
+
+  if (fields['Legacy continuation authorized'] === 'Yes') {
+    for (const label of ['Legacy continuation scope', 'Commercial interpretation', 'Deployment / operational objective']) {
+      const value = fields[label];
+      if (!value || isPlaceholder(value)) {
+        result.errors.push(`Legacy continuation is authorized but ${label} is not substantively recorded.`);
+      }
+    }
+  }
+
+  if (fields['Legacy completion'] === 'Yes') {
+    if (operationalOutcome !== 'Operational validation complete') {
+      result.errors.push('Legacy completion is Yes but Operational outcome is not "Operational validation complete".');
+    }
+    if (!fields['Closeout date'] || isPlaceholder(fields['Closeout date']) || /pending/i.test(fields['Closeout date'])) {
+      result.errors.push('Legacy completion is Yes but Closeout date is not recorded.');
+    }
+  }
+
+  result.data = {
+    legacyContinuationAuthorized: fields['Legacy continuation authorized'],
+    legacyComplete: fields['Legacy completion'],
+    operationalOutcome,
   };
 
   addIncompletePlaceholders(result, doc.raw);
@@ -902,6 +1005,7 @@ function classify(file) {
   if (/^implementation\/[^/]+\/prerequisites\.md$/.test(relative)) return 'prerequisites';
   if (/^implementation\/[^/]+\/prerequisites-validation\.md$/.test(relative)) return 'prerequisites-validation';
   if (/^implementation\/[^/]+\/poc\.md$/.test(relative)) return 'poc';
+  if (/^implementation\/[^/]+\/legacy\/[^/]+\.md$/.test(relative)) return 'legacy-poc';
   return null;
 }
 
@@ -1030,6 +1134,7 @@ function main() {
     const doc = parseMarkdown(file);
     if (type === 'prerequisites') return validatePrerequisites(file, doc, templates.prerequisites);
     if (type === 'prerequisites-validation') return validatePrerequisitesValidation(file, doc, templates.prerequisitesValidation);
+    if (type === 'legacy-poc') return validateLegacyPoc(file, doc);
     return validatePoc(file, doc, templates.poc);
   });
 

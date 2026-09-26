@@ -30,6 +30,12 @@ const FINAL_SELECTION_DECISIONS = new Set(['Selected', 'Deferred']);
 const GATEWAY_DECISIONS = new Set(['Pass', 'Fail']);
 const COMMITMENT_STATUSES = new Set(['Ready', 'Action before observation', 'Blocked', 'Not applicable']);
 const CONFIDENCE_VALUES = new Set(['High', 'Medium', 'Low']);
+const POC_DEMAND_VALIDATION_REVISION = 'Demand validation v1';
+const ASSUMPTION_CLASSIFICATIONS = new Set(['Precondition', 'POC test']);
+const ASSUMPTION_IMPORTANCE = new Set(['Critical', 'Material']);
+const EVIDENCE_GRADES = new Set(['E0', 'E1', 'E2', 'E3', 'E4']);
+const ASSUMPTION_DISPOSITIONS = new Set(['Supported', 'Test in POC', 'Blocking', 'Rejected']);
+const FORECAST_OUTCOMES = new Set(['Supported', 'Weakened', 'Inconclusive']);
 
 const MARKET_DIMENSIONS = new Set([
   'Paying demand',
@@ -293,6 +299,12 @@ function validatePoc(file, doc, template) {
   compareTemplateHeadings(result, doc.ast, template, 3, 'H3');
   validateMetadata(result, doc.raw, ['Channel', 'Prerequisite validation', 'Research methodology', 'Phase 2 start date', 'Phase 3 definition date']);
 
+  const demandValidationRevision = metadataValue(doc.raw, 'POC methodology revision');
+  const usesDemandValidation = demandValidationRevision === POC_DEMAND_VALIDATION_REVISION;
+  if (demandValidationRevision && demandValidationRevision !== POC_DEMAND_VALIDATION_REVISION) {
+    result.errors.push(`Unsupported POC methodology revision "${demandValidationRevision}".`);
+  }
+
   const researchMethodology = metadataValue(doc.raw, 'Research methodology');
   if (researchMethodology && !isPlaceholder(researchMethodology) && !/research\/methodology\.md/i.test(researchMethodology)) {
     result.errors.push('Research methodology metadata must link to research/methodology.md.');
@@ -335,6 +347,17 @@ function validatePoc(file, doc, template) {
     'Specific POC opportunity research',
   );
 
+  let candidateDemandRows = [];
+  if (usesDemandValidation) {
+    const candidateDemandHeading = firstHeading(doc.ast, 4, 'Candidate Demand Evidence');
+    candidateDemandRows = validateTableShape(
+      result,
+      firstTableInSection(doc.ast, candidateDemandHeading),
+      ['Candidate opportunity', 'Customer job / outcome', 'Current alternative / workaround', 'Reason-to-buy hypothesis', 'Supporting evidence', 'Contrary / disconfirming evidence', 'Evidence links'],
+      'Candidate demand evidence',
+    );
+  }
+
   const step4 = validateRequiredFields(result, doc.raw, ['Step 4 complete', 'Step 4 blockers']);
   validateCompleteField(result, step4['Step 4 complete'], 'Step 4 complete');
   requireCompletedStep(result, step4['Step 4 complete'], step4['Step 4 blockers'], 'Step 4');
@@ -342,6 +365,23 @@ function validatePoc(file, doc, template) {
     if (step3['Step 3 complete'] !== 'Yes') result.errors.push('Step 4 is complete but Step 3 is not complete.');
     const substantiveCandidates = candidateRows.filter((row) => row[0] && !isPlaceholder(row[0]));
     if (substantiveCandidates.length < 2) result.errors.push('Step 4 is complete but fewer than two concrete candidate opportunities are recorded.');
+    if (usesDemandValidation) {
+      const demandByCandidate = new Map(candidateDemandRows.map((row) => [row[0]?.trim(), row]));
+      for (const candidateRow of substantiveCandidates) {
+        const candidate = candidateRow[0]?.trim();
+        const demandRow = demandByCandidate.get(candidate);
+        if (!demandRow) {
+          result.errors.push(`Step 4 is complete but ${candidate} has no Candidate Demand Evidence row.`);
+          continue;
+        }
+        for (let index = 1; index < demandRow.length; index += 1) {
+          if (!demandRow[index] || isPlaceholder(demandRow[index])) {
+            result.errors.push(`Step 4 is complete but ${candidate} Candidate Demand Evidence is incomplete.`);
+            break;
+          }
+        }
+      }
+    }
   }
 
   const marketAssessmentHeading = firstHeading(doc.ast, 3, 'Market Attractiveness Assessment');
@@ -372,6 +412,35 @@ function validatePoc(file, doc, template) {
     'POC shortlist',
   );
 
+  let assumptionRows = [];
+  if (usesDemandValidation) {
+    const assumptionHeading = firstHeading(doc.ast, 4, 'Critical Assumption Stress Test');
+    assumptionRows = validateTableShape(
+      result,
+      firstTableInSection(doc.ast, assumptionHeading),
+      ['Candidate opportunity', 'Assumption ID', 'Assumption', 'Classification', 'Importance', 'Evidence grade', 'Supporting / contrary evidence', 'Disposition'],
+      'Critical assumption stress test',
+    );
+    for (const row of assumptionRows) {
+      const classification = row[3]?.trim();
+      const importance = row[4]?.trim();
+      const grade = row[5]?.trim();
+      const disposition = row[7]?.trim();
+      if (classification && !isPlaceholder(classification) && !ASSUMPTION_CLASSIFICATIONS.has(classification)) {
+        result.errors.push(`Critical assumption stress test contains invalid classification "${classification}".`);
+      }
+      if (importance && !isPlaceholder(importance) && !ASSUMPTION_IMPORTANCE.has(importance)) {
+        result.errors.push(`Critical assumption stress test contains invalid importance "${importance}".`);
+      }
+      if (grade && !isPlaceholder(grade) && !EVIDENCE_GRADES.has(grade)) {
+        result.errors.push(`Critical assumption stress test contains invalid evidence grade "${grade}".`);
+      }
+      if (disposition && !isPlaceholder(disposition) && !ASSUMPTION_DISPOSITIONS.has(disposition)) {
+        result.errors.push(`Critical assumption stress test contains invalid disposition "${disposition}".`);
+      }
+    }
+  }
+
   const step5 = validateRequiredFields(result, doc.raw, ['Step 5 complete', 'Step 5 blockers']);
   validateCompleteField(result, step5['Step 5 complete'], 'Step 5 complete');
   requireCompletedStep(result, step5['Step 5 complete'], step5['Step 5 blockers'], 'Step 5');
@@ -386,6 +455,28 @@ function validatePoc(file, doc, template) {
       const capabilityDimensions = new Set(capabilityRows.filter((row) => row[0]?.trim() === candidate).map((row) => row[1]?.trim()).filter((value) => CAPABILITY_DIMENSIONS.has(value)));
       if (marketDimensions.size !== MARKET_DIMENSIONS.size) result.errors.push(`Step 5 is complete but ${candidate} does not have all five market-attractiveness dimensions.`);
       if (capabilityDimensions.size !== CAPABILITY_DIMENSIONS.size) result.errors.push(`Step 5 is complete but ${candidate} does not have all five capability dimensions.`);
+    }
+
+    if (usesDemandValidation) {
+      const shortlistedCandidates = shortlistRows.filter((row) => row[3]?.trim() === 'Shortlisted').map((row) => row[0]?.trim());
+      for (const candidate of shortlistedCandidates) {
+        const rows = assumptionRows.filter((row) => row[0]?.trim() === candidate && row[1] && !isPlaceholder(row[1]));
+        if (!rows.some((row) => row[4]?.trim() === 'Critical')) {
+          result.errors.push(`Step 5 is complete but shortlisted candidate ${candidate} has no Critical assumption.`);
+        }
+        for (const row of rows) {
+          const classification = row[3]?.trim();
+          const importance = row[4]?.trim();
+          const grade = row[5]?.trim();
+          const disposition = row[7]?.trim();
+          if (importance === 'Critical' && ['Blocking', 'Rejected'].includes(disposition)) {
+            result.errors.push(`Step 5 is complete but shortlisted candidate ${candidate} retains a ${disposition} Critical assumption.`);
+          }
+          if (importance === 'Critical' && classification === 'Precondition' && ['E0', 'E1'].includes(grade)) {
+            result.errors.push(`Step 5 is complete but shortlisted candidate ${candidate} has a Critical Precondition supported only by ${grade} evidence.`);
+          }
+        }
+      }
     }
   }
 
@@ -412,6 +503,31 @@ function validatePoc(file, doc, template) {
     'Step 6 blockers',
   ]);
 
+  let demandCaseFields = {};
+  let demandForecastRows = [];
+  if (usesDemandValidation) {
+    demandCaseFields = validateRequiredFields(result, doc.raw, [
+      'Customer / job',
+      'Current alternative / workaround',
+      'Reason to buy / choose',
+      'Reference-class basis',
+      'Market engagement hypothesis',
+    ]);
+    const demandForecastHeading = firstHeading(doc.ast, 4, 'Demand Forecast');
+    demandForecastRows = validateTableShape(
+      result,
+      firstTableInSection(doc.ast, demandForecastHeading),
+      ['Metric', 'Observation window', 'Low', 'Base', 'High', 'Reference-class / derivation', 'Confidence'],
+      'Demand forecast',
+    );
+    for (const row of demandForecastRows) {
+      const confidence = row[6]?.trim();
+      if (confidence && !isPlaceholder(confidence) && !CONFIDENCE_VALUES.has(confidence)) {
+        result.errors.push(`Demand forecast contains invalid confidence "${confidence}".`);
+      }
+    }
+  }
+
   const step6Complete = selectionFields['Step 6 complete'];
   validateCompleteField(result, step6Complete, 'Step 6 complete');
   requireCompletedStep(result, step6Complete, selectionFields['Step 6 blockers'], 'Step 6');
@@ -423,6 +539,18 @@ function validatePoc(file, doc, template) {
     for (const [label, value] of Object.entries(selectionFields)) {
       if (['Step 6 complete', 'Step 6 blockers'].includes(label)) continue;
       if (!value || isPlaceholder(value)) result.errors.push(`Step 6 is complete but ${label} is not substantively recorded.`);
+    }
+    if (usesDemandValidation) {
+      for (const [label, value] of Object.entries(demandCaseFields)) {
+        if (!value || isPlaceholder(value)) result.errors.push(`Step 6 is complete but Demand Case field ${label} is not substantively recorded.`);
+      }
+      const substantiveForecastRows = demandForecastRows.filter((row) => row[0] && !isPlaceholder(row[0]));
+      if (substantiveForecastRows.length === 0) result.errors.push('Step 6 is complete but no substantive demand forecast is recorded.');
+      for (const row of substantiveForecastRows) {
+        if (row.some((value) => !value || isPlaceholder(value))) {
+          result.errors.push(`Step 6 is complete but demand forecast metric "${row[0] ?? '(unknown)'}" is incomplete.`);
+        }
+      }
     }
   }
 
@@ -436,6 +564,13 @@ function validatePoc(file, doc, template) {
       result.errors.push('Gateway 2 is Pass but Steps 3-6 are not all complete.');
     }
     if (selectedCount !== 1) result.errors.push('Gateway 2 is Pass but exactly one Step 6 candidate is not Selected.');
+    if (usesDemandValidation) {
+      const substantiveForecastRows = demandForecastRows.filter((row) => row[0] && !isPlaceholder(row[0]));
+      if (substantiveForecastRows.length === 0) result.errors.push('Gateway 2 is Pass but the current demand-validation revision has no substantive demand forecast.');
+      if (!demandCaseFields['Market engagement hypothesis'] || isPlaceholder(demandCaseFields['Market engagement hypothesis'])) {
+        result.errors.push('Gateway 2 is Pass but no substantive market engagement hypothesis is recorded.');
+      }
+    }
   }
 
   const scopeHeading = firstHeading(doc.ast, 3, 'Functional Scope');
@@ -485,6 +620,17 @@ function validatePoc(file, doc, template) {
     'POC success and exit criteria',
   );
 
+  let marketTestRows = [];
+  if (usesDemandValidation) {
+    const marketTestHeading = firstHeading(doc.ast, 4, 'Market Test Cards');
+    marketTestRows = validateTableShape(
+      result,
+      firstTableInSection(doc.ast, marketTestHeading),
+      ['Test ID', 'Hypothesis', 'Experiment', 'Measure', 'Precommitted threshold', 'Demand-case reference'],
+      'Market Test Cards',
+    );
+  }
+
   const step7 = validateRequiredFields(result, doc.raw, [
     'POC objective',
     'Primary POC user',
@@ -513,6 +659,15 @@ function validatePoc(file, doc, template) {
     const capabilityCriteria = criteriaRows.filter((row) => row[0]?.trim() === 'Capability');
     if (marketCriteria.length === 0) result.errors.push('Step 7 is complete but no market success criterion is defined.');
     if (capabilityCriteria.length === 0) result.errors.push('Step 7 is complete but no capability success criterion is defined.');
+    if (usesDemandValidation) {
+      const substantiveTests = marketTestRows.filter((row) => row[0] && !isPlaceholder(row[0]));
+      if (substantiveTests.length === 0) result.errors.push('Step 7 is complete but no substantive Market Test Card is defined.');
+      for (const row of substantiveTests) {
+        if (row.some((value) => !value || isPlaceholder(value))) {
+          result.errors.push(`Step 7 is complete but Market Test Card "${row[0] ?? '(unknown)'}" is incomplete.`);
+        }
+      }
+    }
     for (const [label, value] of Object.entries(step7)) {
       if (['Step 7 complete', 'Step 7 blockers'].includes(label)) continue;
       if (!value || isPlaceholder(value)) result.errors.push(`Step 7 is complete but ${label} is not substantively recorded.`);
@@ -666,6 +821,48 @@ function validatePoc(file, doc, template) {
     }
   }
 
+  if (usesDemandValidation) {
+    const demandEvaluationHeading = firstHeading(doc.ast, 4, 'Demand Forecast Evaluation');
+    const demandEvaluationRows = validateTableShape(
+      result,
+      firstTableInSection(doc.ast, demandEvaluationHeading),
+      ['Test / forecast metric', 'Expected range / threshold', 'Observed result', 'Variance / interpretation', 'Outcome'],
+      'Demand forecast evaluation',
+    );
+    for (const row of demandEvaluationRows) {
+      const outcome = row[4]?.trim();
+      if (outcome && !isPlaceholder(outcome) && !FORECAST_OUTCOMES.has(outcome)) {
+        result.errors.push(`Demand forecast evaluation contains invalid outcome "${outcome}".`);
+      }
+    }
+
+    const step10 = validateRequiredFields(result, doc.raw, [
+      'Observation start',
+      'Observation end',
+      'Observed implementation reference',
+      'POC evaluation',
+      'Evaluation rationale',
+      'Step 10 complete',
+      'Step 10 blockers',
+    ]);
+    validateCompleteField(result, step10['Step 10 complete'], 'Step 10 complete');
+    requireCompletedStep(result, step10['Step 10 complete'], step10['Step 10 blockers'], 'Step 10');
+    if (step10['Step 10 complete'] === 'Yes') {
+      if (step9['Step 9 complete'] !== 'Yes') result.errors.push('Step 10 is complete but Step 9 is not complete.');
+      const substantiveEvaluationRows = demandEvaluationRows.filter((row) => row[0] && !isPlaceholder(row[0]));
+      if (substantiveEvaluationRows.length === 0) result.errors.push('Step 10 is complete but no demand forecast evaluation is recorded.');
+      for (const row of substantiveEvaluationRows) {
+        if (row.some((value) => !value || isPlaceholder(value))) {
+          result.errors.push(`Step 10 is complete but demand forecast evaluation "${row[0] ?? '(unknown)'}" is incomplete.`);
+        }
+      }
+      for (const [label, value] of Object.entries(step10)) {
+        if (['Step 10 complete', 'Step 10 blockers'].includes(label)) continue;
+        if (!value || isPlaceholder(value)) result.errors.push(`Step 10 is complete but ${label} is not substantively recorded.`);
+      }
+    }
+  }
+
   result.data = {
     step3Complete: step3['Step 3 complete'],
     step4Complete: step4['Step 4 complete'],
@@ -677,6 +874,7 @@ function validatePoc(file, doc, template) {
     step8Complete: step8['Step 8 complete'],
     gateway3Decision,
     step9Complete: step9['Step 9 complete'],
+    pocMethodologyRevision: demandValidationRevision ?? 'legacy',
   };
 
   addIncompletePlaceholders(result, doc.raw);

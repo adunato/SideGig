@@ -31,6 +31,7 @@ const GATEWAY_DECISIONS = new Set(['Pass', 'Fail']);
 const COMMITMENT_STATUSES = new Set(['Ready', 'Action before observation', 'Blocked', 'Not applicable']);
 const CONFIDENCE_VALUES = new Set(['High', 'Medium', 'Low']);
 const POC_DEMAND_VALIDATION_REVISION = 'Demand validation v1';
+const LEGACY_POC_FILES = new Set(['implementation/apify/poc.md']);
 const ASSUMPTION_CLASSIFICATIONS = new Set(['Precondition', 'POC test']);
 const ASSUMPTION_IMPORTANCE = new Set(['Critical', 'Material']);
 const EVIDENCE_GRADES = new Set(['E0', 'E1', 'E2', 'E3', 'E4']);
@@ -301,8 +302,12 @@ function validatePoc(file, doc, template) {
 
   const demandValidationRevision = metadataValue(doc.raw, 'POC methodology revision');
   const usesDemandValidation = demandValidationRevision === POC_DEMAND_VALIDATION_REVISION;
+  const relativePocPath = rel(file);
   if (demandValidationRevision && demandValidationRevision !== POC_DEMAND_VALIDATION_REVISION) {
     result.errors.push(`Unsupported POC methodology revision "${demandValidationRevision}".`);
+  }
+  if (!demandValidationRevision && !LEGACY_POC_FILES.has(relativePocPath)) {
+    result.errors.push(`POC artifact must declare POC methodology revision: ${POC_DEMAND_VALIDATION_REVISION}.`);
   }
 
   const researchMethodology = metadataValue(doc.raw, 'Research methodology');

@@ -1,8 +1,8 @@
 # Apify POC Opportunity Selection
 
 - **Channel:** [Apify Store](../../../research/channels/apify/overview.md)
-- **Prerequisite validation:** [Apify Prerequisites Validation Test](prerequisites-validation.md)
-- **Research methodology:** [Research Methodology](../../../../research/methodology.md)
+- **Prerequisite validation:** [Apify Prerequisites Validation Test](../prerequisites-validation.md)
+- **Research methodology:** [Research Methodology](../../../research/methodology.md)
 - **Legacy POC status:** Superseded — operational continuation
 - **Superseded by:** [Current Apify POC](../poc.md)
 - **Supersession date:** 2026-09-26

@@ -32,10 +32,19 @@ When a task changes the product-repository skill/template/bootstrap package, use
 1. Identify the exact implementation methodology step and its required inputs/outputs.
 2. Confirm the upstream decision or evidence on which the step depends.
 3. Update the canonical SideGig implementation artifact rather than creating an alternative tracker.
-4. Keep product-repository engineering details in the product repository.
-5. Record stable references and explicit evidence for completed gates.
-6. Use `validate-sidegig` for the applicable implementation checks.
-7. Deliver repository changes through `sidegig-change`.
+4. For POC opportunity selection or definition, apply the artifact's declared POC methodology revision:
+   - legacy POC artifacts remain unchanged until a deliberate reassessment;
+   - new or reassessed artifacts using `Demand validation v1` must complete the candidate demand evidence, critical-assumption stress test, selected-opportunity demand case, demand forecast and Market Test Cards required by the methodology/template.
+5. Keep product-repository engineering details in the product repository.
+6. Record stable references and explicit evidence for completed gates.
+7. When executing `Demand validation v1`:
+   - actively seek contrary/disconfirming evidence rather than only evidence supporting the candidate;
+   - never upgrade an evidence grade to make a candidate pass;
+   - distinguish a **Precondition** from a **POC test** before deciding whether uncertainty blocks implementation;
+   - do not invent market success thresholds in Step 7 independently of the Step 6 demand forecast; every Market Test Card must trace to the Demand Case or explicitly justify a divergence;
+   - preserve low/base/high forecasts after observation so Step 10 compares expected with actual behaviour rather than rewriting expectations retrospectively.
+8. Use `validate-sidegig` for the applicable implementation checks.
+9. Deliver repository changes through `sidegig-change`.
 
 ## Completion contract
 

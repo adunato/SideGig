@@ -8,6 +8,14 @@ New Issue worktrees are placed at `<primary-checkout>/.worktrees/issue-<number>/
 
 When installing the package, `install-skills.ps1` ensures the repository-root `.gitignore` contains `/.worktrees/`. It appends this rule without replacing existing entries and does not append it again when already present.
 
+## Cross-platform line endings
+
+Every product repository uses the canonical `.codex/templates/product.gitattributes` baseline and a repository-root `.gitattributes` containing:
+
+`* text=auto eol=lf`
+
+This keeps text-file checkouts deterministic across Windows and Linux so local formatting and validation use the same line endings as CI. The installer creates the root file when it is absent. If a repository already has a `.gitattributes` file without the canonical rule, installation stops instead of overwriting product-specific attributes; reconcile that file explicitly before continuing.
+
 ## One-time workstation credential
 
 Product repositories use a post-merge workflow to dispatch the central SideGig learning collector. That workflow needs the repository Actions secret `SIDEGIG_COLLECTOR_DISPATCH_TOKEN`.

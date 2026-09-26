@@ -45,6 +45,7 @@ A SideGig product repository uses the following conceptual structure:
 ```text
 README.md
 AGENTS.md
+.gitattributes
 
 docs/
   product.md
@@ -71,6 +72,7 @@ docs/
   templates/
     README-template.md
     AGENTS-template.md
+    product.gitattributes
     product-definition.md
     architecture-definition.md
     feature-issue.md
@@ -233,7 +235,7 @@ The bootstrap therefore establishes the repository-appropriate validation workfl
 
 Additional staging or production workflows are added before the corresponding delivery path is first used if they were not required at initial bootstrap.
 
-Repository CI calls the same underlying validation contract used locally.
+Repository CI calls the same underlying validation contract used locally. Product repositories also carry the SideGig baseline `.gitattributes` rule `* text=auto eol=lf` so text-file checkouts use deterministic LF line endings across supported Windows and Linux development/CI environments. Repository-specific attribute exceptions may extend that baseline when required.
 
 ### Repository bootstrap
 
@@ -247,19 +249,20 @@ The bootstrap performs the following:
 
 1. create the GitHub repository as private by default;
 2. create the baseline repository content and project-specific source/test/configuration structure;
-3. instantiate `README.md` from the canonical README template;
-4. instantiate `AGENTS.md` from the canonical AGENTS template;
-5. create `docs/product.md` from the Product Definition template and populate it from the approved upstream product/POC context;
-6. create `docs/architecture.md` from the Architecture Definition template and populate the architecture known at project establishment;
-7. install the standard Feature and Bug Issue templates;
-8. establish the repository's canonical local validation command and supporting language/tool configuration;
-9. install the versioned SideGig agent package, including reusable skills under `.codex/skills/` and canonical project-local templates under `.codex/templates/`;
-10. install the CI validation workflow, the standard SideGig learning-dispatch workflow, and any immediately required deployment workflow;
-11. use the installed `provision-repository-secrets` skill/tool to automatically create and verify `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` in the new repository; bootstrap is blocked if provisioning fails;
-12. commit the resulting bootstrap baseline;
-13. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
-14. create the standard `feature` and `bug` labels;
-15. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
+3. install the canonical repository-root `.gitattributes` baseline with `* text=auto eol=lf`, stopping for explicit reconciliation rather than overwriting an incompatible existing policy;
+4. instantiate `README.md` from the canonical README template;
+5. instantiate `AGENTS.md` from the canonical AGENTS template;
+6. create `docs/product.md` from the Product Definition template and populate it from the approved upstream product/POC context;
+7. create `docs/architecture.md` from the Architecture Definition template and populate the architecture known at project establishment;
+8. install the standard Feature and Bug Issue templates;
+9. establish the repository's canonical local validation command and supporting language/tool configuration;
+10. install the versioned SideGig agent package, including reusable skills under `.codex/skills/` and canonical project-local templates under `.codex/templates/`;
+11. install the CI validation workflow, the standard SideGig learning-dispatch workflow, and any immediately required deployment workflow;
+12. use the installed `provision-repository-secrets` skill/tool to automatically create and verify `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` in the new repository; bootstrap is blocked if provisioning fails;
+13. commit the resulting bootstrap baseline;
+14. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
+15. create the standard `feature` and `bug` labels;
+16. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
 
 ### Bootstrap credential prerequisite
 

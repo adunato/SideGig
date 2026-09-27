@@ -20,6 +20,8 @@ This keeps text-file checkouts deterministic across Windows and Linux so local f
 
 Product repositories use a post-merge workflow to dispatch the central SideGig learning collector. That workflow needs the repository Actions secret `SIDEGIG_COLLECTOR_DISPATCH_TOKEN`.
 
+The authentication model is intentionally centralized: one SideGig token is initialized once on the primary Windows workstation and then reused automatically for every product repository. A new product repository must not require creating or manually re-entering another token.
+
 The token itself is created once in GitHub as a fine-grained personal access token:
 
 - resource owner: the SideGig repository owner;
@@ -47,7 +49,7 @@ The canonical package installs:
 
 `.codex/tools/provision-repository-secrets.ps1`
 
-During every repository bootstrap, the `provision-repository-secrets` skill runs this tool with the new `owner/repository`. The tool automatically creates or updates `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` through GitHub CLI and verifies that the secret exists.
+During every repository bootstrap, the `provision-repository-secrets` skill first checks for `%LOCALAPPDATA%\\SideGig\\bootstrap\\collector-dispatch-token.dpapi`. When present, initialization is already complete: do not prompt for a token. The skill runs this tool with the new `owner/repository`, automatically creates or updates `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` through GitHub CLI, and verifies that the secret exists.
 
 If the local encrypted credential is missing, cannot be decrypted, GitHub CLI is unavailable, or secret creation fails, bootstrap fails. The process must not silently leave a manual secret-setup task behind.
 

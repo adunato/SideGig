@@ -59,7 +59,7 @@ templates:
     source: implementation/templates/implementation-plan.md
     destination: implementation-plan.md
     purpose: canonical optional implementation plan
-    sha256: C7E67C64E6ACB8CADDF7213E14BC57621D27406155AA4918575DD0DDFD4D9AC9
+    sha256: 76AA9CD2DAC5EA561A2CDBF3203B82B1E0B6A2282F4F57EFD668A618010B9CEA
   - name: low-level-design
     source: implementation/templates/low-level-design.md
     destination: low-level-design.md

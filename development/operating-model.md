@@ -1218,6 +1218,8 @@ Not every repository requires every category above. The Architecture Definition 
 
 Use the [Staging Validation skill](../implementation/skills/staging-validation/SKILL.md) when an agent executes or coordinates this evidence.
 
+For product repositories deployed as Apify Actors, use the [Apify Actor Deployment skill](../implementation/skills/apify-actor-deployment/SKILL.md) as the platform-specific companion to release preparation and staging validation. The detailed [Apify Actor Deployment Playbook](../implementation/apify/actor-deployment-playbook.md) defines the reusable schema/package preflight, private hosted build/run validation, dataset/API/log/cost evidence, memory sizing, monetization readiness and Store-publication controls. The platform-specific skill does not replace the generic staging `Pass` / `Hold` decision or production-promotion authority.
+
 A failed required staging check blocks production promotion. Corrective software work follows the release-fix path defined by the GitHub Delivery Model and is revalidated through the applicable gates.
 
 ### 5. Production promotion and deployment

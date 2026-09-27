@@ -1,5 +1,5 @@
 schemaVersion: 3
-version: 2.7.0
+version: 2.7.1
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -77,15 +77,15 @@ skills:
     order: 10
     source: implementation/skills/bootstrap-project/SKILL.md
     dependencies: []
-    version: 2.4.0
-    sha256: ADEFA7DD466B5DAAE37E10739F004598642461ADE6FB8B733DB18C9AC84F715A
+    version: 2.4.1
+    sha256: A809188EDD0A1FBC00DA44BBAC0924D2104262D757378D7A8989F900A0C93CE2
   - name: provision-repository-secrets
     stage: bootstrap
     order: 15
     source: implementation/skills/provision-repository-secrets/SKILL.md
     dependencies: []
-    version: 1.0.0
-    sha256: 4815FF1F63C8A4F87A570308679592ED9B136DB4AD0D3C91BB1F2765E766A2D1
+    version: 1.0.1
+    sha256: D07B9DEB93D3A92DB9D1709477BBEBEB748B2B91EB1EC77205463F4AE6470B81
   - name: product-definition
     stage: definition
     order: 20

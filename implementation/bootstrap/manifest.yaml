@@ -190,7 +190,7 @@ skills:
     source: implementation/skills/apify-actor-deployment/SKILL.md
     dependencies: [prepare-release]
     version: 1.0.0
-    sha256: 632DF1B2157240F66D1FC4F01563DF663E5311CBD3D222531C287D1C72F090CA
+    sha256: 57D694E54B8404A92D18665CAD2EAAF79CC0B763B039646B2D4201DDA132C9AC
   - name: staging-validation
     stage: release
     order: 150

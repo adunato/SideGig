@@ -27,7 +27,9 @@ The product `.gitattributes` baseline is standard SideGig repository infrastruct
 
 The learning-dispatch workflow is standard SideGig repository infrastructure. It runs when a pull request is merged to `dev` and immediately dispatches the central SideGig learning collector.
 
-Secret provisioning is part of bootstrap, not a later manual reminder. After the repository and dispatch workflow exist, use `provision-repository-secrets` and run the installed `.codex/tools/provision-repository-secrets.ps1` tool for the new `owner/repository`. The tool consumes the one-time workstation credential initialized through `implementation/bootstrap/initialize-dispatch-credential.ps1` in the SideGig repository and automatically creates or updates `SIDEGIG_COLLECTOR_DISPATCH_TOKEN`.
+Secret provisioning is part of bootstrap, not a later manual reminder. Before asking for any token setup, check whether the shared workstation credential already exists at `%LOCALAPPDATA%\\SideGig\\bootstrap\\collector-dispatch-token.dpapi`. This is one central SideGig bootstrap credential reused across all product repositories. If it exists, do not ask the developer to create, retrieve or re-enter a token; proceed directly with `provision-repository-secrets` and run the installed `.codex/tools/provision-repository-secrets.ps1` tool for the new `owner/repository`.
+
+Only when that shared credential is genuinely absent should bootstrap direct the developer through the one-time initialization path in `implementation/bootstrap/initialize-dispatch-credential.ps1`. After initialization, future repository bootstraps must reuse the stored credential automatically.
 
 If the local credential is missing or provisioning fails, treat bootstrap as blocked. Do not mark bootstrap complete and do not defer the secret as an undocumented or optional manual task.
 

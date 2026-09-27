@@ -40,7 +40,7 @@ apify validate-schema
 
 Inspect `.actor/actor.json` and referenced input/output/storage schemas.
 
-Apify input schemas contain platform-specific requirements beyond generic JSON Schema. Verify each input field has an appropriate supported `editor`. Missing editor metadata is a release-blocking Apify configuration defect even if local runtime validation passes.
+Apify input schemas contain platform-specific requirements beyond generic JSON Schema. Verify the `editor` requirements for each field type rather than assuming generic JSON Schema is sufficient. In the current specification, string fields require an editor; numeric and boolean editors are optional. Missing **required** editor metadata is a release-blocking Apify configuration defect even if local runtime validation passes.
 
 Inspect deployment ignores. Use `.actorignore` to exclude transient validation/evidence files and `.gitignore` when those files should also never be committed.
 

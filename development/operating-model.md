@@ -700,7 +700,11 @@ Every implementation change remains traceable to one originating GitHub Issue.
 
 ### Lifecycle inputs
 
-Before execution begins, the originating Issue must define the required outcome and acceptance criteria sufficiently to begin work.
+Before execution begins, the originating Issue must define the required positive outcome, acceptance criteria and validation expectations sufficiently to begin work.
+
+Acceptance criteria must state what must actually work. Criteria that only describe conditional success handling, failure handling or fallback behaviour are insufficient when the feature's value depends on a successful outcome. An Issue is not development-ready when an implementation that never achieves the intended positive outcome could still satisfy its written criteria.
+
+When acceptance materially depends on an external system, live-data source, deployed runtime or platform integration, the Issue must identify the representative live or in-environment evidence needed to prove that boundary, or explicitly state why such evidence is not applicable or cannot safely be obtained until a later blocking environment gate. Mocked evidence may prove local behaviour but does not by itself prove the real boundary works.
 
 Use as current context:
 
@@ -750,7 +754,8 @@ An HLD is normally required when the change:
 - changes a material external interface, integration, data model, ownership boundary or system flow;
 - spans components in a way that requires an explicit design decision;
 - introduces material security, reliability, performance, cost or compatibility risk;
-- has multiple credible design approaches whose choice should be resolved before implementation.
+- has multiple credible design approaches whose choice should be resolved before implementation;
+- depends on material external/runtime behaviour whose viability is not yet established and whose failure would invalidate the proposed capability or design.
 
 Issue type does not determine whether an HLD is required. A small feature may need no HLD, while a complex or high-risk bug may require one.
 
@@ -768,6 +773,8 @@ An Implementation Plan is required when:
 - implementation spans multiple meaningful repository areas or has sequencing/dependency constraints;
 - the required code changes are not obvious from the Issue and current repository structure;
 - validation, migration, compatibility or integration work needs explicit planning;
+- acceptance requires representative live/in-environment evidence or a non-trivial end-to-end scenario matrix;
+- an unproven external/runtime dependency requires an explicit feasibility gate before dependent implementation;
 - implementation risk warrants a written plan before editing.
 
 An Implementation Plan may therefore be required even when no HLD is needed.
@@ -792,7 +799,9 @@ The HLD:
 
 - starts from the Issue and the current Product/Architecture definitions;
 - defines the proposed change design rather than the durable system architecture as a whole;
-- records material behaviour, interfaces, data/state, error handling and validation considerations;
+- records material behaviour, interfaces, data/state, error handling and validation/feasibility considerations;
+- distinguishes evidenced external/runtime behaviour from assumptions;
+- defines a pre-implementation feasibility gate for any material unproven assumption that could invalidate the chosen design;
 - identifies whether the completed change is expected to alter the durable Product Definition or Architecture Definition;
 - avoids file-level implementation prescriptions.
 
@@ -810,7 +819,10 @@ The plan:
 - may explicitly state that no HLD was required;
 - inspects the actual repository before prescribing implementation work;
 - defines the implementation areas and meaningful sequence;
-- defines relevant local integrity and validation requirements;
+- maps every material acceptance criterion to the evidence and test level that can actually prove it;
+- defines representative end-to-end/live coverage for materially variable external or runtime behaviour;
+- places material feasibility gates before substantial dependent implementation and defines the stop/return path if they fail;
+- defines relevant local integrity and regression requirements;
 - makes the explicit LLD decision.
 
 The plan should be detailed enough to remove material implementation ambiguity without becoming a patch description.
@@ -834,7 +846,7 @@ Development uses:
 - the current Product Definition and Architecture Definition;
 - repository instructions and coding/quality rules.
 
-Implement only the approved Issue scope and add or update automated tests proportionately.
+Implement only the approved Issue scope and add or update automated tests proportionately. Complete required feasibility gates before substantial dependent implementation. A failed feasibility gate stops that implementation path and returns to the Issue/HLD/Implementation Plan; do not continue by coding against mocked success for an unproven real boundary.
 
 Minor implementation adjustments may be made without reopening design when they do not change product behaviour, architecture, interfaces, data ownership, scope or another material decision.
 
@@ -862,12 +874,16 @@ Validation starts from the Issue acceptance criteria and also considers every re
 
 Validation must be proportionate to the change and cover, where material:
 
+- every material acceptance criterion with explicit evidence;
 - the changed behaviour;
 - relevant edge and error cases;
 - regression risk;
 - material integrations and system flows;
+- the representative live/in-environment scenario matrix defined by the Issue/plan;
 - the repository integrity checks defined by the Coding and Quality Baseline;
 - consistency of the resulting Product Definition and Architecture Definition.
+
+Use evidence at the boundary of the acceptance claim. Mocked/unit/contract tests remain valuable for local logic and failure handling, but they cannot substitute for required representative evidence that a real external system, live-data source, deployed runtime or platform integration actually succeeds. A failed or incomplete required live/end-to-end check is an acceptance failure and validation remains on hold.
 
 Implementation defects found during validation may be corrected within the existing scope and retested.
 
@@ -1019,11 +1035,14 @@ As a baseline:
 - existing relevant tests are updated when intentional behaviour changes make their previous expectations obsolete;
 - tests should exercise externally meaningful behaviour or stable component contracts rather than duplicate implementation details unnecessarily.
 
-Use the lowest test level that proves the behaviour reliably:
+Use the lowest test level that proves the behaviour reliably, but test at the boundary of the claim:
 
 1. unit tests for isolated logic;
-2. component, API, contract or integration tests where behaviour crosses a meaningful boundary;
-3. end-to-end tests for critical flows that cannot be proved adequately at a lower level.
+2. component, API, contract or integration tests where behaviour crosses a meaningful controlled boundary;
+3. end-to-end tests for critical flows that cannot be proved adequately at a lower level;
+4. representative live or deployed checks when successful interaction with a real external system, live-data source, runtime or platform is itself part of acceptance.
+
+A passing mock demonstrates that the code handles the mocked contract; it does not demonstrate that the external contract currently behaves that way. For materially variable integrations, select a representative scenario matrix based on meaningful sources, data shapes, states, permissions or failure classes rather than relying on one token smoke test.
 
 SideGig does not impose a repository-wide code-coverage percentage. Coverage metrics may be used as diagnostic information, but acceptance is based on whether material changed behaviour and regression risk are adequately tested.
 
@@ -1082,10 +1101,13 @@ The Validation stage uses the repository validation contract as the baseline reg
 Validation therefore normally includes:
 
 - the complete local validation command;
-- acceptance-criteria-specific tests or evidence;
+- an acceptance-criterion-to-evidence check for every material criterion;
 - relevant integration or end-to-end validation not already covered by the local baseline;
+- representative live/in-environment evidence required by the Issue or Implementation Plan;
 - required manual validation;
 - confirmation that Product Definition and Architecture Definition updates are consistent with the implemented behaviour.
+
+If a required real-boundary check cannot run until staging, the Issue/Implementation Plan must have identified that deferred environment-specific gate explicitly. Otherwise, inability to prove a material acceptance criterion before integration is a validation blocker rather than an assumption to defer.
 
 A validation failure caused by the active change is corrected within the approved scope and rerun.
 
@@ -1110,7 +1132,8 @@ A change is ready to leave Development when:
 
 A change is ready to leave Validation when:
 
-- the Issue acceptance criteria have been demonstrated;
+- every material Issue acceptance criterion has been demonstrated with the required evidence;
+- every required representative live/end-to-end check executable at this stage passes;
 - the complete applicable repository validation suite passes, except for explicitly identified unrelated/environmental conditions;
 - material regression risk has been covered proportionately;
 - required integration, end-to-end and manual checks are complete;
@@ -1196,7 +1219,9 @@ Where technically practical, create the deployable artifact once for the release
 
 ### 4. Staging validation
 
-Staging validates behaviour that cannot be established adequately from repository-local or build-time checks.
+Staging validates the deployed release candidate at boundaries that cannot be established adequately from repository-local or build-time checks and re-proves critical real-world flows whose outcome can change because of deployment/runtime state.
+
+Staging is not the default place to discover whether a feature's basic external integration is feasible. Where representative real-boundary evidence was practical during the change lifecycle, it must already have been executed. When a material acceptance check can genuinely run only in staging, that deferred blocking gate must have been explicit in the originating Issue/Implementation Plan.
 
 The applicable staging scope is determined by the product architecture, platform and release risk. It may include:
 
@@ -1210,7 +1235,7 @@ The applicable staging scope is determined by the product architecture, platform
 - platform-specific execution behaviour;
 - charging, billing, metering or other commercial mechanics where they are part of the product.
 
-Automate staging checks where doing so is reliable and proportionate.
+Automate staging checks where doing so is reliable and proportionate. For materially variable external integrations, use the representative scenario coverage required by the release/change context rather than a single token smoke test.
 
 Manual validation is acceptable when the behaviour genuinely requires human observation or when automating a low-frequency platform check would add disproportionate complexity. Required manual evidence must be recorded before production promotion.
 

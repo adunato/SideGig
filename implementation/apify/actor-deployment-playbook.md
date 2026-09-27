@@ -61,11 +61,11 @@ apify validate-schema
 
 Also inspect `.actor/input_schema.json` or the input schema referenced by `.actor/actor.json`.
 
-For each input property, verify the Apify-required editor configuration appropriate to its type. Common examples include:
+For each input property, verify the Apify editor requirements that apply to its type and any intentionally chosen UI behavior. In the current specification, string fields require an `editor`; numeric and boolean editors are optional, while array/object types have their own editor rules. Common explicit choices include:
 
 - strings: `textfield`, `textarea`, `select`, or another supported editor;
-- integers: `number`;
-- booleans: `checkbox`;
+- integers/numbers: `number` when an explicit numeric editor is wanted;
+- booleans: `checkbox` when an explicit checkbox UI is wanted;
 - string arrays: `stringList`.
 
 Treat an Apify schema rejection as a version-controlled configuration defect. Create a Bug Issue, add a regression check where practical, fix it on a bounded release-fix branch, merge it into the active release branch, and re-promote the corrected candidate to `staging`.

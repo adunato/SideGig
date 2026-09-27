@@ -1,5 +1,5 @@
 schemaVersion: 3
-version: 2.6.0
+version: 2.7.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -184,6 +184,13 @@ skills:
     dependencies: []
     version: 2.1.0
     sha256: ADD562FE1D9FB96160EF7261B715BFD349AE58BA1E88B9411BC58CF761363F83
+  - name: apify-actor-deployment
+    stage: release
+    order: 145
+    source: implementation/skills/apify-actor-deployment/SKILL.md
+    dependencies: [prepare-release]
+    version: 1.0.0
+    sha256: 0D7C186A1030BA82D3A41A10533C81B6F3214AACC4248DC89D6FD6EE677BA231
   - name: staging-validation
     stage: release
     order: 150

@@ -262,3 +262,14 @@ Report:
 Before completion, assess whether Apify execution exposed a reusable Product, Development Operating Model, Skill/Template, Tooling/CI, or Methodology lesson.
 
 Capture cross-project lessons with `capture-learning` and mark them for SideGig review. Do not turn every transient platform error into a learning record.
+
+## Platform references
+
+Current behavior was verified against official Apify documentation on 2026-09-27. Re-check current documentation when CLI/platform behavior materially differs:
+
+- https://docs.apify.com/actors/development/deployment
+- https://docs.apify.com/cli/docs/reference
+- https://docs.apify.com/actors/development/actor-definition/input-schema/specification/v1
+- https://docs.apify.com/actors/monetize/set-up-monetization
+- https://docs.apify.com/actors/publishing/monetize
+- https://docs.apify.com/actors/publishing/publish

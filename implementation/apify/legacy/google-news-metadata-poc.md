@@ -442,7 +442,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Development project establishment evidence:** `dev`, `staging` and `main` are present, with `dev` as the default branch. Branch protections are active on all three permanent branches: pull requests are required with zero approvals, the successful `validate` check is required, and force pushes and branch deletion are blocked. Local `npm ci` and `npm run validate` passed; the canonical SideGig package verifier passed after manifest correction `7040106`; and the GitHub Actions [Validate run](https://github.com/adunato/google-news-actor-poc/actions/runs/35619873173) completed successfully.
 
-**Development/design evidence:** <Links to the project design and implementation-planning artifacts required by the SideGig Development Operating Model>
+**Discovery/design/implementation evidence:** <Links to required Technical Discovery, design, implementation-planning, validation and release artifacts in the product repository>
 
 **Deployed implementation reference:** <Commit / version / build / deployment identifier>
 

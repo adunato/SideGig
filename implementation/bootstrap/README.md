@@ -1,6 +1,6 @@
 # SideGig Bootstrap
 
-The SideGig bootstrap package establishes the standard agent, template, workflow and tooling baseline for product repositories.
+The SideGig bootstrap package establishes the standard agent, template, workflow and tooling baseline for product repositories, including the Technical Discovery issue/artifact/skill path used when material external/runtime unknowns must be resolved before implementation.
 
 ## Change worktrees
 

@@ -1,5 +1,5 @@
 schemaVersion: 3
-version: 2.9.0
+version: 3.0.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -9,12 +9,12 @@ templates:
     source: development/templates/README-template.md
     destination: README-template.md
     purpose: canonical repository README
-    sha256: 43CE3EF5D6104ACAA59A7B4C7D94C817025D15D44EC1CE5CD987346B2471549A
+    sha256: B801C864D96EAAF770B3FDE0D3CB2A89A825307DDAB6403561C9DA3DB41A24A8
   - name: agents
     source: development/templates/AGENTS-template.md
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
-    sha256: 651C3E823AE9B60DA742D0029E969944889BEBDF5F06892D60CEFA10ADB98262
+    sha256: 7611A54E630D161E912595C48C4744F7CFC02AFCBAC9F53EA52CBF971D192D8D
   - name: product-gitattributes
     source: development/templates/product.gitattributes
     destination: product.gitattributes
@@ -34,17 +34,17 @@ templates:
     source: development/templates/feature-issue.md
     destination: feature-issue.md
     purpose: canonical feature Issue shape
-    sha256: 11A44254A44B7701B1AAEB86B95E8C3D11085CC9A59C7C460FD2B6953BD6A291
+    sha256: BE282CAC3CB58FB853CB4D2E273DFA716E6EAD3097E1AE795E59125AB02EC226
   - name: bug-issue
     source: development/templates/bug-issue.md
     destination: bug-issue.md
     purpose: canonical bug Issue shape
-    sha256: FCEA9C9E2CF0E2B421AA6F824DA52E03E108C68B785D9D8268DC98B406346156
-  - name: technical-discovery-issue
-    source: development/templates/technical-discovery-issue.md
-    destination: technical-discovery-issue.md
-    purpose: canonical Technical Discovery Issue shape
-    sha256: FCE57560D19336417FDE88E2E5E3E8A92453597965614F5D9AE76C7851506352
+    sha256: A4F25B7F585D44FC797ACB50F8E57376E394D129A6C1321ECD94287814900861
+  - name: technical-spike-issue
+    source: development/templates/technical-spike-issue.md
+    destination: technical-spike-issue.md
+    purpose: canonical Technical Spike Issue shape
+    sha256: 474842A4163174202151AB25442EE40B79F583F8389EF56720B77B882E14F57D
   - name: learning-record
     source: development/templates/learning-record.md
     destination: learning-record.md
@@ -55,26 +55,30 @@ templates:
     destination: learning-collection-dispatch.yml
     purpose: canonical post-merge SideGig learning collector dispatch workflow
     sha256: E5E001084BF0DC2D3553A4440C0873B9BCC5EDA08166AACBD6B3BCF9E5FF0778
-  - name: technical-discovery
-    source: implementation/templates/technical-discovery.md
-    destination: technical-discovery.md
-    purpose: canonical Technical Discovery evidence artifact
-    sha256: 19899E22E50CF7D1E6682B7D29E7157156FAF444FDA5EA8FAEEF1FAF6A145451
+  - name: technical-spike
+    source: implementation/templates/technical-spike.md
+    destination: technical-spike.md
+    purpose: canonical living Technical Spike investigation/specification artifact
+    sha256: D1C10CB5DC63F2BFC03CF8F5CE33CFB42A1516CC168DD5FCB36D2FEDF4A7D6B0
   - name: high-level-design
-    source: implementation/templates/high-level-design.md
-    destination: high-level-design.md
-    purpose: canonical optional change HLD
-    sha256: BE4F9D269D5AF46845A9117C7CBA32E2D1A475A61D53D42A8924F2B5746F85C7
+    stage: design
+    order: 70
+    source: implementation/skills/high-level-design/SKILL.md
+    dependencies: [setup-change-workspace]
+    version: 3.0.0
+    sha256: FD10822E7EA2D9102FD76B6347B4D6C0BBC1FF65863B0FB0E83B027549907C27
   - name: implementation-plan
-    source: implementation/templates/implementation-plan.md
-    destination: implementation-plan.md
-    purpose: canonical optional implementation plan
-    sha256: 7C5E2FF4B48076E6050909A78703B8F1F7D9095D248B6CEC9F4BF726EE63D5AE
+    stage: design
+    order: 80
+    source: implementation/skills/implementation-plan/SKILL.md
+    dependencies: [setup-change-workspace]
+    version: 3.0.0
+    sha256: 6FC02DF4276F16615E17943BB5CF4509AF88DA148C6356F79EB2C84FD3B50CCD
   - name: low-level-design
     source: implementation/templates/low-level-design.md
     destination: low-level-design.md
     purpose: canonical optional LLD
-    sha256: 12D1EEF87D96035E06358E71B724E0489D3E8C4480826C92BE4840EF17770822
+    sha256: D97E17D7BD7FAF43EB78D47BA503B57ABDD80F514BAAA4020A42AE0486A7D053
 tools:
   - name: provision-repository-secrets
     source: implementation/bootstrap/provision-repository-secrets.ps1
@@ -87,8 +91,8 @@ skills:
     order: 10
     source: implementation/skills/bootstrap-project/SKILL.md
     dependencies: []
-    version: 2.5.0
-    sha256: 8AAE9130FB0B34C3FB8B87082EB2C63CBCE125BA62F02C3FE0D1CB72BE1642DD
+    version: 3.0.0
+    sha256: BCC0EAC3672CFFDCB42260E4556B7F3BF6CAD1220D6FC9EDF5CB6B5CC72560C6
   - name: provision-repository-secrets
     stage: bootstrap
     order: 15
@@ -115,29 +119,29 @@ skills:
     order: 40
     source: implementation/skills/refine-issue/SKILL.md
     dependencies: []
-    version: 2.3.0
-    sha256: 473FDC7AA5681770582C3684839EB262AE2E16FFE10A0DC30D6E72A29ACBA307
+    version: 3.0.0
+    sha256: 824370CED1C0F846B3AD501A60853DC7843F32A2DE98615A404DDC35FCC1A663
   - name: assess-change
     stage: shaping
     order: 50
     source: implementation/skills/assess-change/SKILL.md
     dependencies: []
-    version: 2.3.0
-    sha256: 23102DCD48BDAC13F817F76A1B6F4B4623A9718FC68CE4CE0DC18B79896C50C6
+    version: 3.0.0
+    sha256: 824B1C6972E1E5D23BE4EFE6F750D09A67AA8B8B9AA5D12A652BEAF716DF69C1
   - name: setup-change-workspace
     stage: setup
     order: 60
     source: implementation/skills/setup-change-workspace/SKILL.md
     dependencies: []
-    version: 2.3.0
-    sha256: DAF6159B816947E771B0BD7C74232E8260A48CD66B8963F6BFED9670DD643050
-  - name: technical-discovery
-    stage: discovery
+    version: 3.0.0
+    sha256: 88A9224A01D8E8C3A3B7AFA6B55F45BB9C32C9E162FC0B793193CE4FD4A5B923
+  - name: technical-spike
+    stage: spike
     order: 65
-    source: implementation/skills/technical-discovery/SKILL.md
+    source: implementation/skills/technical-spike/SKILL.md
     dependencies: [setup-change-workspace]
     version: 1.0.0
-    sha256: 18490DF73BE164520D198493068A5730A60A1185BB51B0A1F153ED76EF41D763
+    sha256: 14FB0516FF9ED2F4FD4D3D23E3B72DD50E280AEEECA2F8CA87510285C5A92824
   - name: high-level-design
     stage: design
     order: 70
@@ -157,22 +161,22 @@ skills:
     order: 90
     source: implementation/skills/low-level-design/SKILL.md
     dependencies: [implementation-plan]
-    version: 2.2.0
-    sha256: 4B1BD12C2AA074B203ABCDE38C1E990D0897D356CBAC2475B77382C8434B6E56
+    version: 3.0.0
+    sha256: 87EAC278352EC0DB7636E7268C73CB78F11FF3C5560760A3B439EA95CB721277
   - name: development
     stage: implementation
     order: 100
     source: implementation/skills/development/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 2.3.0
-    sha256: 2730A18E151F8776BC5056E783B7298E5287AFF7CE97FD2657E48ACA3C6E06DF
+    version: 3.0.0
+    sha256: DA32B9F4D23783666C648BA2E6B62499B38FDBBD609C29C0676FB6223B201CCC
   - name: validation
     stage: validation
     order: 110
     source: implementation/skills/validation/SKILL.md
     dependencies: [development]
-    version: 2.3.0
-    sha256: 92B763478DF668D30B44CCF5D564C42037459AC336FA98B109BA07A410F4B691
+    version: 3.0.0
+    sha256: 9D14D19C3361B77507898C67D2AC0D9ACB2C7B9F5738D3BEB0806EC51C898145
   - name: capture-learning
     stage: learning
     order: 115
@@ -192,8 +196,8 @@ skills:
     order: 130
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
-    version: 2.6.0
-    sha256: 7A8E8C21FF90C7C80AD1FC1F917953F23A8ED15EDAD153FFC3EC37160CC2757E
+    version: 3.0.0
+    sha256: 24925B01301AEEBBBF4879F3F9E858A58CD8507FAD6754633B2C0631CDC51A20
   - name: prepare-release
     stage: release
     order: 140
@@ -213,8 +217,8 @@ skills:
     order: 150
     source: implementation/skills/staging-validation/SKILL.md
     dependencies: []
-    version: 2.3.0
-    sha256: 72234A622CED90E7881C801401B770DFE1CF4A0948CC5ACDB4841286FF5326A5
+    version: 3.0.0
+    sha256: DFC1F1AC04255E9A9B3294F4707275364F8D83AB92CF66D3AB95B43E41617788
   - name: promote-release
     stage: release
     order: 160

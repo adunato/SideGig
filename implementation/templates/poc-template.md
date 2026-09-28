@@ -333,7 +333,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Product repository:** <Repository URL or reference>
 
-**Discovery/design/implementation evidence:** <Links to required Technical Discovery, design, implementation-planning, validation and release artifacts in the product repository>
+**Spike/design/implementation evidence:** <Links to required Technical Spike, design, implementation-planning, validation and release artifacts in the product repository>
 
 **Deployed implementation reference:** <Commit / version / build / deployment identifier>
 
@@ -341,7 +341,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 | Implementation area | Requirement source | Evidence / reference | Status |
 |---|---|---|---|
-| <Technical Discovery / functional scope / inputs and outputs / dependencies / operational evidence / deployment / charging or other relevant area> | <Step 7 / Step 8 / Gateway 3 requirement> | <Discovery artifact, test, CI, run, deployment or configuration evidence> | <Pass / Fail / Not applicable> |
+| <Technical Spike / functional scope / inputs and outputs / dependencies / operational evidence / deployment / charging or other relevant area> | <Step 7 / Step 8 / Gateway 3 requirement> | <Discovery artifact, test, CI, run, deployment or configuration evidence> | <Pass / Fail / Not applicable> |
 
 **Pre-observation requirements closed:** <Yes / No>
 

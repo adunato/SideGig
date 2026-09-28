@@ -1067,7 +1067,7 @@ The POC boundary remains controlled by Step 7. Issues translate that approved bo
 
 Use the operating model's proportional lifecycle to determine whether each Issue requires an HLD, Implementation Plan or LLD. The implementation methodology does not prescribe those artifacts independently.
 
-Technical Spike is the current lifecycle term for this prerequisite investigation path; historical Technical Discovery artifacts remain valid evidence and do not need retrospective renaming.
+Technical Spike is the current lifecycle term for this prerequisite investigation path; historical Technical Discovery artifacts remain valid evidence and do not need retrospective renaming. New prerequisite investigation work uses the Technical Spike lifecycle rather than creating new legacy-style discovery Issues.
 
 When a material implementation unknown requires a Technical Spike, Step 9 follows the Development Operating Model's iterative Spike lifecycle rather than treating each failed experiment as a new implementation Issue. One controlling Spike remains open across hypothesis/experiment iterations, with the living `technical-spike.md` artifact accumulating evidence and the supported technical specification. Downstream Feature/Bug design remains blocked until that Spike reaches a supported Feasible or Not feasible conclusion and the downstream Issue is reassessed.
 

@@ -73,7 +73,7 @@ The baseline contains:
 | Google News request adapter | Bounded RSS HTTP requests, retry/timeout/size controls | Same Google News discovery source | **High reuse**. Treat the existing request adapter and its tests as the implementation reference unless legacy deployment exposes a defect. |
 | Google News parser | Parses/normalizes feed metadata | Metadata remains first stage before enrichment | **High reuse with contract reconciliation**. Preserve parser logic where compatible; align emitted fields to the new Product Definition rather than copying the legacy contract wholesale. |
 | Multi-query orchestration | Sequential bounded requests, per-query limits, dedupe, dataset writes | Same search flow plus URL-resolution and optional full-text stages | **Adapt**. Preserve orchestration concepts and insert enrichment before final dataset delivery. |
-| Publisher URL resolution | Explicitly out of scope | Core differentiated capability; fail-soft | **New implementation**. Must be independently designed, validated and instrumented. |
+| Publisher URL resolution | Explicitly out of scope | Core differentiated capability; fail-soft | **Technical Discovery prerequisite, then new implementation**. Google News does not provide an approved integration specification for the required publisher-URL resolution path in this project. Empirically establish the viable HTTP-first boundary/approach before HLD or implementation; third-party decoder code is evidence to investigate, not a specification to implement against. |
 | Full-text extraction | Explicitly out of scope | Optional, best-effort, HTTP-based, fail-soft | **New implementation**. No browser/paywall bypass/residential-proxy dependency. |
 | Output contract | Metadata + Google News URL, optional feed fields | Google URL + resolved publisher URL/status + optional article text/status/word count | **Replace/adapt**. New schemas and contracts are authoritative; legacy fields are retained only where the new Product Definition deliberately includes them. |
 | Error semantics | Source-level request/parser failures observable | Per-row URL/full-text failure must not fail whole run | **Extend**. Existing source error handling is reusable; enrichment requires new row-level isolation/status semantics. |
@@ -99,10 +99,11 @@ At repository establishment:
 
 After bootstrap:
 
-1. create normal implementation Issues from the approved enriched POC boundary;
-2. bring reusable product code and tests across as deliberate implementation inputs to those Issues;
-3. preserve source attribution/traceability in the relevant implementation plans or PR descriptions where useful;
-4. adapt rather than blindly copy any code whose public contract, defaults, error semantics or operational evidence changed.
+1. create normal Feature/Bug Issues from the approved enriched POC boundary and use `assess-change` to identify any prerequisite Technical Discovery;
+2. for publisher URL resolution, complete a dedicated Technical Discovery Issue before approving its HLD/Implementation Plan;
+3. bring reusable product code and tests across as deliberate implementation inputs only after relevant discovery/design prerequisites are satisfied;
+4. preserve source attribution/traceability in the relevant discovery/design/implementation artifacts or PR descriptions where useful;
+5. adapt rather than blindly copy any code whose public contract, defaults, error semantics or operational evidence changed.
 
 The legacy repository remains authoritative evidence for the superseded metadata experiment. It is not the durable product definition for the enriched POC.
 
@@ -171,9 +172,9 @@ At preparation time the canonical SideGig bootstrap package is **v2.6.0**. Re-ch
 
 The following are implementation-lifecycle decisions, not prerequisites for repository creation:
 
-- decomposition into implementation Issues;
-- whether individual Issues require HLD, Implementation Plan or LLD;
-- exact publisher-link resolution algorithm;
+- decomposition into Feature/Bug Issues and prerequisite Technical Discovery Issues;
+- whether individual Feature/Bug Issues require Technical Discovery, HLD, Implementation Plan or LLD;
+- exact publisher-link resolution algorithm, which must not be selected before the required discovery evidence exists;
 - exact readable-text extraction library/algorithm;
 - file/module decomposition beyond the initial architecture boundary;
 - release-candidate implementation details.

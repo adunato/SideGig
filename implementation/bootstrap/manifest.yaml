@@ -61,19 +61,15 @@ templates:
     purpose: canonical living Technical Spike investigation/specification artifact
     sha256: D1C10CB5DC63F2BFC03CF8F5CE33CFB42A1516CC168DD5FCB36D2FEDF4A7D6B0
   - name: high-level-design
-    stage: design
-    order: 70
-    source: implementation/skills/high-level-design/SKILL.md
-    dependencies: [setup-change-workspace]
-    version: 3.0.0
-    sha256: FD10822E7EA2D9102FD76B6347B4D6C0BBC1FF65863B0FB0E83B027549907C27
+    source: implementation/templates/high-level-design.md
+    destination: high-level-design.md
+    purpose: canonical optional change HLD
+    sha256: 91B74F9FBF9144E70D1D3DE600AC1AC408F5CDBABEB26BF18245431AB959BDF4
   - name: implementation-plan
-    stage: design
-    order: 80
-    source: implementation/skills/implementation-plan/SKILL.md
-    dependencies: [setup-change-workspace]
-    version: 3.0.0
-    sha256: 6FC02DF4276F16615E17943BB5CF4509AF88DA148C6356F79EB2C84FD3B50CCD
+    source: implementation/templates/implementation-plan.md
+    destination: implementation-plan.md
+    purpose: canonical optional implementation plan
+    sha256: FCD7C6063704898383606A9D6EA86E603F0562BE93018120207F66F204B98AC4
   - name: low-level-design
     source: implementation/templates/low-level-design.md
     destination: low-level-design.md
@@ -147,15 +143,15 @@ skills:
     order: 70
     source: implementation/skills/high-level-design/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 2.3.0
-    sha256: 5F57C34A6BEF97B71F5EDF02BB3E6AF03D1FE4DB1A07776A3CDD2281E0F1FF02
+    version: 3.0.0
+    sha256: FD10822E7EA2D9102FD76B6347B4D6C0BBC1FF65863B0FB0E83B027549907C27
   - name: implementation-plan
     stage: design
     order: 80
     source: implementation/skills/implementation-plan/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 2.3.0
-    sha256: EE818D819AF1D0067C984F7490D800BFC073E55C2B4B256A27106C0D79DFDB05
+    version: 3.0.0
+    sha256: 6FC02DF4276F16615E17943BB5CF4509AF88DA148C6356F79EB2C84FD3B50CCD
   - name: low-level-design
     stage: design
     order: 90

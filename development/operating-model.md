@@ -220,7 +220,8 @@ A project may extend `AGENTS.md` with genuine repository-specific instructions, 
 The bootstrap installs the canonical GitHub Issue templates as:
 
 - `.github/ISSUE_TEMPLATE/feature.md` from [Feature Issue template](templates/feature-issue.md);
-- `.github/ISSUE_TEMPLATE/bug.md` from [Bug Issue template](templates/bug-issue.md).
+- `.github/ISSUE_TEMPLATE/bug.md` from [Bug Issue template](templates/bug-issue.md);
+- `.github/ISSUE_TEMPLATE/technical-discovery.md` from [Technical Discovery Issue template](templates/technical-discovery-issue.md).
 
 The repository uses the standard `feature`, `bug`, and `technical-discovery` labels. Additional labels are introduced only when a later project need demonstrates material value.
 
@@ -259,7 +260,7 @@ The bootstrap performs the following:
 5. instantiate `AGENTS.md` from the canonical AGENTS template;
 6. create `docs/product.md` from the Product Definition template and populate it from the approved upstream product/POC context;
 7. create `docs/architecture.md` from the Architecture Definition template and populate the architecture known at project establishment;
-8. install the standard Feature and Bug Issue templates;
+8. install the standard Feature, Bug and Technical Discovery Issue templates;
 9. establish the repository's canonical local validation command and supporting language/tool configuration;
 10. install the versioned SideGig agent package, including reusable skills under `.codex/skills/` and canonical project-local templates under `.codex/templates/`;
 11. install the CI validation workflow, the standard SideGig learning-dispatch workflow, and any immediately required deployment workflow;
@@ -499,7 +500,7 @@ Bug Issues are created using the [Bug Issue template](templates/bug-issue.md) an
 - relevant Product Definition or Architecture Definition context where material;
 - dependencies on other Issues, or `None`.
 
-Issues describe required outcomes and evidence, not implementation design. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature/bug intent into a development-ready Issue. Both canonical Issue templates include a `Development Lifecycle Assessment` section initialized to `Pending`. The Development Lifecycle determines what design and planning artifacts are required and the Assess Change step updates that section in the originating Issue.
+Feature and Bug Issues describe required product/software outcomes and acceptance evidence, not implementation design. Technical Discovery Issues describe a bounded technical question, investigation scope and evidence/exit criteria when a material unknown must be resolved before downstream design. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature, bug or discovery intent into the appropriate development-ready Issue shape. Feature and Bug templates include a `Development Lifecycle Assessment` section initialized to `Pending`, including the Technical Discovery decision. The Development Lifecycle determines whether prerequisite discovery is required and, after it is resolved, what HLD/Implementation Plan/LLD depth is required. Technical Discovery Issues use their dedicated discovery lifecycle rather than a second design-depth assessment.
 
 Work discovered outside the current Issue scope becomes a separate Issue rather than silently expanding the active change.
 

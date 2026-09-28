@@ -74,7 +74,7 @@ templates:
     source: implementation/templates/low-level-design.md
     destination: low-level-design.md
     purpose: canonical optional LLD
-    sha256: 8035E649EEDDB8233DB96380B6D4EAE0A7C6DB15EFE26ADFE4640028C5C4033C
+    sha256: 5FC1EC5AA9F170713D568B44125C6CE6E4E2203D25D46CDFF20E9A80DD1DE327
 tools:
   - name: provision-repository-secrets
     source: implementation/bootstrap/provision-repository-secrets.ps1
@@ -157,8 +157,8 @@ skills:
     order: 90
     source: implementation/skills/low-level-design/SKILL.md
     dependencies: [implementation-plan]
-    version: 2.1.0
-    sha256: 4E30B0C1068A9D69F27126AC63F27DF3A1807D9805B609B62638AC476D6B89AE
+    version: 2.2.0
+    sha256: 4B1BD12C2AA074B203ABCDE38C1E990D0897D356CBAC2475B77382C8434B6E56
   - name: development
     stage: implementation
     order: 100
@@ -213,8 +213,8 @@ skills:
     order: 150
     source: implementation/skills/staging-validation/SKILL.md
     dependencies: []
-    version: 2.2.0
-    sha256: AE6B395F129A18246F7FAA6BB55186BA7534F75E9A625E94956448E3F655DE01
+    version: 2.3.0
+    sha256: 72234A622CED90E7881C801401B770DFE1CF4A0948CC5ACDB4841286FF5326A5
   - name: promote-release
     stage: release
     order: 160

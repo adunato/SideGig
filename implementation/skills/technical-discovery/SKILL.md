@@ -46,6 +46,7 @@ A third-party library, script, blog post, issue, or reverse-engineered implement
 Disposable probes are allowed when needed to generate evidence. Keep them outside production/runtime code unless the Issue explicitly authorizes reusable investigation tooling.
 
 Do not:
+
 - implement the blocked production feature;
 - silently turn a probe into production architecture;
 - expand product scope;

@@ -487,9 +487,11 @@ Use only **Ready**, **Action before observation**, **Blocked**, or **Not applica
 
 **Gateway 3 commitment:** Commit to POC implementation
 
-**Gateway 3 rationale:** The selected enriched Google News POC is now sufficiently defined, measurable and operationally bounded to justify implementation. Step 7 fixes the proposition and experiment conditions; Step 8 makes every material market and capability criterion observable; Phase 1 already demonstrates the core Apify development/deployment/runtime evidence path; and no mandatory heavy dependency or unresolved technical prerequisite exists. The remaining Store, account, charging and launch-baseline items are feasible configuration/verification work that must be closed during Step 9 before the public paid observation window starts, but they do not justify delaying implementation.
+**Gateway 3 rationale:** The selected enriched Google News POC is sufficiently defined, measurable and operationally bounded to justify a bounded Step 9 engineering commitment. Step 7 fixes the proposition and experiment conditions; Step 8 makes every material market and capability criterion observable; Phase 1 demonstrates the core Apify development/deployment/runtime evidence path. Subsequent Step 9 work identified that publisher-URL resolution itself contains a material undocumented technical boundary that was not established at Gateway 3; the original statement that no unresolved technical prerequisite existed is therefore superseded by the correction below.
 
-**Authorized next step:** Step 9 — Implement the POC. Step 9 begins with implementation establishment and a deliberate delta/repository decision against the legacy metadata Actor, then implements the Step 7 enriched scope. The public paid 30-day observation window must not start until every **Action before observation** item above is closed.
+**Post-commit technical-discovery correction (2026-09-28):** Step 9 evidence from the enriched product repository showed that the core Google News publisher-URL integration was approached without an authoritative Google specification and that the initially selected reverse-engineered decoder path could not be validated in the live environment. Under the Development Operating Model, this is now classified as prerequisite Technical Discovery rather than ordinary implementation uncertainty. The publisher-resolution Feature Issue is blocked until a separate discovery Issue establishes a supported HTTP-first integration contract/approach or concludes that the capability is not feasible within the Step 7 constraints. A `Not feasible` or `Inconclusive` result requires returning to the POC definition/commitment decision rather than silently adding excluded dependencies.
+
+**Authorized next step:** Step 9 — continue the POC through the Development Operating Model, beginning with the required publisher-resolution Technical Discovery before dependent implementation. The public paid 30-day observation window must not start until every **Action before observation** item and every material Technical Discovery blocker is closed.
 
 ## 9. POC Implementation
 
@@ -547,7 +549,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Step 9 complete:** No
 
-**Step 9 blockers:** No defect or feasibility blocker. Step 9 is deliberately paused immediately before new repository establishment pending completion and review of the legacy metadata POC deployment/operational continuation.
+**Step 9 blockers:** Publisher-URL resolution has a material unresolved Technical Discovery prerequisite in the enriched product repository. Dependent Issue #4 implementation remains blocked until that discovery is integrated and #4 is reassessed. The earlier pre-repository establishment hold is complete and no longer describes the current blocker.
 
 
 ## 10. POC Operation and Evaluation

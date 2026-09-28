@@ -489,9 +489,9 @@ Use only **Ready**, **Action before observation**, **Blocked**, or **Not applica
 
 **Gateway 3 rationale:** The selected enriched Google News POC is sufficiently defined, measurable and operationally bounded to justify a bounded Step 9 engineering commitment. Step 7 fixes the proposition and experiment conditions; Step 8 makes every material market and capability criterion observable; Phase 1 demonstrates the core Apify development/deployment/runtime evidence path. Subsequent Step 9 work identified that publisher-URL resolution itself contains a material undocumented technical boundary that was not established at Gateway 3; the original statement that no unresolved technical prerequisite existed is therefore superseded by the correction below.
 
-**Post-commit technical-discovery correction (2026-09-28):** Step 9 evidence from the enriched product repository showed that the core Google News publisher-URL integration was approached without an authoritative Google specification and that the initially selected reverse-engineered decoder path could not be validated in the live environment. Under the Development Operating Model, this is now classified as prerequisite Technical Discovery rather than ordinary implementation uncertainty. The publisher-resolution Feature Issue is blocked until a separate discovery Issue establishes a supported HTTP-first integration contract/approach or concludes that the capability is not feasible within the Step 7 constraints. A `Not feasible` or `Inconclusive` result requires returning to the POC definition/commitment decision rather than silently adding excluded dependencies.
+**Post-commit technical-spike lifecycle correction (2026-09-28):** Step 9 evidence from the enriched product repository showed that the core Google News publisher-URL integration was approached without an authoritative Google specification and that the initially selected reverse-engineered decoder path could not be validated in the live environment. Under the Development Operating Model, this is now classified as prerequisite Technical Spike rather than ordinary implementation uncertainty. The publisher-resolution Feature Issue is blocked until a separate Spike Issue establishes a supported HTTP-first integration contract/approach or concludes that the capability is not feasible within the Step 7 constraints. A `Not feasible` or `Inconclusive` result requires returning to the POC definition/commitment decision rather than silently adding excluded dependencies.
 
-**Authorized next step:** Step 9 — continue the POC through the Development Operating Model, beginning with the required publisher-resolution Technical Discovery before dependent implementation. The public paid 30-day observation window must not start until every **Action before observation** item and every material Technical Discovery blocker is closed.
+**Authorized next step:** Step 9 — continue the POC through the Development Operating Model, beginning with the required publisher-resolution Technical Spike before dependent implementation. The public paid 30-day observation window must not start until every **Action before observation** item and every material Technical Spike blocker is closed.
 
 ## 9. POC Implementation
 
@@ -519,7 +519,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Product repository:** Not created — deliberately stopped immediately before repository establishment.
 
-**Discovery/design/implementation evidence:** The enriched product repository is established at `adunato/google-news-enriched-actor-poc` with approved `docs/product.md` and `docs/architecture.md`. Implementation scope is represented by product Issues #1-#7. Publisher-URL resolution Issue #4 is now blocked by prerequisite Technical Discovery #14 after live evidence showed that the initially assumed Google News integration contract was not established; #4 must be reassessed after #14 is integrated. Other change-specific design, validation and release evidence remains authoritative in the product repository.
+**Spike/design/implementation evidence:** The enriched product repository is established at `adunato/google-news-enriched-actor-poc` with approved `docs/product.md` and `docs/architecture.md`. Implementation scope is represented by product Issues #1-#7. Publisher-URL resolution Issue #4 is now blocked by prerequisite Technical Spike #14 after live evidence showed that the initially assumed Google News integration contract was not established; #4 must be reassessed after #14 is integrated. Other change-specific design, validation and release evidence remains authoritative in the product repository.
 
 **Deployed implementation reference:** Not applicable — implementation has not started.
 
@@ -549,7 +549,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Step 9 complete:** No
 
-**Step 9 blockers:** Publisher-URL resolution has a material unresolved Technical Discovery prerequisite in the enriched product repository. Dependent Issue #4 implementation remains blocked until that discovery is integrated and #4 is reassessed. The earlier pre-repository establishment hold is complete and no longer describes the current blocker.
+**Step 9 blockers:** Publisher-URL resolution has a material unresolved Technical Spike prerequisite in the enriched product repository. Dependent Issue #4 implementation remains blocked until that Spike is completed and integrated and #4 is reassessed. The earlier pre-repository establishment hold is complete and no longer describes the current blocker.
 
 
 ## 10. POC Operation and Evaluation

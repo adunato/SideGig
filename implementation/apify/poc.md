@@ -519,7 +519,7 @@ Record only the evidence required to establish that the implemented POC is deplo
 
 **Product repository:** Not created — deliberately stopped immediately before repository establishment.
 
-**Development/design evidence:** Pre-bootstrap evidence is the current Step 7 definition, Step 8 operational requirements, Gateway 3 Pass and the [repository bootstrap handoff](enriched-poc-bootstrap-handoff.md). Product-repository `docs/product.md`, `docs/architecture.md` and change-specific artifacts do not exist yet and must be created/managed by the Development Operating Model after repository establishment.
+**Discovery/design/implementation evidence:** The enriched product repository is established at `adunato/google-news-enriched-actor-poc` with approved `docs/product.md` and `docs/architecture.md`. Implementation scope is represented by product Issues #1-#7. Publisher-URL resolution Issue #4 is now blocked by prerequisite Technical Discovery #14 after live evidence showed that the initially assumed Google News integration contract was not established; #4 must be reassessed after #14 is integrated. Other change-specific design, validation and release evidence remains authoritative in the product repository.
 
 **Deployed implementation reference:** Not applicable — implementation has not started.
 

@@ -52,8 +52,9 @@ docs/
   architecture.md
   changes/
     <issue-number>/
-      hld.md                  # only when required
-      implementation-plan.md  # only when required
+      technical-discovery.md  # for Technical Discovery Issues
+      hld.md                   # only when required
+      implementation-plan.md   # only when required
       low-level-design.md      # only when required
   learnings/
     <source>-<slug>.md         # only when a reusable learning is captured
@@ -62,6 +63,7 @@ docs/
   ISSUE_TEMPLATE/
     feature.md
     bug.md
+    technical-discovery.md
   workflows/
     sidegig-learning-dispatch.yml
     <project-specific CI/CD workflows>
@@ -77,6 +79,8 @@ docs/
     architecture-definition.md
     feature-issue.md
     bug-issue.md
+    technical-discovery-issue.md
+    technical-discovery.md
     high-level-design.md
     implementation-plan.md
     low-level-design.md
@@ -114,8 +118,9 @@ When the Development Lifecycle requires a change artifact, store it under:
 
 Use the stable filenames:
 
-- `hld.md`
-- `implementation-plan.md`
+- `technical-discovery.md` — evidence artifact for a Technical Discovery Issue;
+- `hld.md`;
+- `implementation-plan.md`;
 - `low-level-design.md`
 
 Create only the artifacts required for that Issue.
@@ -206,7 +211,7 @@ Canonical templates needed by those skills are installed alongside them under:
 
 `.codex/templates/`
 
-The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, change execution, CI diagnosis, release preparation, staging validation, production promotion and learning capture. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
+The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, prerequisite Technical Discovery, change design/planning/execution, CI diagnosis, release preparation, staging validation, production promotion and learning capture. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
 
 A project may extend `AGENTS.md` with genuine repository-specific instructions, but it should not restate the full Development Operating Model.
 
@@ -217,7 +222,7 @@ The bootstrap installs the canonical GitHub Issue templates as:
 - `.github/ISSUE_TEMPLATE/feature.md` from [Feature Issue template](templates/feature-issue.md);
 - `.github/ISSUE_TEMPLATE/bug.md` from [Bug Issue template](templates/bug-issue.md).
 
-The repository uses only the standard `feature` and `bug` change labels unless a later project need demonstrates that another label adds material value.
+The repository uses the standard `feature`, `bug`, and `technical-discovery` labels. Additional labels are introduced only when a later project need demonstrates material value.
 
 Branch protections, merge rules, Milestones, release branches, tags and GitHub Releases are governed by the GitHub Delivery Model rather than repeated here.
 
@@ -261,7 +266,7 @@ The bootstrap performs the following:
 12. use the installed `provision-repository-secrets` skill/tool to automatically create and verify `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` in the new repository; bootstrap is blocked if provisioning fails;
 13. commit the resulting bootstrap baseline;
 14. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
-15. create the standard `feature` and `bug` labels;
+15. create the standard `feature`, `bug`, and `technical-discovery` labels;
 16. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
 
 ### Bootstrap credential prerequisite
@@ -692,11 +697,11 @@ Release fix:
 
 The Development Lifecycle defines how one approved GitHub Issue is turned into an integrated software change.
 
-The [GitHub Delivery Model](#4-github-delivery-model) owns the delivery artifacts and state transitions: Issues, branches, pull requests and integration. This section owns the engineering process performed within that structure: design where needed, implementation planning where needed, development, validation and integration hand-off.
+The [GitHub Delivery Model](#4-github-delivery-model) owns the delivery artifacts and state transitions: Issues, branches, pull requests and integration. This section owns the engineering process performed within that structure: prerequisite Technical Discovery where needed, design, implementation planning, development, validation and integration hand-off.
 
 The lifecycle is deliberately proportional. SideGig does not require HLD, implementation-plan or LLD artifacts for a change merely because those templates exist. Each artifact is created only when it adds enough clarity or control to justify its cost.
 
-Every implementation change remains traceable to one originating GitHub Issue.
+Every implementation change remains traceable to one originating Feature/Bug Issue. When material technical unknowns must be resolved first, that downstream Issue links one or more separate prerequisite Technical Discovery Issues; discovery does not replace the product outcome Issue.
 
 ### Lifecycle inputs
 
@@ -735,13 +740,38 @@ The workspace must:
 
 Workspace creation does not require an HLD or implementation plan to exist first.
 
-### 2. Determine the required design and planning depth
+### 2. Determine required discovery, design and planning depth
 
-Determine proportionately which change-specific artifacts are required.
+Determine proportionately whether prerequisite Technical Discovery is required and, only after required discovery is complete, which change-specific design/planning artifacts are required.
 
 Use the [Assess Change skill](../implementation/skills/assess-change/SKILL.md) when an agent performs this assessment.
 
-No separate classification document is created. Record the assessment outcome in the originating Issue's `Development Lifecycle Assessment` section. That section is the canonical record of the HLD and Implementation Plan decisions and rationale, LLD status, material risks, and the exact next lifecycle step.
+No separate classification document is created. Record the assessment outcome in the originating Feature/Bug Issue's `Development Lifecycle Assessment` section. That section is the canonical record of the Technical Discovery decision/prerequisite/status, HLD and Implementation Plan decisions, LLD status, material risks, and the exact next lifecycle step.
+
+#### Technical Discovery decision
+
+Require a separate Technical Discovery Issue when a material technical fact must be established empirically before responsible design can proceed. Typical cases include:
+
+- an undocumented or reverse-engineered external interface/protocol central to the capability;
+- unknown consent, authentication, anti-bot, redirect, permission, rate-limit, regional, account or runtime behaviour that may determine viability;
+- a volatile external/live-data boundary whose current behaviour has not been demonstrated in representative environments;
+- multiple fundamentally different integration approaches whose feasibility cannot be compared from existing evidence;
+- third-party/community code being the principal source for a supposed external specification;
+- a core capability whose feasibility or approved dependency model is not yet established.
+
+Technical Discovery is **not** required for every uncertainty. Keep a bounded feasibility gate inside HLD/Implementation Planning when the external/runtime contract is already sufficiently understood and a small probe only confirms a residual implementation assumption.
+
+When Technical Discovery is required:
+
+1. create or link a prerequisite Technical Discovery Issue using the canonical template;
+2. set the downstream Issue's HLD, Implementation Plan and LLD statuses to deferred pending discovery;
+3. do not create/approve downstream design or production implementation that depends on the unknown;
+4. execute and integrate the discovery evidence;
+5. rerun `assess-change` on the downstream Issue.
+
+An `Inconclusive` discovery remains blocking. A completed discovery can conclude that the capability is not feasible within the approved constraints; that result returns to the appropriate Product/Architecture or implementation-methodology decision rather than being worked around silently.
+
+Use the [Technical Discovery Issue template](templates/technical-discovery-issue.md), [Technical Discovery artifact template](../implementation/templates/technical-discovery.md), and [Technical Discovery skill](../implementation/skills/technical-discovery/SKILL.md).
 
 #### HLD decision
 
@@ -754,8 +784,7 @@ An HLD is normally required when the change:
 - changes a material external interface, integration, data model, ownership boundary or system flow;
 - spans components in a way that requires an explicit design decision;
 - introduces material security, reliability, performance, cost or compatibility risk;
-- has multiple credible design approaches whose choice should be resolved before implementation;
-- depends on material external/runtime behaviour whose viability is not yet established and whose failure would invalidate the proposed capability or design.
+- has multiple credible design approaches whose choice should be resolved before implementation.
 
 Issue type does not determine whether an HLD is required. A small feature may need no HLD, while a complex or high-risk bug may require one.
 
@@ -774,7 +803,7 @@ An Implementation Plan is required when:
 - the required code changes are not obvious from the Issue and current repository structure;
 - validation, migration, compatibility or integration work needs explicit planning;
 - acceptance requires representative live/in-environment evidence or a non-trivial end-to-end scenario matrix;
-- an unproven external/runtime dependency requires an explicit feasibility gate before dependent implementation;
+- a bounded residual assumption requires an explicit feasibility gate before dependent implementation;
 - implementation risk warrants a written plan before editing.
 
 An Implementation Plan may therefore be required even when no HLD is needed.
@@ -791,7 +820,22 @@ When an Implementation Plan exists, it must explicitly decide whether an LLD is 
 
 Use the [Low-Level Design template](../implementation/templates/low-level-design.md) and [Low-Level Design skill](../implementation/skills/low-level-design/SKILL.md) when required.
 
-### 3. Complete required change design
+### 3. Complete prerequisite Technical Discovery
+
+When `assess-change` requires Technical Discovery, create/adopt a workspace for the discovery Issue and use the [Technical Discovery skill](../implementation/skills/technical-discovery/SKILL.md).
+
+The discovery Issue:
+
+- asks a concrete technical question and identifies the downstream Issue(s) it blocks;
+- defines representative environments/data/variants and explicit evidence/exit criteria;
+- uses bounded reproducible probes/experiments to observe the real boundary;
+- treats third-party/community implementations as leads rather than authoritative specifications;
+- may use disposable probe code but does not implement the blocked production feature;
+- records evidence, findings, limitations and a `Feasible`, `Not feasible`, or `Inconclusive` conclusion in `docs/changes/<discovery-issue>/technical-discovery.md`.
+
+Validate and integrate the discovery evidence through the normal pull-request controls. After integration, rerun `assess-change` on every blocked downstream Issue. Only a sufficiently supported `Feasible` result (or another explicit product/architecture decision resolving the blocker) can authorize downstream design/implementation.
+
+### 4. Complete required change design
 
 Where an HLD is required, complete and approve it before implementation planning or development proceeds.
 
@@ -800,8 +844,9 @@ The HLD:
 - starts from the Issue and the current Product/Architecture definitions;
 - defines the proposed change design rather than the durable system architecture as a whole;
 - records material behaviour, interfaces, data/state, error handling and validation/feasibility considerations;
-- distinguishes evidenced external/runtime behaviour from assumptions;
-- defines a pre-implementation feasibility gate for any material unproven assumption that could invalidate the chosen design;
+- consumes completed Technical Discovery evidence when it was required;
+- distinguishes the established external/runtime contract from bounded residual assumptions;
+- defines plan/design feasibility gates only for narrow residual uncertainty that does not determine fundamental viability or the integration contract;
 - identifies whether the completed change is expected to alter the durable Product Definition or Architecture Definition;
 - avoids file-level implementation prescriptions.
 
@@ -809,7 +854,7 @@ For a sole-developer SideGig project, approval by the project owner is sufficien
 
 If no HLD is required, the Issue and durable project documentation remain the authoritative behavioural/design context.
 
-### 4. Complete required implementation planning
+### 5. Complete required implementation planning
 
 Where an Implementation Plan is required, complete and approve it before development proceeds.
 
@@ -821,13 +866,13 @@ The plan:
 - defines the implementation areas and meaningful sequence;
 - maps every material acceptance criterion to the evidence and test level that can actually prove it;
 - defines representative end-to-end/live coverage for materially variable external or runtime behaviour;
-- places material feasibility gates before substantial dependent implementation and defines the stop/return path if they fail;
+- places bounded residual feasibility gates before dependent implementation and defines the stop/return path if they fail;
 - defines relevant local integrity and regression requirements;
 - makes the explicit LLD decision.
 
 The plan should be detailed enough to remove material implementation ambiguity without becoming a patch description.
 
-### 5. Complete LLD where required
+### 6. Complete LLD where required
 
 Create an LLD only when the approved Implementation Plan states `LLD required: Yes`.
 
@@ -835,7 +880,7 @@ The LLD describes significant file-level responsibilities and dependencies. It d
 
 Approve the LLD before development proceeds.
 
-### 6. Develop the change
+### 7. Develop the change
 
 Use the [Development skill](../implementation/skills/development/SKILL.md).
 
@@ -846,13 +891,13 @@ Development uses:
 - the current Product Definition and Architecture Definition;
 - repository instructions and coding/quality rules.
 
-Implement only the approved Issue scope and add or update automated tests proportionately. Complete required feasibility gates before substantial dependent implementation. A failed feasibility gate stops that implementation path and returns to the Issue/HLD/Implementation Plan; do not continue by coding against mocked success for an unproven real boundary.
+Implement only the approved Issue scope and add or update automated tests proportionately. Required Technical Discovery must already be complete and reflected in the reassessed Issue/design. Complete any bounded residual feasibility gates before dependent implementation. A failed gate stops that implementation path and returns to the appropriate lifecycle stage; do not continue by coding against mocked success for an unproven real boundary.
 
 Minor implementation adjustments may be made without reopening design when they do not change product behaviour, architecture, interfaces, data ownership, scope or another material decision.
 
 A material deviation returns to the appropriate Issue, HLD or Implementation Plan rather than being silently absorbed during coding.
 
-### 7. Update durable product and architecture documentation
+### 8. Update durable product and architecture documentation
 
 Durable documentation changes are part of the software change, not a later housekeeping activity.
 
@@ -866,11 +911,11 @@ Implementation detail that remains within the existing architecture does not req
 
 Where required, these durable-document updates are included on the same change branch and in the same pull request as the implementation.
 
-### 8. Validate the change
+### 9. Validate the change
 
 Use the [Validation skill](../implementation/skills/validation/SKILL.md).
 
-Validation starts from the Issue acceptance criteria and also considers every required change-specific artifact.
+For Feature/Bug work, validation starts from the Issue acceptance criteria and also considers every required discovery/design/planning artifact. For a Technical Discovery Issue, validation starts from its evidence/exit criteria and the `technical-discovery.md` artifact.
 
 Validation must be proportionate to the change and cover, where material:
 
@@ -885,11 +930,11 @@ Validation must be proportionate to the change and cover, where material:
 
 Use evidence at the boundary of the acceptance claim. Mocked/unit/contract tests remain valuable for local logic and failure handling, but they cannot substitute for required representative evidence that a real external system, live-data source, deployed runtime or platform integration actually succeeds. A failed or incomplete required live/end-to-end check is an acceptance failure and validation remains on hold.
 
-Implementation defects found during validation may be corrected within the existing scope and retested.
+Implementation defects found during Feature/Bug validation may be corrected within the existing scope and retested. Discovery validation may correct evidence/reproducibility gaps within the investigation scope, but must not turn discovery into production implementation.
 
 If validation reveals a material scope, product, architecture or design change, return to the relevant lifecycle stage rather than redefining the change during validation.
 
-### 9. Integrate the validated change
+### 10. Integrate the validated change
 
 Use the [Merge Change skill](../implementation/skills/merge-change/SKILL.md) for integration hand-off and safe workspace closure.
 
@@ -925,13 +970,17 @@ The product repository records what happened and why it may matter. It does not 
 
 Learning capture is not itself a release gate unless the underlying observation identifies an unresolved blocker under the existing lifecycle rules.
 
-### Feature and bug paths
+### Feature, bug and technical-discovery paths
 
-The lifecycle is not two separate processes. Feature and Bug Issues use the same stages with different typical depth.
+Feature and Bug Issues use the same implementation lifecycle with proportional depth. Technical Discovery is a prerequisite evidence path used only when material unknowns block responsible design.
 
 Typical feature path:
 
-`Issue → workspace → HLD → Implementation Plan → optional LLD → development → validation → pull request → integration`
+`Issue → assessment → [Technical Discovery prerequisite when required] → workspace → HLD → Implementation Plan → optional LLD → development → validation → pull request → integration`
+
+Technical Discovery path:
+
+`Discovery Issue → workspace → investigation/probes → technical-discovery.md → discovery validation → pull request → integration → reassess blocked Issue`
 
 Simple bug path:
 
@@ -939,7 +988,7 @@ Simple bug path:
 
 Material bug path:
 
-`Issue → workspace → HLD and/or Implementation Plan as required → optional LLD → development → validation → pull request → integration`
+`Issue → assessment → [Technical Discovery prerequisite when required] → workspace → HLD and/or Implementation Plan as required → optional LLD → development → validation → pull request → integration`
 
 The nature of the decision and implementation risk determines the required artifacts, not the Issue label alone.
 
@@ -949,8 +998,9 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 
 | Stage | Skill | Use |
 | --- | --- | --- |
-| Assessment | [assess-change](../implementation/skills/assess-change/SKILL.md) | Every development-ready Issue where an agent selects the proportional path |
-| Workspace | [setup-change-workspace](../implementation/skills/setup-change-workspace/SKILL.md) | Every implemented Issue |
+| Assessment | [assess-change](../implementation/skills/assess-change/SKILL.md) | Every development-ready Feature/Bug Issue where an agent selects the proportional path |
+| Workspace | [setup-change-workspace](../implementation/skills/setup-change-workspace/SKILL.md) | Every implementation or Technical Discovery Issue |
+| Technical discovery | [technical-discovery](../implementation/skills/technical-discovery/SKILL.md) | Only for prerequisite Technical Discovery Issues |
 | Change design | [high-level-design](../implementation/skills/high-level-design/SKILL.md) | Only when HLD is required |
 | Implementation planning | [implementation-plan](../implementation/skills/implementation-plan/SKILL.md) | Only when a plan is required |
 | File-level design | [low-level-design](../implementation/skills/low-level-design/SKILL.md) | Only when the approved plan requires LLD |
@@ -964,13 +1014,14 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 An implementation change is complete when:
 
 1. the originating Issue acceptance criteria are satisfied;
-2. every design/planning artifact required for the change is approved and consistent with the implementation;
-3. relevant automated and manual validation is complete;
-4. required Product Definition and Architecture Definition updates are included;
-5. required CI checks pass;
-6. the change is integrated into its target branch through the GitHub Delivery Model;
-7. the GitHub Issue is closed through the integrated change or an explicit recorded resolution;
-8. the learning checkpoint is complete, with learning records referenced where created or `Learnings: None` recorded in the completion hand-off.
+2. every required prerequisite Technical Discovery is integrated, conclusive enough to authorize the implemented path, and reflected in the downstream Issue reassessment;
+3. every design/planning artifact required for the change is approved and consistent with the implementation;
+4. relevant automated and manual validation is complete;
+5. required Product Definition and Architecture Definition updates are included;
+6. required CI checks pass;
+7. the change is integrated into its target branch through the GitHub Delivery Model;
+8. the GitHub Issue is closed through the integrated change or an explicit recorded resolution;
+9. the learning checkpoint is complete, with learning records referenced where created or `Learnings: None` recorded in the completion hand-off.
 
 Untracked implementation work is not allowed.
 

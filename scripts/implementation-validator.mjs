@@ -808,7 +808,7 @@ function validatePoc(file, doc, template) {
 
   const step9 = validateRequiredFields(result, doc.raw, [
     'Product repository',
-    'Development/design evidence',
+    'Discovery/design/implementation evidence',
     'Deployed implementation reference',
     'Pre-observation requirements closed',
     'Observation baseline captured',

@@ -48,9 +48,9 @@ Third-party/community implementations are leads, not authoritative specification
 
 Maintain the candidate hypotheses/approaches still worth testing. Order them by expected information value and cost.
 
-| ID | Hypothesis / approach | Why test it | Evidence that would support/refute it | Status |
-|---|---|---|---|---|
-| H1 | <hypothesis> | <reason> | <observable evidence> | <Proposed / Approved / Running / Supported / Rejected / Superseded> |
+| ID  | Hypothesis / approach | Why test it | Evidence that would support/refute it | Status                                                              |
+| --- | --------------------- | ----------- | ------------------------------------- | ------------------------------------------------------------------- |
+| H1  | <hypothesis>          | <reason>    | <observable evidence>                 | <Proposed / Approved / Running / Supported / Rejected / Superseded> |
 
 A failed hypothesis normally leads to another hypothesis in this same Spike. Create a separate Spike only when a genuinely independent technical question emerges with its own completion condition.
 

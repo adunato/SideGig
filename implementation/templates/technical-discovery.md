@@ -55,6 +55,7 @@ State bounds for requests, cost, data retention, credentials, and other operatio
 - <finding>
 
 Distinguish:
+
 - observed behaviour;
 - supported inference;
 - unresolved uncertainty.
@@ -86,6 +87,7 @@ After this discovery is integrated, rerun `assess-change` on each blocked downst
 ## 9. Reproducibility
 
 Record:
+
 - exact repository commit / probe version;
 - commands or scripts used;
 - runtime/environment details;

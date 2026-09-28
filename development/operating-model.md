@@ -1059,7 +1059,7 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 | --- | --- | --- |
 | Assessment | [assess-change](../implementation/skills/assess-change/SKILL.md) | Every development-ready Feature/Bug Issue where an agent selects the proportional path |
 | Workspace | [setup-change-workspace](../implementation/skills/setup-change-workspace/SKILL.md) | Every implementation or Technical Spike Issue |
-| Technical discovery | [technical-spike](../implementation/skills/technical-spike/SKILL.md) | Only for prerequisite Technical Spike Issues |
+| Technical spike | [technical-spike](../implementation/skills/technical-spike/SKILL.md) | Only for prerequisite Technical Spike Issues |
 | Change design | [high-level-design](../implementation/skills/high-level-design/SKILL.md) | Only when HLD is required |
 | Implementation planning | [implementation-plan](../implementation/skills/implementation-plan/SKILL.md) | Only when a plan is required |
 | File-level design | [low-level-design](../implementation/skills/low-level-design/SKILL.md) | Only when the approved plan requires LLD |

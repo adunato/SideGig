@@ -52,7 +52,7 @@ docs/
   architecture.md
   changes/
     <issue-number>/
-      technical-discovery.md  # for Technical Discovery Issues
+      technical-spike.md  # for Technical Spike Issues
       hld.md                   # only when required
       implementation-plan.md   # only when required
       low-level-design.md      # only when required
@@ -63,7 +63,7 @@ docs/
   ISSUE_TEMPLATE/
     feature.md
     bug.md
-    technical-discovery.md
+    technical-spike.md
   workflows/
     sidegig-learning-dispatch.yml
     <project-specific CI/CD workflows>
@@ -79,8 +79,8 @@ docs/
     architecture-definition.md
     feature-issue.md
     bug-issue.md
-    technical-discovery-issue.md
-    technical-discovery.md
+    technical-spike-issue.md
+    technical-spike.md
     high-level-design.md
     implementation-plan.md
     low-level-design.md
@@ -118,7 +118,7 @@ When the Development Lifecycle requires a change artifact, store it under:
 
 Use the stable filenames:
 
-- `technical-discovery.md` — evidence artifact for a Technical Discovery Issue;
+- `technical-spike.md` — evidence artifact for a Technical Spike Issue;
 - `hld.md`;
 - `implementation-plan.md`;
 - `low-level-design.md`
@@ -211,7 +211,7 @@ Canonical templates needed by those skills are installed alongside them under:
 
 `.codex/templates/`
 
-The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, prerequisite Technical Discovery, change design/planning/execution, CI diagnosis, release preparation, staging validation, production promotion and learning capture. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
+The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, prerequisite Technical Spike, change design/planning/execution, CI diagnosis, release preparation, staging validation, production promotion and learning capture. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
 
 A project may extend `AGENTS.md` with genuine repository-specific instructions, but it should not restate the full Development Operating Model.
 
@@ -221,9 +221,9 @@ The bootstrap installs the canonical GitHub Issue templates as:
 
 - `.github/ISSUE_TEMPLATE/feature.md` from [Feature Issue template](templates/feature-issue.md);
 - `.github/ISSUE_TEMPLATE/bug.md` from [Bug Issue template](templates/bug-issue.md);
-- `.github/ISSUE_TEMPLATE/technical-discovery.md` from [Technical Discovery Issue template](templates/technical-discovery-issue.md).
+- `.github/ISSUE_TEMPLATE/technical-spike.md` from [Technical Spike Issue template](templates/technical-spike-issue.md).
 
-The repository uses the standard `feature`, `bug`, and `technical-discovery` labels. Additional labels are introduced only when a later project need demonstrates material value.
+The repository uses the standard `feature`, `bug`, and `technical-spike` labels. Additional labels are introduced only when a later project need demonstrates material value.
 
 Branch protections, merge rules, Milestones, release branches, tags and GitHub Releases are governed by the GitHub Delivery Model rather than repeated here.
 
@@ -260,14 +260,14 @@ The bootstrap performs the following:
 5. instantiate `AGENTS.md` from the canonical AGENTS template;
 6. create `docs/product.md` from the Product Definition template and populate it from the approved upstream product/POC context;
 7. create `docs/architecture.md` from the Architecture Definition template and populate the architecture known at project establishment;
-8. install the standard Feature, Bug and Technical Discovery Issue templates;
+8. install the standard Feature, Bug and Technical Spike Issue templates;
 9. establish the repository's canonical local validation command and supporting language/tool configuration;
 10. install the versioned SideGig agent package, including reusable skills under `.codex/skills/` and canonical project-local templates under `.codex/templates/`;
 11. install the CI validation workflow, the standard SideGig learning-dispatch workflow, and any immediately required deployment workflow;
 12. use the installed `provision-repository-secrets` skill/tool to automatically create and verify `SIDEGIG_COLLECTOR_DISPATCH_TOKEN` in the new repository; bootstrap is blocked if provisioning fails;
 13. commit the resulting bootstrap baseline;
 14. create `dev`, `staging` and `main` from that same baseline and set `dev` as the default branch;
-15. create the standard `feature`, `bug`, and `technical-discovery` labels;
+15. create the standard `feature`, `bug`, and `technical-spike` labels;
 16. configure the branch protections and required checks defined by the GitHub Delivery Model and CI/CD chapter.
 
 ### Bootstrap credential prerequisite
@@ -500,7 +500,7 @@ Bug Issues are created using the [Bug Issue template](templates/bug-issue.md) an
 - relevant Product Definition or Architecture Definition context where material;
 - dependencies on other Issues, or `None`.
 
-Feature and Bug Issues describe required product/software outcomes and acceptance evidence, not implementation design. Technical Discovery Issues describe a bounded technical question, investigation scope and evidence/exit criteria when a material unknown must be resolved before downstream design. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature, bug or discovery intent into the appropriate development-ready Issue shape. Feature and Bug templates include a `Development Lifecycle Assessment` section initialized to `Pending`, including the Technical Discovery decision. The Development Lifecycle determines whether prerequisite discovery is required and, after it is resolved, what HLD/Implementation Plan/LLD depth is required. Technical Discovery Issues use their dedicated discovery lifecycle rather than a second design-depth assessment.
+Feature and Bug Issues describe required product/software outcomes and acceptance evidence, not implementation design. Technical Spike Issues describe one stable technical question, required outcome, constraints and completion criteria when a material unknown must be resolved before downstream design. The living `technical-spike.md` artifact owns the evolving hypothesis/experiment plan and evidence. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature, bug or Spike intent into the appropriate development-ready Issue shape. Feature and Bug templates include a `Development Lifecycle Assessment` section initialized to `Pending`, including the Technical Spike decision. The Development Lifecycle determines whether prerequisite Spike is required and, after it is resolved, what HLD/Implementation Plan/LLD depth is required. Technical Spike Issues use their dedicated Spike lifecycle rather than a second design-depth assessment.
 
 Work discovered outside the current Issue scope becomes a separate Issue rather than silently expanding the active change.
 
@@ -698,11 +698,11 @@ Release fix:
 
 The Development Lifecycle defines how one approved GitHub Issue is turned into an integrated software change.
 
-The [GitHub Delivery Model](#4-github-delivery-model) owns the delivery artifacts and state transitions: Issues, branches, pull requests and integration. This section owns the engineering process performed within that structure: prerequisite Technical Discovery where needed, design, implementation planning, development, validation and integration hand-off.
+The [GitHub Delivery Model](#4-github-delivery-model) owns the delivery artifacts and state transitions: Issues, branches, pull requests and integration. This section owns the engineering process performed within that structure: prerequisite Technical Spike where needed, design, implementation planning, development, validation and integration hand-off.
 
 The lifecycle is deliberately proportional. SideGig does not require HLD, implementation-plan or LLD artifacts for a change merely because those templates exist. Each artifact is created only when it adds enough clarity or control to justify its cost.
 
-Every implementation change remains traceable to one originating Feature/Bug Issue. When material technical unknowns must be resolved first, that downstream Issue links one or more separate prerequisite Technical Discovery Issues; discovery does not replace the product outcome Issue.
+Every implementation change remains traceable to one originating Feature/Bug Issue. When material technical unknowns must be resolved first, that downstream Issue links one or more separate prerequisite Technical Spike Issues; discovery does not replace the product outcome Issue.
 
 ### Lifecycle inputs
 
@@ -741,17 +741,17 @@ The workspace must:
 
 Workspace creation does not require an HLD or implementation plan to exist first.
 
-### 2. Determine required discovery, design and planning depth
+### 2. Determine required Spike, design and planning depth
 
-Determine proportionately whether prerequisite Technical Discovery is required and, only after required discovery is complete, which change-specific design/planning artifacts are required.
+Determine proportionately whether prerequisite Technical Spike is required and, only after required Spike is complete, which change-specific design/planning artifacts are required.
 
 Use the [Assess Change skill](../implementation/skills/assess-change/SKILL.md) when an agent performs this assessment.
 
-No separate classification document is created. Record the assessment outcome in the originating Feature/Bug Issue's `Development Lifecycle Assessment` section. That section is the canonical record of the Technical Discovery decision/prerequisite/status, HLD and Implementation Plan decisions, LLD status, material risks, and the exact next lifecycle step.
+No separate classification document is created. Record the assessment outcome in the originating Feature/Bug Issue's `Development Lifecycle Assessment` section. That section is the canonical record of the Technical Spike decision/prerequisite/status, HLD and Implementation Plan decisions, LLD status, material risks, and the exact next lifecycle step.
 
-#### Technical Discovery decision
+#### Technical Spike decision
 
-Require a separate Technical Discovery Issue when a material technical fact must be established empirically before responsible design can proceed. Typical cases include:
+Require a separate Technical Spike when a material technical fact must be established empirically before responsible design can proceed. Typical cases include:
 
 - an undocumented or reverse-engineered external interface/protocol central to the capability;
 - unknown consent, authentication, anti-bot, redirect, permission, rate-limit, regional, account or runtime behaviour that may determine viability;
@@ -760,19 +760,20 @@ Require a separate Technical Discovery Issue when a material technical fact must
 - third-party/community code being the principal source for a supposed external specification;
 - a core capability whose feasibility or approved dependency model is not yet established.
 
-Technical Discovery is **not** required for every uncertainty. Keep a bounded feasibility gate inside HLD/Implementation Planning when the external/runtime contract is already sufficiently understood and a small probe only confirms a residual implementation assumption.
+Technical Spike is **not** required for every uncertainty. Keep a bounded feasibility gate inside HLD/Implementation Planning when the external/runtime behaviour is already sufficiently understood and a small probe only confirms a residual implementation assumption.
 
-When Technical Discovery is required:
+When a Technical Spike is required:
 
-1. create or link a prerequisite Technical Discovery Issue using the canonical template;
-2. set the downstream Issue's HLD, Implementation Plan and LLD statuses to deferred pending discovery;
+1. create or link one controlling Technical Spike Issue using the canonical template;
+2. set the downstream Feature/Bug Issue's HLD, Implementation Plan and LLD statuses to deferred pending the Spike;
 3. do not create/approve downstream design or production implementation that depends on the unknown;
-4. execute and integrate the discovery evidence;
-5. rerun `assess-change` on the downstream Issue.
+4. execute the Spike iteratively until its original Technical Question is resolved with a supported `Feasible` or `Not feasible` conclusion;
+5. integrate the final Spike evidence;
+6. rerun `assess-change` on each blocked downstream Issue.
 
-An `Inconclusive` discovery remains blocking. A completed discovery can conclude that the capability is not feasible within the approved constraints; that result returns to the appropriate Product/Architecture or implementation-methodology decision rather than being worked around silently.
+A failed or inconclusive **experiment** does not complete the Spike. It updates the living investigation artifact and normally leads to another hypothesis/experiment inside the same controlling Spike. Do not create serial Spike Issues merely because an experiment failed. A separate Spike is justified only for a genuinely independent technical question with its own required outcome and completion condition.
 
-Use the [Technical Discovery Issue template](templates/technical-discovery-issue.md), [Technical Discovery artifact template](../implementation/templates/technical-discovery.md), and [Technical Discovery skill](../implementation/skills/technical-discovery/SKILL.md).
+A `Not feasible` Spike returns to the appropriate Product Definition, Architecture Definition or POC commitment decision rather than being worked around silently.
 
 #### HLD decision
 
@@ -821,20 +822,77 @@ When an Implementation Plan exists, it must explicitly decide whether an LLD is 
 
 Use the [Low-Level Design template](../implementation/templates/low-level-design.md) and [Low-Level Design skill](../implementation/skills/low-level-design/SKILL.md) when required.
 
-### 3. Complete prerequisite Technical Discovery
+### 3. Complete prerequisite Technical Spike
 
-When `assess-change` requires Technical Discovery, create/adopt a workspace for the discovery Issue and use the [Technical Discovery skill](../implementation/skills/technical-discovery/SKILL.md).
+When `assess-change` requires a Technical Spike, create/adopt one workspace for the controlling Spike Issue and use the [Technical Spike skill](../implementation/skills/technical-spike/SKILL.md).
 
-The discovery Issue:
+#### GitHub and repository shape
 
-- asks a concrete technical question and identifies the downstream Issue(s) it blocks;
-- defines representative environments/data/variants and explicit evidence/exit criteria;
-- uses bounded reproducible probes/experiments to observe the real boundary;
-- treats third-party/community implementations as leads rather than authoritative specifications;
-- may use disposable probe code but does not implement the blocked production feature;
-- records evidence, findings, limitations and a `Feasible`, `Not feasible`, or `Inconclusive` conclusion in `docs/changes/<discovery-issue>/technical-discovery.md`.
+A Spike uses normal GitHub/repository objects:
 
-Validate and integrate the discovery evidence through the normal pull-request controls. After integration, rerun `assess-change` on every blocked downstream Issue. Only a sufficiently supported `Feasible` result (or another explicit product/architecture decision resolving the blocker) can authorize downstream design/implementation.
+- **one GitHub Spike Issue** — the stable technical question, required outcome, constraints, completion criteria and blocked downstream Issue(s);
+- **one long-lived Spike branch/workspace** — normally `spike/<issue-number>-<slug>` where repository naming permits it;
+- **one draft pull request opened early** — the review surface for accumulated investigation work; it references the Spike with `Refs #<issue>` while the Spike remains open;
+- **one living investigation artifact** — `docs/changes/<issue-number>/technical-spike.md`;
+- **experiment-specific files** under `docs/changes/<issue-number>/experiments/<NN>-<slug>/` only when useful for reproducibility/auditability.
+
+The Issue is the stable problem statement. The living Spike artifact is the evolving investigation design and accumulated technical specification. Comments are concise progress/owner-decision checkpoints; detailed evidence belongs in the repository.
+
+#### Iteration lifecycle
+
+The living Spike artifact contains:
+
+1. the stable Technical Question and Required Outcome;
+2. current evidence-backed understanding;
+3. an ordered hypothesis/approach backlog;
+4. the current iteration design;
+5. an append-only experiment log;
+6. the accumulating Supported Technical Specification;
+7. remaining material uncertainty;
+8. the final Feasible/Not feasible conclusion when reached.
+
+Each iteration follows:
+
+`select hypothesis → design bounded experiment → owner approval → execute → retain evidence → update understanding/specification → propose next iteration → owner checkpoint`
+
+Default execution is **one approved iteration at a time**. After an iteration, the executing agent stops and reports the evidence, interpretation and proposed next experiment to the project owner.
+
+The project owner may explicitly authorize autonomous continuation through multiple iterations. That authorization does not permit the agent to cross a material decision boundary. Even in autonomous mode the agent must stop before changing the original question/outcome, product scope/acceptance criteria, Product/Architecture constraints, dependency model, material cost/operational burden, or security/privacy/legal/safety posture.
+
+#### Executor flexibility and hand-off
+
+A Spike iteration may be executed by Codex, ChatGPT, a human developer, or another approved tool/agent according to the work required.
+
+- Use Codex when the iteration principally needs repository-local code/probes, local execution or structured artifact updates.
+- Use ChatGPT when the iteration principally needs research, synthesis, external documentation analysis, hypothesis formation or orchestration across evidence sources.
+- Mixed iterations may hand off between them.
+
+The GitHub Spike Issue plus `technical-spike.md`, retained experiment files and draft PR are the shared hand-off state. No executor may rely on private chat history or unstated context as authority.
+
+#### Experiment outcomes
+
+An individual experiment is recorded as `Supported`, `Rejected`, or `Inconclusive`.
+
+These are experiment outcomes, not terminal Spike states. A correctly executed failed/inconclusive experiment is useful evidence and normally changes the next experiment; it does not authorize closing the Spike or opening a serial replacement Spike.
+
+The Spike itself has only two successful terminal technical conclusions:
+
+- **Feasible** — representative evidence supports a technical specification/approach sufficiently for downstream design;
+- **Not feasible** — representative evidence shows the Required Outcome cannot be achieved within the approved constraints.
+
+If the owner abandons or materially changes the original question, the Spike may be explicitly stopped/superseded as a governance action; that is distinct from a technical conclusion.
+
+#### Pull request and integration behaviour
+
+The draft Spike PR accumulates the living artifact, experiment notes, bounded probe/reproducibility tooling, sanitized evidence and any learning records.
+
+It remains draft while the original question is unresolved. An iteration-level validation result may be `Iteration valid / Spike remains open`; that does not make the PR merge-ready.
+
+Normally the final PR is made ready only after final Spike validation confirms a supported Feasible or Not feasible conclusion. Only then may it use `Closes #<spike>`.
+
+If repository/operational constraints genuinely require interim evidence to be merged, the controlling Spike remains open and the merge must not claim downstream authorization; subsequent work must preserve one controlling Spike and clear evidence lineage.
+
+After final Spike integration, rerun `assess-change` on every blocked downstream Issue. Only a sufficiently supported Feasible result (or an explicit product/architecture decision responding to Not feasible) can authorize downstream design/implementation.
 
 ### 4. Complete required change design
 
@@ -845,7 +903,7 @@ The HLD:
 - starts from the Issue and the current Product/Architecture definitions;
 - defines the proposed change design rather than the durable system architecture as a whole;
 - records material behaviour, interfaces, data/state, error handling and validation/feasibility considerations;
-- consumes completed Technical Discovery evidence when it was required;
+- consumes completed Technical Spike evidence when it was required;
 - distinguishes the established external/runtime contract from bounded residual assumptions;
 - defines plan/design feasibility gates only for narrow residual uncertainty that does not determine fundamental viability or the integration contract;
 - identifies whether the completed change is expected to alter the durable Product Definition or Architecture Definition;
@@ -892,7 +950,7 @@ Development uses:
 - the current Product Definition and Architecture Definition;
 - repository instructions and coding/quality rules.
 
-Implement only the approved Issue scope and add or update automated tests proportionately. Required Technical Discovery must already be complete and reflected in the reassessed Issue/design. Complete any bounded residual feasibility gates before dependent implementation. A failed gate stops that implementation path and returns to the appropriate lifecycle stage; do not continue by coding against mocked success for an unproven real boundary.
+Implement only the approved Issue scope and add or update automated tests proportionately. Required Technical Spike must already be complete and reflected in the reassessed Issue/design. Complete any bounded residual feasibility gates before dependent implementation. A failed gate stops that implementation path and returns to the appropriate lifecycle stage; do not continue by coding against mocked success for an unproven real boundary.
 
 Minor implementation adjustments may be made without reopening design when they do not change product behaviour, architecture, interfaces, data ownership, scope or another material decision.
 
@@ -916,7 +974,7 @@ Where required, these durable-document updates are included on the same change b
 
 Use the [Validation skill](../implementation/skills/validation/SKILL.md).
 
-For Feature/Bug work, validation starts from the Issue acceptance criteria and also considers every required discovery/design/planning artifact. For a Technical Discovery Issue, validation starts from its evidence/exit criteria and the `technical-discovery.md` artifact.
+For Feature/Bug work, validation starts from the Issue acceptance criteria and also considers every required Spike/design/planning artifact. For a Technical Spike Issue, validation starts from its evidence/exit criteria and the `technical-spike.md` artifact.
 
 Validation must be proportionate to the change and cover, where material:
 
@@ -971,17 +1029,17 @@ The product repository records what happened and why it may matter. It does not 
 
 Learning capture is not itself a release gate unless the underlying observation identifies an unresolved blocker under the existing lifecycle rules.
 
-### Feature, bug and technical-discovery paths
+### Feature, bug and technical-spike paths
 
-Feature and Bug Issues use the same implementation lifecycle with proportional depth. Technical Discovery is a prerequisite evidence path used only when material unknowns block responsible design.
+Feature and Bug Issues use the same implementation lifecycle with proportional depth. Technical Spike is a prerequisite evidence path used only when material unknowns block responsible design.
 
 Typical feature path:
 
-`Issue → assessment → [Technical Discovery prerequisite when required] → workspace → HLD → Implementation Plan → optional LLD → development → validation → pull request → integration`
+`Issue → assessment → [Technical Spike prerequisite when required] → workspace → HLD → Implementation Plan → optional LLD → development → validation → pull request → integration`
 
-Technical Discovery path:
+Technical Spike path:
 
-`Discovery Issue → workspace → investigation/probes → technical-discovery.md → discovery validation → pull request → integration → reassess blocked Issue`
+`Spike Issue → long-lived workspace + draft PR → iterative hypothesis/experiment/evidence/owner-checkpoint loop → supported technical specification or infeasibility conclusion → final Spike validation → final PR integration → reassess blocked Issue`
 
 Simple bug path:
 
@@ -989,7 +1047,7 @@ Simple bug path:
 
 Material bug path:
 
-`Issue → assessment → [Technical Discovery prerequisite when required] → workspace → HLD and/or Implementation Plan as required → optional LLD → development → validation → pull request → integration`
+`Issue → assessment → [Technical Spike prerequisite when required] → workspace → HLD and/or Implementation Plan as required → optional LLD → development → validation → pull request → integration`
 
 The nature of the decision and implementation risk determines the required artifacts, not the Issue label alone.
 
@@ -1000,8 +1058,8 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 | Stage | Skill | Use |
 | --- | --- | --- |
 | Assessment | [assess-change](../implementation/skills/assess-change/SKILL.md) | Every development-ready Feature/Bug Issue where an agent selects the proportional path |
-| Workspace | [setup-change-workspace](../implementation/skills/setup-change-workspace/SKILL.md) | Every implementation or Technical Discovery Issue |
-| Technical discovery | [technical-discovery](../implementation/skills/technical-discovery/SKILL.md) | Only for prerequisite Technical Discovery Issues |
+| Workspace | [setup-change-workspace](../implementation/skills/setup-change-workspace/SKILL.md) | Every implementation or Technical Spike Issue |
+| Technical spike | [technical-spike](../implementation/skills/technical-spike/SKILL.md) | Only for prerequisite Technical Spike Issues |
 | Change design | [high-level-design](../implementation/skills/high-level-design/SKILL.md) | Only when HLD is required |
 | Implementation planning | [implementation-plan](../implementation/skills/implementation-plan/SKILL.md) | Only when a plan is required |
 | File-level design | [low-level-design](../implementation/skills/low-level-design/SKILL.md) | Only when the approved plan requires LLD |
@@ -1015,7 +1073,7 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 An implementation change is complete when:
 
 1. the originating Issue acceptance criteria are satisfied;
-2. every required prerequisite Technical Discovery is integrated, conclusive enough to authorize the implemented path, and reflected in the downstream Issue reassessment;
+2. every required prerequisite Technical Spike is integrated, conclusive enough to authorize the implemented path, and reflected in the downstream Issue reassessment;
 3. every design/planning artifact required for the change is approved and consistent with the implementation;
 4. relevant automated and manual validation is complete;
 5. required Product Definition and Architecture Definition updates are included;
@@ -1297,7 +1355,7 @@ Use the [Staging Validation skill](../implementation/skills/staging-validation/S
 
 For product repositories deployed as Apify Actors, use the [Apify Actor Deployment skill](../implementation/skills/apify-actor-deployment/SKILL.md) as the platform-specific companion to release preparation and staging validation. The detailed [Apify Actor Deployment Playbook](../implementation/apify/actor-deployment-playbook.md) defines the reusable schema/package preflight, private hosted build/run validation, dataset/API/log/cost evidence, memory sizing, monetization readiness and Store-publication controls. The platform-specific skill does not replace the generic staging `Pass` / `Hold` decision or production-promotion authority.
 
-A failed required staging check blocks production promotion. Corrective software work follows the release-fix path defined by the GitHub Delivery Model and is revalidated through the applicable gates. If staging shows that an assumed external/runtime contract was never established rather than exposing an ordinary implementation defect, create/link Technical Discovery, hold promotion, and reassess the affected downstream Issue/release scope.
+A failed required staging check blocks production promotion. Corrective software work follows the release-fix path defined by the GitHub Delivery Model and is revalidated through the applicable gates. If staging shows that an assumed external/runtime contract was never established rather than exposing an ordinary implementation defect, create/link Technical Spike, hold promotion, and reassess the affected downstream Issue/release scope.
 
 ### 5. Production promotion and deployment
 

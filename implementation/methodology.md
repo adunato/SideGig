@@ -33,7 +33,7 @@ The implementation methodology and the [SideGig Development Operating Model](../
 
 The implementation methodology owns the **commercial implementation lifecycle**: the sequence from a selected channel through prerequisite validation, POC selection and definition, implementation commitment, live POC evaluation, productisation, launch readiness and initial live operation. It defines the outcome and evidence required from each step and the gateways that authorize progression.
 
-The Development Operating Model owns the **software engineering lifecycle** for every independently deployable SideGig product or service. It defines repository bootstrap and structure, durable Product and Architecture definitions, the GitHub Delivery Model, Issue-driven change delivery, prerequisite Technical Discovery for material unknown boundaries, proportional design and planning, development and validation, coding/quality standards, CI/CD, release preparation, staging validation, production promotion and agentic-development conventions.
+The Development Operating Model owns the **software engineering lifecycle** for every independently deployable SideGig product or service. It defines repository bootstrap and structure, durable Product and Architecture definitions, the GitHub Delivery Model, Issue-driven change delivery, prerequisite Technical Spike for material unknown boundaries, proportional design and planning, development and validation, coding/quality standards, CI/CD, release preparation, staging validation, production promotion and agentic-development conventions.
 
 The boundary is governed by the following rules:
 
@@ -954,7 +954,7 @@ Assess the following dimensions explicitly:
 2. **Evidence readiness** — the market and capability hypotheses have observable success, iteration and exit criteria; for current-revision artifacts, Market Test Cards are precommitted and traceable to the Step 6 Demand Case.
 3. **Operational manageability** — the monitoring, evidence capture, intervention and pause rules are proportionate and feasible.
 4. **Implementation proportionality** — the implementation remains sufficiently small, inexpensive and reversible for a POC.
-5. **Prerequisite feasibility** — technical, platform and commercial prerequisites needed for implementation or the later observation window are either ready or have a concrete feasible action. A material technical unknown may be carried into Step 9 only as an explicit bounded Technical Discovery prerequisite with a stop/return rule; it must not be represented as an already-understood integration.
+5. **Prerequisite feasibility** — technical, platform and commercial prerequisites needed for implementation or the later observation window are either ready or have a concrete feasible action. A material technical unknown may be carried into Step 9 only as an explicit Technical Spike prerequisite. The Spike must own the stable technical question and iterate until it establishes a supported technical specification or shows the required outcome not feasible within approved constraints; it must not be represented as an already-understood integration.
 6. **Risk / cost containment** — known technical, commercial and operational risks have explicit boundaries and no unresolved exposure makes the experiment unreasonable.
 
 Use only:
@@ -1043,7 +1043,7 @@ Use:
 
 Step 9 defines the **implementation outcome and evidence required by the commercial methodology**. It does not redefine the engineering workflow.
 
-All software engineering required by Step 9 is performed according to the current [SideGig Development Operating Model](../development/operating-model.md). The operating model owns repository bootstrap, durable Product and Architecture definitions, GitHub Issues and release state, prerequisite Technical Discovery, proportional change design and planning, development, validation, CI/CD and promotion.
+All software engineering required by Step 9 is performed according to the current [SideGig Development Operating Model](../development/operating-model.md). The operating model owns repository bootstrap, durable Product and Architecture definitions, GitHub Issues and release state, prerequisite Technical Spike, proportional change design and planning, development, validation, CI/CD and promotion.
 
 The product repository is therefore authoritative for the engineering execution of the POC. implementation/<channel>/poc.md records only the references and cross-project evidence needed to determine whether Step 9 is complete and the observation window may begin.
 
@@ -1066,6 +1066,8 @@ Represent implementation work after bootstrap through GitHub Issues under the De
 The POC boundary remains controlled by Step 7. Issues translate that approved boundary into independently mergeable outcomes; they do not create new product scope.
 
 Use the operating model's proportional lifecycle to determine whether each Issue requires an HLD, Implementation Plan or LLD. The implementation methodology does not prescribe those artifacts independently.
+
+When a material implementation unknown requires a Technical Spike, Step 9 follows the Development Operating Model's iterative Spike lifecycle rather than treating each failed experiment as a new implementation Issue. One controlling Spike remains open across hypothesis/experiment iterations, with the living `technical-spike.md` artifact accumulating evidence and the supported technical specification. Downstream Feature/Bug design remains blocked until that Spike reaches a supported Feasible or Not feasible conclusion and the downstream Issue is reassessed.
 
 Where the POC is the first planned release, use the release/versioning conventions defined by the GitHub Delivery Model.
 
@@ -1133,7 +1135,7 @@ Step 9 is complete when:
 7. the deployed implementation is traceable to a specific implementation reference;
 8. every Gateway 3 **Action before observation** item has been closed or made explicitly **Not applicable**;
 9. the Step 8 baseline required for later evaluation has been captured;
-10. no unresolved Technical Discovery, implementation defect or configuration issue prevents valid live observation;
+10. no unresolved Technical Spike, implementation defect or configuration issue prevents valid live observation;
 11. the engineering learning review has been completed and any learning records requiring SideGig review are referenced;
 12. the artifact explicitly records Step 9 as complete and ready to proceed to Step 10.
 

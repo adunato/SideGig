@@ -74,7 +74,7 @@ templates:
     source: implementation/templates/low-level-design.md
     destination: low-level-design.md
     purpose: canonical optional LLD
-    sha256: 61521276413567400788B91D8EDD4EF6066F747660D1F95D38F0FC1023FA8D11
+    sha256: 12D1EEF87D96035E06358E71B724E0489D3E8C4480826C92BE4840EF17770822
 tools:
   - name: provision-repository-secrets
     source: implementation/bootstrap/provision-repository-secrets.ps1

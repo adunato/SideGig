@@ -58,6 +58,7 @@ A failed hypothesis normally leads to another hypothesis in this same Spike. Cre
 
 **Iteration:** `<number>`  
 **Hypothesis / approach:** `<H# / description>`  
+**Executor:** `<Codex | ChatGPT | Human | Other>`  
 **Owner approval:** `<Approved YYYY-MM-DD | Autonomous continuation authorized | Pending>`
 
 ### Why this iteration
@@ -87,6 +88,7 @@ Append one subsection per completed iteration. Do not delete failed experiments;
 ### Iteration <N> — <short name>
 
 **Hypothesis:** <what was tested>  
+**Executor:** <who/tool executed this iteration>  
 **Environment/data:** <representative runtime/input/sample>  
 **Method:** <probe/experiment>  
 **Evidence:** <stable repository references and key observations>  

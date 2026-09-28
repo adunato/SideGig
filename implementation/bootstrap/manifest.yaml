@@ -59,7 +59,7 @@ templates:
     source: implementation/templates/technical-discovery.md
     destination: technical-discovery.md
     purpose: canonical Technical Discovery evidence artifact
-    sha256: C1D8A1692A4ED85A0B770A9AFCFB65FEF996DD2EE23F4F9FC3D7F1D79F543CCF
+    sha256: 19899E22E50CF7D1E6682B7D29E7157156FAF444FDA5EA8FAEEF1FAF6A145451
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
@@ -74,7 +74,7 @@ templates:
     source: implementation/templates/low-level-design.md
     destination: low-level-design.md
     purpose: canonical optional LLD
-    sha256: 5FC1EC5AA9F170713D568B44125C6CE6E4E2203D25D46CDFF20E9A80DD1DE327
+    sha256: 61521276413567400788B91D8EDD4EF6066F747660D1F95D38F0FC1023FA8D11
 tools:
   - name: provision-repository-secrets
     source: implementation/bootstrap/provision-repository-secrets.ps1
@@ -137,7 +137,7 @@ skills:
     source: implementation/skills/technical-discovery/SKILL.md
     dependencies: [setup-change-workspace]
     version: 1.0.0
-    sha256: 78F94364C6E0044781044CC28CAEA641B9E917B065F43BA4081505B91A21BEAB
+    sha256: 18490DF73BE164520D198493068A5730A60A1185BB51B0A1F153ED76EF41D763
   - name: high-level-design
     stage: design
     order: 70

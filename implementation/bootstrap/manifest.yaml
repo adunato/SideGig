@@ -59,7 +59,7 @@ templates:
     source: implementation/templates/technical-spike.md
     destination: technical-spike.md
     purpose: canonical living Technical Spike investigation/specification artifact
-    sha256: D1C10CB5DC63F2BFC03CF8F5CE33CFB42A1516CC168DD5FCB36D2FEDF4A7D6B0
+    sha256: EC78A9A6BC7C95D000E5FAA1DD8FBBC56617D2D207EA8E12BDD07ADA8B36D969
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md

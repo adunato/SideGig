@@ -130,7 +130,9 @@ Do not:
 - relax approved constraints merely to obtain a positive result;
 - treat an inconclusive iteration as authority to close the Spike.
 
-If evidence shows that a product/architecture constraint itself must change, record the implication and stop for the owner/product decision.
+If evidence shows that a product/architecture constraint itself must change, record the implication, recommend the resulting decision path, state exactly what must be decided, and stop for the owner/product decision.
+
+Do not use passive checkpoint language as a substitute for ownership. Statements such as "the next experiment awaits owner review", "a token was unavailable", or "the Spike remains open" are incomplete unless accompanied by the recommended next action, blocker impact, recovery path and exact owner decision required.
 
 ## Draft PR behaviour
 

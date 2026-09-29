@@ -57,12 +57,22 @@ The Issue body holds the stable problem/outcome. The living Spike artifact holds
 
 Default mode is **one approved iteration at a time**.
 
+An owner checkpoint is an **authorization and decision boundary, not a transfer of investigative ownership**. The executing agent remains responsible for understanding what the evidence means, selecting the best next step, diagnosing ordinary execution problems, and presenting a decision-ready recommendation.
+
 After each completed iteration:
 
 1. record the evidence and result in the Experiment Log;
 2. update Current Understanding, Supported Technical Specification and Remaining Uncertainty;
-3. propose the next hypothesis/experiment;
-4. report back to the project owner and stop.
+3. select and **recommend** the next hypothesis/experiment with the highest current information value; do not hand the owner an unranked list unless a genuine product/architecture choice exists;
+4. explain why that recommendation is next and what uncertainty it resolves;
+5. identify any prerequisite, blocker or execution problem and classify it explicitly:
+   - whether it affected the completed iteration;
+   - whether it blocks the recommended next iteration;
+   - whether it is an ordinary operational prerequisite or a material owner/product/architecture/risk decision;
+   - the concrete supported recovery/action required;
+6. for ordinary operational prerequisites, use or identify the repository/platform's standard recovery path before escalating manual work to the owner;
+7. state the exact owner decision requested, normally in a form such as **Approve Iteration N: <bounded experiment>**, **Redirect to <alternative>**, or **Decide <material choice>**;
+8. report back to the project owner and stop only after the hand-off is decision-ready.
 
 Proceed to the next iteration only after owner approval.
 

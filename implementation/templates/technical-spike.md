@@ -169,4 +169,4 @@ Record:
 
 **Spike state:** `<Open | Ready to close>`  
 **Rationale:** <why the original Technical Question is or is not resolved>  
-**Required next action:** <owner review / next iteration / downstream reassessment / product decision>
+**Required next action:** <agent-owned recommended action; include blocker recovery and exact owner decision if approval is still required>

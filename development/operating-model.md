@@ -853,9 +853,20 @@ The living Spike artifact contains:
 
 Each iteration follows:
 
-`select hypothesis → design bounded experiment → owner approval → execute → retain evidence → update understanding/specification → propose next iteration → owner checkpoint`
+`select hypothesis → design bounded experiment → owner approval → execute → retain evidence → update understanding/specification → recommend next iteration → decision-ready owner checkpoint`
 
-Default execution is **one approved iteration at a time**. After an iteration, the executing agent stops and reports the evidence, interpretation and proposed next experiment to the project owner.
+Default execution is **one approved iteration at a time**. The checkpoint controls authorization; it does not transfer ownership of the investigation back to the project owner. After an iteration, the executing agent remains responsible for interpreting the evidence, selecting the highest-value next step, diagnosing ordinary prerequisites/blockers and presenting a concrete recommendation.
+
+The checkpoint report must state:
+
+- the recommended next iteration/action and why it is next;
+- the uncertainty it resolves;
+- any prerequisite or blocker, including whether it affected the completed iteration and/or blocks the recommended next iteration;
+- the supported recovery path for ordinary operational prerequisites;
+- the exact owner approval, redirect or material decision requested;
+- what the agent will do if that decision is approved.
+
+A report that merely says the Spike remains open, an experiment could not run, or the next step awaits owner review is not a complete checkpoint. Missing credentials, runtime configuration or similar execution prerequisites must be classified by consequence and paired with a concrete recovery action; they are not self-explanatory owner problems.
 
 The project owner may explicitly authorize autonomous continuation through multiple iterations. That authorization does not permit the agent to cross a material decision boundary. Even in autonomous mode the agent must stop before changing the original question/outcome, product scope/acceptance criteria, Product/Architecture constraints, dependency model, material cost/operational burden, or security/privacy/legal/safety posture.
 

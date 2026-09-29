@@ -1,5 +1,5 @@
 schemaVersion: 3
-version: 3.0.0
+version: 3.0.1
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -44,7 +44,7 @@ templates:
     source: development/templates/technical-spike-issue.md
     destination: technical-spike-issue.md
     purpose: canonical Technical Spike Issue shape
-    sha256: 474842A4163174202151AB25442EE40B79F583F8389EF56720B77B882E14F57D
+    sha256: 48E4948219E37D3B0E8CD1B93C98A4CDE43C32B176C08C21681863ABAA276574
   - name: learning-record
     source: development/templates/learning-record.md
     destination: learning-record.md
@@ -59,7 +59,7 @@ templates:
     source: implementation/templates/technical-spike.md
     destination: technical-spike.md
     purpose: canonical living Technical Spike investigation/specification artifact
-    sha256: EC78A9A6BC7C95D000E5FAA1DD8FBBC56617D2D207EA8E12BDD07ADA8B36D969
+    sha256: 8A2A6EAC1E37DF13418C13C0C38E0142DC07326ADFD6E119D93057F741E6A14E
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
@@ -136,8 +136,8 @@ skills:
     order: 65
     source: implementation/skills/technical-spike/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 1.0.0
-    sha256: 14FB0516FF9ED2F4FD4D3D23E3B72DD50E280AEEECA2F8CA87510285C5A92824
+    version: 1.0.1
+    sha256: 5640536BC8502751694DDCD326155C96903663CE64E4EE68363105D8CE0264A2
   - name: high-level-design
     stage: design
     order: 70

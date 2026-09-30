@@ -838,22 +838,39 @@ A Spike uses normal GitHub/repository objects:
 
 The Issue is the stable problem statement. The living Spike artifact is the evolving investigation design and accumulated technical specification. Comments are concise progress/owner-decision checkpoints; detailed evidence belongs in the repository.
 
+#### Option discovery and prioritisation
+
+Before the first experimental hypothesis is selected, perform a **proportionate technical option scan** for the bounded Technical Question. The purpose is to avoid committing the Spike to the first plausible implementation path without understanding the credible alternatives.
+
+The scan should use the smallest useful combination of official documentation, repository/current-system evidence, established libraries or approaches, and relevant upstream/community experience needed to identify the materially credible options. It is **not** a substitute for the SideGig Research Methodology and must not expand into a broad market, provider or technology-domain study merely because the wider subject is large.
+
+Record the credible options, the evidence/rationale for including them, material known limitations, and a ranked order for investigation. Select the first option only after this comparison. The project owner may explicitly constrain the Spike to a lightweight search; if responsible option discovery would require a substantially broader/open-ended research exercise, stop and present that boundary rather than silently boiling the ocean inside the Spike.
+
 #### Iteration lifecycle
 
 The living Spike artifact contains:
 
 1. the stable Technical Question and Required Outcome;
 2. current evidence-backed understanding;
-3. an ordered hypothesis/approach backlog;
-4. the current iteration design;
-5. an append-only experiment log;
-6. the accumulating Supported Technical Specification;
-7. remaining material uncertainty;
-8. the final Feasible/Not feasible conclusion when reached.
+3. the proportionate option scan and ranked credible option set;
+4. an ordered hypothesis backlog for the selected option;
+5. the current iteration design;
+6. an append-only experiment log;
+7. the accumulating Supported Technical Specification;
+8. remaining material uncertainty;
+9. the final Feasible/Not feasible conclusion when reached.
 
-Each iteration follows:
+A new Spike begins:
 
-`select hypothesis → design bounded experiment → owner approval → execute → retain evidence → update understanding/specification → recommend next iteration → decision-ready owner checkpoint`
+`bounded option scan → rank credible options → select option → formulate hypothesis → design bounded experiment → owner approval → execute → retain evidence → update understanding/specification → recommend next iteration → decision-ready owner checkpoint`
+
+Within a selected option, use successive hypotheses/experiments only while the evidence continues to justify that option. When repeated, stubborn or surprising failures materially call the option itself into question, perform an **option-viability checkpoint** before adding deeper diagnostics. Check relevant upstream documentation/issues/releases and proportionate community evidence, distinguish environment-specific failure from option-level weakness, then explicitly choose one of:
+
+- continue diagnosing the current option;
+- reject or deprioritise the current option and return to the ranked option set;
+- stop for an owner/product/architecture decision where the evidence changes a material boundary.
+
+The checkpoint prevents sunk-cost iteration on one candidate while preserving one controlling Spike.
 
 Default execution is **one approved iteration at a time**. The checkpoint controls authorization; it does not transfer ownership of the investigation back to the project owner. After an iteration, the executing agent remains responsible for interpreting the evidence, selecting the highest-value next step, diagnosing ordinary prerequisites/blockers and presenting a concrete recommendation.
 

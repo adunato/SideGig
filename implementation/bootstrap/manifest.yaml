@@ -1,5 +1,5 @@
 schemaVersion: 3
-version: 3.0.2
+version: 3.1.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -14,7 +14,7 @@ templates:
     source: development/templates/AGENTS-template.md
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
-    sha256: 26CD2F2377A2670EC6B98E058ACB43A611E84B0FD460AD1AF13B42BAF303794E
+    sha256: 101F54B805E16386F58C011C271F1DF13F46397913FD6D259740444B97FE3F8F
   - name: product-gitattributes
     source: development/templates/product.gitattributes
     destination: product.gitattributes
@@ -44,7 +44,7 @@ templates:
     source: development/templates/technical-spike-issue.md
     destination: technical-spike-issue.md
     purpose: canonical Technical Spike Issue shape
-    sha256: 48E4948219E37D3B0E8CD1B93C98A4CDE43C32B176C08C21681863ABAA276574
+    sha256: 912523F7936573D13CBEAB4F5633931E43076FCCB368F2031CB3D7982B295EDE
   - name: learning-record
     source: development/templates/learning-record.md
     destination: learning-record.md
@@ -59,7 +59,7 @@ templates:
     source: implementation/templates/technical-spike.md
     destination: technical-spike.md
     purpose: canonical living Technical Spike investigation/specification artifact
-    sha256: 8A2A6EAC1E37DF13418C13C0C38E0142DC07326ADFD6E119D93057F741E6A14E
+    sha256: E8338A04DDCECBA87955CE5D6B914E767684829DD7FA4DFFDEBCE91B1730112F
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
@@ -115,8 +115,8 @@ skills:
     order: 40
     source: implementation/skills/refine-issue/SKILL.md
     dependencies: []
-    version: 3.0.0
-    sha256: 824370CED1C0F846B3AD501A60853DC7843F32A2DE98615A404DDC35FCC1A663
+    version: 3.1.0
+    sha256: 2F2FE784CA99470F3A00704F0AF6D59C8A2F2D62B791FB6C214EF390EC8AEA01
   - name: assess-change
     stage: shaping
     order: 50
@@ -136,8 +136,8 @@ skills:
     order: 65
     source: implementation/skills/technical-spike/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 1.0.1
-    sha256: 5640536BC8502751694DDCD326155C96903663CE64E4EE68363105D8CE0264A2
+    version: 1.1.0
+    sha256: 87EF39A5FB6F8DC982EF586B6DB45F41D9D70382E8C62BC0CF8961E3164B88E0
   - name: high-level-design
     stage: design
     order: 70
@@ -171,8 +171,8 @@ skills:
     order: 110
     source: implementation/skills/validation/SKILL.md
     dependencies: [development]
-    version: 3.0.1
-    sha256: 3256DCAFBB53867A319CD21AF8EFEC109370890E8579FE1FFE156764E1F7B1DB
+    version: 3.1.0
+    sha256: 4C54A752B638DECC1F6B34A840C4891C466D302509554B5B36B6886AB9B9D0B4
   - name: capture-learning
     stage: learning
     order: 115

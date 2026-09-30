@@ -1000,6 +1000,8 @@ Validation must be proportionate to the change and cover, where material:
 
 Use evidence at the boundary of the acceptance claim. Mocked/unit/contract tests remain valuable for local logic and failure handling, but they cannot substitute for required representative evidence that a real external system, live-data source, deployed runtime or platform integration actually succeeds. A failed or incomplete required live/end-to-end check is an acceptance failure and validation remains on hold.
 
+Acceptance state is tied to the candidate that was actually tested. Once a required acceptance test fails, that candidate remains `Hold/Fail`. Do not repeat the same acceptance test against the unchanged candidate merely to obtain a passing result. Before retesting, identify the cause of the failure, make a relevant correction to the code, acceptance-relevant configuration/environment, test or evidence path, and record what changed. A later rerun of an unchanged candidate cannot supersede the failed result.
+
 Implementation defects found during Feature/Bug validation may be corrected within the existing scope and retested. Discovery validation may correct evidence/reproducibility gaps within the investigation scope, but must not turn discovery into production implementation.
 
 If validation reveals a material scope, product, architecture or design change, return to the relevant lifecycle stage rather than redefining the change during validation.

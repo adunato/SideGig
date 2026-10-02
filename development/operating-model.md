@@ -1102,7 +1102,7 @@ Typical feature path:
 
 Technical Spike path:
 
-`Spike Issue → long-lived workspace + draft PR → iterative hypothesis/experiment/evidence/owner-checkpoint loop → supported technical specification or infeasibility conclusion → final Spike validation → final PR integration → reassess blocked Issue`
+`Spike Issue → dedicated branch/workspace → Technical Investigation Design → Spike Implementation Plan → one-approved-experiment/evidence loop → supported technical specification or infeasibility conclusion → final Spike validation → create final PR → integration → reassess blocked Issue`
 
 Simple bug path:
 

@@ -59,12 +59,12 @@ templates:
     source: implementation/templates/technical-investigation-design.md
     destination: technical-investigation-design.md
     purpose: canonical Technical Spike investigation design
-    sha256: 9AFCB4310D4EDCC67A423233EE6523445B6FF867A7DC27D5FB217826024412D8
+    sha256: 7A0CF191CBE7A8C7F0A807521C06D9C2757AF5F0117D12C71CF1DB2772611E11
   - name: spike-implementation-plan
     source: implementation/templates/spike-implementation-plan.md
     destination: spike-implementation-plan.md
     purpose: canonical Technical Spike execution plan
-    sha256: 377B9FC03960B2218D4478E7CA2D00B1A7930AF812B3F370B72A5B82E192FBAE
+    sha256: 87ACDF31791EE2DA3EED762237ADDC41DC04AE8D4FAF0C2D2B38F2AE41C763C0
   - name: technical-spike
     source: implementation/templates/technical-spike.md
     destination: technical-spike.md
@@ -133,7 +133,7 @@ skills:
     source: implementation/skills/assess-change/SKILL.md
     dependencies: []
     version: 3.1.0
-    sha256: EF702E197EE24613BFA7400463474D171AFC37F993CC5431C77CB3228D0542FF
+    sha256: 106C5506EAAB156C53B7E9A1B5003C08691CA1D6CF9877A54F04FD287AC661C0
   - name: setup-change-workspace
     stage: setup
     order: 60
@@ -161,7 +161,7 @@ skills:
     source: implementation/skills/technical-spike/SKILL.md
     dependencies: [spike-implementation-plan]
     version: 2.0.0
-    sha256: 51ADB90B5B8084753238A30EC1C73FE7D1FBE59703D3A76A73B6A85E8CA6C684
+    sha256: CB0C6BC3BFE8B6407AED56512ABB69FC1B5B3C2FC96192FE1277DBE6AE57FED9
   - name: high-level-design
     stage: design
     order: 70

@@ -59,12 +59,12 @@ templates:
     source: implementation/templates/technical-investigation-design.md
     destination: technical-investigation-design.md
     purpose: canonical Technical Spike investigation design
-    sha256: FB1FDDC41403A9D499B69FCCF9B408EEB4C6BDDA48877F7149908A2C9DCFEFE7
+    sha256: 72BF6435032D64935DAA56ED7290FE03BAB490583D947ECE0C7C8E834F5EF7E1
   - name: spike-implementation-plan
     source: implementation/templates/spike-implementation-plan.md
     destination: spike-implementation-plan.md
     purpose: canonical Technical Spike execution-routing plan
-    sha256: F18124837D40D3A39E67D5FDD3D21B0FE327B1C3D4B80796229F3246D9232621
+    sha256: 257152BCCF6581821FF881C588DD8FA3032A5CB8A4B2D6FED0EB3BDDAFF192DB
   - name: technical-spike
     source: implementation/templates/technical-spike.md
     destination: technical-spike.md
@@ -161,7 +161,7 @@ skills:
     source: implementation/skills/technical-spike/SKILL.md
     dependencies: [spike-implementation-plan]
     version: 2.0.0
-    sha256: 66E0689B294F51BB274969AE0EFD89964CBFFE45DD2863A25A70D208A3962D40
+    sha256: 4EFDC9A718BC2C988A6CD41D79EF4DA2CA8EDF75399D55692C58035E4B3825EC
   - name: high-level-design
     stage: design
     order: 70

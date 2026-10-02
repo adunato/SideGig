@@ -52,10 +52,12 @@ docs/
   architecture.md
   changes/
     <issue-number>/
-      technical-spike.md  # for Technical Spike Issues
-      hld.md                   # only when required
-      implementation-plan.md   # only when required
-      low-level-design.md      # only when required
+      technical-investigation-design.md  # Technical Spike only
+      spike-implementation-plan.md        # Technical Spike only
+      technical-spike.md                  # Technical Spike execution/evidence
+      hld.md                              # Feature/Bug only when required
+      implementation-plan.md              # Feature/Bug only when required
+      low-level-design.md                 # Feature/Bug only when required
   learnings/
     <source>-<slug>.md         # only when a reusable learning is captured
 
@@ -80,6 +82,8 @@ docs/
     feature-issue.md
     bug-issue.md
     technical-spike-issue.md
+    technical-investigation-design.md
+    spike-implementation-plan.md
     technical-spike.md
     high-level-design.md
     implementation-plan.md
@@ -118,10 +122,12 @@ When the Development Lifecycle requires a change artifact, store it under:
 
 Use the stable filenames:
 
-- `technical-spike.md` — evidence artifact for a Technical Spike Issue;
-- `hld.md`;
-- `implementation-plan.md`;
-- `low-level-design.md`
+- `technical-investigation-design.md` — top-down Technical Spike search space, candidate approaches and evidence boundaries;
+- `spike-implementation-plan.md` — Technical Spike workstream/option sequencing, transitions and fallback rules;
+- `technical-spike.md` — living Technical Spike experiment/evidence record;
+- `hld.md` — normal Feature/Bug high-level design when required;
+- `implementation-plan.md` — normal Feature/Bug implementation planning when required;
+- `low-level-design.md` — normal Feature/Bug low-level design when required
 
 Create only the artifacts required for that Issue.
 
@@ -211,7 +217,7 @@ Canonical templates needed by those skills are installed alongside them under:
 
 `.codex/templates/`
 
-The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, prerequisite Technical Spike, change design/planning/execution, CI diagnosis, release preparation, staging validation, production promotion and learning capture. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
+The skill set covers repository bootstrap, durable Product/Architecture definition, Issue refinement, proportional change assessment, prerequisite Technical Spike investigation design/planning/execution, normal change design/planning/execution, CI diagnosis, release preparation, staging validation, production promotion and learning capture. Process-specific behaviour belongs in those skills and the corresponding operating-model section rather than being repeated as large prompt instructions in `AGENTS.md`.
 
 A project may extend `AGENTS.md` with genuine repository-specific instructions, but it should not restate the full Development Operating Model.
 
@@ -500,7 +506,7 @@ Bug Issues are created using the [Bug Issue template](templates/bug-issue.md) an
 - relevant Product Definition or Architecture Definition context where material;
 - dependencies on other Issues, or `None`.
 
-Feature and Bug Issues describe required product/software outcomes and acceptance evidence, not implementation design. Technical Spike Issues describe one stable technical question, required outcome, constraints and completion criteria when a material unknown must be resolved before downstream design. The living `technical-spike.md` artifact owns the evolving hypothesis/experiment plan and evidence. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature, bug or Spike intent into the appropriate development-ready Issue shape. Feature and Bug templates include a `Development Lifecycle Assessment` section initialized to `Pending`, including the Technical Spike decision. The Development Lifecycle determines whether prerequisite Spike is required and, after it is resolved, what HLD/Implementation Plan/LLD depth is required. Technical Spike Issues use their dedicated Spike lifecycle rather than a second design-depth assessment.
+Feature and Bug Issues describe required product/software outcomes and acceptance evidence, not implementation design. Technical Spike Issues describe one stable technical question, required outcome, constraints and completion criteria when a material unknown must be resolved before downstream design. The Spike Issue remains the central management/tracking object; its dedicated branch contains the Technical Investigation Design, Spike Implementation Plan, `technical-spike.md` execution/evidence record and any retained experiment evidence. Use the [Refine Issue skill](../implementation/skills/refine-issue/SKILL.md) when an agent turns rough feature, bug or Spike intent into the appropriate development-ready Issue shape. Feature and Bug templates include a `Development Lifecycle Assessment` section initialized to `Pending`, including the Technical Spike decision. The Development Lifecycle determines whether prerequisite Spike is required and, after it is resolved, what normal HLD/Implementation Plan/LLD depth is required. Technical Spike Issues use their dedicated Spike-specific design/planning/execution lifecycle rather than the normal Feature/Bug design-depth assessment.
 
 Work discovered outside the current Issue scope becomes a separate Issue rather than silently expanding the active change.
 
@@ -766,10 +772,13 @@ When a Technical Spike is required:
 
 1. create or link one controlling Technical Spike Issue using the canonical template;
 2. set the downstream Feature/Bug Issue's HLD, Implementation Plan and LLD statuses to deferred pending the Spike;
-3. do not create/approve downstream design or production implementation that depends on the unknown;
-4. execute the Spike iteratively until its original Technical Question is resolved with a supported `Feasible` or `Not feasible` conclusion;
-5. integrate the final Spike evidence;
-6. rerun `assess-change` on each blocked downstream Issue.
+3. create/adopt the dedicated Spike branch/workspace;
+4. create and approve the Technical Investigation Design;
+5. create and approve the Spike Implementation Plan;
+6. execute one owner-approved bounded experiment at a time until the original Technical Question reaches a supported `Feasible` or `Not feasible` conclusion;
+7. complete final Spike validation and create the final integration PR;
+8. integrate the final Spike evidence;
+9. rerun `assess-change` on each blocked downstream Issue.
 
 A failed or inconclusive **experiment** does not complete the Spike. It updates the living investigation artifact and normally leads to another hypothesis/experiment inside the same controlling Spike. Do not create serial Spike Issues merely because an experiment failed. A separate Spike is justified only for a genuinely independent technical question with its own required outcome and completion condition.
 
@@ -824,103 +833,127 @@ Use the [Low-Level Design template](../implementation/templates/low-level-design
 
 ### 3. Complete prerequisite Technical Spike
 
-When `assess-change` requires a Technical Spike, create/adopt one workspace for the controlling Spike Issue and use the [Technical Spike skill](../implementation/skills/technical-spike/SKILL.md).
+When `assess-change` requires a Technical Spike, create/adopt one workspace for the controlling Spike Issue and follow the Spike-specific design/planning/execution path.
 
 #### GitHub and repository shape
 
-A Spike uses normal GitHub/repository objects:
+A Spike uses:
 
-- **one GitHub Spike Issue** — the stable technical question, required outcome, constraints, completion criteria and blocked downstream Issue(s);
-- **one long-lived Spike branch/workspace** — normally `spike/<issue-number>-<slug>` where repository naming permits it;
-- **one draft pull request opened early** — the review surface for accumulated investigation work; it references the Spike with `Refs #<issue>` while the Spike remains open;
-- **one living investigation artifact** — `docs/changes/<issue-number>/technical-spike.md`;
-- **experiment-specific files** under `docs/changes/<issue-number>/experiments/<NN>-<slug>/` only when useful for reproducibility/auditability.
+- **one GitHub Spike Issue** — the central management/tracking object containing the stable technical question, required outcome, constraints, completion criteria and blocked downstream Issue(s);
+- **one long-lived Spike branch/workspace** — normally `spike/<issue-number>-<slug>`;
+- **one Technical Investigation Design (TID)** — `docs/changes/<issue>/technical-investigation-design.md`;
+- **one Spike Implementation Plan** — `docs/changes/<issue>/spike-implementation-plan.md`;
+- **one living execution/evidence artifact** — `docs/changes/<issue>/technical-spike.md`;
+- **experiment-specific files** only when useful for reproducibility/auditability.
 
-The Issue is the stable problem statement. The living Spike artifact is the evolving investigation design and accumulated technical specification. Comments are concise progress/owner-decision checkpoints; detailed evidence belongs in the repository.
+The Spike branch is the working container. **Do not open a pull request for ordinary in-progress Spike work.** The final PR is created only after the Spike reaches a supported conclusion and final validation passes.
 
-#### Option discovery and prioritisation
+The Issue remains the root object when an owner or agent resumes the investigation. Repository artifacts provide the detailed design, plan and evidence; no executor may rely on private chat history or an old PR narrative as authority.
 
-Before the first experimental hypothesis is selected, perform a **proportionate technical option scan** for the bounded Technical Question. The purpose is to avoid committing the Spike to the first plausible implementation path without understanding the credible alternatives.
+#### Technical Investigation Design
 
-The scan should use the smallest useful combination of official documentation, repository/current-system evidence, established libraries or approaches, and relevant upstream/community experience needed to identify the materially credible options. It is **not** a substitute for the SideGig Research Methodology and must not expand into a broad market, provider or technology-domain study merely because the wider subject is large.
+Before the first experiment, use the [Technical Investigation Design template](../implementation/templates/technical-investigation-design.md) and [Technical Investigation Design skill](../implementation/skills/technical-investigation-design/SKILL.md).
 
-Record the credible options, the evidence/rationale for including them, material known limitations, and a ranked order for investigation. Select the first option only after this comparison. The project owner may explicitly constrain the Spike to a lightweight search; if responsible option discovery would require a substantially broader/open-ended research exercise, stop and present that boundary rather than silently boiling the ocean inside the Spike.
+The TID supplies the top-down perspective that an experiment log cannot:
 
-#### Iteration lifecycle
+- underlying Issue/downstream context;
+- established facts and material unknowns;
+- stable workstreams where useful;
+- a proportionate set of credible technical approaches and their high-level system/integration shape;
+- dependencies, constraints, known limitations and initial disposition;
+- representative evidence/decision criteria;
+- explicit non-goals and directions that must not emerge accidentally.
 
-The living Spike artifact contains:
+The TID is not a production HLD, detailed experiment plan or chronological evidence log. It remains relatively stable. Material changes to the search space, architecture assumptions, candidate set or evidence criteria require TID review before proceeding.
 
-1. the stable Technical Question and Required Outcome;
-2. current evidence-backed understanding;
-3. the proportionate option scan and ranked credible option set;
-4. an ordered hypothesis backlog for the selected option;
-5. the current iteration design;
-6. an append-only experiment log;
-7. the accumulating Supported Technical Specification;
-8. remaining material uncertainty;
-9. the final Feasible/Not feasible conclusion when reached.
+#### Spike Implementation Plan
 
-A new Spike begins:
+After the TID is approved, use the [Spike Implementation Plan template](../implementation/templates/spike-implementation-plan.md) and [Spike Implementation Plan skill](../implementation/skills/spike-implementation-plan/SKILL.md).
 
-`bounded option scan → rank credible options → select option → formulate hypothesis → design bounded experiment → owner approval → execute → retain evidence → update understanding/specification → recommend next iteration → decision-ready owner checkpoint`
+The plan translates the TID into the investigation route:
 
-Within a selected option, use successive hypotheses/experiments only while the evidence continues to justify that option. When repeated, stubborn or surprising failures materially call the option itself into question, perform an **option-viability checkpoint** before adding deeper diagnostics. Check relevant upstream documentation/issues/releases and proportionate community evidence, distinguish environment-specific failure from option-level weakness, then explicitly choose one of:
+- which workstream/options are tested first;
+- whether an option is mandatory, conditional/fallback, reference-only or excluded;
+- entry and exit conditions;
+- dependencies between workstreams/options;
+- when success stops further testing;
+- when failure moves to a fallback;
+- when evidence requires TID review rather than deeper troubleshooting.
 
-- continue diagnosing the current option;
-- reject or deprioritise the current option and return to the ranked option set;
-- stop for an owner/product/architecture decision where the evidence changes a material boundary.
+Candidate approaches are **not** all tested merely because they appear in the TID.
 
-The checkpoint prevents sunk-cost iteration on one candidate while preserving one controlling Spike.
+The plan does not contain the detailed hypothesis backlog or experiment procedures. Those are selected one at a time by the Technical Spike skill.
 
-Default execution is **one approved iteration at a time**. The checkpoint controls authorization; it does not transfer ownership of the investigation back to the project owner. After an iteration, the executing agent remains responsible for interpreting the evidence, selecting the highest-value next step, diagnosing ordinary prerequisites/blockers and presenting a concrete recommendation.
+#### Bounded experiment lifecycle
 
-The checkpoint report must state:
+Use the [Technical Spike template](../implementation/templates/technical-spike.md) and [Technical Spike skill](../implementation/skills/technical-spike/SKILL.md) for execution.
 
-- the recommended next iteration/action and why it is next;
-- the uncertainty it resolves;
-- any prerequisite or blocker, including whether it affected the completed iteration and/or blocks the recommended next iteration;
-- the supported recovery path for ordinary operational prerequisites;
-- the exact owner approval, redirect or material decision requested;
-- what the agent will do if that decision is approved.
+The default and required control boundary is **one owner-approved experiment at a time**:
 
-A report that merely says the Spike remains open, an experiment could not run, or the next step awaits owner review is not a complete checkpoint. Missing credentials, runtime configuration or similar execution prerequisites must be classified by consequence and paired with a concrete recovery action; they are not self-explanatory owner problems.
+`select eligible TID option from plan → formulate one bounded hypothesis/experiment → self-contained owner checkpoint → approval → execute → retain evidence → update technical-spike.md → assess plan transition → propose next experiment`
 
-The project owner may explicitly authorize autonomous continuation through multiple iterations. That authorization does not permit the agent to cross a material decision boundary. Even in autonomous mode the agent must stop before changing the original question/outcome, product scope/acceptance criteria, Product/Architecture constraints, dependency model, material cost/operational burden, or security/privacy/legal/safety posture.
+Approval of a workstream/option is not blanket authority for multiple experiments or open-ended troubleshooting.
 
-#### Executor flexibility and hand-off
+The agent may autonomously make only **straightforward corrections** needed to complete the exact approved experiment: unambiguous mechanical/configuration fixes that do not change the hypothesis, technical mechanism, architecture/dependency model, evidence meaning or material cost/risk boundary.
 
-A Spike iteration may be executed by Codex, ChatGPT, a human developer, or another approved tool/agent according to the work required.
+#### Owner checkpoint context contract
 
-- Use Codex when the iteration principally needs repository-local code/probes, local execution or structured artifact updates.
-- Use ChatGPT when the iteration principally needs research, synthesis, external documentation analysis, hypothesis formation or orchestration across evidence sources.
-- Mixed iterations may hand off between them.
+Every experiment approval must be understandable by an owner who has not looked at the work for several days and has no Issue, TID, plan, previous checkpoint or code open.
 
-The GitHub Spike Issue plus `technical-spike.md`, retained experiment files and draft PR are the shared hand-off state. No executor may rely on private chat history or unstated context as authority.
+The checkpoint must move from broad context to detail:
 
-#### Experiment outcomes
+1. **Issue context** — what the underlying Issue is trying to achieve, why it matters, and what blocks it;
+2. **Spike context** — why empirical investigation is required, current TID workstream/option, why that option is being investigated now, and what evidence would complete/change this part of the investigation;
+3. **Previous experiment** — what was tested, why it mattered in the wider investigation, expected learning and actual result (or state that this is the first experiment);
+4. **Current understanding** — what evidence established/ruled out, what remains unknown and whether the option still appears sensible;
+5. **Proposed next experiment** — exactly one bounded experiment and the evidence it seeks;
+6. **Direction check** — why it remains proportionate and consistent with TID/plan, explicitly identifying any new architecture, infrastructure, dependency, runtime/security mechanism or broader scope;
+7. **Decision requested** — `Approve this experiment / Redirect the investigation / Stop and reconsider the approach`.
 
-An individual experiment is recorded as `Supported`, `Rejected`, or `Inconclusive`.
+Internal hypothesis IDs, fixture names, library names or implementation jargon must not substitute for context.
 
-These are experiment outcomes, not terminal Spike states. A correctly executed failed/inconclusive experiment is useful evidence and normally changes the next experiment; it does not authorize closing the Spike or opening a serial replacement Spike.
+#### Experiment Viability Checkpoint
 
-The Spike itself has only two successful terminal technical conclusions:
+Troubleshooting depth must remain proportional to the information value of the approved experiment.
+
+Stop and return to the owner before selecting a new diagnostic direction when:
+
+- the first reasonable correction does not resolve the problem and there is no obvious next fix;
+- the proposed fix requires new machinery, infrastructure, dependencies, guards, wrappers or architecture;
+- troubleshooting becomes materially different from the original experiment question;
+- several plausible causes require a new investigation to distinguish;
+- diagnosis effort/risk becomes disproportionate;
+- increasingly specialised diagnostics are being added without clear progress.
+
+The viability checkpoint must restate enough Issue/Spike context to be self-contained, explain the original experiment purpose, what failed and what straightforward correction was attempted, why this is no longer routine troubleshooting, compare continuing versus stepping back, give one recommendation, and ask the owner to **Continue / Modify / Abandon and return to the plan/TID**.
+
+Do not continue deeper diagnostics before that decision.
+
+#### Experiment outcomes and Spike conclusion
+
+An experiment result is `Supported`, `Rejected` or `Inconclusive`. These are not terminal Spike states.
+
+A failed/inconclusive experiment remains evidence within the same controlling Spike. Do not create serial Spike Issues merely because an experiment fails.
+
+The Spike itself concludes only as:
 
 - **Feasible** — representative evidence supports a technical specification/approach sufficiently for downstream design;
-- **Not feasible** — representative evidence shows the Required Outcome cannot be achieved within the approved constraints.
+- **Not feasible** — representative evidence shows the Required Outcome cannot be achieved within approved constraints.
 
-If the owner abandons or materially changes the original question, the Spike may be explicitly stopped/superseded as a governance action; that is distinct from a technical conclusion.
+If evidence changes the TID search space, review the TID. If it changes only workstream/option sequence, transition or fallback rules, review the Spike Implementation Plan.
 
 #### Pull request and integration behaviour
 
-The draft Spike PR accumulates the living artifact, experiment notes, bounded probe/reproducibility tooling, sanitized evidence and any learning records.
+An open Spike has no PR by default. Commits on the dedicated branch preserve the investigation history while the Issue remains the central tracker.
 
-It remains draft while the original question is unresolved. An iteration-level validation result may be `Iteration valid / Spike remains open`; that does not make the PR merge-ready.
+After the original Technical Question reaches a supported conclusion:
 
-Normally the final PR is made ready only after final Spike validation confirms a supported Feasible or Not feasible conclusion. Only then may it use `Closes #<spike>`.
+1. complete final Spike validation against the Issue, TID, Spike Implementation Plan and `technical-spike.md`;
+2. if validation passes, use `merge-change` to create the final integration PR;
+3. the final PR references the Issue and all three Spike artifacts and summarizes the supported conclusion/validation;
+4. after human merge, rerun `assess-change` on every blocked downstream Issue.
 
-If repository/operational constraints genuinely require interim evidence to be merged, the controlling Spike remains open and the merge must not claim downstream authorization; subsequent work must preserve one controlling Spike and clear evidence lineage.
-
-After final Spike integration, rerun `assess-change` on every blocked downstream Issue. Only a sufficiently supported Feasible result (or an explicit product/architecture decision responding to Not feasible) can authorize downstream design/implementation.
+Only a sufficiently supported Feasible result, or an explicit Product/Architecture decision responding to Not feasible, can authorize downstream design/implementation.
 
 ### 4. Complete required change design
 

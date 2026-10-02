@@ -1,6 +1,6 @@
 # SideGig Bootstrap
 
-The SideGig bootstrap package establishes the standard agent, template, workflow and tooling baseline for product repositories, including the Technical Spike issue/artifact/skill path used when material external/runtime unknowns must be resolved before implementation.
+The SideGig bootstrap package establishes the standard agent, template, workflow and tooling baseline for product repositories, including the Issue-centred Technical Spike path: dedicated Spike branch, Technical Investigation Design, Spike Implementation Plan, bounded experiment execution record, and final-only integration PR.
 
 ## Change worktrees
 

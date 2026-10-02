@@ -1,5 +1,5 @@
 schemaVersion: 3
-version: 3.2.0
+version: 3.2.1
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -160,8 +160,8 @@ skills:
     order: 65
     source: implementation/skills/technical-spike/SKILL.md
     dependencies: [spike-implementation-plan]
-    version: 2.0.0
-    sha256: 4EFDC9A718BC2C988A6CD41D79EF4DA2CA8EDF75399D55692C58035E4B3825EC
+    version: 2.0.1
+    sha256: D6EDCB0B51199226318BC1A81D0078BD22D0F1BB44DD6E66710128845638DFD1
   - name: high-level-design
     stage: design
     order: 70

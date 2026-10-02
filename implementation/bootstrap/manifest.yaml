@@ -64,7 +64,7 @@ templates:
     source: implementation/templates/spike-implementation-plan.md
     destination: spike-implementation-plan.md
     purpose: canonical Technical Spike execution-routing plan
-    sha256: 257152BCCF6581821FF881C588DD8FA3032A5CB8A4B2D6FED0EB3BDDAFF192DB
+    sha256: E0CF608697B411931EDE529CE936780085B667BDDAC579BB24A78F8F2A6D859A
   - name: technical-spike
     source: implementation/templates/technical-spike.md
     destination: technical-spike.md

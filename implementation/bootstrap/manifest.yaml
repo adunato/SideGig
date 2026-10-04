@@ -1,5 +1,5 @@
 schemaVersion: 3
-version: 3.2.2
+version: 3.3.0
 description: End-to-end agile agent skills and canonical project-local templates for SideGig.
 skillDestinationRoot: .codex/skills
 templateDestinationRoot: .codex/templates
@@ -9,12 +9,12 @@ templates:
     source: development/templates/README-template.md
     destination: README-template.md
     purpose: canonical repository README
-    sha256: B8AE0B62439C6982A2944DF7C749D562E72A55898CE9D2BBE8A88C0A45E89F97
+    sha256: 6B586DF76B97BCF167501EF4C0B66EA48B5BED725507F1D42ECC193603BEBFB1
   - name: agents
     source: development/templates/AGENTS-template.md
     destination: AGENTS-template.md
     purpose: canonical repository agent instructions
-    sha256: 476227D4F30DAC207963D075217B10FC43DD670D217A607806CF2CE375A02810
+    sha256: E18BFCAD3AF7E422BD2FBA89CF6D762CCF9F7BAE64079F06EFD4AC896F53355F
   - name: product-gitattributes
     source: development/templates/product.gitattributes
     destination: product.gitattributes
@@ -44,7 +44,7 @@ templates:
     source: development/templates/technical-spike-issue.md
     destination: technical-spike-issue.md
     purpose: canonical Technical Spike Issue shape
-    sha256: 20FC8181E7E1592D3CF3273354C2D339982516F0BEACDBD86249867585E406AD
+    sha256: C23F9A9EB93DDD9BE3A7A9D7DBFCE791CF1FFBF05AE8ECC1283D0EC35D54B5A2
   - name: learning-record
     source: development/templates/learning-record.md
     destination: learning-record.md
@@ -59,17 +59,12 @@ templates:
     source: implementation/templates/technical-investigation-design.md
     destination: technical-investigation-design.md
     purpose: canonical Technical Spike investigation design
-    sha256: 72BF6435032D64935DAA56ED7290FE03BAB490583D947ECE0C7C8E834F5EF7E1
-  - name: spike-implementation-plan
-    source: implementation/templates/spike-implementation-plan.md
-    destination: spike-implementation-plan.md
-    purpose: canonical Technical Spike execution-routing plan
-    sha256: E0CF608697B411931EDE529CE936780085B667BDDAC579BB24A78F8F2A6D859A
+    sha256: DFFEEBD8E93D6E9081B3777E2FE3D67D7A665851A0054AFC4DAC794FB526D2BA
   - name: technical-spike
     source: implementation/templates/technical-spike.md
     destination: technical-spike.md
     purpose: canonical living Technical Spike execution/evidence artifact
-    sha256: 199E3CF67D94F00D86075EA176A1FC970FF70CA11AEFD103F60F7AFA7DC624DA
+    sha256: 9B0EC3F9A1FBC9CB2CCE3596CDD7E9571BBFC49339D612CC71FE00CCAB15D51B
   - name: high-level-design
     source: implementation/templates/high-level-design.md
     destination: high-level-design.md
@@ -125,43 +120,36 @@ skills:
     order: 40
     source: implementation/skills/refine-issue/SKILL.md
     dependencies: []
-    version: 3.2.0
-    sha256: FEAA4E6DC1B6F4AD2ED924AC7990F4B5634A78FDDE99ED326C0AA6D366049CED
+    version: 3.3.0
+    sha256: 5D57A889015D652459E9D0FF6E6D154F516DBABB0772773312A1E6FDB8AB82D5
   - name: assess-change
     stage: shaping
     order: 50
     source: implementation/skills/assess-change/SKILL.md
     dependencies: []
-    version: 3.1.0
-    sha256: 2874A27801706BCB80FD14DD8FF2BF692164A978E98BA515D4F2D71B421FA011
+    version: 3.2.0
+    sha256: F7895895DC8CF43230F15A6C9918D549EA0255ED37B28C78C2B57FBE72B37808
   - name: setup-change-workspace
     stage: setup
     order: 60
     source: implementation/skills/setup-change-workspace/SKILL.md
     dependencies: []
-    version: 3.1.0
-    sha256: 16759CFB92D082EA4B3D76A0F9ABFCC2A6FF2F003DBA89B0956E666F64A1D954
+    version: 3.2.0
+    sha256: 164750BAF1C4EEE0FE12B8BCC3507FDDEE9750C8FC2C6A17952A59CE37C4D46E
   - name: technical-investigation-design
     stage: spike
     order: 62
     source: implementation/skills/technical-investigation-design/SKILL.md
     dependencies: [setup-change-workspace]
-    version: 1.0.0
-    sha256: F1CF6905CF8178A010C5CA27DE750E01B2BEC24CD29DF3BBDBB041B00C0E1D45
-  - name: spike-implementation-plan
-    stage: spike
-    order: 64
-    source: implementation/skills/spike-implementation-plan/SKILL.md
-    dependencies: [technical-investigation-design]
-    version: 1.0.0
-    sha256: 4523BF00562AB5272C9FB97011FA9905E8C32E04C23D491932F8B2BDE7C59976
+    version: 2.0.0
+    sha256: 0004B3BC74BE31D1041AC2B3D7D4CF3082E58E3BCE10CB5761287BE0BDD65C2B
   - name: technical-spike
     stage: spike
     order: 65
     source: implementation/skills/technical-spike/SKILL.md
-    dependencies: [spike-implementation-plan]
-    version: 2.1.0
-    sha256: 16CD84F00B98C5D3D39FA4A8E1E6BB662D35639A55AD53CD87C2B68121A5CB35
+    dependencies: [technical-investigation-design]
+    version: 3.0.0
+    sha256: 3C0C5A64140B01479FB89AEB63A910DF4C4BE7F391AACEA2A1656C3B585806A5
   - name: high-level-design
     stage: design
     order: 70
@@ -195,8 +183,8 @@ skills:
     order: 110
     source: implementation/skills/validation/SKILL.md
     dependencies: [development]
-    version: 3.2.0
-    sha256: 4A2BA416FCF628DB980372443FA72905663280EA824A6EC7E46CAC22DF687725
+    version: 3.3.0
+    sha256: 48B39B2C5BCDC0A3CA37E1BDBDAC25E4D500022119CA1C199D4E014C09568844
   - name: capture-learning
     stage: learning
     order: 115
@@ -216,8 +204,8 @@ skills:
     order: 130
     source: implementation/skills/merge-change/SKILL.md
     dependencies: [validation]
-    version: 3.1.0
-    sha256: 7CB38874ACE5E23E8F3EBBC4454CA22BB4BBE94F9E815A5DF73D9A7A9D8890C8
+    version: 3.2.0
+    sha256: C0B727FE8F25B815A0122C928BEA1945546AB1B3A4CC55D4CE253EBEA6A419BA
   - name: prepare-release
     stage: release
     order: 140

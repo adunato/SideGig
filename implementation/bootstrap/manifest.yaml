@@ -59,7 +59,7 @@ templates:
     source: implementation/templates/technical-investigation-design.md
     destination: technical-investigation-design.md
     purpose: canonical Technical Spike investigation design
-    sha256: 5421FABA24E7F5604DDBD1E41A394BA12D7DA4C1EF897B57AE49597D1FAF88DF
+    sha256: F7B04CECB78E6B3C1219D250582BD76DDFEE1879110DD5E7CD1E8FE05D5C032B
   - name: technical-spike
     source: implementation/templates/technical-spike.md
     destination: technical-spike.md

@@ -53,7 +53,6 @@ docs/
   changes/
     <issue-number>/
       technical-investigation-design.md  # for Technical Spike Issues
-      spike-implementation-plan.md        # for Technical Spike Issues
       technical-spike.md                  # living Spike execution/evidence
       hld.md                              # normal Feature/Bug design, only when required
       implementation-plan.md              # normal Feature/Bug planning, only when required
@@ -83,7 +82,6 @@ docs/
     bug-issue.md
     technical-spike-issue.md
     technical-investigation-design.md
-    spike-implementation-plan.md
     technical-spike.md
     high-level-design.md
     implementation-plan.md
@@ -122,8 +120,7 @@ When the Development Lifecycle requires a change artifact, store it under:
 
 Use the stable filenames:
 
-- `technical-investigation-design.md` — top-down technical search-space design for a Technical Spike;
-- `spike-implementation-plan.md` — execution routing across the approved TID;
+- `technical-investigation-design.md` — complete pre-execution experiment design/routing for a Technical Spike;
 - `technical-spike.md` — living bounded-experiment/evidence artifact for a Technical Spike;
 - `hld.md` — normal Feature/Bug change design when required;
 - `implementation-plan.md` — normal Feature/Bug implementation planning when required;
@@ -1057,7 +1054,7 @@ Typical feature path:
 
 Technical Spike path:
 
-`Spike Issue → dedicated Spike branch → TID → Spike Implementation Plan → one-approved-experiment-at-a-time loop in technical-spike.md → supported technical specification or infeasibility conclusion → final Spike validation → create/integrate final PR → reassess blocked Issue`
+`Spike Issue → dedicated Spike branch → approved TID → execute TID experiment sequence in technical-spike.md → supported technical specification or infeasibility conclusion → final Spike validation → create/integrate final PR → reassess blocked Issue`
 
 Simple bug path:
 
@@ -1078,7 +1075,6 @@ The SideGig lifecycle skills implement this process; they do not define a compet
 | Assessment | [assess-change](../implementation/skills/assess-change/SKILL.md) | Every development-ready Feature/Bug Issue where an agent selects the proportional path |
 | Workspace | [setup-change-workspace](../implementation/skills/setup-change-workspace/SKILL.md) | Every implementation or Technical Spike Issue |
 | Spike investigation design | [technical-investigation-design](../implementation/skills/technical-investigation-design/SKILL.md) | Every Technical Spike, before experiments |
-| Spike execution planning | [spike-implementation-plan](../implementation/skills/spike-implementation-plan/SKILL.md) | Every Technical Spike, after TID approval |
 | Technical spike execution | [technical-spike](../implementation/skills/technical-spike/SKILL.md) | Bounded experiment execution for prerequisite Technical Spike Issues |
 | Change design | [high-level-design](../implementation/skills/high-level-design/SKILL.md) | Only when HLD is required |
 | Implementation planning | [implementation-plan](../implementation/skills/implementation-plan/SKILL.md) | Only when a plan is required |

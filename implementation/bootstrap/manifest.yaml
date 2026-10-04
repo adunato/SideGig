@@ -121,7 +121,7 @@ skills:
     source: implementation/skills/refine-issue/SKILL.md
     dependencies: []
     version: 3.3.0
-    sha256: 5D57A889015D652459E9D0FF6E6D154F516DBABB0772773312A1E6FDB8AB82D5
+    sha256: 34A4EC52867EF7FB87EB6E32B5E1EE38E145D1A175D6F9D7DF863880E4F02247
   - name: assess-change
     stage: shaping
     order: 50

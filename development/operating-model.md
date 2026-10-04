@@ -830,7 +830,7 @@ Use the [Low-Level Design template](../implementation/templates/low-level-design
 
 ### 3. Complete prerequisite Technical Spike
 
-When `assess-change` requires a Technical Spike, create/link one controlling Spike Issue, use one dedicated Spike branch/workspace, and follow the Spike-specific design/planning/execution path.
+When `assess-change` requires a Technical Spike, create/link one controlling Spike Issue, use one dedicated Spike branch/workspace, and follow the Spike-specific design/execution path.
 
 The normal Feature/Bug HLD, Implementation Plan and LLD remain deferred until the Spike is complete and the downstream Issue is reassessed.
 
@@ -841,7 +841,6 @@ A Spike uses:
 - **one GitHub Spike Issue** — the central management/tracking object containing the stable Technical Question, Required Outcome, constraints, completion criteria and blocked downstream Issue(s);
 - **one long-lived Spike branch/workspace** — normally `spike/<issue-number>-<slug>`;
 - **one Technical Investigation Design (TID)** — `docs/changes/<issue>/technical-investigation-design.md`;
-- **one Spike Implementation Plan** — `docs/changes/<issue>/spike-implementation-plan.md`;
 - **one living execution/evidence artifact** — `docs/changes/<issue>/technical-spike.md`;
 - experiment-specific files only where useful for reproducibility/auditability.
 
@@ -851,68 +850,46 @@ The branch is the working container. **Do not open a pull request while the inve
 
 Before experiments begin, use the [Technical Investigation Design template](../implementation/templates/technical-investigation-design.md) and [Technical Investigation Design skill](../implementation/skills/technical-investigation-design/SKILL.md).
 
-The TID defines the top-down investigation perspective:
+The TID is the single pre-execution Spike design and routing artifact. It:
 
-- stable workstreams/boundaries where useful;
-- materially credible candidate approaches and their high-level technical shape;
-- prioritisation/disposition;
-- investigation strategy across candidates;
-- representative evidence and success/escalation criteria;
-- constraints/non-goals;
-- the rule for returning to TID review when evidence changes the technical search space.
+- explains the product/capability problem and relevant prior evidence in human-readable language;
+- uses Investigation Areas only when genuinely separable technical questions improve clarity;
+- defines every planned bounded experiment with objective, rationale, test, measures, execution rule and decision/next step;
+- provides a concise experiment-sequence table showing order, optionality and success/failure routing;
+- defines representative evidence, success/exit criteria, constraints and stop/return boundaries;
+- states how the experiment results combine into a supported `Feasible` or `Not feasible` conclusion.
 
-It does not contain individual hypotheses, experiment procedures or chronological findings.
+Do not create a separate Spike Implementation Plan. Experiment sequencing is inherent to the investigation design and duplicating it in a second artifact creates competing routing authority.
 
-#### Spike Implementation Plan
-
-After the TID is approved, use the [Spike Implementation Plan template](../implementation/templates/spike-implementation-plan.md) and [Spike Implementation Plan skill](../implementation/skills/spike-implementation-plan/SKILL.md).
-
-The plan references TID workstream/candidate IDs directly and defines:
-
-- meaningful execution order;
-- cross-workstream dependencies;
-- entry/exit conditions;
-- when a fallback becomes eligible;
-- when enough evidence exists to stop without testing every option;
-- the execution envelope and stop/return rules.
-
-It does not create a second option taxonomy or predefine individual hypotheses.
+The TID records planned experiments and relevant prior evidence; chronological execution findings belong in `technical-spike.md`.
 
 #### Bounded experiment lifecycle
 
-After the TID and Spike Implementation Plan are approved, use the [Technical Spike skill](../implementation/skills/technical-spike/SKILL.md).
+After the TID is approved, use the [Technical Spike skill](../implementation/skills/technical-spike/SKILL.md).
 
-Default execution is **one explicitly approved bounded experiment at a time**.
+TID approval authorises execution of the bounded experiment sequence and conditional transitions defined by the design. The agent does **not** return for approval before every already-authorised experiment.
 
-The agent may make a straightforward correction needed to complete that approved experiment only when the correction does not materially change the hypothesis, mechanism, architecture/dependencies, evidence meaning, representative environment/data, scope, cost or risk.
+For each eligible experiment, execute within the TID bounds, record evidence, classify the result, update `technical-spike.md`, and follow the TID's mechanical next-step rule.
 
-If the first reasonable correction does not resolve the problem and there is no obvious next fix, or further troubleshooting requires a new technical direction, stop for an **Experiment Viability Checkpoint**. Troubleshooting depth must remain proportional to the information value of the experiment.
+A straightforward mechanical correction needed to complete an authorised experiment may be made autonomously only when it does not materially change the experiment purpose/mechanism, architecture/dependencies, evidence meaning, representative environment/data, scope, cost or risk.
 
-Repeated/stubborn/surprising failures also trigger an option-level perspective check against the TID and plan before deeper candidate-specific diagnostics. The result is one of `Continue`, `Deprioritise`, `Reject`, or `TID review required`.
+Stop for an owner/TID boundary checkpoint when continuing requires an experiment not defined by the TID, a materially different mechanism/dependency/runtime/infrastructure/security model, changed evidence meaning/threshold/scope, a Product/Architecture decision, or troubleshooting that has become a distinct investigation rather than a straightforward correction.
 
-A new technical mechanism, dependency, infrastructure layer, workstream or materially changed evidence basis must not emerge implicitly from troubleshooting. Update/review the appropriate plan/TID first.
+A failed required acceptance run remains failed for that code/configuration. Do not rerun it unchanged merely to seek a different result.
 
-#### Owner experiment checkpoint
+#### Owner boundary checkpoint
 
-Before every new experiment, the agent must present a **self-contained** owner checkpoint. Assume the owner has not looked at the work for several days and has no artifact open.
+A boundary checkpoint is for a genuine change of direction, not routine progression through the approved experiment sequence.
 
-The checkpoint must move from broad context to the decision:
+When one is required, reconstruct the situation for an owner who may not have the repository or recent context open. Explain the product capability/problem, affected Issue(s), why the Spike exists, what the evidence now establishes, what would need to change, the direction/complexity implications, recommendation and actual decision requested.
 
-1. **Issue context** — capability/problem, why it matters, and what blocks completion;
-2. **Spike context** — why investigation is needed, current TID workstream/candidate, why it is being investigated now, and the relevant success/transition condition;
-3. **Previous experiment** — what was tested, why it mattered in the wider investigation, expected learning and actual result;
-4. **Current understanding** — what evidence established/ruled out, what remains unknown, and whether the candidate remains sensible;
-5. **Proposed next experiment** — exactly one bounded experiment, why it is next, what changes and what evidence would mean;
-6. **Direction check** — confirmation of consistency with the Issue/TID/plan and explicit disclosure of any new architecture, infrastructure, dependency, runtime/security mechanism or scope;
-7. **Decision requested** — `Approve this experiment`, `Redirect the investigation`, or `Stop and reconsider the approach`.
-
-Do not use experiment IDs, library names or deep technical terms as substitutes for context.
+Issue numbers, experiment IDs, library names and internal mechanisms are traceability aids, not explanations. Explain their meaning first.
 
 #### Executor flexibility and shared state
 
 A Spike experiment may be executed by Codex, ChatGPT, a human developer or another approved tool/agent.
 
-The shared authoritative hand-off state is the **GitHub Spike Issue + dedicated branch + TID + Spike Implementation Plan + `technical-spike.md` + retained evidence**. No executor may rely on private chat history or an investigation-time PR as authority.
+The shared authoritative hand-off state is the **GitHub Spike Issue + dedicated branch + approved TID + `technical-spike.md` + retained evidence**. No executor may rely on private chat history or an investigation-time PR as authority.
 
 #### Experiment and Spike outcomes
 
@@ -929,7 +906,7 @@ If the owner abandons/materially changes the original question, the Spike may be
 
 The Spike branch remains PR-free while the Technical Question is unresolved.
 
-After the Spike reaches a supported `Feasible` or `Not feasible` conclusion and final Spike validation passes, use `merge-change` to create the **final integration PR**. The PR summarizes the final conclusion and integrates the TID, plan, living evidence/specification, reproducibility material and any learning records.
+After the Spike reaches a supported `Feasible` or `Not feasible` conclusion and final Spike validation passes, use `merge-change` to create the **final integration PR**. The PR summarizes the final conclusion and integrates the TID, living evidence/specification, reproducibility material and any learning records.
 
 After final integration, rerun `assess-change` on every blocked downstream Issue. Only a sufficiently supported Feasible result, or an explicit product/architecture decision responding to Not feasible, can authorize downstream design/implementation.
 

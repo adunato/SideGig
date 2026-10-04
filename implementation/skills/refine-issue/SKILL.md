@@ -43,7 +43,7 @@ For a Technical Spike, capture the stable investigation contract:
 - starting evidence already established;
 - approved constraints/prohibited techniques;
 - intended investigation boundary;
-- known leads/sources/candidate approaches worth considering without selecting them;
+- known leads/sources/mechanisms worth considering without selecting a solution;
 - completion criteria;
 - blocked downstream Feature/Bug Issue(s);
 - the dedicated Spike branch/workspace expectation;
